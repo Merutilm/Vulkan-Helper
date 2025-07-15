@@ -24,7 +24,10 @@ namespace merutilm::vkh {
 
         [[nodiscard]] const Descriptor &getDescriptor() const { return *descriptor; }
 
+        [[nodiscard]] Descriptor &getDescriptor() {return *descriptor;}
+
         [[nodiscard]] const PipelineLayout &getLayoutManager() const { return layout; }
+
 
         [[nodiscard]] const std::vector<std::unique_ptr<ShaderModule> > &getShaderModules() const {
             return shaderModules;

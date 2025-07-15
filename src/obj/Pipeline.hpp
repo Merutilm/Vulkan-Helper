@@ -22,7 +22,7 @@ namespace merutilm::vkh {
     public:
         explicit Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
                           const RenderPass &renderPass,
-                        const VertexBuffer &vertexBuffer,
+                          const VertexBuffer &vertexBuffer,
                           std::string subpassName,
                           std::unique_ptr<PipelineManager> &&pipelineManager);
 
@@ -35,6 +35,10 @@ namespace merutilm::vkh {
         Pipeline(Pipeline &&) = delete;
 
         Pipeline &operator=(Pipeline &&) = delete;
+
+        [[nodiscard]] const PipelineManager &getPipelineManager() const { return *pipelineManager; }
+
+        [[nodiscard]] PipelineManager &getPipelineManager() {return *pipelineManager;}
 
         [[nodiscard]] VkPipeline getPipelineHandle() const { return pipeline; }
 

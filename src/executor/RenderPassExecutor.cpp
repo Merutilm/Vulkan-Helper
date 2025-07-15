@@ -8,19 +8,19 @@ namespace merutilm::vkh {
     RenderPassExecutor::RenderPassExecutor(const Engine &engine,
                                            const CommandBuffer &commandBuffer,const RenderPass &renderPass,
                                            const Framebuffer &framebuffer, const uint32_t frameIndex,
-                                           const uint32_t imageIndex) : EngineHandler(engine),
+                                           const uint32_t imageIndex) : Executor(engine),
                                                                         commandBuffer(commandBuffer),renderPass(renderPass),
                                                                         framebuffer(framebuffer),
                                                                         frameIndex(frameIndex), imageIndex(imageIndex) {
-        RenderPassExecutor::init();
+        RenderPassExecutor::begin();
     }
 
     RenderPassExecutor::~RenderPassExecutor() {
-        RenderPassExecutor::destroy();
+        RenderPassExecutor::end();
     }
 
 
-    void RenderPassExecutor::init() {
+    void RenderPassExecutor::begin() {
         std::array<VkClearValue, 2> clearValues = {};
         clearValues[0].color = {0.0f, 0.0f, 0.0f, 1.0f};
         clearValues[1].depthStencil = {1.0f, 0};
@@ -42,7 +42,7 @@ namespace merutilm::vkh {
                              VK_SUBPASS_CONTENTS_INLINE);
     }
 
-    void RenderPassExecutor::destroy() {
+    void RenderPassExecutor::end() {
         vkCmdEndRenderPass(commandBuffer.getCommandBufferHandle(frameIndex));
     }
 }

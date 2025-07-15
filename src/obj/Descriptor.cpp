@@ -7,9 +7,9 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-
     Descriptor::Descriptor(const Engine &engine,
-                           std::unique_ptr<DescriptorManager> &&descriptorManager) : EngineHandler(engine), descriptorManager(std::move(descriptorManager)) {
+                           std::unique_ptr<DescriptorManager> &&descriptorManager) : EngineHandler(engine),
+        descriptorManager(std::move(descriptorManager)) {
         Descriptor::init();
     }
 
@@ -19,15 +19,38 @@ namespace merutilm::vkh {
 
     void Descriptor::update(const uint32_t frameIndex) const {
         const uint32_t descCount = descriptorManager->getUBOCount();
+        std::vector<VkDescriptorBufferInfo> bufferInfos(descCount);
+        std::vector<VkWriteDescriptorSet> writeDescriptorSets(descCount);
 
         for (uint32_t i = 0; i < descCount; ++i) {
-            descriptorManager->getUBO(i).update(frameIndex);
+            const UniformBuffer &ubo = descriptorManager->getUBO(i);
+            ubo.update(frameIndex);
+
+            bufferInfos[i] = {
+                .buffer = ubo.getBuffer(frameIndex),
+                .offset = 0,
+                .range = ubo.getSize()
+            };
+
+            writeDescriptorSets[i] = {
+                .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                .pNext = nullptr,
+                .dstSet = descriptorSets[frameIndex],
+                .dstBinding = i,
+                .dstArrayElement = 0,
+                .descriptorCount = 1,
+                .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                .pImageInfo = nullptr,
+                .pBufferInfo = &bufferInfos[i],
+                .pTexelBufferView = nullptr,
+            };
         }
+        vkUpdateDescriptorSets(engine.getLogicalDevice().getLogicalDeviceHandle(), descCount,
+                               writeDescriptorSets.data(), 0, nullptr);
     }
 
 
     void Descriptor::init() {
-
         const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorCount();
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         const uint32_t descLen = descriptorManager->getUBOCount();
@@ -36,7 +59,8 @@ namespace merutilm::vkh {
         }
 
         if (descLen != layoutLen) {
-            throw exception_invalid_args(std::format("layout count {} and descriptor count {} are not matched", layoutLen, descLen));
+            throw exception_invalid_args(std::format("layout count {} and descriptor count {} are not matched",
+                                                     layoutLen, descLen));
         }
 
         VkDescriptorPoolSize poolSize = {

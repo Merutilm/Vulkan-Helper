@@ -25,7 +25,13 @@ namespace merutilm::vkh {
 
         Descriptor &operator=(Descriptor &&) = delete;
 
-        [[nodiscard]] const DescriptorManager &getDescriptorManager() const { return *descriptorManager; };
+        [[nodiscard]] DescriptorManager &getDescriptorManager() { return *descriptorManager; }
+
+        [[nodiscard]] const DescriptorManager &getDescriptorManager() const { return *descriptorManager; }
+
+        [[nodiscard]] VkDescriptorSet getDescriptorSetHandle(const uint32_t frameIndex) const { return descriptorSets[frameIndex]; }
+
+        [[nodiscard]] VkDescriptorPool getDescriptorPoolHandle(const uint32_t frameIndex) const { return descriptorPools[frameIndex]; }
 
         void update(uint32_t frameIndex) const;
 

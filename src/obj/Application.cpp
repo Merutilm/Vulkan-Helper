@@ -53,9 +53,7 @@ namespace merutilm::vkh {
         auto descManager = std::make_unique<DescriptorManager>(*descriptorLayout);
 
         auto uploader = std::make_unique<BufferObjectManager>();
-        uploader->add("A", static_cast<uint32_t>(2));
-        uploader->add("B", static_cast<uint32_t>(3));
-        uploader->add("C", static_cast<uint32_t>(4));
+        uploader->reserve<uint32_t>("time");
 
         auto ubo = std::make_unique<UniformBuffer>(*engine, std::move(uploader));
         descManager->appendUBO("SS", std::move(ubo));
@@ -167,6 +165,11 @@ namespace merutilm::vkh {
             const VkCommandBuffer cbh = executor.getCommandBufferHandle();
             pipelineLayout->push(cbh);
             vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getPipelineHandle());
+            const VkDescriptorSet sets = pipeline->getPipelineManager().getDescriptor().getDescriptorSetHandle(
+                imageIndex);
+            vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                    pipeline->getPipelineManager().getLayoutManager().getLayoutHandle(), 0, 1, &sets, 0,
+                                    nullptr);
             const auto [width, height] = engine->getSwapchain().populateSwapchainExtent();
             const VkViewport viewport = {
                 .x = 0,
@@ -188,8 +191,11 @@ namespace merutilm::vkh {
             vertexBuffer->set("vertices", std::vector{
                                   Vertex{{0.0f, -cos, 0.0f}, {cos, cos, sin}},
                                   Vertex{{0.5f, sin, 0.0f}, {sin, cos, sin}},
-                                Vertex{{-sin, 0.5f, 0.0f}, {sin, cos, cos}}
+                                  Vertex{{-sin, 0.5f, 0.0f}, {sin, cos, cos}}
                               });
+
+            pipeline->getPipelineManager().getDescriptor().getDescriptorManager().getUBO("SS").set("time", time);
+            pipeline->getPipelineManager().getDescriptor().update(currentFrame);
             vertexBuffer->update(currentFrame);
 
             constexpr VkDeviceSize vertexBufferOffset = 0;
@@ -197,9 +203,8 @@ namespace merutilm::vkh {
             vkCmdSetScissor(cbh, 0, 1, &scissor);
             vkCmdBindVertexBuffers(cbh, 0, 1, &vertexBufferHandle, &vertexBufferOffset);
             vkCmdDraw(cbh, 3, 1, 0, 0);
-        }
+        } // COMMAND SCOPE END
         changeFrameIndex();
-        // COMMAND SCOPE END
     }
 
     void Application::changeFrameIndex() {

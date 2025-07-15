@@ -82,6 +82,7 @@ add_executable(VulkanHelper
         src/manage/Uploader.hpp
         src/obj/UniformBuffer.cpp
         src/obj/UniformBuffer.hpp
+        src/executor/Executor.hpp
 )
 
 

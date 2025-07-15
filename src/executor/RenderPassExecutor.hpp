@@ -3,13 +3,14 @@
 //
 
 #pragma once
+#include "Executor.hpp"
 #include "../obj/CommandBuffer.hpp"
 #include "../obj/Framebuffer.hpp"
 #include "../obj/RenderPass.hpp"
 #include "../handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {
-    class RenderPassExecutor final : public EngineHandler {
+    class RenderPassExecutor final : public Executor {
         const CommandBuffer &commandBuffer;
         const RenderPass &renderPass;
         const Framebuffer &framebuffer;
@@ -32,8 +33,8 @@ namespace merutilm::vkh {
         RenderPassExecutor &operator=(RenderPassExecutor &&) = delete;
 
     private:
-        void init() override;
+        void begin() override;
 
-        void destroy() override;
+        void end() override;
     };
 }

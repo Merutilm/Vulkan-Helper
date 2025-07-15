@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../obj/DescriptorSetLayout.hpp"
-#include "../obj/BufferObject.hpp"
+#include "../obj/UniformBuffer.hpp"
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
@@ -14,7 +14,7 @@ namespace merutilm::vkh {
 
         const DescriptorSetLayout &layout;
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
-        std::vector<std::unique_ptr<BufferObject>> uboData = {};
+        std::vector<std::unique_ptr<UniformBuffer>> uboData = {};
 
     public:
         explicit DescriptorManager(const DescriptorSetLayout &layout) : layout(layout) {};
@@ -29,15 +29,19 @@ namespace merutilm::vkh {
 
         DescriptorManager &operator=(DescriptorManager &&) noexcept = delete;
 
-        void appendUBO(const std::string &name, std::unique_ptr<BufferObject> &&ubo);
+        void appendUBO(const std::string &name, std::unique_ptr<UniformBuffer> &&ubo);
 
         [[nodiscard]] uint32_t getUBOCount() const;
 
         [[nodiscard]] uint32_t getIndex(const std::string &uboName) const;
 
-        [[nodiscard]] const BufferObject &getUBO(uint32_t index) const;
+        [[nodiscard]] UniformBuffer &getUBO(uint32_t index);
 
-        [[nodiscard]] const BufferObject &getUBO(const std::string &uboName) const;
+        [[nodiscard]] UniformBuffer &getUBO(const std::string &uboName);
+
+        [[nodiscard]] const UniformBuffer &getUBO(uint32_t index) const;
+
+        [[nodiscard]] const UniformBuffer &getUBO(const std::string &uboName) const;
 
         [[nodiscard]] const DescriptorSetLayout &getLayout() const {return layout;}
 
@@ -47,7 +51,7 @@ namespace merutilm::vkh {
         return static_cast<uint32_t>(uboData.size());
     }
 
-    inline void DescriptorManager::appendUBO(const std::string &name, std::unique_ptr<BufferObject> &&ubo) {
+    inline void DescriptorManager::appendUBO(const std::string &name, std::unique_ptr<UniformBuffer> &&ubo) {
         if (names.contains(name)) {
             throw exception_invalid_args("value already in use");
         }
@@ -62,14 +66,26 @@ namespace merutilm::vkh {
         return names.at(uboName);
     }
 
-    inline const BufferObject &DescriptorManager::getUBO(const uint32_t index) const {
+    inline UniformBuffer &DescriptorManager::getUBO(const uint32_t index) {
         if (index >= uboData.size()) {
             throw exception_invalid_args("index out of range");
         }
         return *uboData[index];
     }
 
-    inline const BufferObject &DescriptorManager::getUBO(const std::string &uboName) const {
+    inline UniformBuffer &DescriptorManager::getUBO(const std::string &uboName) {
+        const uint32_t index = getIndex(uboName);
+        return *uboData[index];
+    }
+
+    inline const UniformBuffer &DescriptorManager::getUBO(const uint32_t index) const {
+        if (index >= uboData.size()) {
+            throw exception_invalid_args("index out of range");
+        }
+        return *uboData[index];
+    }
+
+    inline const UniformBuffer &DescriptorManager::getUBO(const std::string &uboName) const {
         const uint32_t index = getIndex(uboName);
         return *uboData[index];
     }

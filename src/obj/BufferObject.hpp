@@ -14,6 +14,7 @@ namespace merutilm::vkh {
         std::vector<VkBuffer> buffers = {};
         std::vector<VkDeviceMemory> bufferMemory = {};
         std::vector<void *> bufferMapped = {};
+        bool finalized = false;
 
     public:
         explicit BufferObject(const Engine &engine, std::unique_ptr<BufferObjectManager> &&dataManager, VkBufferUsageFlags bufferUsage);
@@ -27,6 +28,8 @@ namespace merutilm::vkh {
         BufferObject(BufferObject &&) = delete;
 
         BufferObject &operator=(BufferObject &&) noexcept = delete;
+
+        void finalize();
 
         [[nodiscard]] VkBuffer getBuffer(const uint32_t frameIndex) const { return buffers[frameIndex]; }
 

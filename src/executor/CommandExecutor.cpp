@@ -10,18 +10,18 @@ namespace merutilm::vkh {
     CommandExecutor::CommandExecutor(const Engine &engine, const CommandBuffer &commandBuffer,
                                      const RenderPass &renderPass, const Framebuffer &framebuffer,
                                      const SyncObject &syncObject,
-                                     const uint32_t frameIndex, const uint32_t imageIndex): EngineHandler(engine), commandBuffer(commandBuffer),
+                                     const uint32_t frameIndex, const uint32_t imageIndex): Executor(engine), commandBuffer(commandBuffer),
                                                                  renderPass(renderPass), framebuffer(framebuffer),
                                                                  syncObject(syncObject), frameIndex(frameIndex),
                                                                  imageIndex(imageIndex) {
-        CommandExecutor::init();
+        CommandExecutor::begin();
     }
 
     CommandExecutor::~CommandExecutor() {
-        CommandExecutor::destroy();
+        CommandExecutor::end();
     }
 
-    void CommandExecutor::init() {
+    void CommandExecutor::begin() {
         const VkCommandBuffer commandBufferHandle = getCommandBufferHandle();
         constexpr VkCommandBufferBeginInfo beginInfo = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
@@ -35,7 +35,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void CommandExecutor::destroy() {
+    void CommandExecutor::end() {
         std::vector<VkPipelineStageFlags> waitStages = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
         VkSwapchainKHR swapchainHandle = engine.getSwapchain().getSwapchainHandle();
