@@ -27,18 +27,27 @@ namespace merutilm::vkh {
 
 
     void Descriptor::init() {
+
+        const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorCount();
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
-        const uint32_t len = descriptorManager->getUBOCount();
+        const uint32_t descLen = descriptorManager->getUBOCount();
+        if (descLen == 0) {
+            return;
+        }
+
+        if (descLen != layoutLen) {
+            throw exception_invalid_args(std::format("layout count {} and descriptor count {} are not matched", layoutLen, descLen));
+        }
 
         VkDescriptorPoolSize poolSize = {
             .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-            .descriptorCount = len
+            .descriptorCount = descLen
         };
         const VkDescriptorPoolCreateInfo descriptorPoolInfo = {
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .maxSets = len,
+            .maxSets = descLen,
             .poolSizeCount = 1,
             .pPoolSizes = &poolSize
         };
@@ -53,6 +62,7 @@ namespace merutilm::vkh {
 
         VkDescriptorSetLayout layout = descriptorManager->getLayout().getLayoutHandle();
 
+        descriptorSets.resize(maxFramesInFlight);
         for (int i = 0; i < maxFramesInFlight; ++i) {
             if (const VkDescriptorSetAllocateInfo descriptorSetAllocateInfo = {
                 .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
@@ -68,7 +78,11 @@ namespace merutilm::vkh {
     }
 
     void Descriptor::destroy() {
+        if (descriptorManager->getUBOCount() == 0) {
+            return;
+        }
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+
         for (int i = 0; i < maxFramesInFlight; ++i) {
             vkDestroyDescriptorPool(engine.getLogicalDevice().getLogicalDeviceHandle(), descriptorPools[i], nullptr);
         }

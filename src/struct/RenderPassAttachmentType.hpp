@@ -4,7 +4,7 @@
 
 #pragma once
 namespace merutilm::vkh {
-    enum class SubpassAttachmentType {
+    enum class RenderPassAttachmentType {
         INPUT,
         COLOR,
         RESOLVE,

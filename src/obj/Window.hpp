@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <functional>
 #include <windows.h>
-#include "../objhandler/Handler.hpp"
+#include "../handle/Handler.hpp"
 
 namespace merutilm::vkh {
     class Window final : public Handler {
@@ -38,7 +38,7 @@ namespace merutilm::vkh {
         template <typename F> requires std::is_invocable_r_v<void, F, const Window &>
         void appendListener(UINT message, F&& func);
 
-        template <typename F> requires std::is_invocable_r_v<void, F, void>
+        template <typename F> requires std::is_invocable_r_v<void, F>
         void appendRenderer(F&& func);
 
         void start() const;
@@ -54,7 +54,10 @@ namespace merutilm::vkh {
 
         void destroy() override;
 
+        void clear() { listeners.clear(); renderers.clear(); }
+
         void runListeners(UINT message);
+
 
     };
 
@@ -63,7 +66,7 @@ namespace merutilm::vkh {
         listeners[message].emplace_back(std::forward<F>(func));
     }
 
-    template<typename F> requires std::is_invocable_r_v<void, F, void>
+    template<typename F> requires std::is_invocable_r_v<void, F>
     void Window::appendRenderer(F &&func) {
         renderers.emplace_back(std::forward<F>(func));
     }

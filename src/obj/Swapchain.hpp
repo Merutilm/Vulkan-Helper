@@ -3,23 +3,27 @@
 //
 
 #pragma once
-#include "../objhandler/Handler.hpp"
+#include <span>
+
+#include "../handle/Handler.hpp"
 
 #include "LogicalDevice.hpp"
 
 namespace merutilm::vkh {
     class Swapchain final : public Handler {
-
         const Surface &surface;
         const PhysicalDevice &physicalDevice;
         const LogicalDevice &logicalDevice;
 
         VkSwapchainKHR swapchain = nullptr;
         VkSwapchainKHR oldSwapchain = nullptr;
-        uint32_t maxFramesInFlight = 0;
+        uint32_t swapchainImageCount = 0;
+        std::vector<VkImage> swapchainImages = {};
+        std::vector<VkImageView> swapchainImageViews = {};
 
     public:
-        explicit Swapchain(const Surface &surface, const PhysicalDevice &physicalDevice, const LogicalDevice &logicalDevice);
+        explicit Swapchain(const Surface &surface, const PhysicalDevice &physicalDevice,
+                           const LogicalDevice &logicalDevice);
 
         ~Swapchain() override;
 
@@ -35,7 +39,15 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkSwapchainKHR getSwapchainHandle() const { return swapchain; }
 
-        [[nodiscard]] uint32_t getMaxFramesInFlight() const { return maxFramesInFlight; }
+        [[nodiscard]] std::span<const VkImage> getSwapchainImages() const { return swapchainImages; }
+
+        [[nodiscard]] std::span<const VkImageView> getSwapchainImageViews() const { return swapchainImageViews; }
+
+        [[nodiscard]] uint32_t getSwapchainImageCount() const { return swapchainImageCount; }
+
+        [[nodiscard]] uint32_t getMaxFramesInFlight() const {
+            return swapchainImageCount; //same as swapchain image count
+        }
 
     private:
         void init() override;

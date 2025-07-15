@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../obj/DescriptorSetLayout.hpp"
-#include "../obj/UBO.hpp"
+#include "../obj/BufferObject.hpp"
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
@@ -14,10 +14,10 @@ namespace merutilm::vkh {
 
         const DescriptorSetLayout &layout;
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
-        std::vector<std::unique_ptr<UBO>> uboData = {};
+        std::vector<std::unique_ptr<BufferObject>> uboData = {};
 
     public:
-        explicit DescriptorManager(const DescriptorSetLayout &layoutManager);
+        explicit DescriptorManager(const DescriptorSetLayout &layout) : layout(layout) {};
 
         ~DescriptorManager() = default;
 
@@ -29,15 +29,15 @@ namespace merutilm::vkh {
 
         DescriptorManager &operator=(DescriptorManager &&) noexcept = delete;
 
-        void appendUBO(const std::string &name, std::unique_ptr<UBO> &&ubo);
+        void appendUBO(const std::string &name, std::unique_ptr<BufferObject> &&ubo);
 
         [[nodiscard]] uint32_t getUBOCount() const;
 
         [[nodiscard]] uint32_t getIndex(const std::string &uboName) const;
 
-        [[nodiscard]] const UBO &getUBO(uint32_t index) const;
+        [[nodiscard]] const BufferObject &getUBO(uint32_t index) const;
 
-        [[nodiscard]] const UBO &getUBO(const std::string &uboName) const;
+        [[nodiscard]] const BufferObject &getUBO(const std::string &uboName) const;
 
         [[nodiscard]] const DescriptorSetLayout &getLayout() const {return layout;}
 
@@ -47,7 +47,7 @@ namespace merutilm::vkh {
         return static_cast<uint32_t>(uboData.size());
     }
 
-    inline void DescriptorManager::appendUBO(const std::string &name, std::unique_ptr<UBO> &&ubo) {
+    inline void DescriptorManager::appendUBO(const std::string &name, std::unique_ptr<BufferObject> &&ubo) {
         if (names.contains(name)) {
             throw exception_invalid_args("value already in use");
         }
@@ -62,14 +62,14 @@ namespace merutilm::vkh {
         return names.at(uboName);
     }
 
-    inline const UBO &DescriptorManager::getUBO(const uint32_t index) const {
+    inline const BufferObject &DescriptorManager::getUBO(const uint32_t index) const {
         if (index >= uboData.size()) {
             throw exception_invalid_args("index out of range");
         }
         return *uboData[index];
     }
 
-    inline const UBO &DescriptorManager::getUBO(const std::string &uboName) const {
+    inline const BufferObject &DescriptorManager::getUBO(const std::string &uboName) const {
         const uint32_t index = getIndex(uboName);
         return *uboData[index];
     }

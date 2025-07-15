@@ -4,17 +4,21 @@
 
 #include "Pipeline.hpp"
 
+#include <utility>
+
 #include "RenderPass.hpp"
 #include "../manage/RenderPassManager.hpp"
 
 namespace merutilm::vkh {
-    Pipeline::Pipeline(const Engine &engine, const Descriptor &descriptor, const PipelineLayout &pipelineLayout,
-                       const RenderPass &renderPass, const std::string &subpassName,
+    Pipeline::Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
+                       const RenderPass &renderPass,
+                       const VertexBuffer &vertexBuffer,
+                       std::string subpassName,
                        std::unique_ptr<PipelineManager> &&pipelineManager) : EngineHandler(engine),
-                                                                             descriptor(descriptor),
                                                                              pipelineLayout(pipelineLayout),
                                                                              renderPass(renderPass),
-                                                                             subpassName(subpassName),
+                                                                                vertexBuffer(vertexBuffer),
+                                                                             subpassName(std::move(subpassName)),
                                                                              pipelineManager(
                                                                                  std::move(pipelineManager)) {
         Pipeline::init();
@@ -39,37 +43,19 @@ namespace merutilm::vkh {
                 .pSpecializationInfo = nullptr
             };
         }
-        struct Vertex {
-            float position[3];
-        };
 
-        std::vector<Vertex> vertices = {
-            {{0.0f, -0.5f, 0.0f}},
-            {{0.5f, 0.5f, 0.0f}},
-            {{-0.5f, 0.5f, 0.0f}}
-        };
+        auto & vertInputAttributeDescription = vertexBuffer.getVertexInputAttributeDescriptions();
+        auto & vertBindingDescription = vertexBuffer.getVertexInputBindingDescriptions();
 
-        VkVertexInputBindingDescription bindingDescription = {
-            .binding = 0,
-            .stride = sizeof(Vertex),
-            .inputRate = VK_VERTEX_INPUT_RATE_VERTEX,
-        };
-
-        VkVertexInputAttributeDescription attributeDescription = {
-            .location = 0,
-            .binding = 0,
-            .format = VK_FORMAT_R32G32B32A32_SFLOAT,
-            .offset = 0
-        };
 
         VkPipelineVertexInputStateCreateInfo vertexInputStateCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .vertexBindingDescriptionCount = 1,
-            .pVertexBindingDescriptions = &bindingDescription,
-            .vertexAttributeDescriptionCount = 1,
-            .pVertexAttributeDescriptions = &attributeDescription,
+            .vertexBindingDescriptionCount = static_cast<uint32_t>(vertBindingDescription.size()),
+            .pVertexBindingDescriptions = vertBindingDescription.data(),
+            .vertexAttributeDescriptionCount =  static_cast<uint32_t>(vertInputAttributeDescription.size()),
+            .pVertexAttributeDescriptions = vertInputAttributeDescription.data(),
         };
 
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyStateCreateInfo = {
@@ -95,9 +81,9 @@ namespace merutilm::vkh {
             .pNext = nullptr,
             .flags = 0,
             .depthClampEnable = VK_TRUE,
-            .rasterizerDiscardEnable = VK_TRUE,
+            .rasterizerDiscardEnable = VK_FALSE,
             .polygonMode = VK_POLYGON_MODE_FILL,
-            .cullMode = VK_CULL_MODE_FRONT_BIT,
+            .cullMode = VK_CULL_MODE_BACK_BIT,
             .frontFace = VK_FRONT_FACE_CLOCKWISE,
             .depthBiasEnable = VK_FALSE,
             .depthBiasConstantFactor = 0,
@@ -122,7 +108,7 @@ namespace merutilm::vkh {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .depthTestEnable = VK_TRUE,
+            .depthTestEnable = VK_FALSE,
             .depthWriteEnable = VK_FALSE,
             .depthCompareOp = VK_COMPARE_OP_LESS,
             .depthBoundsTestEnable = VK_TRUE,

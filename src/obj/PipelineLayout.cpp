@@ -5,9 +5,11 @@
 #include "PipelineLayout.hpp"
 
 namespace merutilm::vkh {
-    PipelineLayout::PipelineLayout(const Engine &engine, const Descriptor &descriptor,
-                                   const PushConstantManager &pushConstantManager) : EngineHandler(engine), descriptor(descriptor),
-        pushConstantManager(pushConstantManager) {
+    PipelineLayout::PipelineLayout(const Engine &engine,
+                                   const std::vector<VkDescriptorSetLayout> &descriptorSetLayout,
+                                   const std::vector<PushConstant *> &pushConstantManager) : EngineHandler(
+            engine), descriptorSetLayouts(descriptorSetLayout),
+        pushConstantManagers(pushConstantManager) {
         PipelineLayout::init();
     }
 
@@ -15,36 +17,39 @@ namespace merutilm::vkh {
         PipelineLayout::destroy();
     }
 
-    void PipelineLayout::push(const CommandBuffer &commandBuffer, const uint32_t frameIndex) const {
-        vkCmdPushConstants(commandBuffer.getCommandBufferHandle(frameIndex), layout, pushConstantManager.useStage,
-                           0, pushConstantManager.manager->getSize(),
-                           pushConstantManager.manager->getData().data());
+    void PipelineLayout::push(const VkCommandBuffer commandBuffer) const {
+        uint32_t sizeSum = 0;
+        for (auto &pushConstant: pushConstantManagers) {
+            const uint32_t size = pushConstant->getSize();
+            vkCmdPushConstants(commandBuffer, layout, pushConstant->getUseStage(),
+                               sizeSum, size,
+                               pushConstant->getData().data());
+            sizeSum += size;
+        }
     }
 
 
     void PipelineLayout::init() {
-        const DescriptorManager &descriptorManager = descriptor.getDescriptorManager();
-        const DescriptorSetLayout &descriptorSetLayout = descriptorManager.getLayout();
-        VkDescriptorSetLayout descriptorSetLayoutHandle = descriptorSetLayout.getLayoutHandle();
-
-        VkPushConstantRange pushConstantRange = {
-            .stageFlags = pushConstantManager.useStage,
-            .offset = 0,
-            .size = pushConstantManager.manager->getSize(),
-        };
-
-
+        uint32_t sizeSum = 0;
+        std::vector<VkPushConstantRange> pushConstantRanges = {};
+        for (const auto pushConstantManager : pushConstantManagers) {
+            const uint32_t size = pushConstantManager->getSize();
+            pushConstantRanges.emplace_back(pushConstantManager->getUseStage(), sizeSum, size);
+            sizeSum += size;
+        }
         const VkPipelineLayoutCreateInfo pipelineLayoutInfo = {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .setLayoutCount = 1,
-            .pSetLayouts = &descriptorSetLayoutHandle,
-            .pushConstantRangeCount = 1,
-            .pPushConstantRanges = &pushConstantRange
+            .setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size()),
+            .pSetLayouts = descriptorSetLayouts.empty() ? nullptr : descriptorSetLayouts.data(),
+            .pushConstantRangeCount = static_cast<uint32_t>(pushConstantRanges.size()),
+            .pPushConstantRanges = pushConstantRanges.empty() ? nullptr : pushConstantRanges.data(),
         };
 
-        if (vkCreatePipelineLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), &pipelineLayoutInfo, nullptr, &layout) !=
+
+        if (vkCreatePipelineLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), &pipelineLayoutInfo, nullptr,
+                                   &layout) !=
             VK_SUCCESS) {
             throw exception_init("Failed to create pipeline layout!");
         }

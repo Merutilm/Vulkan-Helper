@@ -6,28 +6,31 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
-#include <vulkan/vulkan.h>
 #include "../exception/exception.hpp"
 #include "../struct/StringHasher.hpp"
-#include "../struct/SubpassAttachmentType.hpp"
+#include "../struct/RenderPassAttachment.hpp"
+#include "../struct/RenderPassAttachmentType.hpp"
+#include "../util/BufferUtils.hpp"
 
 namespace merutilm::vkh {
     class RenderPassManager {
+        const Engine &engine;
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > subpassNames = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > attachmentNames = {};
 
-        std::vector<VkAttachmentDescription> attachments = {};
+        std::vector<RenderPassAttachment> attachments = {};
         std::vector<std::vector<uint32_t> > preserveIndices = {};
-        std::vector<std::unordered_map<SubpassAttachmentType, std::vector<VkAttachmentReference> > >
+        std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference> > >
         attachmentReferences{};
         std::vector<VkSubpassDependency> subpassDependencies = {};
         uint32_t subpassCount = 0;
         uint32_t count = 0;
 
     public:
-        RenderPassManager() = default;
+        explicit RenderPassManager(const Engine &engine) : engine(engine) {
+        }
 
-        ~RenderPassManager() = default;
+        ~RenderPassManager();
 
         RenderPassManager(const RenderPassManager &) = delete;
 
@@ -45,7 +48,7 @@ namespace merutilm::vkh {
             return preserveIndices[subpassIndex].data();
         }
 
-        [[nodiscard]] const std::vector<VkAttachmentDescription> &getAttachments() const {
+        [[nodiscard]] const std::vector<RenderPassAttachment> &getAttachments() const {
             return attachments;
         }
 
@@ -53,7 +56,7 @@ namespace merutilm::vkh {
 
 
         [[nodiscard]] const std::vector<VkAttachmentReference> &getAttachmentReferences(
-            const uint32_t subpassIndex, const SubpassAttachmentType attachmentType) const {
+            const uint32_t subpassIndex, const RenderPassAttachmentType attachmentType) const {
             return attachmentReferences[subpassIndex].at(attachmentType);
         }
 
@@ -67,14 +70,31 @@ namespace merutilm::vkh {
 
         void appendSubpass(const std::string &subpassName);
 
-        void appendAttachment(const std::string &attachmentName, SubpassAttachmentType attachmentType,
-                              const VkAttachmentDescription &inputAttachment);
+        void appendAttachment(const std::string &attachmentName, RenderPassAttachmentType attachmentType,
+                              const VkAttachmentDescription &attachment,
+                              const ImageInitInfo &imageInitInfo);
 
         uint32_t getSubpassIndex(const std::string &subpassName) const;
 
 
         void appendDependency(const VkSubpassDependency &subpassDependency);
     };
+
+    inline RenderPassManager::~RenderPassManager() {
+        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t swapchainImageCount = engine.getSwapchain().getSwapchainImageCount();
+        for (auto &attachment: attachments) {
+            for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+                if (attachment.type == RenderPassAttachmentType::COLOR) {
+                    continue;
+                }
+                vkDestroyImageView(device, attachment.imageViews[i], nullptr);
+                vkDestroyImage(device, attachment.images[i], nullptr);
+                vkFreeMemory(device, attachment.imageMemories[i], nullptr);
+            }
+        }
+    }
+
 
     inline void RenderPassManager::setPreserved(const std::string &attachmentName) {
         if (!attachmentNames.contains(attachmentName)) {
@@ -100,42 +120,86 @@ namespace merutilm::vkh {
 
 
     inline void RenderPassManager::appendSubpass(const std::string &subpassName) {
+        using enum RenderPassAttachmentType;
         if (subpassNames.contains(subpassName)) {
             throw exception_invalid_args("Subpass already exists");
         }
         attachmentReferences.emplace_back();
+        attachmentReferences.back()[INPUT];
+        attachmentReferences.back()[COLOR];
+        attachmentReferences.back()[RESOLVE];
+        attachmentReferences.back()[DEPTH_STENCIL];
         preserveIndices.emplace_back();
         subpassNames[subpassName] = subpassCount;
         ++subpassCount;
     }
 
     inline void RenderPassManager::appendAttachment(const std::string &attachmentName,
-                                                    const SubpassAttachmentType attachmentType,
-                                                    const VkAttachmentDescription &inputAttachment) {
+                                                    const RenderPassAttachmentType attachmentType,
+                                                    const VkAttachmentDescription &attachment,
+                                                    const ImageInitInfo &imageInitInfo = {}) {
+        using enum RenderPassAttachmentType;
         if (attachmentNames.contains(attachmentName)) {
             throw exception_invalid_args("Attachment already exists");
         }
-        this->attachments.emplace_back(inputAttachment);
+
         auto &ref = this->attachmentReferences.back()[attachmentType];
+        VkAttachmentReference attachmentReference = {};
+
         switch (attachmentType) {
-                using enum SubpassAttachmentType;
             case INPUT: {
-                ref.emplace_back(count, VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL);
+                attachmentReference = {
+                    .attachment = count,
+                    .layout = VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL,
+                };
+
                 break;
             }
             case COLOR:
             case RESOLVE: {
-                ref.emplace_back(count, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+                attachmentReference = {
+                    .attachment = count,
+                    .layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
+                };
                 break;
             }
             case DEPTH_STENCIL: {
                 if (!ref.empty()) {
                     throw exception_invalid_args("Depth Stencil attachment has already been set");
                 }
-                ref.emplace_back(count, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+                attachmentReference = {
+                    .attachment = count,
+                    .layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+                };
                 break;
             }
         }
+        const uint32_t swapchainImages = engine.getSwapchain().getSwapchainImageCount();
+        RenderPassAttachment renderPassAttachment = {
+            .type = attachmentType,
+            .attachment = attachment,
+            .images = std::vector<VkImage>(swapchainImages),
+            .imageMemories = std::vector<VkDeviceMemory>(swapchainImages),
+            .imageViews = std::vector<VkImageView>(swapchainImages),
+        };
+        auto images = engine.getSwapchain().getSwapchainImages();
+        auto imageViews = engine.getSwapchain().getSwapchainImageViews();
+
+        if (attachmentType == COLOR) {
+            renderPassAttachment.images = std::vector(images.begin(), images.end());
+            renderPassAttachment.imageViews = std::vector(imageViews.begin(), imageViews.end());
+        } else {
+            for (uint32_t i = 0; i < swapchainImages; ++i) {
+                BufferUtils::initImage(engine, imageInitInfo, &renderPassAttachment.images[i],
+                                       &renderPassAttachment.imageMemories[i],
+                                       &renderPassAttachment.imageViews[i]);
+            }
+        }
+
+
+        this->attachments.push_back(renderPassAttachment);
+
+        ref.emplace_back(attachmentReference);
         attachmentNames[attachmentName] = count;
         ++count;
     }

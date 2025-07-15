@@ -25,6 +25,9 @@ namespace merutilm::vkh {
     }
 
     void DescriptorSetLayout::finish() {
+        if (layout != nullptr) {
+            throw exception_invalid_state("double-finish called");
+        }
         std::vector<VkDescriptorSetLayoutBinding> bindings(layoutBuilder.size());
         for (uint32_t i = 0; i < layoutBuilder.size(); ++i) {
             bindings[i] = {
@@ -42,7 +45,7 @@ namespace merutilm::vkh {
             .pNext = nullptr,
             .flags = 0,
             .bindingCount = static_cast<uint32_t>(bindings.size()),
-            .pBindings = bindings.data(),
+            .pBindings = bindings.empty() ? nullptr : bindings.data(),
         };
         if (vkCreateDescriptorSetLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), &descriptorSetLayoutInfo, nullptr, &layout) !=
             VK_SUCCESS) {

@@ -3,11 +3,11 @@
 //
 
 #pragma once
-#include "../objhandler/EngineHandler.hpp"
+#include "../handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {
     class CommandPool final : public EngineHandler {
-        std::vector<VkCommandPool> commandPools = {};
+        VkCommandPool commandPool = {};
 
     public:
         explicit CommandPool(const Engine &engine);
@@ -22,8 +22,8 @@ namespace merutilm::vkh {
 
         CommandPool &operator=(CommandPool &&) = delete;
 
-        [[nodiscard]] VkCommandPool getCommandPoolHandle(const uint32_t frameIndex) const {
-            return commandPools[frameIndex];
+        [[nodiscard]] VkCommandPool getCommandPoolHandle() const {
+            return commandPool;
         }
 
     private:

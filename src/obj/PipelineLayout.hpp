@@ -4,19 +4,18 @@
 
 #pragma once
 
-#include "Descriptor.hpp"
-#include "CommandBuffer.hpp"
-#include "../manage/PushConstantManager.hpp"
-#include "../objhandler/EngineHandler.hpp"
+#include "../executor/CommandExecutor.hpp"
+#include "../manage/PushConstant.hpp"
+#include "../handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {
     class PipelineLayout final : public EngineHandler {
-        const Descriptor &descriptor;
-        const PushConstantManager &pushConstantManager;
+        const std::vector<VkDescriptorSetLayout> descriptorSetLayouts;
+        const std::vector<PushConstant *>pushConstantManagers;
         VkPipelineLayout layout = nullptr;
 
     public:
-        explicit PipelineLayout(const Engine &engine, const Descriptor &descriptor, const PushConstantManager &pushConstantManager);
+        explicit PipelineLayout(const Engine &engine, const std::vector<VkDescriptorSetLayout> &descriptorSetLayout = {}, const std::vector<PushConstant *> &pushConstantManager = {});
 
         ~PipelineLayout() override;
 
@@ -28,7 +27,7 @@ namespace merutilm::vkh {
 
         PipelineLayout &operator=(PipelineLayout &&) = delete;
 
-        void push(const CommandBuffer &commandBuffer, uint32_t frameIndex) const;
+        void push(VkCommandBuffer commandBuffer) const;
 
         [[nodiscard]] VkPipelineLayout getLayoutHandle() const { return layout ; }
 

@@ -7,7 +7,7 @@
 #include "Instance.hpp"
 #include "Surface.hpp"
 #include "../struct/QueueFamilyIndices.hpp"
-#include "../objhandler/Handler.hpp"
+#include "../handle/Handler.hpp"
 
 namespace merutilm::vkh {
     class PhysicalDevice final : public Handler {

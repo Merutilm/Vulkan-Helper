@@ -4,9 +4,12 @@
 
 #include "LogicalDevice.hpp"
 
+#include <queue>
+
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
+
     LogicalDevice::LogicalDevice(const Instance& instance, const PhysicalDevice &physicalDevice) :  instance(instance), physicalDevice(physicalDevice) {
         LogicalDevice::init();
     }
@@ -43,6 +46,8 @@ namespace merutilm::vkh {
            VK_SUCCESS) {
             throw exception_init("failed to create logical device!");
         }
+        vkGetDeviceQueue(logicalDevice, physicalDevice.getQueueFamilyIndices().graphicsFamily.value(), 0, &graphicsQueue);
+        vkGetDeviceQueue(logicalDevice, physicalDevice.getQueueFamilyIndices().presentFamily.value(), 0, &presentQueue);
     }
 
 

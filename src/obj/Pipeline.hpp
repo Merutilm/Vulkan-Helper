@@ -5,22 +5,25 @@
 #pragma once
 
 #include "RenderPass.hpp"
+#include "VertexBuffer.hpp"
 #include "../manage/PipelineManager.hpp"
 
-#include "../objhandler/EngineHandler.hpp"
+#include "../handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {
     class Pipeline final : public EngineHandler {
         VkPipeline pipeline = nullptr;
-        const Descriptor &descriptor;
         const PipelineLayout &pipelineLayout;
         const RenderPass &renderPass;
+        const VertexBuffer &vertexBuffer;
         const std::string subpassName;
         const std::unique_ptr<PipelineManager> pipelineManager = nullptr;
 
     public:
-        explicit Pipeline(const Engine &engine, const Descriptor &descriptor, const PipelineLayout &pipelineLayout,
-                          const RenderPass &renderPass, const std::string &subpassName,
+        explicit Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
+                          const RenderPass &renderPass,
+                        const VertexBuffer &vertexBuffer,
+                          std::string subpassName,
                           std::unique_ptr<PipelineManager> &&pipelineManager);
 
         ~Pipeline() override;

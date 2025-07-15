@@ -17,14 +17,14 @@ namespace merutilm::vkh {
 
 
     void CommandBuffer::init() {
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         commandBuffers.resize(maxFramesInFlight);
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             VkCommandBufferAllocateInfo allocInfo = {
                 .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
                 .pNext = nullptr,
-                .commandPool = commandPool.getCommandPoolHandle(i),
+                .commandPool = commandPool.getCommandPoolHandle(),
                 .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
                 .commandBufferCount = 1
             };
@@ -35,10 +35,10 @@ namespace merutilm::vkh {
     }
 
     void CommandBuffer::destroy() {
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            vkFreeCommandBuffers(device, commandPool.getCommandPoolHandle(i), 1, &commandBuffers[i]);
+            vkFreeCommandBuffers(device, commandPool.getCommandPoolHandle(), 1, &commandBuffers[i]);
         }
     }
 

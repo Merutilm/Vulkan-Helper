@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-#include "../objhandler/Handler.hpp"
+#include "../handle/Handler.hpp"
 #include "ValidationLayer.hpp"
 
 namespace merutilm::vkh {

@@ -18,7 +18,7 @@ add_executable(VulkanHelper
         src/main.cpp
         src/obj/Application.hpp
         src/obj/Application.cpp
-        src/objhandler/Handler.hpp
+        src/handle/Handler.hpp
         src/obj/Window.cpp
         src/obj/Window.hpp
         src/obj/ValidationLayer.cpp
@@ -42,9 +42,9 @@ add_executable(VulkanHelper
         src/obj/CommandBuffer.hpp
         src/obj/Descriptor.cpp
         src/obj/Descriptor.hpp
-        src/manage/UploadManager.hpp
-        src/obj/UBO.cpp
-        src/obj/UBO.hpp
+        src/manage/BufferObjectManager.hpp
+        src/obj/BufferObject.cpp
+        src/obj/BufferObject.hpp
         src/util/BufferUtils.hpp
         src/manage/DescriptorManager.hpp
         src/obj/Pipeline.cpp
@@ -57,15 +57,31 @@ add_executable(VulkanHelper
         src/obj/PipelineLayout.hpp
         src/obj/DescriptorSetLayout.cpp
         src/obj/PipelineLayout.cpp
-        src/manage/PushConstantManager.hpp
+        src/manage/PushConstant.hpp
         src/obj/ShaderModule.hpp
         src/obj/ShaderModule.cpp
         src/manage/RenderPassManager.hpp
-        src/struct/SubpassAttachmentType.hpp
+        src/struct/RenderPassAttachmentType.hpp
         src/obj/Engine.cpp
         src/obj/Engine.hpp
-        src/objhandler/EngineHandler.hpp
+        src/handle/EngineHandler.hpp
         src/struct/EngineInitInfo.hpp
+        src/obj/Framebuffer.cpp
+        src/obj/Framebuffer.hpp
+        src/struct/RenderPassAttachment.hpp
+        src/struct/ImageInitInfo.hpp
+        src/obj/SyncObject.cpp
+        src/obj/SyncObject.hpp
+        src/executor/CommandExecutor.cpp
+        src/executor/CommandExecutor.hpp
+        src/executor/RenderPassExecutor.cpp
+        src/executor/RenderPassExecutor.hpp
+        src/struct/Vertex.hpp
+        src/obj/VertexBuffer.cpp
+        src/obj/VertexBuffer.hpp
+        src/manage/Uploader.hpp
+        src/obj/UniformBuffer.cpp
+        src/obj/UniformBuffer.hpp
 )
 
 

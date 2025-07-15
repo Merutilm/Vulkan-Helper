@@ -7,7 +7,7 @@
 #include <vector>
 #include <vulkan/vulkan_core.h>
 
-#include "../objhandler/EngineHandler.hpp"
+#include "../handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {
     class ShaderModule final : public EngineHandler {

@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <chrono>
 #include <memory>
 
 #include "Instance.hpp"
@@ -15,17 +16,20 @@
 
 namespace merutilm::vkh {
     class Engine final : public Handler {
-
         const EngineInitInfo engineInitInfo;
 
         std::unique_ptr<Window> window = nullptr;
+
         std::unique_ptr<Instance> instance = nullptr;
         std::unique_ptr<Surface> surface = nullptr;
         std::unique_ptr<PhysicalDevice> physicalDevice = nullptr;
         std::unique_ptr<LogicalDevice> logicalDevice = nullptr;
         std::unique_ptr<Swapchain> swapchain = nullptr;
 
+        std::chrono::high_resolution_clock::time_point startTime;
+
     public:
+
         explicit Engine(EngineInitInfo &&engineInitInfo);
 
         ~Engine() override;
@@ -50,7 +54,21 @@ namespace merutilm::vkh {
 
         [[nodiscard]] const Swapchain &getSwapchain() const { return *swapchain; }
 
-        static std::unique_ptr<Engine> createEngine(EngineInitInfo &&engineInfo);
+        [[nodiscard]] Window &getWindow() { return *window; }
+
+        [[nodiscard]] Instance &getInstance() { return *instance; }
+
+        [[nodiscard]] Surface &getSurface() { return *surface; }
+
+        [[nodiscard]] PhysicalDevice &getPhysicalDevice() { return *physicalDevice; }
+
+        [[nodiscard]] LogicalDevice &getLogicalDevice() { return *logicalDevice; }
+
+        [[nodiscard]] Swapchain &getSwapchain() { return *swapchain; }
+
+        [[nodiscard]] static std::unique_ptr<Engine> createEngine(EngineInitInfo &&engineInfo);
+
+        float getTime() const;
 
     private:
         void init() override;

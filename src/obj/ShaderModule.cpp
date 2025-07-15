@@ -21,6 +21,9 @@ namespace merutilm::vkh {
 
     void ShaderModule::init() {
         std::ifstream file(filename, std::ios::binary);
+        if (!file.is_open()) {
+            throw exception_invalid_args("invalid filename : " + filename);
+        }
         auto code = std::vector(std::istreambuf_iterator(file), {});
         const VkShaderModuleCreateInfo info = {
             .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,

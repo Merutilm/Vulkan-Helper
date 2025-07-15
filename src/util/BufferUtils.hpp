@@ -5,21 +5,139 @@
 #pragma once
 #include "../exception/exception.hpp"
 #include "../obj/Engine.hpp"
+#include "../struct/ImageInitInfo.hpp"
 
 namespace merutilm::vkh {
     struct BufferUtils {
         BufferUtils() = delete;
 
-        static void initBuffer(const Engine &engine, const VkDeviceSize size, const VkBufferUsageFlags usage,
-                               const VkMemoryPropertyFlags properties, VkBuffer *buffer, VkDeviceMemory *bufferMemory) {
-            createBuffer(engine, size, usage, buffer);
-            allocateBufferMemory(engine, properties, *buffer, bufferMemory);
-            vkBindBufferMemory(engine.getLogicalDevice().getLogicalDeviceHandle(), *buffer, *bufferMemory, 0);
+
+        static void initImage(const Engine &engine,
+                              const ImageInitInfo &iii, VkImage *image,
+                              VkDeviceMemory *imageMemory,
+                              VkImageView *imageView) {
+            initImage(engine.getLogicalDevice().getLogicalDeviceHandle(), engine.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), iii, image, imageMemory, imageView);
         }
 
-        static void createBuffer(const Engine &engine, const VkDeviceSize size, const VkBufferUsageFlags usage,
+
+        static void initImage(const VkDevice device, const VkPhysicalDeviceMemoryProperties &memProperties,
+                              const ImageInitInfo &iii, VkImage *image,
+                              VkDeviceMemory *imageMemory,
+                              VkImageView *imageView) {
+            createImage(device, image, iii.imageType, iii.imageFormat,
+                        iii.extent, iii.mipLevels, iii.arrayLayers, iii.samples, iii.imageTiling,
+                        iii.usage, iii.initialLayout);
+            allocateImageMemory(device, memProperties, iii.properties, *image,
+                                imageMemory);
+            vkBindImageMemory(device, *image, *imageMemory, 0);
+            createImageView(device, *image, iii.imageViewType, iii.mipLevels, iii.imageFormat, imageView);
+        }
+
+
+        static void createImage(const VkDevice device, VkImage *image,
+                                const VkImageType imageType, const VkFormat imageFormat, const VkExtent3D extent,
+                                const uint32_t mipLevels, const uint32_t arrayLayers,
+                                const VkSampleCountFlagBits samples,
+                                const VkImageTiling imageTiling, const VkImageUsageFlags usage,
+                                const VkImageLayout initialLayout) {
+            const VkImageCreateInfo imageInfo = {
+                .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
+                .pNext = nullptr,
+                .flags = 0,
+                .imageType = imageType,
+                .format = imageFormat,
+                .extent = extent,
+                .mipLevels = mipLevels,
+                .arrayLayers = arrayLayers,
+                .samples = samples,
+                .tiling = imageTiling,
+                .usage = usage,
+                .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
+                .queueFamilyIndexCount = 0,
+                .pQueueFamilyIndices = nullptr,
+                .initialLayout = initialLayout,
+            };
+            if (vkCreateImage(device, &imageInfo, nullptr, image)) {
+                throw exception_init("Failed to create image!");
+            }
+        }
+
+        static void allocateImageMemory(const VkDevice device, const VkPhysicalDeviceMemoryProperties &memProperties,
+                                        const VkMemoryPropertyFlags properties,
+                                        const VkImage image, VkDeviceMemory *imageMemory) {
+            VkMemoryRequirements memRequirements;
+            vkGetImageMemoryRequirements(device, image, &memRequirements);
+            const VkMemoryAllocateInfo allocInfo = {
+                .sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
+                .pNext = nullptr,
+                .allocationSize = memRequirements.size,
+                .memoryTypeIndex = findMemoryTypeIndex(memProperties, memRequirements.memoryTypeBits, properties),
+            };
+            if (vkAllocateMemory(device, &allocInfo, nullptr,
+                                 imageMemory)) {
+                throw exception_init("Failed to allocate memory!");
+            }
+        }
+
+        static void createImageView(const VkDevice device, const VkImage image, const VkImageViewType imageViewType,
+                                    const uint32_t mipLevels,
+                                    const VkFormat imageFormat, VkImageView *imageView) {
+            const VkImageViewCreateInfo viewInfo = {
+                .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+                .pNext = nullptr,
+                .flags = 0,
+                .image = image,
+                .viewType = imageViewType,
+                .format = imageFormat,
+                .components = {
+                    .r = VK_COMPONENT_SWIZZLE_IDENTITY,
+                    .g = VK_COMPONENT_SWIZZLE_IDENTITY,
+                    .b = VK_COMPONENT_SWIZZLE_IDENTITY,
+                    .a = VK_COMPONENT_SWIZZLE_IDENTITY,
+                },
+                .subresourceRange = {
+                    .aspectMask = getAspectMask(imageFormat),
+                    .baseMipLevel = 0,
+                    .levelCount = mipLevels,
+                    .baseArrayLayer = 0,
+                    .layerCount = 1
+                }
+            };
+            if (vkCreateImageView(device, &viewInfo, nullptr, imageView)) {
+                throw exception_init("Failed to create image view!");
+            }
+        }
+
+        static VkImageAspectFlags getAspectMask(const VkFormat format) {
+            if (format == VK_FORMAT_D32_SFLOAT || format == VK_FORMAT_D16_UNORM) {
+                return VK_IMAGE_ASPECT_DEPTH_BIT;
+            }
+            if (format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT) {
+                return VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+            }
+
+            return VK_IMAGE_ASPECT_COLOR_BIT;
+        }
+
+        static void initBuffer(const Engine &engine, const VkDeviceSize size, const VkBufferUsageFlags usage,
+                               const VkMemoryPropertyFlags properties, VkBuffer *buffer, VkDeviceMemory *bufferMemory) {
+            initBuffer(engine.getLogicalDevice().getLogicalDeviceHandle(),
+                       engine.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), size, usage,
+                       properties, buffer, bufferMemory);
+        }
+
+        static void initBuffer(const VkDevice device, const VkPhysicalDeviceMemoryProperties &memProperties,
+                               const VkDeviceSize size, const VkBufferUsageFlags usage,
+                               const VkMemoryPropertyFlags properties, VkBuffer *buffer, VkDeviceMemory *bufferMemory) {
+            createBuffer(device, size, usage, buffer);
+            allocateBufferMemory(device, memProperties, properties, *buffer,
+                                 bufferMemory);
+            vkBindBufferMemory(device, *buffer, *bufferMemory, 0);
+        }
+
+        static void createBuffer(const VkDevice device, const VkDeviceSize size, const VkBufferUsageFlags usage,
                                  VkBuffer *buffer) {
-            if (const VkBufferCreateInfo bufferInfo = {
+            const VkBufferCreateInfo bufferInfo = {
                 .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
                 .pNext = nullptr,
                 .flags = 0,
@@ -28,42 +146,46 @@ namespace merutilm::vkh {
                 .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
                 .queueFamilyIndexCount = 0,
                 .pQueueFamilyIndices = nullptr
-            }; vkCreateBuffer(engine.getLogicalDevice().getLogicalDeviceHandle(), &bufferInfo, nullptr, buffer) != VK_SUCCESS) {
+            };
+            if (vkCreateBuffer(device, &bufferInfo, nullptr, buffer) !=
+                VK_SUCCESS) {
                 throw exception_init("Failed to create buffer!");
             }
         }
 
 
-        static void allocateBufferMemory(const Engine &engine,  const VkMemoryPropertyFlags properties,
+        static void allocateBufferMemory(const VkDevice device, const VkPhysicalDeviceMemoryProperties &memProperties,
+                                         const VkMemoryPropertyFlags properties,
                                          const VkBuffer buffer, VkDeviceMemory *bufferMemory) {
             VkMemoryRequirements memRequirements;
-            vkGetBufferMemoryRequirements(engine.getLogicalDevice().getLogicalDeviceHandle(), buffer, &memRequirements);
-
-            if (const VkMemoryAllocateInfo allocInfo = {
+            vkGetBufferMemoryRequirements(device, buffer, &memRequirements);
+            const VkMemoryAllocateInfo allocInfo = {
                 .sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
                 .pNext = nullptr,
                 .allocationSize = memRequirements.size,
-                .memoryTypeIndex = findMemoryTypeIndex(engine, memRequirements.memoryTypeBits,
+                .memoryTypeIndex = findMemoryTypeIndex(memProperties, memRequirements.memoryTypeBits,
                                                        properties)
-            }; vkAllocateMemory(engine.getLogicalDevice().getLogicalDeviceHandle(), &allocInfo, nullptr, bufferMemory) != VK_SUCCESS) {
+            };
+            if (vkAllocateMemory(device, &allocInfo, nullptr,
+                                 bufferMemory) != VK_SUCCESS) {
                 throw exception_init("failed to allocate memory!");
             }
         }
 
-        
-        static uint32_t findMemoryTypeIndex(const Engine &engine, const uint32_t memoryTypeBits,
+
+        static uint32_t findMemoryTypeIndex(const VkPhysicalDeviceMemoryProperties &memProperties,
+                                            const uint32_t memoryTypeBits,
                                             const VkMemoryPropertyFlags properties) {
-            const VkPhysicalDeviceMemoryProperties memProperties = engine.getPhysicalDevice().getPhysicalDeviceMemoryProperties();
             for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
                 if ((memoryTypeBits & 1 << i) != 0 && //check memory type is equal
                     (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
                     //check the "propertyFlags" is completely contains "properties"
                     return i;
-                    }
+                }
             }
+
 
             throw exception_init("failed to find suitable memory type!");
         }
-
     };
 }

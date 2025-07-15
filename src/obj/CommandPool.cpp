@@ -17,26 +17,20 @@ namespace merutilm::vkh {
 
 
     void CommandPool::init() {
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
-        commandPools.resize(maxFramesInFlight);
-        for (int i = 0; i < maxFramesInFlight; ++i) {
-            const VkCommandPoolCreateInfo createInfo = {
-                .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
-                .pNext = nullptr,
-                .flags = 0,
-                .queueFamilyIndex = engine.getPhysicalDevice().getQueueFamilyIndices().graphicsFamily.
-                value(),
-            };
-            if (vkCreateCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr,
-                                    &commandPools[i]) != VK_SUCCESS) {
-                throw exception_init("Failed to create command pool!");
-            }
+        const VkCommandPoolCreateInfo createInfo = {
+            .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+            .pNext = nullptr,
+            .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
+            .queueFamilyIndex = engine.getPhysicalDevice().getQueueFamilyIndices().graphicsFamily.
+            value(),
+        };
+        if (vkCreateCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, &commandPool)
+            != VK_SUCCESS) {
+            throw exception_init("Failed to create command pool!");
         }
     }
 
     void CommandPool::destroy() {
-        for (const auto commandPool : commandPools) {
-            vkDestroyCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
-        }
+        vkDestroyCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
     }
 }

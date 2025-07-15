@@ -5,6 +5,7 @@
 #include "Swapchain.hpp"
 
 #include "../exception/exception.hpp"
+#include "../util/BufferUtils.hpp"
 
 namespace merutilm::vkh {
     Swapchain::Swapchain(const Surface &surface, const PhysicalDevice &physicalDevice,
@@ -19,12 +20,13 @@ namespace merutilm::vkh {
 
 
     VkExtent2D Swapchain::populateSwapchainExtent() const {
+        const HWND window = surface.getTargetWindow().getWindowHandle();
         const auto capabilities = physicalDevice.populateSurfaceCapabilities();
+
         if (capabilities.currentExtent.width == UINT32_MAX) {
             return capabilities.currentExtent;
         }
 
-        const HWND window = surface.getTargetWindow().getWindowHandle();
         RECT rect;
         GetClientRect(window, &rect);
         const VkExtent2D extent = {
@@ -44,9 +46,9 @@ namespace merutilm::vkh {
 
         const VkSurfaceCapabilitiesKHR capabilities = physicalDevice.populateSurfaceCapabilities();
 
-        maxFramesInFlight = capabilities.minImageCount + 1;
-        if (capabilities.maxImageCount > 0 && maxFramesInFlight > capabilities.maxImageCount) {
-            maxFramesInFlight = capabilities.maxImageCount;
+        swapchainImageCount = capabilities.minImageCount + 1;
+        if (capabilities.maxImageCount > 0 && swapchainImageCount > capabilities.maxImageCount) {
+            swapchainImageCount = capabilities.maxImageCount;
         }
 
         if (const VkSwapchainCreateInfoKHR createInfo = {
@@ -54,7 +56,7 @@ namespace merutilm::vkh {
             .pNext = nullptr,
             .flags = 0,
             .surface = surface.getSurfaceHandle(),
-            .minImageCount = maxFramesInFlight,
+            .minImageCount = swapchainImageCount,
             .imageFormat = VK_FORMAT_R8G8B8A8_SRGB,
             .imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR,
             .imageExtent = populateSwapchainExtent(),
@@ -76,9 +78,22 @@ namespace merutilm::vkh {
            VK_SUCCESS) {
             throw exception_init("Failed to create swapchain!");
         }
+
+        swapchainImages.resize(swapchainImageCount);
+        swapchainImageViews.resize(swapchainImageCount);
+
+        vkGetSwapchainImagesKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, &swapchainImageCount,
+                                swapchainImages.data());
+        for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+            BufferUtils::createImageView(logicalDevice.getLogicalDeviceHandle(), swapchainImages[i],
+                                         VK_IMAGE_VIEW_TYPE_2D, 1, VK_FORMAT_R8G8B8A8_SRGB, &swapchainImageViews[i]);
+        }
     }
 
     void Swapchain::destroy() {
+        for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+            vkDestroyImageView(logicalDevice.getLogicalDeviceHandle(), swapchainImageViews[i], nullptr);
+        }
         vkDestroySwapchainKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, nullptr);
     }
 }

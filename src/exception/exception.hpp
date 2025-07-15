@@ -21,19 +21,19 @@ namespace merutilm::vkh {
 
     };
     struct exception_nullptr final : exception{
-        explicit exception_nullptr(const std::string & message) : exception("[NULL]" + message){}
+        explicit exception_nullptr(const std::string & message) : exception("[NULL] " + message){}
     };
 
     struct exception_init final : exception{
-        explicit exception_init(const std::string & message) : exception("[INITIALIZE]" + message){}
+        explicit exception_init(const std::string & message) : exception("[INITIALIZE] " + message){}
     };
 
     struct exception_invalid_args final : exception{
-        explicit exception_invalid_args(const std::string & message) : exception("[ARGUMENTS]" + message){}
+        explicit exception_invalid_args(const std::string & message) : exception("[ARGUMENTS] " + message){}
     };
 
 
     struct exception_invalid_state final : exception{
-        explicit exception_invalid_state(const std::string & message) : exception("[STATE]" + message){}
+        explicit exception_invalid_state(const std::string & message) : exception("[STATE] " + message){}
     };
 }

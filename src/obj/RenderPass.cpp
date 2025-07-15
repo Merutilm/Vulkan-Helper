@@ -5,6 +5,7 @@
 #include "RenderPass.hpp"
 
 #include <format>
+#include <ranges>
 
 #include "../exception/exception.hpp"
 #include "../manage/RenderPassManager.hpp"
@@ -26,14 +27,15 @@ namespace merutilm::vkh {
         auto &attachments = manager->getAttachments();
         auto &dependencies = manager->getSubpassDependencies();
 
-        using enum SubpassAttachmentType;
+        using enum RenderPassAttachmentType;
         for (uint32_t i = 0; i < subpasses; i++) {
             auto &inputRef = manager->getAttachmentReferences(i, INPUT);
             auto &colorRef = manager->getAttachmentReferences(i, COLOR);
             auto &resolveRef = manager->getAttachmentReferences(i, RESOLVE);
             auto &depthStencilRef = manager->getAttachmentReferences(i, DEPTH_STENCIL);
 
-            if (colorRef.size() != resolveRef.size()) {
+
+            if (!resolveRef.empty() && colorRef.size() != resolveRef.size()) {
                 throw exception_init(
                     std::format("SUBPASS {}: the size of color attachment and resolve attachment doesn't match ", i));
             }
@@ -50,18 +52,23 @@ namespace merutilm::vkh {
                 .pPreserveAttachments = manager->getPreserveIndices(i),
             };
         }
+
+        auto attachmentDesc = std::vector<VkAttachmentDescription>(attachments.size());
+        std::ranges::transform(attachments, attachmentDesc.begin(),
+                               [](const RenderPassAttachment &v) { return v.attachment; });
         const VkRenderPassCreateInfo renderPassInfo = {
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
             .attachmentCount = static_cast<uint32_t>(attachments.size()),
-            .pAttachments = attachments.data(),
+            .pAttachments = attachmentDesc.data(),
             .subpassCount = subpasses,
             .pSubpasses = subpassDescription.data(),
             .dependencyCount = static_cast<uint32_t>(dependencies.size()),
             .pDependencies = dependencies.data(),
         };
-        if (vkCreateRenderPass(engine.getLogicalDevice().getLogicalDeviceHandle(), &renderPassInfo, nullptr, &renderPass) !=
+        if (vkCreateRenderPass(engine.getLogicalDevice().getLogicalDeviceHandle(), &renderPassInfo, nullptr,
+                               &renderPass) !=
             VK_SUCCESS) {
             throw exception_init("Failed to create render pass!");
         }

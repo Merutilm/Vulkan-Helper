@@ -92,8 +92,11 @@ namespace merutilm::vkh {
         }
 
         auto &window = *windowPtr;
-        window.runListeners(message);
-
+        if (IsWindowVisible(hwnd)) {
+            window.runListeners(message);
+        }else {
+            window.clear();
+        }
         if (message == WM_DESTROY) {
             PostQuitMessage(0);
         }
