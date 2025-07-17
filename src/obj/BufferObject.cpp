@@ -10,11 +10,11 @@ namespace merutilm::vkh {
     BufferObject::BufferObject(const Engine &engine, std::unique_ptr<BufferObjectManager> &&dataManager,
                                const VkBufferUsageFlags bufferUsage) : EngineHandler(engine), Uploader(std::move(dataManager)),
                                                                  bufferUsage(bufferUsage) {
-        BufferObject::init();
+        BufferObject::attach();
     }
 
     BufferObject::~BufferObject() {
-        BufferObject::destroy();
+        BufferObject::detach();
     }
 
 
@@ -25,7 +25,7 @@ namespace merutilm::vkh {
         memcpy(bufferMapped[frameIndex], data.data(), getSize());
     }
 
-    void BufferObject::init() {
+    void BufferObject::attach() {
         const uint32_t size = getSize();
 
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
@@ -57,7 +57,7 @@ namespace merutilm::vkh {
     }
 
 
-    void BufferObject::destroy() {
+    void BufferObject::detach() {
         if (!finalized) {
             finalize();
         }

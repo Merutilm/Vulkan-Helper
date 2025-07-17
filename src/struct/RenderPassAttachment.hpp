@@ -4,7 +4,9 @@
 
 #pragma once
 #include <vulkan/vulkan.h>
-#include "RenderPassAttachmentType.hpp"
+
+#include "RenderPassAttachmentConfig.hpp"
+#include <vector>
 
 namespace merutilm::vkh {
     struct RenderPassAttachment {

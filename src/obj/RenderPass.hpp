@@ -7,10 +7,12 @@
 
 #include "../manage/RenderPassManager.hpp"
 #include "../handle/EngineHandler.hpp"
+#include "../struct/RenderPassAttachment.hpp"
 
 namespace merutilm::vkh {
     class RenderPass final : public EngineHandler {
         std::unique_ptr<RenderPassManager> manager = nullptr;
+        std::vector<RenderPassAttachment> attachments = {};
         VkRenderPass renderPass = nullptr;
 
     public:
@@ -30,9 +32,12 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkRenderPass getRenderPassHandle() const { return renderPass; }
 
-    private:
-        void init() override;
+        [[nodiscard]] const std::vector<RenderPassAttachment> &getAttachments() const {
+            return attachments;
+        }
 
-        void destroy() override;
+        void attach() override;
+
+        void detach() override;
     };
 }

@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include "../exception/exception.hpp"
 #include "../struct/StringHasher.hpp"
-#include "../struct/RenderPassAttachment.hpp"
+#include "../struct/RenderPassAttachmentConfig.hpp"
 #include "../struct/RenderPassAttachmentType.hpp"
 #include "../util/BufferUtils.hpp"
 
@@ -18,7 +18,7 @@ namespace merutilm::vkh {
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > subpassNames = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > attachmentNames = {};
 
-        std::vector<RenderPassAttachment> attachments = {};
+        std::vector<RenderPassAttachmentConfig> attachments = {};
         std::vector<std::vector<uint32_t> > preserveIndices = {};
         std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference> > >
         attachmentReferences{};
@@ -30,7 +30,7 @@ namespace merutilm::vkh {
         explicit RenderPassManager(const Engine &engine) : engine(engine) {
         }
 
-        ~RenderPassManager();
+        ~RenderPassManager() = default;
 
         RenderPassManager(const RenderPassManager &) = delete;
 
@@ -48,9 +48,10 @@ namespace merutilm::vkh {
             return preserveIndices[subpassIndex].data();
         }
 
-        [[nodiscard]] const std::vector<RenderPassAttachment> &getAttachments() const {
+        [[nodiscard]] const std::vector<RenderPassAttachmentConfig> &getAttachmentConfigs() const {
             return attachments;
         }
+
 
         [[nodiscard]] uint32_t getSubpassCount() const { return subpassCount; }
 
@@ -79,21 +80,6 @@ namespace merutilm::vkh {
 
         void appendDependency(const VkSubpassDependency &subpassDependency);
     };
-
-    inline RenderPassManager::~RenderPassManager() {
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t swapchainImageCount = engine.getSwapchain().getSwapchainImageCount();
-        for (auto &attachment: attachments) {
-            for (uint32_t i = 0; i < swapchainImageCount; ++i) {
-                if (attachment.type == RenderPassAttachmentType::COLOR) {
-                    continue;
-                }
-                vkDestroyImageView(device, attachment.imageViews[i], nullptr);
-                vkDestroyImage(device, attachment.images[i], nullptr);
-                vkFreeMemory(device, attachment.imageMemories[i], nullptr);
-            }
-        }
-    }
 
 
     inline void RenderPassManager::setPreserved(const std::string &attachmentName) {
@@ -174,30 +160,9 @@ namespace merutilm::vkh {
                 break;
             }
         }
-        const uint32_t swapchainImages = engine.getSwapchain().getSwapchainImageCount();
-        RenderPassAttachment renderPassAttachment = {
-            .type = attachmentType,
-            .attachment = attachment,
-            .images = std::vector<VkImage>(swapchainImages),
-            .imageMemories = std::vector<VkDeviceMemory>(swapchainImages),
-            .imageViews = std::vector<VkImageView>(swapchainImages),
-        };
-        auto images = engine.getSwapchain().getSwapchainImages();
-        auto imageViews = engine.getSwapchain().getSwapchainImageViews();
-
-        if (attachmentType == COLOR) {
-            renderPassAttachment.images = std::vector(images.begin(), images.end());
-            renderPassAttachment.imageViews = std::vector(imageViews.begin(), imageViews.end());
-        } else {
-            for (uint32_t i = 0; i < swapchainImages; ++i) {
-                BufferUtils::initImage(engine, imageInitInfo, &renderPassAttachment.images[i],
-                                       &renderPassAttachment.imageMemories[i],
-                                       &renderPassAttachment.imageViews[i]);
-            }
-        }
 
 
-        this->attachments.push_back(renderPassAttachment);
+        this->attachments.emplace_back(attachmentType, attachment, imageInitInfo);
 
         ref.emplace_back(attachmentReference);
         attachmentNames[attachmentName] = count;

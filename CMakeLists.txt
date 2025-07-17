@@ -53,7 +53,7 @@ add_executable(VulkanHelper
         src/obj/RenderPass.hpp
         src/manage/PipelineManager.hpp
         src/obj/DescriptorSetLayout.hpp
-        src/struct/DescriptorLayoutBuildType.hpp
+        src/struct/DescriptorSetLayoutBuildType.hpp
         src/obj/PipelineLayout.hpp
         src/obj/DescriptorSetLayout.cpp
         src/obj/PipelineLayout.cpp
@@ -68,7 +68,7 @@ add_executable(VulkanHelper
         src/struct/EngineInitInfo.hpp
         src/obj/Framebuffer.cpp
         src/obj/Framebuffer.hpp
-        src/struct/RenderPassAttachment.hpp
+        src/struct/RenderPassAttachmentConfig.hpp
         src/struct/ImageInitInfo.hpp
         src/obj/SyncObject.cpp
         src/obj/SyncObject.hpp
@@ -83,6 +83,8 @@ add_executable(VulkanHelper
         src/obj/UniformBuffer.cpp
         src/obj/UniformBuffer.hpp
         src/executor/Executor.hpp
+        src/repo/ShaderModuleRepo.hpp
+        src/manage/DescriptorSetLayoutManager.hpp
 )
 
 

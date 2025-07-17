@@ -8,14 +8,14 @@
 
 namespace merutilm::vkh {
     SyncObject::SyncObject(const Engine &engine) : EngineHandler(engine) {
-        SyncObject::init();
+        SyncObject::attach();
     }
 
     SyncObject::~SyncObject() {
-        SyncObject::destroy();
+        SyncObject::detach();
     }
 
-    void SyncObject::init() {
+    void SyncObject::attach() {
         
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
@@ -45,7 +45,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void SyncObject::destroy() {
+    void SyncObject::detach() {
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {

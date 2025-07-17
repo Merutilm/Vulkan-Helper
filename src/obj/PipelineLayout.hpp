@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include "../executor/CommandExecutor.hpp"
 #include "../manage/PushConstant.hpp"
 #include "../handle/EngineHandler.hpp"
 
@@ -32,8 +31,8 @@ namespace merutilm::vkh {
         [[nodiscard]] VkPipelineLayout getLayoutHandle() const { return layout ; }
 
     private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
     };
 }

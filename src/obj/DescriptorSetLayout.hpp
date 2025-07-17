@@ -5,16 +5,17 @@
 #pragma once
 #include "Engine.hpp"
 #include "../handle/EngineHandler.hpp"
-#include "../struct/DescriptorLayoutBuildType.hpp"
+#include "../manage/DescriptorSetLayoutManager.hpp"
+#include "../struct/DescriptorSetLayoutBuildType.hpp"
 
 
 namespace merutilm::vkh {
     class DescriptorSetLayout final : public EngineHandler {
-        std::vector<DescriptorLayoutBuildType> layoutBuilder = {};
+        std::unique_ptr<DescriptorSetLayoutManager> descriptorSetLayoutManager;
         VkDescriptorSetLayout layout = nullptr;
 
     public:
-        explicit DescriptorSetLayout(const Engine &engine);
+        explicit DescriptorSetLayout(const Engine &engine, std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager);
 
         ~DescriptorSetLayout() override;
 
@@ -26,21 +27,13 @@ namespace merutilm::vkh {
 
         DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
 
-        void append(DescriptorLayoutBuildType buildType);
-
-        void finish();
-
-        [[nodiscard]] uint32_t getDescriptorCount() const { return static_cast<uint32_t>(layoutBuilder.size()); }
-
         [[nodiscard]] VkDescriptorSetLayout getLayoutHandle() const;
 
-        [[nodiscard]] const DescriptorLayoutBuildType &getElement(const uint32_t index) const {
-            return layoutBuilder[index];
-        }
+        [[nodiscard]] const DescriptorSetLayoutManager &getDescriptorSetLayoutManager() const {return *descriptorSetLayoutManager;}
 
     private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
     };
 }

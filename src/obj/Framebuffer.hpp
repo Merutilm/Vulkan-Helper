@@ -26,9 +26,8 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkFramebuffer getFramebufferHandle(const uint32_t imageIndex) const { return framebuffer[imageIndex]; }
 
-    private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
     };
 }

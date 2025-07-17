@@ -11,14 +11,14 @@
 namespace merutilm::vkh {
 
     LogicalDevice::LogicalDevice(const Instance& instance, const PhysicalDevice &physicalDevice) :  instance(instance), physicalDevice(physicalDevice) {
-        LogicalDevice::init();
+        LogicalDevice::attach();
     }
 
     LogicalDevice::~LogicalDevice() {
-        LogicalDevice::destroy();
+        LogicalDevice::detach();
     }
 
-    void LogicalDevice::init() {
+    void LogicalDevice::attach() {
         float queuePriority = 1;
         VkDeviceQueueCreateInfo queueCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
@@ -51,7 +51,7 @@ namespace merutilm::vkh {
     }
 
 
-    void LogicalDevice::destroy() {
+    void LogicalDevice::detach() {
         vkDestroyDevice(logicalDevice, nullptr);
     }
 }

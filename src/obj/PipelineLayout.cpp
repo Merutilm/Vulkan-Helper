@@ -10,11 +10,11 @@ namespace merutilm::vkh {
                                    const std::vector<PushConstant *> &pushConstantManager) : EngineHandler(
             engine), descriptorSetLayouts(descriptorSetLayout),
         pushConstantManagers(pushConstantManager) {
-        PipelineLayout::init();
+        PipelineLayout::attach();
     }
 
     PipelineLayout::~PipelineLayout() {
-        PipelineLayout::destroy();
+        PipelineLayout::detach();
     }
 
     void PipelineLayout::push(const VkCommandBuffer commandBuffer) const {
@@ -29,7 +29,7 @@ namespace merutilm::vkh {
     }
 
 
-    void PipelineLayout::init() {
+    void PipelineLayout::attach() {
         uint32_t sizeSum = 0;
         std::vector<VkPushConstantRange> pushConstantRanges = {};
         for (const auto pushConstantManager : pushConstantManagers) {
@@ -56,7 +56,7 @@ namespace merutilm::vkh {
     }
 
 
-    void PipelineLayout::destroy() {
+    void PipelineLayout::detach() {
         vkDestroyPipelineLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
     }
 }

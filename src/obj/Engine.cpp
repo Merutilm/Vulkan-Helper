@@ -7,11 +7,11 @@
 namespace merutilm::vkh {
 
     Engine::Engine(EngineInitInfo &&engineInitInfo) : engineInitInfo(std::move(engineInitInfo)) {
-        Engine::init();
+        Engine::attach();
     }
 
     Engine::~Engine() {
-        Engine::destroy();
+        Engine::detach();
     }
 
     std::unique_ptr<Engine> Engine::createEngine(EngineInitInfo &&engineInfo) {
@@ -25,7 +25,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Engine::init() {
+    void Engine::attach() {
         instance = std::make_unique<Instance>(true);
         window = std::make_unique<Window>(engineInitInfo.windowName.data(), engineInitInfo.framerate,
                                           engineInitInfo.width, engineInitInfo.height);
@@ -37,7 +37,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Engine::destroy() {
+    void Engine::detach() {
         swapchain = nullptr;
         logicalDevice = nullptr;
         physicalDevice = nullptr;

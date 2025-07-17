@@ -9,15 +9,15 @@
 namespace merutilm::vkh {
 
     Instance::Instance(const bool enableValidationLayer) : enableValidationLayer(enableValidationLayer){
-        Instance::init();
+        Instance::attach();
     }
 
     Instance::~Instance() {
-        Instance::destroy();
+        Instance::detach();
     }
 
 
-    void Instance::init() {
+    void Instance::attach() {
         createInstance();
         validationLayer = std::make_unique<ValidationLayer>(instance, enableValidationLayer);
     }
@@ -54,7 +54,7 @@ namespace merutilm::vkh {
 
     }
 
-    void Instance::destroy() {
+    void Instance::detach() {
         validationLayer = nullptr;
         vkDestroyInstance(instance, nullptr);
     }

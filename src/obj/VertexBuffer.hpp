@@ -37,9 +37,9 @@ namespace merutilm::vkh {
 
     private:
 
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
 
         template<typename T>
         static VkFormat getFormat();

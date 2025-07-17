@@ -18,7 +18,7 @@
 
 
 namespace merutilm::vkh {
-    class Application final : public Handler{
+    class Application final{
 
         uint32_t currentFrame = 0;
         std::unique_ptr<Engine> engine = nullptr;
@@ -35,7 +35,7 @@ namespace merutilm::vkh {
     public:
         explicit Application();
 
-        ~Application() override;
+        ~Application();
 
         Application(const Application &) = delete;
 
@@ -45,10 +45,8 @@ namespace merutilm::vkh {
 
         Application &operator=(Application &&) = delete;
 
-        void start() const;
-
     private:
-        void init() override;
+        void start();
 
         void createEngine();
 
@@ -58,6 +56,8 @@ namespace merutilm::vkh {
 
         void changeFrameIndex();
 
-        void destroy() override;
+        void resolveResize();
+
+        void quit();
     };
 }

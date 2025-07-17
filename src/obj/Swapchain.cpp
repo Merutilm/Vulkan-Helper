@@ -11,11 +11,19 @@ namespace merutilm::vkh {
     Swapchain::Swapchain(const Surface &surface, const PhysicalDevice &physicalDevice,
                          const LogicalDevice &logicalDevice) : surface(surface), physicalDevice(physicalDevice),
                                                                logicalDevice(logicalDevice) {
-        Swapchain::init();
+        Swapchain::attach();
     }
 
     Swapchain::~Swapchain() {
-        Swapchain::destroy();
+        Swapchain::detach();
+    }
+
+    void Swapchain::recreate() {
+        destroyImageViews();
+        oldSwapchain = swapchain;
+        createSwapchain(&swapchain, oldSwapchain);
+        vkDestroySwapchainKHR(logicalDevice.getLogicalDeviceHandle(), oldSwapchain, nullptr);
+        setupSwapchainImages();
     }
 
 
@@ -40,7 +48,12 @@ namespace merutilm::vkh {
     }
 
 
-    void Swapchain::init() {
+    void Swapchain::attach() {
+        createSwapchain(&swapchain, nullptr);
+        setupSwapchainImages();
+    }
+
+    void Swapchain::createSwapchain(VkSwapchainKHR *target, const VkSwapchainKHR old) {
         const auto &[graphicsFamily, presentFamily] = physicalDevice.getQueueFamilyIndices();
         std::array queueFamilyIndices = {graphicsFamily.value(), presentFamily.value()};
 
@@ -73,12 +86,14 @@ namespace merutilm::vkh {
             .compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
             .presentMode = VK_PRESENT_MODE_MAILBOX_KHR,
             .clipped = VK_TRUE,
-            .oldSwapchain = oldSwapchain
-        }; vkCreateSwapchainKHR(logicalDevice.getLogicalDeviceHandle(), &createInfo, nullptr, &swapchain) !=
+            .oldSwapchain = old
+        }; vkCreateSwapchainKHR(logicalDevice.getLogicalDeviceHandle(), &createInfo, nullptr, target) !=
            VK_SUCCESS) {
             throw exception_init("Failed to create swapchain!");
         }
+    }
 
+    void Swapchain::setupSwapchainImages() {
         swapchainImages.resize(swapchainImageCount);
         swapchainImageViews.resize(swapchainImageCount);
 
@@ -90,10 +105,15 @@ namespace merutilm::vkh {
         }
     }
 
-    void Swapchain::destroy() {
+
+    void Swapchain::detach() {
+        destroyImageViews();
+        vkDestroySwapchainKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, nullptr);
+    }
+
+    void Swapchain::destroyImageViews() const {
         for (uint32_t i = 0; i < swapchainImageCount; ++i) {
             vkDestroyImageView(logicalDevice.getLogicalDeviceHandle(), swapchainImageViews[i], nullptr);
         }
-        vkDestroySwapchainKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, nullptr);
     }
 }

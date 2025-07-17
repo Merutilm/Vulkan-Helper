@@ -20,4 +20,5 @@ namespace merutilm::vkh {
         VkMemoryPropertyFlags properties;
     };
 
+    
 }

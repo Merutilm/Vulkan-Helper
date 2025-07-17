@@ -8,12 +8,12 @@
 
 namespace merutilm::vkh {
     Window::Window(const wchar_t *windowName, const float framerate, const uint32_t width, const uint32_t height) : windowName(windowName), framerate(framerate), width(width), height(height) {
-        Window::init();
+        Window::attach();
     }
 
 
     Window::~Window() {
-        Window::destroy();
+        Window::detach();
     }
 
     void Window::start() const {
@@ -43,7 +43,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Window::init() {
+    void Window::attach() {
         registerClass();
         createWindow();
     }
@@ -92,24 +92,22 @@ namespace merutilm::vkh {
         }
 
         auto &window = *windowPtr;
-        if (IsWindowVisible(hwnd)) {
-            window.runListeners(message);
-        }else {
-            window.clear();
-        }
+
         if (message == WM_DESTROY) {
             PostQuitMessage(0);
         }
-        return DefWindowProcW(hwnd, message, wparam, lparam);
+
+        return window.runListeners(hwnd, message, wparam, lparam);
     }
 
-    void Window::runListeners(const UINT message) {
-        for (const auto &listener: listeners[message]) {
-            listener(*this);
+    LRESULT Window::runListeners(const HWND hwnd, const UINT message, const WPARAM wparam, const LPARAM lparam) {
+        if (listeners.contains(message)) {
+            return listeners[message](*this);
         }
+        return DefWindowProc(hwnd, message, wparam, lparam);
     }
 
-    void Window::destroy() {
+    void Window::detach() {
         //nothing to do.
     }
 }

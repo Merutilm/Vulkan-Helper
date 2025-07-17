@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <vulkan/vulkan.h>
+
 #include "Uploader.hpp"
 #include "BufferObjectManager.hpp"
 

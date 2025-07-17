@@ -16,9 +16,8 @@ namespace merutilm::vkh {
         const uint32_t width;
         const uint32_t height;
         HWND window = nullptr;
-        std::unordered_map<UINT, std::vector<std::function<void(const Window &)>>> listeners = {};
-        std::vector<std::function<void()>> renderers = {};
-
+        std::unordered_map<UINT, std::function<LRESULT(const Window &)> > listeners = {};
+        std::vector<std::function<void()> > renderers = {};
 
     public:
         explicit Window(const wchar_t *windowName, float framerate, uint32_t width, uint32_t height);
@@ -33,18 +32,25 @@ namespace merutilm::vkh {
 
         Window &operator=(Window &&) = delete;
 
-        HWND getWindowHandle() const {return window;}
+        HWND getWindowHandle() const { return window; }
 
-        template <typename F> requires std::is_invocable_r_v<void, F, const Window &>
-        void appendListener(UINT message, F&& func);
+        [[nodiscard]] bool isUnrenderable() const {
+            RECT rect;
+            GetClientRect(window, &rect);
+            return !IsWindow(window) || !IsWindowVisible(window) || IsIconic(window) || rect.bottom - rect.top <= 0 ||
+                   rect.right - rect.left <= 0;
+        }
 
-        template <typename F> requires std::is_invocable_r_v<void, F>
-        void appendRenderer(F&& func);
+        template<typename F> requires std::is_invocable_r_v<LRESULT, F, const Window &>
+        void setListener(UINT message, F &&func);
+
+        template<typename F> requires std::is_invocable_r_v<void, F>
+        void appendRenderer(F &&func);
 
         void start() const;
 
     private:
-        void init() override;
+        void attach() override;
 
         static void registerClass();
 
@@ -52,23 +58,23 @@ namespace merutilm::vkh {
 
         static LRESULT CALLBACK winProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
-        void destroy() override;
+        void detach() override;
 
-        void clear() { listeners.clear(); renderers.clear(); }
+        void clear() {
+            listeners.clear();
+            renderers.clear();
+        }
 
-        void runListeners(UINT message);
-
-
+        LRESULT runListeners(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
     };
 
-    template<typename F> requires std::is_invocable_r_v<void, F, const Window &>
-    void Window::appendListener(const UINT message, F&& func) {
-        listeners[message].emplace_back(std::forward<F>(func));
+    template<typename F> requires std::is_invocable_r_v<LRESULT, F, const Window &>
+    void Window::setListener(const UINT message, F &&func) {
+        listeners[message] = std::forward<F>(func);
     }
 
     template<typename F> requires std::is_invocable_r_v<void, F>
     void Window::appendRenderer(F &&func) {
         renderers.emplace_back(std::forward<F>(func));
     }
-
 }

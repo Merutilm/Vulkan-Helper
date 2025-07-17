@@ -7,27 +7,20 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    DescriptorSetLayout::DescriptorSetLayout(const Engine &engine) : EngineHandler(engine) {
-        DescriptorSetLayout::init();
+    DescriptorSetLayout::DescriptorSetLayout(const Engine &engine, std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager) : EngineHandler(engine), descriptorSetLayoutManager(std::move(layoutManager)) {
+        DescriptorSetLayout::attach();
     }
 
     DescriptorSetLayout::~DescriptorSetLayout() {
-        DescriptorSetLayout::destroy();
+        DescriptorSetLayout::detach();
     }
 
-    void DescriptorSetLayout::init() {
-        //nothing to do
-    }
-
-
-    void DescriptorSetLayout::append(const DescriptorLayoutBuildType buildType) {
-        layoutBuilder.push_back(buildType);
-    }
-
-    void DescriptorSetLayout::finish() {
+    void DescriptorSetLayout::attach() {
         if (layout != nullptr) {
             throw exception_invalid_state("double-finish called");
         }
+        auto &layoutBuilder = descriptorSetLayoutManager->getLayoutBuildTypes();
+
         std::vector<VkDescriptorSetLayoutBinding> bindings(layoutBuilder.size());
         for (uint32_t i = 0; i < layoutBuilder.size(); ++i) {
             bindings[i] = {
@@ -53,6 +46,7 @@ namespace merutilm::vkh {
             }
     }
 
+
     VkDescriptorSetLayout DescriptorSetLayout::getLayoutHandle() const {
         if (layout == nullptr) {
             throw exception_nullptr("No descriptor set layout (Is DescriptorManager::finish(VkDevice) called?)");
@@ -60,7 +54,7 @@ namespace merutilm::vkh {
         return layout;
     }
 
-    void DescriptorSetLayout::destroy() {
+    void DescriptorSetLayout::detach() {
         if (layout != nullptr) {
             vkDestroyDescriptorSetLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
         }

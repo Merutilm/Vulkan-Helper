@@ -12,7 +12,7 @@ namespace merutilm::vkh {
     class PipelineManager {
         const PipelineLayout &layout;
         std::unique_ptr<Descriptor> descriptor = nullptr;
-        std::vector<std::unique_ptr<ShaderModule> > shaderModules;
+        std::vector<const ShaderModule *> shaderModules;
 
     public:
         explicit PipelineManager(const PipelineLayout &layoutManager,
@@ -20,21 +20,21 @@ namespace merutilm::vkh {
                                                                              descriptor(std::move(descriptor)) {
         }
 
-        void attachShader(std::unique_ptr<ShaderModule> &&shaderStage);
+        void attachShader(const ShaderModule *shaderStage);
 
         [[nodiscard]] const Descriptor &getDescriptor() const { return *descriptor; }
 
-        [[nodiscard]] Descriptor &getDescriptor() {return *descriptor;}
+        [[nodiscard]] Descriptor &getDescriptor() { return *descriptor; }
 
         [[nodiscard]] const PipelineLayout &getLayoutManager() const { return layout; }
 
 
-        [[nodiscard]] const std::vector<std::unique_ptr<ShaderModule> > &getShaderModules() const {
+        [[nodiscard]] std::span<const ShaderModule * const> getShaderModules() const {
             return shaderModules;
         }
     };
 
-    inline void PipelineManager::attachShader(std::unique_ptr<ShaderModule> &&shaderStage) {
-        shaderModules.emplace_back(std::move(shaderStage));
+    inline void PipelineManager::attachShader(const ShaderModule *shaderStage) {
+        shaderModules.emplace_back(shaderStage);
     }
 }

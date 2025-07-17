@@ -11,15 +11,15 @@
 namespace merutilm::vkh {
     VertexBuffer::VertexBuffer(const Engine &engine, std::unique_ptr<BufferObjectManager> &&manager) : BufferObject(
         engine, std::move(manager), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT) {
-        VertexBuffer::init();
+        VertexBuffer::attach();
     }
 
     VertexBuffer::~VertexBuffer() {
-        VertexBuffer::destroy();
+        VertexBuffer::detach();
     }
 
 
-    void VertexBuffer::init() {
+    void VertexBuffer::attach() {
         const uint32_t len = getObjectCount();
         for (uint32_t i = 0; i < len; ++i) {
             const uint32_t size = sizes[i];
@@ -36,7 +36,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void VertexBuffer::destroy() {
+    void VertexBuffer::detach() {
         //nothing to do
     }
 }

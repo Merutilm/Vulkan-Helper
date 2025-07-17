@@ -7,9 +7,8 @@ namespace merutilm::vkh {
     struct Handler {
         virtual ~Handler() = default;
 
-    private:
-        virtual void init() = 0;
+        virtual void attach() = 0;
 
-        virtual void destroy() = 0;
+        virtual void detach() = 0;
     };
 }

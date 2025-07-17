@@ -36,8 +36,8 @@ namespace merutilm::vkh {
         void update(uint32_t frameIndex) const;
 
     private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
     };
 }

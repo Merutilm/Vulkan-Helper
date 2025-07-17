@@ -58,7 +58,7 @@ namespace merutilm::vkh {
         [[nodiscard]] const QueueFamilyIndices &getQueueFamilyIndices() const { return queueFamilyIndices; }
 
     private:
-        void init() override;
+        void attach() override;
 
         bool isDeviceSuitable(VkPhysicalDevice physicalDevice) const;
 
@@ -66,6 +66,6 @@ namespace merutilm::vkh {
 
         static bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice);
 
-        void destroy() override;
+        void detach() override;
     };
 }

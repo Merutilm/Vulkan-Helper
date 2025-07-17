@@ -9,30 +9,33 @@
 namespace merutilm::vkh {
     Framebuffer::Framebuffer(const Engine &engine, const RenderPass &renderPass) : EngineHandler(engine),
         renderPass(renderPass) {
-        Framebuffer::init();
+        Framebuffer::attach();
     }
 
     Framebuffer::~Framebuffer() {
-        Framebuffer::destroy();
+        Framebuffer::detach();
     }
 
-    void Framebuffer::init() {
+    void Framebuffer::attach() {
         const uint32_t swapchainImages = engine.getSwapchain().getSwapchainImageCount();
         const auto [width, height] = engine.getSwapchain().populateSwapchainExtent();
         framebuffer.resize(swapchainImages);
-        auto& attachments = renderPass.getManager().getAttachments();
+        auto& attachments = renderPass.getAttachments();
+
 
         for (uint32_t i = 0; i < swapchainImages; ++i) {
-            auto imageViews = std::vector<VkImageView>(attachments.size());
-            std::ranges::transform(attachments, imageViews.begin(), [i](const RenderPassAttachment &v){return v.imageViews[i];});
+            auto attachmentImageViews = std::vector<VkImageView>(attachments.size());
+            std::ranges::transform(attachments, attachmentImageViews.begin(), [i](const RenderPassAttachment &v) {
+                return v.imageViews[i];
+            });
 
             const VkFramebufferCreateInfo createInfo = {
                 .sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
                 .pNext = nullptr,
                 .flags = 0,
                 .renderPass = renderPass.getRenderPassHandle(),
-                .attachmentCount = static_cast<uint32_t>(imageViews.size()),
-                .pAttachments = imageViews.data(),
+                .attachmentCount = static_cast<uint32_t>(attachmentImageViews.size()),
+                .pAttachments = attachmentImageViews.data(),
                 .width = width,
                 .height = height,
                 .layers = 1
@@ -46,7 +49,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Framebuffer::destroy() {
+    void Framebuffer::detach() {
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
         for (uint32_t i = 0; i < engine.getSwapchain().getSwapchainImageCount(); ++i) {
             vkDestroyFramebuffer(device, framebuffer[i], nullptr);

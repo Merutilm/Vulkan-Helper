@@ -6,7 +6,7 @@
 #include <vulkan/vulkan.h>
 
 namespace merutilm::vkh {
-    struct DescriptorLayoutBuildType {
+    struct DescriptorSetLayoutBuildType {
         VkDescriptorType type;
         VkShaderStageFlags stage;
     };

@@ -21,15 +21,15 @@ namespace merutilm::vkh {
                                                                              subpassName(std::move(subpassName)),
                                                                              pipelineManager(
                                                                                  std::move(pipelineManager)) {
-        Pipeline::init();
+        Pipeline::attach();
     }
 
     Pipeline::~Pipeline() {
-        Pipeline::destroy();
+        Pipeline::detach();
     }
 
-    void Pipeline::init() {
-        auto &modules = pipelineManager->getShaderModules();
+    void Pipeline::attach() {
+        auto modules = pipelineManager->getShaderModules();
 
         std::vector<VkPipelineShaderStageCreateInfo> shaderStageCreateInfos(modules.size());
         for (size_t i = 0; i < modules.size(); ++i) {
@@ -181,7 +181,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Pipeline::destroy() {
+    void Pipeline::detach() {
         vkDestroyPipeline(engine.getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
     }
 }

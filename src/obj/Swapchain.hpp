@@ -35,6 +35,8 @@ namespace merutilm::vkh {
 
         Swapchain &operator=(Swapchain &&) = delete;
 
+        void recreate();
+
         [[nodiscard]] VkExtent2D populateSwapchainExtent() const;
 
         [[nodiscard]] VkSwapchainKHR getSwapchainHandle() const { return swapchain; }
@@ -50,8 +52,14 @@ namespace merutilm::vkh {
         }
 
     private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void createSwapchain(VkSwapchainKHR *target, VkSwapchainKHR old);
+
+        void setupSwapchainImages();
+
+        void detach() override;
+
+        void destroyImageViews() const;
     };
 }

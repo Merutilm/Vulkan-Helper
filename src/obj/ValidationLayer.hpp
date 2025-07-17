@@ -37,7 +37,7 @@ namespace merutilm::vkh {
     private:
         void checkValidationLayerSupport() const;
 
-        void init() override;
+        void attach() override;
 
         void setupDebugMessenger();
 
@@ -57,7 +57,7 @@ namespace merutilm::vkh {
                                                   const VkAllocationCallbacks *pAllocator);
 
 
-        void destroy() override;
+        void detach() override;
     };
 
 }

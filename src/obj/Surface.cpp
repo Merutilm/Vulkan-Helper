@@ -11,14 +11,14 @@
 
 namespace merutilm::vkh {
     Surface::Surface(const Instance &instance, const Window &window) : instance(instance), window(window) {
-        Surface::init();
+        Surface::attach();
     }
 
     Surface::~Surface() {
-        Surface::destroy();
+        Surface::detach();
     }
 
-    void Surface::init() {
+    void Surface::attach() {
         const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
             .pNext = nullptr,
@@ -32,7 +32,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Surface::destroy() {
+    void Surface::detach() {
         vkDestroySurfaceKHR(instance.getInstanceHandle(), surface, nullptr);
     }
 }

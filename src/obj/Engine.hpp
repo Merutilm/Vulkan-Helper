@@ -68,11 +68,11 @@ namespace merutilm::vkh {
 
         [[nodiscard]] static std::unique_ptr<Engine> createEngine(EngineInitInfo &&engineInfo);
 
-        float getTime() const;
+        [[nodiscard]] float getTime() const;
 
     private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
     };
 }

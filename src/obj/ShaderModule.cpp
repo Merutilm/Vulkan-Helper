@@ -4,22 +4,35 @@
 
 #include "ShaderModule.hpp"
 
+#include <algorithm>
+
 #include "../exception/exception.hpp"
 #include <fstream>
 
 namespace merutilm::vkh {
-    ShaderModule::ShaderModule(const Engine &engine, const VkShaderStageFlagBits shaderStage,
-                               std::string &&filename) : EngineHandler(engine), shaderStage(shaderStage),
-                                                         filename(std::move(filename)) {
-        ShaderModule::init();
+    ShaderModule::ShaderModule(const Engine &engine, const std::string &filename) : EngineHandler(engine), shaderStage(getShaderStage(filename)),
+                                                         filename(filename + ".spv") {
+        ShaderModule::attach();
     }
 
     ShaderModule::~ShaderModule() {
-        ShaderModule::destroy();
+        ShaderModule::detach();
+    }
+
+    VkShaderStageFlagBits ShaderModule::getShaderStage(const std::string &filename) {
+        std::string filenameLower = filename;
+        std::ranges::transform(filename, filenameLower.begin(), tolower);
+
+        if (filenameLower.ends_with(".vert")) return VK_SHADER_STAGE_VERTEX_BIT;
+        if (filenameLower.ends_with(".frag")) return VK_SHADER_STAGE_FRAGMENT_BIT;
+        if (filenameLower.ends_with(".geom")) return VK_SHADER_STAGE_GEOMETRY_BIT;
+        if (filenameLower.ends_with(".comp")) return VK_SHADER_STAGE_COMPUTE_BIT;
+        throw exception_invalid_args("unsupported extension : " + filenameLower.substr(filenameLower.find_last_of('.') + 1));
     }
 
 
-    void ShaderModule::init() {
+
+    void ShaderModule::attach() {
         std::ifstream file(filename, std::ios::binary);
         if (!file.is_open()) {
             throw exception_invalid_args("invalid filename : " + filename);
@@ -37,7 +50,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void ShaderModule::destroy() {
+    void ShaderModule::detach() {
         vkDestroyShaderModule(engine.getLogicalDevice().getLogicalDeviceHandle(), shaderModule, nullptr);
     }
 }

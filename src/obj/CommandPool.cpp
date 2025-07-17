@@ -8,15 +8,15 @@
 
 namespace merutilm::vkh {
     CommandPool::CommandPool(const Engine &engine) : EngineHandler(engine) {
-        CommandPool::init();
+        CommandPool::attach();
     }
 
     CommandPool::~CommandPool() {
-        CommandPool::destroy();
+        CommandPool::detach();
     }
 
 
-    void CommandPool::init() {
+    void CommandPool::attach() {
         const VkCommandPoolCreateInfo createInfo = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
             .pNext = nullptr,
@@ -30,7 +30,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void CommandPool::destroy() {
+    void CommandPool::detach() {
         vkDestroyCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
     }
 }

@@ -14,18 +14,46 @@ namespace merutilm::vkh {
     RenderPass::RenderPass(const Engine &engine,
                            std::unique_ptr<RenderPassManager> &&manager) : EngineHandler(engine),
                                                                            manager(std::move(manager)) {
-        RenderPass::init();
+        RenderPass::attach();
     }
 
     RenderPass::~RenderPass() {
-        RenderPass::destroy();
+        RenderPass::detach();
     }
 
-    void RenderPass::init() {
+    void RenderPass::attach() {
         const uint32_t subpasses = manager->getSubpassCount();
         std::vector<VkSubpassDescription> subpassDescription(subpasses);
-        auto &attachments = manager->getAttachments();
+        const auto &attachmentConfigs = manager->getAttachmentConfigs();
+
         auto &dependencies = manager->getSubpassDependencies();
+        const uint32_t swapchainImageCount = engine.getSwapchain().getSwapchainImageCount();
+
+        attachments.clear();
+
+        for (auto [type, attachment, imageInitInfo]: attachmentConfigs) {
+            std::vector<VkImage> images(swapchainImageCount);
+            std::vector<VkDeviceMemory> memories(swapchainImageCount);
+            std::vector<VkImageView> imageViews(swapchainImageCount);
+            if (type == RenderPassAttachmentType::COLOR) {
+                auto swapchainImages = engine.getSwapchain().getSwapchainImages();
+                auto swapchainImageViews = engine.getSwapchain().getSwapchainImageViews();
+                std::ranges::copy(swapchainImages, images.begin());
+                std::ranges::copy(swapchainImageViews, imageViews.begin());
+            } else {
+                const auto [width, height] = engine.getSwapchain().populateSwapchainExtent();
+                imageInitInfo.extent = VkExtent3D(width, height, 1);
+
+                for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+                    BufferUtils::initImage(engine, imageInitInfo, &images[i],
+                                           &memories[i],
+                                           &imageViews[i]);
+                }
+            }
+
+            attachments.emplace_back(type, attachment, images, memories, imageViews);
+        }
+
 
         using enum RenderPassAttachmentType;
         for (uint32_t i = 0; i < subpasses; i++) {
@@ -53,14 +81,14 @@ namespace merutilm::vkh {
             };
         }
 
-        auto attachmentDesc = std::vector<VkAttachmentDescription>(attachments.size());
-        std::ranges::transform(attachments, attachmentDesc.begin(),
-                               [](const RenderPassAttachment &v) { return v.attachment; });
+        auto attachmentDesc = std::vector<VkAttachmentDescription>(attachmentConfigs.size());
+        std::ranges::transform(attachmentConfigs, attachmentDesc.begin(),
+                               [](const RenderPassAttachmentConfig &v) { return v.attachment; });
         const VkRenderPassCreateInfo renderPassInfo = {
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .attachmentCount = static_cast<uint32_t>(attachments.size()),
+            .attachmentCount = static_cast<uint32_t>(attachmentConfigs.size()),
             .pAttachments = attachmentDesc.data(),
             .subpassCount = subpasses,
             .pSubpasses = subpassDescription.data(),
@@ -74,7 +102,19 @@ namespace merutilm::vkh {
         }
     }
 
-    void RenderPass::destroy() {
+    void RenderPass::detach() {
+        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t swapchainImageCount = engine.getSwapchain().getSwapchainImageCount();
+        for (auto &attachment: attachments) {
+            for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+                if (attachment.type == RenderPassAttachmentType::COLOR) {
+                    continue;
+                }
+                vkDestroyImageView(device, attachment.imageViews[i], nullptr);
+                vkDestroyImage(device, attachment.images[i], nullptr);
+                vkFreeMemory(device, attachment.imageMemories[i], nullptr);
+            }
+        }
         vkDestroyRenderPass(engine.getLogicalDevice().getLogicalDeviceHandle(), renderPass, nullptr);
     }
 }

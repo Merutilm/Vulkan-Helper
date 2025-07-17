@@ -6,18 +6,18 @@
 
 namespace merutilm::vkh {
     UniformBuffer::UniformBuffer(const Engine &engine, std::unique_ptr<BufferObjectManager> &&manager) : BufferObject(engine, std::move(manager), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT){
-        UniformBuffer::init();
+        UniformBuffer::attach();
     }
 
     UniformBuffer::~UniformBuffer() {
-        UniformBuffer::destroy();
+        UniformBuffer::detach();
     }
 
-    void UniformBuffer::init() {
+    void UniformBuffer::attach() {
         //nothing to do
     }
 
-    void UniformBuffer::destroy() {
+    void UniformBuffer::detach() {
         //nothing to do
     }
 }

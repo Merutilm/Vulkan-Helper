@@ -15,11 +15,11 @@
 namespace merutilm::vkh {
     ValidationLayer::ValidationLayer(const VkInstance instance, const bool enabled) : instance(instance),
         enabled(enabled) {
-        ValidationLayer::init();
+        ValidationLayer::attach();
     }
 
     ValidationLayer::~ValidationLayer() {
-        ValidationLayer::destroy();
+        ValidationLayer::detach();
     }
 
 
@@ -53,7 +53,7 @@ namespace merutilm::vkh {
         };
     }
 
-    void ValidationLayer::init() {
+    void ValidationLayer::attach() {
         checkValidationLayerSupport();
         setupDebugMessenger();
     }
@@ -153,7 +153,7 @@ namespace merutilm::vkh {
         func(instance, debugMessenger, pAllocator);
     }
 
-    void ValidationLayer::destroy() {
+    void ValidationLayer::detach() {
         destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     }
 }

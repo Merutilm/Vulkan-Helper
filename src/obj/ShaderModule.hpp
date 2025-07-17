@@ -17,8 +17,7 @@ namespace merutilm::vkh {
         const std::string filename;
 
     public:
-        explicit ShaderModule(const Engine &engine, VkShaderStageFlagBits shaderStage,
-                              std::string &&filename);
+        explicit ShaderModule(const Engine &engine, const std::string &filename);
 
         ~ShaderModule() override;
 
@@ -36,9 +35,11 @@ namespace merutilm::vkh {
 
         [[nodiscard]] const std::vector<char> &getCode() const { return code; }
 
-    private:
-        void init() override;
+        [[nodiscard]] static VkShaderStageFlagBits getShaderStage(const std::string &filename);
 
-        void destroy() override;
+    private:
+        void attach() override;
+
+        void detach() override;
     };
 }

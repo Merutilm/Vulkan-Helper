@@ -43,8 +43,8 @@ namespace merutilm::vkh {
         [[nodiscard]] VkPipeline getPipelineHandle() const { return pipeline; }
 
     private:
-        void init() override;
+        void attach() override;
 
-        void destroy() override;
+        void detach() override;
     };
 }

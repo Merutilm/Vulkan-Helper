@@ -10,11 +10,11 @@ namespace merutilm::vkh {
     Descriptor::Descriptor(const Engine &engine,
                            std::unique_ptr<DescriptorManager> &&descriptorManager) : EngineHandler(engine),
         descriptorManager(std::move(descriptorManager)) {
-        Descriptor::init();
+        Descriptor::attach();
     }
 
     Descriptor::~Descriptor() {
-        Descriptor::destroy();
+        Descriptor::detach();
     }
 
     void Descriptor::update(const uint32_t frameIndex) const {
@@ -50,8 +50,8 @@ namespace merutilm::vkh {
     }
 
 
-    void Descriptor::init() {
-        const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorCount();
+    void Descriptor::attach() {
+        const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorSetLayoutManager().getDescriptorCount();
         const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
         const uint32_t descLen = descriptorManager->getUBOCount();
         if (descLen == 0) {
@@ -101,7 +101,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Descriptor::destroy() {
+    void Descriptor::detach() {
         if (descriptorManager->getUBOCount() == 0) {
             return;
         }
