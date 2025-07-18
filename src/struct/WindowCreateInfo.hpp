@@ -6,8 +6,9 @@
 #include <string>
 
 namespace merutilm::vkh {
-    struct EngineInitInfo {
-        std::wstring windowName;
+    struct WindowCreateInfo {
+        std::string windowAttachmentName;
+        std::wstring windowTitleName;
         uint32_t width;
         uint32_t height;
         float framerate;

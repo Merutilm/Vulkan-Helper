@@ -26,7 +26,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] Descriptor &getDescriptor() { return *descriptor; }
 
-        [[nodiscard]] const PipelineLayout &getLayoutManager() const { return layout; }
+        [[nodiscard]] const PipelineLayout &getLayout() const { return layout; }
 
 
         [[nodiscard]] std::span<const ShaderModule * const> getShaderModules() const {

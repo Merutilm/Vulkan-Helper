@@ -57,23 +57,21 @@ add_executable(VulkanHelper
         src/obj/PipelineLayout.hpp
         src/obj/DescriptorSetLayout.cpp
         src/obj/PipelineLayout.cpp
-        src/manage/PushConstant.hpp
+        src/manage/PushConstantManager.hpp
         src/obj/ShaderModule.hpp
         src/obj/ShaderModule.cpp
         src/manage/RenderPassManager.hpp
         src/struct/RenderPassAttachmentType.hpp
-        src/obj/Engine.cpp
-        src/obj/Engine.hpp
+        src/context/Engine.cpp
+        src/context/Engine.hpp
         src/handle/EngineHandler.hpp
-        src/struct/EngineInitInfo.hpp
+        src/struct/WindowCreateInfo.hpp
         src/obj/Framebuffer.cpp
         src/obj/Framebuffer.hpp
         src/struct/RenderPassAttachmentConfig.hpp
         src/struct/ImageInitInfo.hpp
         src/obj/SyncObject.cpp
         src/obj/SyncObject.hpp
-        src/executor/CommandExecutor.cpp
-        src/executor/CommandExecutor.hpp
         src/executor/RenderPassExecutor.cpp
         src/executor/RenderPassExecutor.hpp
         src/struct/Vertex.hpp
@@ -85,6 +83,18 @@ add_executable(VulkanHelper
         src/executor/Executor.hpp
         src/repo/ShaderModuleRepo.hpp
         src/manage/DescriptorSetLayoutManager.hpp
+        src/context/WindowContext.hpp
+        src/context/RenderContext.hpp
+        src/context/RenderContext.cpp
+        src/hash/VectorHasher.hpp
+        src/hash/PointerDerefEquals.hpp
+        src/hash/DescriptorSetLayoutBuildTypeHasher.hpp
+        src/repo/Repo.hpp
+        src/repo/Repositories.hpp
+        src/repo/IRepo.hpp
+        src/manage/PipelineLayoutManager.hpp
+        src/hash/BoostHasher.hpp
+        src/repo/PipelineLayoutRepo.hpp
 )
 
 

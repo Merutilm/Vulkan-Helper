@@ -52,7 +52,7 @@ namespace merutilm::vkh {
 
     void Descriptor::attach() {
         const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorSetLayoutManager().getDescriptorCount();
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         const uint32_t descLen = descriptorManager->getUBOCount();
         if (descLen == 0) {
             return;
@@ -105,7 +105,7 @@ namespace merutilm::vkh {
         if (descriptorManager->getUBOCount() == 0) {
             return;
         }
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
 
         for (int i = 0; i < maxFramesInFlight; ++i) {
             vkDestroyDescriptorPool(engine.getLogicalDevice().getLogicalDeviceHandle(), descriptorPools[i], nullptr);

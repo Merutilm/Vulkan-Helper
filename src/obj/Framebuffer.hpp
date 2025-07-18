@@ -8,11 +8,12 @@
 
 namespace merutilm::vkh {
     class Framebuffer final : public EngineHandler {
+        const Swapchain &swapchain;
         const RenderPass &renderPass;
         std::vector<VkFramebuffer> framebuffer = {};
 
     public:
-        explicit Framebuffer(const Engine &engine, const RenderPass &renderPass);
+        explicit Framebuffer(const Engine &engine, const std::string &windowAttachmentName, const RenderPass &renderPass);
 
         ~Framebuffer() override;
 

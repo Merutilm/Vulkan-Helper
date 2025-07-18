@@ -17,7 +17,7 @@ namespace merutilm::vkh {
 
     void SyncObject::attach() {
         
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
 
         constexpr VkSemaphoreCreateInfo semaphoreInfo = {
@@ -46,7 +46,7 @@ namespace merutilm::vkh {
     }
 
     void SyncObject::detach() {
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkDestroySemaphore(device, imageRenderedSemaphores[i], nullptr);

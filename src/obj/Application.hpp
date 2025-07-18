@@ -5,31 +5,25 @@
 #pragma once
 #include <memory>
 
-#include "../handle/Handler.hpp"
-
-#include "Engine.hpp"
-#include "SyncObject.hpp"
+#include "../context/Engine.hpp"
 #include "CommandPool.hpp"
-#include "CommandBuffer.hpp"
-#include "Framebuffer.hpp"
-#include "RenderPass.hpp"
 #include "Pipeline.hpp"
 #include "VertexBuffer.hpp"
+#include "../context/RenderContext.hpp"
+#include "../repo/Repositories.hpp"
 
 
 namespace merutilm::vkh {
     class Application final{
 
         uint32_t currentFrame = 0;
+        inline static const std::string MAIN_WINDOW_ATTACHMENT_NAME = "Main";
+
         std::unique_ptr<Engine> engine = nullptr;
-        std::unique_ptr<SyncObject> syncObject = nullptr;
         std::unique_ptr<CommandPool> commandPool = nullptr;
-        std::unique_ptr<CommandBuffer> commandBuffer = nullptr;
-        std::unique_ptr<RenderPass> renderPass = nullptr;
+        std::unique_ptr<Repositories> repositories = nullptr;
+        std::unique_ptr<RenderContext> renderContext = nullptr;
         std::unique_ptr<VertexBuffer> vertexBuffer = nullptr;
-        std::unique_ptr<Framebuffer> framebuffer = nullptr;
-        std::unique_ptr<DescriptorSetLayout> descriptorLayout = nullptr;
-        std::unique_ptr<PipelineLayout> pipelineLayout = nullptr;
         std::unique_ptr<Pipeline> pipeline = nullptr;
 
     public:
@@ -48,9 +42,7 @@ namespace merutilm::vkh {
     private:
         void start();
 
-        void createEngine();
-
-        void createRenderPass();
+        void createRenderContext();
 
         void drawFrame();
 

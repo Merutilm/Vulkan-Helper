@@ -11,16 +11,14 @@
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
-    struct ShaderModuleRepo {
-        inline static std::unordered_map<std::string, std::unique_ptr<ShaderModule>, StringHasher, std::equal_to
-            <> > SHADER_MODULES = {};
+    struct ShaderModuleRepo final : Repo<std::string, ShaderModule, StringHasher, std::equal_to<>, const std::string&>{
 
-        static const ShaderModule &acquireShaderModule(const Engine &engine, const std::string &filename) {
-            return *SHADER_MODULES.try_emplace(filename, std::make_unique<ShaderModule>(engine, filename)).first->second;
+        using Repo::Repo;
+
+
+        const ShaderModule &pick(const std::string &filename) override {
+            return *repository.try_emplace(filename, std::make_unique<ShaderModule>(engine, filename)).first->second;
         }
 
-        static void releaseAll() {
-            SHADER_MODULES.clear();
-        }
     };
 }

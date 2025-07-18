@@ -8,8 +8,9 @@
 #include <glm/glm.hpp>
 
 #include "UniformBuffer.hpp"
-#include "../executor/CommandExecutor.hpp"
 #include "../executor/RenderPassExecutor.hpp"
+#include "../repo/DescriptorSetLayoutRepo.hpp"
+#include "../repo/PipelineLayoutRepo.hpp"
 #include "../struct/Vertex.hpp"
 #include "../repo/ShaderModuleRepo.hpp"
 
@@ -23,11 +24,17 @@ namespace merutilm::vkh {
     }
 
     void Application::start() {
-        createEngine();
-        syncObject = std::make_unique<SyncObject>(*engine);
+        const WindowCreateInfo windowCreateInfo = {
+            .windowAttachmentName = MAIN_WINDOW_ATTACHMENT_NAME,
+            .windowTitleName = L"Test",
+            .width = 1280,
+            .height = 720,
+            .framerate = 120.0f
+        };
+        engine = Engine::createEngine();
+        engine->attachWindow(windowCreateInfo);
         commandPool = std::make_unique<CommandPool>(*engine);
-        commandBuffer = std::make_unique<CommandBuffer>(*engine, *commandPool);
-        createRenderPass();
+        createRenderContext();
 
 
         auto vertexBufferManager = std::make_unique<BufferObjectManager>();
@@ -36,17 +43,28 @@ namespace merutilm::vkh {
             {{0.5f, 0.5f, 0.0f}, {0, 1, 0}},
             {{-0.5f, 0.5f, 0.0f}, {0, 0, 1}}
         };
+
         vertexBufferManager->add("vertices", vertices);
         vertexBuffer = std::make_unique<VertexBuffer>(*engine, std::move(vertexBufferManager));
-        framebuffer = std::make_unique<Framebuffer>(*engine, *renderPass);
+
+
+        repositories = std::make_unique<Repositories>();
+        repositories->addRepository<DescriptorSetLayoutRepo>(*engine);
+        repositories->addRepository<PipelineLayoutRepo>(*engine);
+        repositories->addRepository<ShaderModuleRepo>(*engine);
+
 
         auto descriptorLayoutManager = std::make_unique<DescriptorSetLayoutManager>();
-        descriptorLayoutManager->append({.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .stage = VK_SHADER_STAGE_FRAGMENT_BIT});
+        descriptorLayoutManager->append({
+            .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .stage = VK_SHADER_STAGE_FRAGMENT_BIT
+        });
+        auto &descriptorLayout = repositories->getRepository<DescriptorSetLayoutRepo>()->pick(std::move(descriptorLayoutManager));
 
-        descriptorLayout = std::make_unique<DescriptorSetLayout>(*engine, std::move(descriptorLayoutManager));
-        pipelineLayout = std::make_unique<PipelineLayout>(*engine, std::vector{descriptorLayout->getLayoutHandle()});
+        auto pipelineLayoutManager = std::make_unique<PipelineLayoutManager>();
+        pipelineLayoutManager->appendDescriptorSetLayout(descriptorLayout.getLayoutHandle());
 
-        auto descManager = std::make_unique<DescriptorManager>(*descriptorLayout);
+        auto &pipelineLayout = repositories->getRepository<PipelineLayoutRepo>()->pick(std::move(pipelineLayoutManager));
+        auto descManager = std::make_unique<DescriptorManager>(descriptorLayout);
 
         auto uploader = std::make_unique<BufferObjectManager>();
         uploader->reserve<uint32_t>("time");
@@ -55,41 +73,32 @@ namespace merutilm::vkh {
         descManager->appendUBO("SS", std::move(ubo));
 
         auto descriptor = std::make_unique<Descriptor>(*engine, std::move(descManager));
-        auto pipelineManager = std::make_unique<PipelineManager>(*pipelineLayout, std::move(descriptor));
-        auto &vert = ShaderModuleRepo::acquireShaderModule(*engine, "../shaders/template.vert");
-        auto &frag = ShaderModuleRepo::acquireShaderModule(*engine, "../shaders/template.frag");
+        auto pipelineManager = std::make_unique<PipelineManager>(pipelineLayout, std::move(descriptor));
+        auto &vert = repositories->getRepository<ShaderModuleRepo>()->pick("../shaders/template.vert");
+        auto &frag = repositories->getRepository<ShaderModuleRepo>()->pick("../shaders/template.frag");
         pipelineManager->attachShader(&vert);
         pipelineManager->attachShader(&frag);
-        pipeline = std::make_unique<Pipeline>(*engine, *pipelineLayout, *renderPass, *vertexBuffer, "Sample",
+        pipeline = std::make_unique<Pipeline>(*engine, pipelineLayout, *renderContext->renderPass, *vertexBuffer,
+                                              "Sample",
                                               std::move(pipelineManager));
 
         const HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
 
+        Window &window = *engine->getWindowContext(windowCreateInfo.windowAttachmentName).window;
 
-        engine->getWindow().setListener(WM_MOUSEMOVE, [hCursor](const Window &) {
+        window.setListener(WM_MOUSEMOVE, [hCursor](const Window &) {
             SetCursor(hCursor);
             return static_cast<LRESULT>(true);
         });
-        engine->getWindow().setListener(WM_SIZE, [this](const Window &) {
+        window.setListener(WM_SIZE, [this](const Window &) {
             resolveResize();
             return static_cast<LRESULT>(0);
         });
-        engine->getWindow().appendRenderer([this] { drawFrame(); });
-        engine->getWindow().start();
+        window.appendRenderer([this] { drawFrame(); });
+        window.start();
     }
 
-
-    void Application::createEngine() {
-        EngineInitInfo engineInitInfo = {
-            .windowName = L"Main",
-            .width = 1280,
-            .height = 720,
-            .framerate = 120
-        };
-        engine = Engine::createEngine(std::move(engineInitInfo));
-    }
-
-    void Application::createRenderPass() {
+    void Application::createRenderContext() {
         auto renderPassManager = std::make_unique<RenderPassManager>(*engine);
         renderPassManager->appendSubpass("Sample");
         renderPassManager->appendAttachment("col", RenderPassAttachmentType::COLOR, {
@@ -145,17 +154,20 @@ namespace merutilm::vkh {
             .dependencyFlags = 0
         });
 
-        renderPass = std::make_unique<RenderPass>(*engine, std::move(renderPassManager));
+        renderContext = std::make_unique<RenderContext>(*engine, MAIN_WINDOW_ATTACHMENT_NAME, *commandPool,
+                                                        std::move(renderPassManager));
     }
 
     void Application::drawFrame() {
-        if (engine->getWindow().isUnrenderable()) {
+        if (engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).window->isUnrenderable()) {
             return;
         }
+        changeFrameIndex();
+        const Swapchain &swapchain = *engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).swapchain;
         const VkDevice device = engine->getLogicalDevice().getLogicalDeviceHandle();
-        const VkFence currentFence = syncObject->getFence(currentFrame);
-        const VkSemaphore imageAvailableSemaphore = syncObject->getImageAvailableSemaphore(currentFrame);
-        const VkSwapchainKHR swapchainHandle = engine->getSwapchain().getSwapchainHandle();
+        const VkFence currentFence = renderContext->syncObject->getFence(currentFrame);
+        const VkSemaphore imageAvailableSemaphore = renderContext->syncObject->getImageAvailableSemaphore(currentFrame);
+        const VkSwapchainKHR swapchainHandle = swapchain.getSwapchainHandle();
 
 
         vkWaitForFences(device, 1, &currentFence, VK_TRUE, UINT64_MAX);
@@ -165,21 +177,18 @@ namespace merutilm::vkh {
         vkAcquireNextImageKHR(device, swapchainHandle, UINT64_MAX, imageAvailableSemaphore,
                               nullptr, &imageIndex);
 
+
         //COMMAND SCOPE START
         {
-            const auto executor = CommandExecutor(*engine, *commandBuffer, *renderPass, *framebuffer, *syncObject,
-                                                  currentFrame, imageIndex);
-            const auto renderPassExecutor = RenderPassExecutor(*engine, *commandBuffer, *renderPass, *framebuffer,
+            const auto renderPassExecutor = RenderPassExecutor(*engine, *renderContext,
                                                                currentFrame, imageIndex);
-            const VkCommandBuffer cbh = executor.getCommandBufferHandle();
-            pipelineLayout->push(cbh);
-            const VkDescriptorSet sets = pipeline->getPipelineManager().getDescriptor().getDescriptorSetHandle(
-                imageIndex);
+            const VkCommandBuffer cbh = renderContext->commandBuffer->getCommandBufferHandle(currentFrame);
+            const VkDescriptorSet sets = pipeline->getPipelineManager().getDescriptor().getDescriptorSetHandle(currentFrame);
             vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getPipelineHandle());
             vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    pipeline->getPipelineManager().getLayoutManager().getLayoutHandle(), 0, 1, &sets, 0,
+                                    pipeline->getPipelineManager().getLayout().getLayoutHandle(), 0, 1, &sets, 0,
                                     nullptr);
-            const auto [width, height] = engine->getSwapchain().populateSwapchainExtent();
+            const auto [width, height] = swapchain.populateSwapchainExtent();
             const VkViewport viewport = {
                 .x = 0,
                 .y = 0,
@@ -203,6 +212,7 @@ namespace merutilm::vkh {
                                   Vertex{{-0.5f, 0.5f, 0.0f}, {sin, cos, cos}}
                               });
 
+            pipeline->getPipelineManager().getLayout().push(cbh);
             pipeline->getPipelineManager().getDescriptor().getDescriptorManager().getUBO("SS").set("time", time);
             pipeline->getPipelineManager().getDescriptor().update(currentFrame);
             vertexBuffer->update(currentFrame);
@@ -213,38 +223,32 @@ namespace merutilm::vkh {
             vkCmdBindVertexBuffers(cbh, 0, 1, &vertexBufferHandle, &vertexBufferOffset);
             vkCmdDraw(cbh, 3, 1, 0, 0);
         } // COMMAND SCOPE END
-        changeFrameIndex();
     }
 
     void Application::changeFrameIndex() {
-        ++currentFrame %= engine->getSwapchain().getMaxFramesInFlight();
+        ++currentFrame %= engine->getPhysicalDevice().getMaxFramesInFlight();
     }
 
     void Application::resolveResize() {
-        if (engine->getWindow().isUnrenderable()) {
+        if (engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).window->isUnrenderable()) {
             return;
         }
         vkDeviceWaitIdle(engine->getLogicalDevice().getLogicalDeviceHandle());
-        framebuffer->detach();
-        renderPass->detach();
-        engine->getSwapchain().recreate();
-        renderPass->attach();
-        framebuffer->attach();
+        renderContext->framebuffer->detach();
+        renderContext->renderPass->detach();
+        engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).swapchain->recreate();
+        renderContext->renderPass->attach();
+        renderContext->framebuffer->attach();
         currentFrame = 0;
     }
 
     void Application::quit() {
         vkDeviceWaitIdle(engine->getLogicalDevice().getLogicalDeviceHandle());
         pipeline = nullptr;
-        ShaderModuleRepo::releaseAll();
-        pipelineLayout = nullptr;
-        descriptorLayout = nullptr;
-        framebuffer = nullptr;
+        repositories = nullptr;
+        renderContext = nullptr;
         vertexBuffer = nullptr;
-        renderPass = nullptr;
-        commandBuffer = nullptr;
         commandPool = nullptr;
-        syncObject = nullptr;
         engine = nullptr;
     }
 }

@@ -11,8 +11,8 @@
 #include "../manage/RenderPassManager.hpp"
 
 namespace merutilm::vkh {
-    RenderPass::RenderPass(const Engine &engine,
-                           std::unique_ptr<RenderPassManager> &&manager) : EngineHandler(engine),
+    RenderPass::RenderPass(const Engine &engine, const std::string &windowAttachmentName,
+    std::unique_ptr<RenderPassManager> &&manager) : EngineHandler(engine), swapchain(*engine.getWindowContext(windowAttachmentName).swapchain),
                                                                            manager(std::move(manager)) {
         RenderPass::attach();
     }
@@ -27,24 +27,24 @@ namespace merutilm::vkh {
         const auto &attachmentConfigs = manager->getAttachmentConfigs();
 
         auto &dependencies = manager->getSubpassDependencies();
-        const uint32_t swapchainImageCount = engine.getSwapchain().getSwapchainImageCount();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
 
         attachments.clear();
 
         for (auto [type, attachment, imageInitInfo]: attachmentConfigs) {
-            std::vector<VkImage> images(swapchainImageCount);
-            std::vector<VkDeviceMemory> memories(swapchainImageCount);
-            std::vector<VkImageView> imageViews(swapchainImageCount);
+            std::vector<VkImage> images(maxFramesInFlight);
+            std::vector<VkDeviceMemory> memories(maxFramesInFlight);
+            std::vector<VkImageView> imageViews(maxFramesInFlight);
             if (type == RenderPassAttachmentType::COLOR) {
-                auto swapchainImages = engine.getSwapchain().getSwapchainImages();
-                auto swapchainImageViews = engine.getSwapchain().getSwapchainImageViews();
+                auto swapchainImages = swapchain.getSwapchainImages();
+                auto swapchainImageViews = swapchain.getSwapchainImageViews();
                 std::ranges::copy(swapchainImages, images.begin());
                 std::ranges::copy(swapchainImageViews, imageViews.begin());
             } else {
-                const auto [width, height] = engine.getSwapchain().populateSwapchainExtent();
+                const auto [width, height] = swapchain.populateSwapchainExtent();
                 imageInitInfo.extent = VkExtent3D(width, height, 1);
 
-                for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+                for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
                     BufferUtils::initImage(engine, imageInitInfo, &images[i],
                                            &memories[i],
                                            &imageViews[i]);
@@ -104,9 +104,9 @@ namespace merutilm::vkh {
 
     void RenderPass::detach() {
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t swapchainImageCount = engine.getSwapchain().getSwapchainImageCount();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         for (auto &attachment: attachments) {
-            for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+            for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
                 if (attachment.type == RenderPassAttachmentType::COLOR) {
                     continue;
                 }

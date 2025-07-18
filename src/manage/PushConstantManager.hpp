@@ -10,24 +10,24 @@
 #include "BufferObjectManager.hpp"
 
 namespace merutilm::vkh {
-    class PushConstant : public Uploader {
+    class PushConstantManager : public Uploader {
         VkShaderStageFlags useStage;
 
     public:
-        explicit PushConstant(const VkShaderStageFlags useStage,
+        explicit PushConstantManager(const VkShaderStageFlags useStage,
                               std::unique_ptr<BufferObjectManager> &&manager) : Uploader(std::move(manager)),
                                                                           useStage(useStage) {
         }
 
-        ~PushConstant() = default;
+        ~PushConstantManager() = default;
 
-        PushConstant(const PushConstant &) = delete;
+        PushConstantManager(const PushConstantManager &) = delete;
 
-        PushConstant &operator=(const PushConstant &) = delete;
+        PushConstantManager &operator=(const PushConstantManager &) = delete;
 
-        PushConstant(PushConstant &&) = delete;
+        PushConstantManager(PushConstantManager &&) = delete;
 
-        PushConstant &operator=(PushConstant &&) = delete;
+        PushConstantManager &operator=(PushConstantManager &&) = delete;
 
         [[nodiscard]] VkShaderStageFlags getUseStage() const {return useStage;}
 

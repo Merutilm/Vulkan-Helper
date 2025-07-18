@@ -20,6 +20,7 @@ namespace merutilm::vkh {
         VkPhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = {};
         VkPhysicalDeviceFeatures physicalDeviceFeatures = {};
         QueueFamilyIndices queueFamilyIndices;
+        uint32_t maxFramesInFlight;
 
     public:
 
@@ -57,12 +58,15 @@ namespace merutilm::vkh {
 
         [[nodiscard]] const QueueFamilyIndices &getQueueFamilyIndices() const { return queueFamilyIndices; }
 
+        static bool isDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
+
+        uint32_t getMaxFramesInFlight() const {return maxFramesInFlight;}
+
     private:
         void attach() override;
 
-        bool isDeviceSuitable(VkPhysicalDevice physicalDevice) const;
 
-        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicalDevice) const;
+        static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 
         static bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice);
 

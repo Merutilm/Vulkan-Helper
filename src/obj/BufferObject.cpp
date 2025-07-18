@@ -27,8 +27,7 @@ namespace merutilm::vkh {
 
     void BufferObject::attach() {
         const uint32_t size = getSize();
-
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         buffers.resize(maxFramesInFlight);
         bufferMemory.resize(maxFramesInFlight);
         bufferMapped.resize(maxFramesInFlight);
@@ -49,7 +48,7 @@ namespace merutilm::vkh {
         }
 
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkUnmapMemory(device, bufferMemory[i]);
         }
@@ -62,7 +61,7 @@ namespace merutilm::vkh {
             finalize();
         }
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkFreeMemory(device, bufferMemory[i], nullptr);
             vkDestroyBuffer(device, buffers[i], nullptr);

@@ -3,11 +3,12 @@
 //
 
 #pragma once
-#include <vulkan/vulkan.h>
 
 namespace merutilm::vkh {
     struct DescriptorSetLayoutBuildType {
         VkDescriptorType type;
         VkShaderStageFlags stage;
+
+        bool operator==(const DescriptorSetLayoutBuildType &) const = default;
     };
 }

@@ -11,12 +11,13 @@
 
 namespace merutilm::vkh {
     class RenderPass final : public EngineHandler {
+        const Swapchain &swapchain;
         std::unique_ptr<RenderPassManager> manager = nullptr;
         std::vector<RenderPassAttachment> attachments = {};
         VkRenderPass renderPass = nullptr;
 
     public:
-        RenderPass(const Engine &engine, std::unique_ptr<RenderPassManager> &&manager);
+        explicit RenderPass(const Engine &engine, const std::string &windowAttachmentName, std::unique_ptr<RenderPassManager> &&manager);
 
         ~RenderPass() override;
 

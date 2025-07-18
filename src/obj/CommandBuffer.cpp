@@ -18,7 +18,7 @@ namespace merutilm::vkh {
 
     void CommandBuffer::attach() {
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         commandBuffers.resize(maxFramesInFlight);
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             VkCommandBufferAllocateInfo allocInfo = {
@@ -36,7 +36,7 @@ namespace merutilm::vkh {
 
     void CommandBuffer::detach() {
         const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getSwapchain().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkFreeCommandBuffers(device, commandPool.getCommandPoolHandle(), 1, &commandBuffers[i]);
         }

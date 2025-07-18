@@ -6,31 +6,26 @@
 #include <chrono>
 #include <memory>
 
-#include "Instance.hpp"
-#include "LogicalDevice.hpp"
-#include "PhysicalDevice.hpp"
-#include "Surface.hpp"
-#include "Swapchain.hpp"
-#include "Window.hpp"
-#include "../struct/EngineInitInfo.hpp"
+#include "WindowContext.hpp"
+#include "../obj/Instance.hpp"
+#include "../obj/LogicalDevice.hpp"
+#include "../obj/PhysicalDevice.hpp"
+#include "../struct/StringHasher.hpp"
+#include "../struct/WindowCreateInfo.hpp"
 
 namespace merutilm::vkh {
     class Engine final : public Handler {
-        const EngineInitInfo engineInitInfo;
-
-        std::unique_ptr<Window> window = nullptr;
-
         std::unique_ptr<Instance> instance = nullptr;
-        std::unique_ptr<Surface> surface = nullptr;
         std::unique_ptr<PhysicalDevice> physicalDevice = nullptr;
         std::unique_ptr<LogicalDevice> logicalDevice = nullptr;
-        std::unique_ptr<Swapchain> swapchain = nullptr;
+
+        std::unordered_map<std::string, WindowContext, StringHasher, std::equal_to<> > windowContexts =
+                {};
 
         std::chrono::high_resolution_clock::time_point startTime;
 
     public:
-
-        explicit Engine(EngineInitInfo &&engineInitInfo);
+        explicit Engine();
 
         ~Engine() override;
 
@@ -42,31 +37,27 @@ namespace merutilm::vkh {
 
         Engine &operator=(Engine &&) = delete;
 
-        [[nodiscard]] const Window &getWindow() const { return *window; }
+        void attachWindow(const WindowCreateInfo &windowCreateInfo);
 
         [[nodiscard]] const Instance &getInstance() const { return *instance; }
-
-        [[nodiscard]] const Surface &getSurface() const { return *surface; }
 
         [[nodiscard]] const PhysicalDevice &getPhysicalDevice() const { return *physicalDevice; }
 
         [[nodiscard]] const LogicalDevice &getLogicalDevice() const { return *logicalDevice; }
 
-        [[nodiscard]] const Swapchain &getSwapchain() const { return *swapchain; }
-
-        [[nodiscard]] Window &getWindow() { return *window; }
+        [[nodiscard]] const WindowContext &getWindowContext(const std::string &windowName) const {
+            return windowContexts.at(windowName);
+        }
 
         [[nodiscard]] Instance &getInstance() { return *instance; }
-
-        [[nodiscard]] Surface &getSurface() { return *surface; }
 
         [[nodiscard]] PhysicalDevice &getPhysicalDevice() { return *physicalDevice; }
 
         [[nodiscard]] LogicalDevice &getLogicalDevice() { return *logicalDevice; }
 
-        [[nodiscard]] Swapchain &getSwapchain() { return *swapchain; }
+        [[nodiscard]] WindowContext &getWindowContext(const std::string &windowName) { return windowContexts[windowName]; }
 
-        [[nodiscard]] static std::unique_ptr<Engine> createEngine(EngineInitInfo &&engineInfo);
+        [[nodiscard]] static std::unique_ptr<Engine> createEngine();
 
         [[nodiscard]] float getTime() const;
 

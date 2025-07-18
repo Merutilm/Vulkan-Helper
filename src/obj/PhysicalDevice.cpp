@@ -32,12 +32,17 @@ namespace merutilm::vkh {
         vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, physicalDevices.data());
 
         for (const auto pd: physicalDevices) {
-            if (isDeviceSuitable(pd)) {
+            if (isDeviceSuitable(pd, surface.getSurfaceHandle())) {
                 physicalDevice = pd;
                 vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
                 vkGetPhysicalDeviceMemoryProperties(physicalDevice, &physicalDeviceMemoryProperties);
                 vkGetPhysicalDeviceFeatures(physicalDevice, &physicalDeviceFeatures);
-                queueFamilyIndices = findQueueFamilies(pd);
+                queueFamilyIndices = findQueueFamilies(pd, surface.getSurfaceHandle());
+                const VkSurfaceCapabilitiesKHR capabilities = populateSurfaceCapabilities();
+                maxFramesInFlight = capabilities.minImageCount + 1;
+                if (capabilities.maxImageCount > 0 && maxFramesInFlight > capabilities.maxImageCount) {
+                    maxFramesInFlight = capabilities.maxImageCount;
+                }
                 break;
             }
         }
@@ -47,21 +52,21 @@ namespace merutilm::vkh {
     }
 
 
-    bool PhysicalDevice::isDeviceSuitable(const VkPhysicalDevice physicalDevice) const {
+    bool PhysicalDevice::isDeviceSuitable(const VkPhysicalDevice physicalDevice, const VkSurfaceKHR surface) {
         VkPhysicalDeviceProperties properties;
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
 
         VkPhysicalDeviceFeatures features;
         vkGetPhysicalDeviceFeatures(physicalDevice, &features);
 
-        const auto indices = findQueueFamilies(physicalDevice);
+        const auto indices = findQueueFamilies(physicalDevice, surface);
         return properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
                features.geometryShader &&
                indices.isComplete() &&
                checkDeviceExtensionSupport(physicalDevice);
     }
 
-    QueueFamilyIndices PhysicalDevice::findQueueFamilies(const VkPhysicalDevice physicalDevice) const {
+    QueueFamilyIndices PhysicalDevice::findQueueFamilies(const VkPhysicalDevice physicalDevice, const VkSurfaceKHR surface) {
         QueueFamilyIndices indices;
         uint32_t queueFamilyCount = 0;
         vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
@@ -73,7 +78,7 @@ namespace merutilm::vkh {
             }
 
             VkBool32 presentSupport = false;
-            vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface.getSurfaceHandle(), &presentSupport);
+            vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface, &presentSupport);
             if (presentSupport) {
                 indices.presentFamily = i;
             }

@@ -11,13 +11,13 @@
 
 namespace merutilm::vkh {
     class Swapchain final : public Handler {
+
         const Surface &surface;
         const PhysicalDevice &physicalDevice;
         const LogicalDevice &logicalDevice;
 
         VkSwapchainKHR swapchain = nullptr;
         VkSwapchainKHR oldSwapchain = nullptr;
-        uint32_t swapchainImageCount = 0;
         std::vector<VkImage> swapchainImages = {};
         std::vector<VkImageView> swapchainImageViews = {};
 
@@ -45,16 +45,10 @@ namespace merutilm::vkh {
 
         [[nodiscard]] std::span<const VkImageView> getSwapchainImageViews() const { return swapchainImageViews; }
 
-        [[nodiscard]] uint32_t getSwapchainImageCount() const { return swapchainImageCount; }
-
-        [[nodiscard]] uint32_t getMaxFramesInFlight() const {
-            return swapchainImageCount; //same as swapchain image count
-        }
-
     private:
         void attach() override;
 
-        void createSwapchain(VkSwapchainKHR *target, VkSwapchainKHR old);
+        void createSwapchain(VkSwapchainKHR *target, VkSwapchainKHR old) const;
 
         void setupSwapchainImages();
 

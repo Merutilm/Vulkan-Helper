@@ -1,0 +1,24 @@
+//
+// Created by Merutilm on 2025-07-18.
+//
+
+#pragma once
+#include "Repo.hpp"
+#include "../hash/PipelineLayoutManagerPtrHasher.hpp"
+#include "../hash/PointerDerefEquals.hpp"
+#include "../manage/PipelineLayoutManager.hpp"
+#include "../obj/PipelineLayout.hpp"
+
+namespace merutilm::vkh {
+    struct PipelineLayoutRepo final : Repo<PipelineLayoutManager *, PipelineLayout, PipelineLayoutManagerPtrHasher, PointerDerefEquals, std::unique_ptr<PipelineLayoutManager> &&>{
+
+        using Repo::Repo;
+
+        const PipelineLayout &pick(std::unique_ptr<PipelineLayoutManager> &&layoutManager) override {
+            auto *ptr = layoutManager.get();
+            return *repository.try_emplace(ptr, std::make_unique<PipelineLayout>(engine, std::move(layoutManager))).first->
+                    second;
+        }
+
+    };
+}

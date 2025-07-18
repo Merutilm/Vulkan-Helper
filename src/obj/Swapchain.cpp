@@ -53,23 +53,19 @@ namespace merutilm::vkh {
         setupSwapchainImages();
     }
 
-    void Swapchain::createSwapchain(VkSwapchainKHR *target, const VkSwapchainKHR old) {
+    void Swapchain::createSwapchain(VkSwapchainKHR *target, const VkSwapchainKHR old) const {
+        const uint32_t maxFramesInFlight = physicalDevice.getMaxFramesInFlight();
         const auto &[graphicsFamily, presentFamily] = physicalDevice.getQueueFamilyIndices();
         std::array queueFamilyIndices = {graphicsFamily.value(), presentFamily.value()};
 
         const VkSurfaceCapabilitiesKHR capabilities = physicalDevice.populateSurfaceCapabilities();
-
-        swapchainImageCount = capabilities.minImageCount + 1;
-        if (capabilities.maxImageCount > 0 && swapchainImageCount > capabilities.maxImageCount) {
-            swapchainImageCount = capabilities.maxImageCount;
-        }
 
         if (const VkSwapchainCreateInfoKHR createInfo = {
             .sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
             .pNext = nullptr,
             .flags = 0,
             .surface = surface.getSurfaceHandle(),
-            .minImageCount = swapchainImageCount,
+            .minImageCount = maxFramesInFlight,
             .imageFormat = VK_FORMAT_R8G8B8A8_SRGB,
             .imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR,
             .imageExtent = populateSwapchainExtent(),
@@ -94,12 +90,13 @@ namespace merutilm::vkh {
     }
 
     void Swapchain::setupSwapchainImages() {
-        swapchainImages.resize(swapchainImageCount);
-        swapchainImageViews.resize(swapchainImageCount);
+        uint32_t maxFramesInFlight = physicalDevice.getMaxFramesInFlight();
+        swapchainImages.resize(maxFramesInFlight);
+        swapchainImageViews.resize(maxFramesInFlight);
 
-        vkGetSwapchainImagesKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, &swapchainImageCount,
+        vkGetSwapchainImagesKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, &maxFramesInFlight,
                                 swapchainImages.data());
-        for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+        for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             BufferUtils::createImageView(logicalDevice.getLogicalDeviceHandle(), swapchainImages[i],
                                          VK_IMAGE_VIEW_TYPE_2D, 1, VK_FORMAT_R8G8B8A8_SRGB, &swapchainImageViews[i]);
         }
@@ -112,7 +109,8 @@ namespace merutilm::vkh {
     }
 
     void Swapchain::destroyImageViews() const {
-        for (uint32_t i = 0; i < swapchainImageCount; ++i) {
+        const uint32_t maxFramesInFlight = physicalDevice.getMaxFramesInFlight();
+        for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkDestroyImageView(logicalDevice.getLogicalDeviceHandle(), swapchainImageViews[i], nullptr);
         }
     }
