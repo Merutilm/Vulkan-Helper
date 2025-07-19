@@ -11,13 +11,13 @@
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
-    struct ShaderModuleRepo final : Repo<std::string, ShaderModule, StringHasher, std::equal_to<>, const std::string&>{
+    struct ShaderModuleRepo final : Repo<std::string, const std::string&, ShaderModule, StringHasher>{
 
         using Repo::Repo;
 
 
         const ShaderModule &pick(const std::string &filename) override {
-            return *repository.try_emplace(filename, std::make_unique<ShaderModule>(engine, filename)).first->second;
+            return *repository.try_emplace(filename, std::make_unique<ShaderModule>(core, filename)).first->second;
         }
 
     };

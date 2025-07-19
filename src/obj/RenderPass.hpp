@@ -6,18 +6,18 @@
 #include <memory>
 
 #include "../manage/RenderPassManager.hpp"
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 #include "../struct/RenderPassAttachment.hpp"
 
 namespace merutilm::vkh {
-    class RenderPass final : public EngineHandler {
+    class RenderPass final : public CoreHandler {
         const Swapchain &swapchain;
         std::unique_ptr<RenderPassManager> manager = nullptr;
         std::vector<RenderPassAttachment> attachments = {};
         VkRenderPass renderPass = nullptr;
 
     public:
-        explicit RenderPass(const Engine &engine, const std::string &windowAttachmentName, std::unique_ptr<RenderPassManager> &&manager);
+        explicit RenderPass(const Core &core, const std::string &windowAttachmentName, std::unique_ptr<RenderPassManager> &&manager);
 
         ~RenderPass() override;
 

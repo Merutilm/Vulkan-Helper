@@ -3,19 +3,19 @@
 //
 
 #pragma once
-#include "../context/Engine.hpp"
-#include "../handle/EngineHandler.hpp"
+#include "../base/Core.hpp"
+#include "../handle/CoreHandler.hpp"
 #include "../manage/DescriptorSetLayoutManager.hpp"
 #include "../struct/DescriptorSetLayoutBuildType.hpp"
 
 
 namespace merutilm::vkh {
-    class DescriptorSetLayout final : public EngineHandler {
+    class DescriptorSetLayout final : public CoreHandler {
         std::unique_ptr<DescriptorSetLayoutManager> descriptorSetLayoutManager;
         VkDescriptorSetLayout layout = nullptr;
 
     public:
-        explicit DescriptorSetLayout(const Engine &engine, std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager);
+        explicit DescriptorSetLayout(const Core &core, std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager);
 
         ~DescriptorSetLayout() override;
 

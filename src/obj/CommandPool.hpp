@@ -3,14 +3,14 @@
 //
 
 #pragma once
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
-    class CommandPool final : public EngineHandler {
+    class CommandPool final : public CoreHandler {
         VkCommandPool commandPool = {};
 
     public:
-        explicit CommandPool(const Engine &engine);
+        explicit CommandPool(const Core &core);
 
         ~CommandPool() override;
 

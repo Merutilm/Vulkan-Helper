@@ -62,9 +62,9 @@ add_executable(VulkanHelper
         src/obj/ShaderModule.cpp
         src/manage/RenderPassManager.hpp
         src/struct/RenderPassAttachmentType.hpp
-        src/context/Engine.cpp
-        src/context/Engine.hpp
-        src/handle/EngineHandler.hpp
+        src/base/Core.cpp
+        src/base/Core.hpp
+        src/handle/CoreHandler.hpp
         src/struct/WindowCreateInfo.hpp
         src/obj/Framebuffer.cpp
         src/obj/Framebuffer.hpp
@@ -77,7 +77,7 @@ add_executable(VulkanHelper
         src/struct/Vertex.hpp
         src/obj/VertexBuffer.cpp
         src/obj/VertexBuffer.hpp
-        src/manage/Uploader.hpp
+        src/manage/ConstBufferObjectManager.hpp
         src/obj/UniformBuffer.cpp
         src/obj/UniformBuffer.hpp
         src/executor/Executor.hpp
@@ -85,7 +85,6 @@ add_executable(VulkanHelper
         src/manage/DescriptorSetLayoutManager.hpp
         src/context/WindowContext.hpp
         src/context/RenderContext.hpp
-        src/context/RenderContext.cpp
         src/hash/VectorHasher.hpp
         src/hash/PointerDerefEquals.hpp
         src/hash/DescriptorSetLayoutBuildTypeHasher.hpp
@@ -95,6 +94,18 @@ add_executable(VulkanHelper
         src/manage/PipelineLayoutManager.hpp
         src/hash/BoostHasher.hpp
         src/repo/PipelineLayoutRepo.hpp
+        src/obj/IndexBuffer.cpp
+        src/obj/IndexBuffer.hpp
+        src/obj/Texture.cpp
+        src/obj/Texture.hpp
+        src/base/BasicShaderProgram.cpp
+        src/base/BasicShaderProgram.hpp
+        src/repo/DescriptorRepo.hpp
+        src/struct/DescriptorName.hpp
+        src/template/DSLTemplate.hpp
+        src/template/DSTemplate.hpp
+        src/base/Engine.cpp
+        src/base/Engine.hpp
 )
 
 

@@ -13,14 +13,14 @@
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
-    struct Uploader {
+    struct ConstBufferObjectManager {
         std::vector<std::byte> data = {};
         std::vector<uint32_t> elements = {};
         std::vector<uint32_t> sizes = {};
         std::vector<uint32_t> offsets = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
 
-        explicit Uploader(std::unique_ptr<BufferObjectManager> &&uploadManager) : data(std::move(uploadManager->data)),
+        explicit ConstBufferObjectManager(std::unique_ptr<BufferObjectManager> &&uploadManager) : data(std::move(uploadManager->data)),
                                                                             elements(std::move(uploadManager->elements)),
                                                                             sizes(std::move(uploadManager->sizes)),
                                                                             offsets(std::move(uploadManager->offsets)),
@@ -28,6 +28,9 @@ namespace merutilm::vkh {
         }
 
         uint32_t getIndex(const std::string &varName) const {
+            if (!names.contains(varName)) {
+                throw exception_invalid_args("Not found varname : " + varName);
+            }
             return names.at(varName);
         }
 
@@ -60,7 +63,7 @@ namespace merutilm::vkh {
 
         uint32_t getOffset(const uint32_t index) const { return offsets[index]; }
 
-        uint32_t getSize() const { return static_cast<uint32_t>(data.size()); }
+        uint32_t getSizeByte() const { return static_cast<uint32_t>(data.size()); }
 
         uint32_t getObjectCount() const {
             return static_cast<uint32_t>(names.size());
@@ -68,6 +71,10 @@ namespace merutilm::vkh {
 
         uint32_t getElementCount(const uint32_t i) const {
             return elements[i];
+        }
+
+        uint32_t getElementCount(const std::string &varName) const {
+            return getElementCount(getIndex(varName));
         }
     };
 }

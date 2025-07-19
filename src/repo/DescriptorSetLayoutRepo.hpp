@@ -9,21 +9,36 @@
 #include "Repo.hpp"
 #include "../manage/DescriptorSetLayoutManager.hpp"
 #include "../obj/DescriptorSetLayout.hpp"
-#include "../hash/DescriptorSetLayoutManagerPtrHasher.hpp"
-#include "../hash/PointerDerefEquals.hpp"
+#include "../struct/DescriptorSetLayoutName.hpp"
+#include "../struct/EnumHasher.hpp"
+#include "../template/DSLTemplate.hpp"
 
 namespace merutilm::vkh {
-    struct DescriptorSetLayoutRepo final : Repo<DescriptorSetLayoutManager *, DescriptorSetLayout, DescriptorSetLayoutManagerPtrHasher, PointerDerefEquals, std::unique_ptr<DescriptorSetLayoutManager> &&>{
-
+    struct DescriptorSetLayoutRepo final : Repo<DescriptorSetLayoutName, DescriptorSetLayoutName, DescriptorSetLayout,
+                EnumHasher> {
         using Repo::Repo;
 
-        const DescriptorSetLayout &pick(std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager) override {
-
-            auto *ptr = layoutManager.get();
+        const DescriptorSetLayout &pick(const DescriptorSetLayoutName layoutName) override {
             return *repository.try_emplace(
-                        ptr, std::make_unique<DescriptorSetLayout>(engine, std::move(layoutManager))).first->
+                        layoutName, std::make_unique<DescriptorSetLayout>(core, findDescriptorSetLayoutManager(layoutName))).
+                    first->
                     second;
         }
 
+        static std::unique_ptr<DescriptorSetLayoutManager> findDescriptorSetLayoutManager(const DescriptorSetLayoutName layoutName) {
+            switch (layoutName) {
+                using enum DescriptorSetLayoutName;
+                case UNIFORM_V1: {
+                    return DSLTemplate::uniform_v1();
+                }
+                case UNIFORM_F1: {
+                    return DSLTemplate::uniform_f1();
+                }
+                case UNIFORM_VF1 : {
+                    return DSLTemplate::uniform_vf1();
+                }
+            }
+            throw exception_invalid_args("invalid descriptor set layout name");
+        }
     };
 }

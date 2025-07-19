@@ -6,7 +6,8 @@
 #include <chrono>
 #include <memory>
 
-#include "WindowContext.hpp"
+#include "../context/WindowContext.hpp"
+#include "../exception/exception.hpp"
 #include "../obj/Instance.hpp"
 #include "../obj/LogicalDevice.hpp"
 #include "../obj/PhysicalDevice.hpp"
@@ -14,7 +15,7 @@
 #include "../struct/WindowCreateInfo.hpp"
 
 namespace merutilm::vkh {
-    class Engine final : public Handler {
+    class Core final : public Handler {
         std::unique_ptr<Instance> instance = nullptr;
         std::unique_ptr<PhysicalDevice> physicalDevice = nullptr;
         std::unique_ptr<LogicalDevice> logicalDevice = nullptr;
@@ -25,19 +26,20 @@ namespace merutilm::vkh {
         std::chrono::high_resolution_clock::time_point startTime;
 
     public:
-        explicit Engine();
 
-        ~Engine() override;
+        explicit Core();
 
-        Engine(const Engine &) = delete;
+        ~Core() override;
 
-        Engine &operator=(const Engine &) = delete;
+        Core(const Core &) = delete;
 
-        Engine(Engine &&) = delete;
+        Core &operator=(const Core &) = delete;
 
-        Engine &operator=(Engine &&) = delete;
+        Core(Core &&) = delete;
 
-        void attachWindow(const WindowCreateInfo &windowCreateInfo);
+        Core &operator=(Core &&) = delete;
+
+        void createWindow(const WindowCreateInfo &windowCreateInfo);
 
         [[nodiscard]] const Instance &getInstance() const { return *instance; }
 
@@ -46,6 +48,9 @@ namespace merutilm::vkh {
         [[nodiscard]] const LogicalDevice &getLogicalDevice() const { return *logicalDevice; }
 
         [[nodiscard]] const WindowContext &getWindowContext(const std::string &windowName) const {
+            if (!windowContexts.contains(windowName)) {
+                throw exception_invalid_args("Not found window name : " + windowName);
+            }
             return windowContexts.at(windowName);
         }
 
@@ -57,7 +62,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] WindowContext &getWindowContext(const std::string &windowName) { return windowContexts[windowName]; }
 
-        [[nodiscard]] static std::unique_ptr<Engine> createEngine();
+        [[nodiscard]] static std::unique_ptr<Core> createCore();
 
         [[nodiscard]] float getTime() const;
 

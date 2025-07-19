@@ -14,7 +14,7 @@
 
 namespace merutilm::vkh {
     class RenderPassManager {
-        const Engine &engine;
+        const Core &engine;
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > subpassNames = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > attachmentNames = {};
 
@@ -27,7 +27,7 @@ namespace merutilm::vkh {
         uint32_t count = 0;
 
     public:
-        explicit RenderPassManager(const Engine &engine) : engine(engine) {
+        explicit RenderPassManager(const Core &engine) : engine(engine) {
         }
 
         ~RenderPassManager() = default;

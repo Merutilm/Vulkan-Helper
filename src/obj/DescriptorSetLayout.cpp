@@ -7,7 +7,7 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    DescriptorSetLayout::DescriptorSetLayout(const Engine &engine, std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager) : EngineHandler(engine), descriptorSetLayoutManager(std::move(layoutManager)) {
+    DescriptorSetLayout::DescriptorSetLayout(const Core &core, std::unique_ptr<DescriptorSetLayoutManager> &&layoutManager) : CoreHandler(core), descriptorSetLayoutManager(std::move(layoutManager)) {
         DescriptorSetLayout::attach();
     }
 
@@ -40,7 +40,7 @@ namespace merutilm::vkh {
             .bindingCount = static_cast<uint32_t>(bindings.size()),
             .pBindings = bindings.empty() ? nullptr : bindings.data(),
         };
-        if (vkCreateDescriptorSetLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), &descriptorSetLayoutInfo, nullptr, &layout) !=
+        if (vkCreateDescriptorSetLayout(core.getLogicalDevice().getLogicalDeviceHandle(), &descriptorSetLayoutInfo, nullptr, &layout) !=
             VK_SUCCESS) {
             throw exception_init("Failed to create descriptor set layout");
             }
@@ -56,7 +56,7 @@ namespace merutilm::vkh {
 
     void DescriptorSetLayout::detach() {
         if (layout != nullptr) {
-            vkDestroyDescriptorSetLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
+            vkDestroyDescriptorSetLayout(core.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
         }
     }
 }

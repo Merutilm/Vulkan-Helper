@@ -7,8 +7,8 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    Descriptor::Descriptor(const Engine &engine,
-                           std::unique_ptr<DescriptorManager> &&descriptorManager) : EngineHandler(engine),
+    Descriptor::Descriptor(const Core &core,
+                           std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core),
         descriptorManager(std::move(descriptorManager)) {
         Descriptor::attach();
     }
@@ -27,9 +27,9 @@ namespace merutilm::vkh {
             ubo.update(frameIndex);
 
             bufferInfos[i] = {
-                .buffer = ubo.getBuffer(frameIndex),
+                .buffer = ubo.getBufferHandle(frameIndex),
                 .offset = 0,
-                .range = ubo.getSize()
+                .range = ubo.getSizeByte()
             };
 
             writeDescriptorSets[i] = {
@@ -45,14 +45,14 @@ namespace merutilm::vkh {
                 .pTexelBufferView = nullptr,
             };
         }
-        vkUpdateDescriptorSets(engine.getLogicalDevice().getLogicalDeviceHandle(), descCount,
+        vkUpdateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(), descCount,
                                writeDescriptorSets.data(), 0, nullptr);
     }
 
 
     void Descriptor::attach() {
         const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorSetLayoutManager().getDescriptorCount();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         const uint32_t descLen = descriptorManager->getUBOCount();
         if (descLen == 0) {
             return;
@@ -78,7 +78,7 @@ namespace merutilm::vkh {
         descriptorPools.resize(maxFramesInFlight);
 
         for (uint32_t i = 0; i < maxFramesInFlight; i++) {
-            if (vkCreateDescriptorPool(engine.getLogicalDevice().getLogicalDeviceHandle(), &descriptorPoolInfo, nullptr,
+            if (vkCreateDescriptorPool(core.getLogicalDevice().getLogicalDeviceHandle(), &descriptorPoolInfo, nullptr,
                                        &descriptorPools[i]) != VK_SUCCESS) {
                 throw exception_init("Failed to create descriptor pool!");
             }
@@ -94,7 +94,7 @@ namespace merutilm::vkh {
                 .descriptorPool = descriptorPools[i],
                 .descriptorSetCount = 1,
                 .pSetLayouts = &layout
-            }; vkAllocateDescriptorSets(engine.getLogicalDevice().getLogicalDeviceHandle(), &descriptorSetAllocateInfo,
+            }; vkAllocateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(), &descriptorSetAllocateInfo,
                                         &descriptorSets[i]) != VK_SUCCESS) {
                 throw exception_init("Failed to allocate descriptor sets!");
             }
@@ -105,10 +105,10 @@ namespace merutilm::vkh {
         if (descriptorManager->getUBOCount() == 0) {
             return;
         }
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
 
         for (int i = 0; i < maxFramesInFlight; ++i) {
-            vkDestroyDescriptorPool(engine.getLogicalDevice().getLogicalDeviceHandle(), descriptorPools[i], nullptr);
+            vkDestroyDescriptorPool(core.getLogicalDevice().getLogicalDeviceHandle(), descriptorPools[i], nullptr);
         }
     }
 }

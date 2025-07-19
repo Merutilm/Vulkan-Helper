@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "DescriptorSetLayoutBuildTypeHasher.hpp"
+#include "UniquePtrHasher.hpp"
 #include "VectorHasher.hpp"
 
 
@@ -18,7 +18,8 @@ namespace merutilm::vkh {
             size_t seed = 0;
             constexpr auto descHasher = VectorHasher<VkDescriptorSetLayout>();
             BoostHasher::hash(descHasher(key->getDescriptorSetLayouts()), &seed);
-            constexpr auto pushMngPtrHasher = VectorHasher<PushConstantManager *>();
+
+            constexpr auto pushMngPtrHasher = VectorHasher<std::unique_ptr<PushConstantManager>, UniquePtrHasher>();
             BoostHasher::hash(pushMngPtrHasher(key->getPushConstantManagers()), &seed);
             return seed;
         }

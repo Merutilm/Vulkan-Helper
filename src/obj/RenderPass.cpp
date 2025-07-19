@@ -11,8 +11,8 @@
 #include "../manage/RenderPassManager.hpp"
 
 namespace merutilm::vkh {
-    RenderPass::RenderPass(const Engine &engine, const std::string &windowAttachmentName,
-    std::unique_ptr<RenderPassManager> &&manager) : EngineHandler(engine), swapchain(*engine.getWindowContext(windowAttachmentName).swapchain),
+    RenderPass::RenderPass(const Core &core, const std::string &windowAttachmentName,
+    std::unique_ptr<RenderPassManager> &&manager) : CoreHandler(core), swapchain(*core.getWindowContext(windowAttachmentName).swapchain),
                                                                            manager(std::move(manager)) {
         RenderPass::attach();
     }
@@ -27,7 +27,7 @@ namespace merutilm::vkh {
         const auto &attachmentConfigs = manager->getAttachmentConfigs();
 
         auto &dependencies = manager->getSubpassDependencies();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
 
         attachments.clear();
 
@@ -45,7 +45,7 @@ namespace merutilm::vkh {
                 imageInitInfo.extent = VkExtent3D(width, height, 1);
 
                 for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-                    BufferUtils::initImage(engine, imageInitInfo, &images[i],
+                    BufferUtils::initImage(core, imageInitInfo, &images[i],
                                            &memories[i],
                                            &imageViews[i]);
                 }
@@ -95,7 +95,7 @@ namespace merutilm::vkh {
             .dependencyCount = static_cast<uint32_t>(dependencies.size()),
             .pDependencies = dependencies.data(),
         };
-        if (vkCreateRenderPass(engine.getLogicalDevice().getLogicalDeviceHandle(), &renderPassInfo, nullptr,
+        if (vkCreateRenderPass(core.getLogicalDevice().getLogicalDeviceHandle(), &renderPassInfo, nullptr,
                                &renderPass) !=
             VK_SUCCESS) {
             throw exception_init("Failed to create render pass!");
@@ -103,8 +103,8 @@ namespace merutilm::vkh {
     }
 
     void RenderPass::detach() {
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (auto &attachment: attachments) {
             for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
                 if (attachment.type == RenderPassAttachmentType::COLOR) {
@@ -115,6 +115,6 @@ namespace merutilm::vkh {
                 vkFreeMemory(device, attachment.imageMemories[i], nullptr);
             }
         }
-        vkDestroyRenderPass(engine.getLogicalDevice().getLogicalDeviceHandle(), renderPass, nullptr);
+        vkDestroyRenderPass(core.getLogicalDevice().getLogicalDeviceHandle(), renderPass, nullptr);
     }
 }

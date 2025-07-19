@@ -7,7 +7,7 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    CommandPool::CommandPool(const Engine &engine) : EngineHandler(engine) {
+    CommandPool::CommandPool(const Core &core) : CoreHandler(core) {
         CommandPool::attach();
     }
 
@@ -21,16 +21,16 @@ namespace merutilm::vkh {
             .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
             .pNext = nullptr,
             .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
-            .queueFamilyIndex = engine.getPhysicalDevice().getQueueFamilyIndices().graphicsFamily.
+            .queueFamilyIndex = core.getPhysicalDevice().getQueueFamilyIndices().graphicsFamily.
             value(),
         };
-        if (vkCreateCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, &commandPool)
+        if (vkCreateCommandPool(core.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, &commandPool)
             != VK_SUCCESS) {
             throw exception_init("Failed to create command pool!");
         }
     }
 
     void CommandPool::detach() {
-        vkDestroyCommandPool(engine.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
+        vkDestroyCommandPool(core.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
     }
 }

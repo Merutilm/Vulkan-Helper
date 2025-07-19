@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "IndexBuffer.hpp"
 #include "RenderPass.hpp"
 #include "VertexBuffer.hpp"
 #include "../manage/PipelineManager.hpp"
@@ -14,15 +15,15 @@ namespace merutilm::vkh {
     class Pipeline final : public EngineHandler {
         VkPipeline pipeline = nullptr;
         const PipelineLayout &pipelineLayout;
-        const RenderPass &renderPass;
-        const VertexBuffer &vertexBuffer;
         const std::string subpassName;
+        const std::unique_ptr<VertexBuffer> vertexBuffer;
+        const std::unique_ptr<IndexBuffer> indexBuffer;
         const std::unique_ptr<PipelineManager> pipelineManager = nullptr;
 
     public:
         explicit Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
-                          const RenderPass &renderPass,
-                          const VertexBuffer &vertexBuffer,
+                          std::unique_ptr<VertexBuffer> &&vertexBuffer,
+                          std::unique_ptr<IndexBuffer> &&indexBuffer,
                           std::string subpassName,
                           std::unique_ptr<PipelineManager> &&pipelineManager);
 
@@ -38,7 +39,15 @@ namespace merutilm::vkh {
 
         [[nodiscard]] const PipelineManager &getPipelineManager() const { return *pipelineManager; }
 
-        [[nodiscard]] PipelineManager &getPipelineManager() {return *pipelineManager;}
+        [[nodiscard]] PipelineManager &getPipelineManager() { return *pipelineManager; }
+
+        [[nodiscard]] const VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
+
+        [[nodiscard]] const IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
+
+        [[nodiscard]] VertexBuffer &getVertexBuffer() {return *vertexBuffer;}
+
+        [[nodiscard]] IndexBuffer &getIndexBuffer() {return *indexBuffer;}
 
         [[nodiscard]] VkPipeline getPipelineHandle() const { return pipeline; }
 

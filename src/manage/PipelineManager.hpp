@@ -15,8 +15,8 @@ namespace merutilm::vkh {
         std::vector<const ShaderModule *> shaderModules;
 
     public:
-        explicit PipelineManager(const PipelineLayout &layoutManager,
-                                 std::unique_ptr<Descriptor> &&descriptor) : layout(layoutManager),
+        explicit PipelineManager(const PipelineLayout &layout,
+                                 std::unique_ptr<Descriptor> &&descriptor) : layout(layout),
                                                                              descriptor(std::move(descriptor)) {
         }
 
@@ -27,7 +27,6 @@ namespace merutilm::vkh {
         [[nodiscard]] Descriptor &getDescriptor() { return *descriptor; }
 
         [[nodiscard]] const PipelineLayout &getLayout() const { return layout; }
-
 
         [[nodiscard]] std::span<const ShaderModule * const> getShaderModules() const {
             return shaderModules;

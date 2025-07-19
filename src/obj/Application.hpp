@@ -5,12 +5,9 @@
 #pragma once
 #include <memory>
 
-#include "../context/Engine.hpp"
-#include "CommandPool.hpp"
+#include "../base/Core.hpp"
 #include "Pipeline.hpp"
-#include "VertexBuffer.hpp"
-#include "../context/RenderContext.hpp"
-#include "../repo/Repositories.hpp"
+#include "../base/Engine.hpp"
 
 
 namespace merutilm::vkh {
@@ -20,10 +17,6 @@ namespace merutilm::vkh {
         inline static const std::string MAIN_WINDOW_ATTACHMENT_NAME = "Main";
 
         std::unique_ptr<Engine> engine = nullptr;
-        std::unique_ptr<CommandPool> commandPool = nullptr;
-        std::unique_ptr<Repositories> repositories = nullptr;
-        std::unique_ptr<RenderContext> renderContext = nullptr;
-        std::unique_ptr<VertexBuffer> vertexBuffer = nullptr;
         std::unique_ptr<Pipeline> pipeline = nullptr;
 
     public:
@@ -42,13 +35,13 @@ namespace merutilm::vkh {
     private:
         void start();
 
-        void createRenderContext();
+        std::unique_ptr<RenderContext> createRenderContext() const;
 
         void drawFrame();
 
         void changeFrameIndex();
 
-        void resolveResize();
+        void resolveWindowResize();
 
         void quit();
     };

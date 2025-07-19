@@ -4,17 +4,17 @@
 
 #pragma once
 \
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 #include "../manage/PipelineLayoutManager.hpp"
 
 namespace merutilm::vkh {
-    class PipelineLayout final : public EngineHandler {
+    class PipelineLayout final : public CoreHandler {
 
         std::unique_ptr<PipelineLayoutManager> pipelineLayoutManager = nullptr;
         VkPipelineLayout layout = nullptr;
 
     public:
-        explicit PipelineLayout(const Engine &engine, std::unique_ptr<PipelineLayoutManager> &&pipelineLayoutManager);
+        explicit PipelineLayout(const Core &core, std::unique_ptr<PipelineLayoutManager> &&pipelineLayoutManager);
 
         ~PipelineLayout() override;
 
@@ -29,6 +29,8 @@ namespace merutilm::vkh {
         void push(VkCommandBuffer commandBuffer) const;
 
         [[nodiscard]] VkPipelineLayout getLayoutHandle() const { return layout; }
+
+        [[nodiscard]] const PipelineLayoutManager &getPipelineLayoutManager() const { return *pipelineLayoutManager; }
 
     private:
         void attach() override;

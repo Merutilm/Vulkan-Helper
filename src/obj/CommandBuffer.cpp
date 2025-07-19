@@ -7,7 +7,7 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    CommandBuffer::CommandBuffer(const Engine &engine, const CommandPool &commandPool) : EngineHandler(engine), commandPool(commandPool) {
+    CommandBuffer::CommandBuffer(const Core &core, const CommandPool &commandPool) : CoreHandler(core), commandPool(commandPool) {
         CommandBuffer::attach();
     }
 
@@ -17,8 +17,8 @@ namespace merutilm::vkh {
 
 
     void CommandBuffer::attach() {
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         commandBuffers.resize(maxFramesInFlight);
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             VkCommandBufferAllocateInfo allocInfo = {
@@ -35,8 +35,8 @@ namespace merutilm::vkh {
     }
 
     void CommandBuffer::detach() {
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkFreeCommandBuffers(device, commandPool.getCommandPoolHandle(), 1, &commandBuffers[i]);
         }

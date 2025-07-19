@@ -4,20 +4,20 @@
 
 #pragma once
 #include "IRepo.hpp"
-#include "../context/Engine.hpp"
+#include "../base/Core.hpp"
 
 namespace merutilm::vkh {
 
-    template<typename Key, typename Type, typename KeyHasher = std::hash<Key>, typename KeyPredicate = std::equal_to<>, typename... Args>
+    template<typename Key, typename KeyInput, typename Type, typename KeyHasher = std::hash<Key>, typename KeyPredicate = std::equal_to<>>
     struct Repo : IRepo{
 
-        const Engine &engine;
+        const Core &core;
 
         std::unordered_map<Key, std::unique_ptr<Type>, KeyHasher, KeyPredicate> repository = {};
 
-        explicit Repo(const Engine &engine) : engine(engine) {}
+        explicit Repo(const Core &core) : core(core) {}
 
-        virtual const Type &pick(Args&&... args) = 0;
+        virtual const Type &pick(KeyInput keyInput) = 0;
 
     };
 

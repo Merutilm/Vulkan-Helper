@@ -4,18 +4,17 @@
 
 #pragma once
 
-#include <vulkan/vulkan.h>
 
-#include "Uploader.hpp"
+#include "ConstBufferObjectManager.hpp"
 #include "BufferObjectManager.hpp"
 
 namespace merutilm::vkh {
-    class PushConstantManager : public Uploader {
+    class PushConstantManager : public ConstBufferObjectManager {
         VkShaderStageFlags useStage;
 
     public:
         explicit PushConstantManager(const VkShaderStageFlags useStage,
-                              std::unique_ptr<BufferObjectManager> &&manager) : Uploader(std::move(manager)),
+                              std::unique_ptr<BufferObjectManager> &&manager) : ConstBufferObjectManager(std::move(manager)),
                                                                           useStage(useStage) {
         }
 

@@ -5,8 +5,8 @@
 #include "PipelineLayout.hpp"
 
 namespace merutilm::vkh {
-    PipelineLayout::PipelineLayout(const Engine &engine, std::unique_ptr<PipelineLayoutManager> &&pipelineLayoutManager) : EngineHandler(
-            engine), pipelineLayoutManager(std::move(pipelineLayoutManager)) {
+    PipelineLayout::PipelineLayout(const Core &core, std::unique_ptr<PipelineLayoutManager> &&pipelineLayoutManager) : CoreHandler(
+            core), pipelineLayoutManager(std::move(pipelineLayoutManager)) {
         PipelineLayout::attach();
     }
 
@@ -17,7 +17,7 @@ namespace merutilm::vkh {
     void PipelineLayout::push(const VkCommandBuffer commandBuffer) const {
         uint32_t sizeSum = 0;
         for (auto &pushConstant: pipelineLayoutManager->getPushConstantManagers()) {
-            const uint32_t size = pushConstant->getSize();
+            const uint32_t size = pushConstant->getSizeByte();
             vkCmdPushConstants(commandBuffer, layout, pushConstant->getUseStage(),
                                sizeSum, size,
                                pushConstant->getData().data());
@@ -29,8 +29,8 @@ namespace merutilm::vkh {
     void PipelineLayout::attach() {
         uint32_t sizeSum = 0;
         std::vector<VkPushConstantRange> pushConstantRanges = {};
-        for (const auto pushConstantManager : pipelineLayoutManager->getPushConstantManagers()) {
-            const uint32_t size = pushConstantManager->getSize();
+        for (const auto &pushConstantManager : pipelineLayoutManager->getPushConstantManagers()) {
+            const uint32_t size = pushConstantManager->getSizeByte();
             pushConstantRanges.emplace_back(pushConstantManager->getUseStage(), sizeSum, size);
             sizeSum += size;
         }
@@ -48,7 +48,7 @@ namespace merutilm::vkh {
         };
 
 
-        if (vkCreatePipelineLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), &pipelineLayoutInfo, nullptr,
+        if (vkCreatePipelineLayout(core.getLogicalDevice().getLogicalDeviceHandle(), &pipelineLayoutInfo, nullptr,
                                    &layout) !=
             VK_SUCCESS) {
             throw exception_init("Failed to create pipeline layout!");
@@ -57,6 +57,6 @@ namespace merutilm::vkh {
 
 
     void PipelineLayout::detach() {
-        vkDestroyPipelineLayout(engine.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
+        vkDestroyPipelineLayout(core.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
     }
 }

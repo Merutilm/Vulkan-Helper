@@ -7,17 +7,17 @@
 #include <vector>
 #include <vulkan/vulkan_core.h>
 
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
-    class ShaderModule final : public EngineHandler {
+    class ShaderModule final : public CoreHandler {
         VkShaderStageFlagBits shaderStage;
         VkShaderModule shaderModule = nullptr;
         const std::vector<char> code = {};
         const std::string filename;
 
     public:
-        explicit ShaderModule(const Engine &engine, const std::string &filename);
+        explicit ShaderModule(const Core &core, const std::string &filename);
 
         ~ShaderModule() override;
 

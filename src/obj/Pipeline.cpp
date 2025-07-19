@@ -11,14 +11,14 @@
 
 namespace merutilm::vkh {
     Pipeline::Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
-                       const RenderPass &renderPass,
-                       const VertexBuffer &vertexBuffer,
+                       std::unique_ptr<VertexBuffer> &&vertexBuffer,
+                       std::unique_ptr<IndexBuffer> &&indexBuffer,
                        std::string subpassName,
                        std::unique_ptr<PipelineManager> &&pipelineManager) : EngineHandler(engine),
                                                                              pipelineLayout(pipelineLayout),
-                                                                             renderPass(renderPass),
-                                                                                vertexBuffer(vertexBuffer),
                                                                              subpassName(std::move(subpassName)),
+                                                                             vertexBuffer(std::move(vertexBuffer)),
+                                                                             indexBuffer(std::move(indexBuffer)),
                                                                              pipelineManager(
                                                                                  std::move(pipelineManager)) {
         Pipeline::attach();
@@ -44,8 +44,8 @@ namespace merutilm::vkh {
             };
         }
 
-        auto & vertInputAttributeDescription = vertexBuffer.getVertexInputAttributeDescriptions();
-        auto & vertBindingDescription = vertexBuffer.getVertexInputBindingDescriptions();
+        auto &vertInputAttributeDescription = vertexBuffer->getVertexInputAttributeDescriptions();
+        auto &vertBindingDescription = vertexBuffer->getVertexInputBindingDescriptions();
 
 
         VkPipelineVertexInputStateCreateInfo vertexInputStateCreateInfo = {
@@ -54,7 +54,7 @@ namespace merutilm::vkh {
             .flags = 0,
             .vertexBindingDescriptionCount = static_cast<uint32_t>(vertBindingDescription.size()),
             .pVertexBindingDescriptions = vertBindingDescription.data(),
-            .vertexAttributeDescriptionCount =  static_cast<uint32_t>(vertInputAttributeDescription.size()),
+            .vertexAttributeDescriptionCount = static_cast<uint32_t>(vertInputAttributeDescription.size()),
             .pVertexAttributeDescriptions = vertInputAttributeDescription.data(),
         };
 
@@ -169,19 +169,19 @@ namespace merutilm::vkh {
             .pColorBlendState = &colorBlendStateCreateInfo,
             .pDynamicState = &dynamicState,
             .layout = pipelineLayout.getLayoutHandle(),
-            .renderPass = renderPass.getRenderPassHandle(),
-            .subpass = renderPass.getManager().getSubpassIndex(subpassName),
+            .renderPass = engine.getRenderContext().renderPass->getRenderPassHandle(),
+            .subpass = engine.getRenderContext().renderPass->getManager().getSubpassIndex(subpassName),
             .basePipelineHandle = nullptr,
             .basePipelineIndex = -1
         };
 
-        if (vkCreateGraphicsPipelines(engine.getLogicalDevice().getLogicalDeviceHandle(), nullptr, 1, &info, nullptr,
+        if (vkCreateGraphicsPipelines(engine.getCore().getLogicalDevice().getLogicalDeviceHandle(), nullptr, 1, &info, nullptr,
                                       &pipeline) != VK_SUCCESS) {
             throw exception_init("Failed to create graphics pipeline!");
         }
     }
 
     void Pipeline::detach() {
-        vkDestroyPipeline(engine.getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
+        vkDestroyPipeline(engine.getCore().getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
     }
 }

@@ -9,9 +9,12 @@
 #include "../context/RenderContext.hpp"
 
 namespace merutilm::vkh {
-    RenderPassExecutor::RenderPassExecutor(const Engine &engine, const RenderContext &renderContext,
+    RenderPassExecutor::RenderPassExecutor(const Core &engine, const RenderContext &renderContext,
                                            const uint32_t frameIndex,
                                            const uint32_t imageIndex) : Executor(engine),
+                                                                        swapchain(*engine.getWindowContext(
+                                                                                renderContext.windowAttachmentName).
+                                                                            swapchain),
                                                                         renderContext(renderContext),
                                                                         frameIndex(frameIndex), imageIndex(imageIndex) {
         RenderPassExecutor::begin();
@@ -46,7 +49,7 @@ namespace merutilm::vkh {
             .framebuffer = renderContext.framebuffer->getFramebufferHandle(imageIndex),
             .renderArea = {
                 .offset = {0, 0},
-                .extent = engine.getWindowContext(renderContext.windowAttachmentName).swapchain->populateSwapchainExtent()
+                .extent = swapchain.populateSwapchainExtent()
             },
             .clearValueCount = static_cast<uint32_t>(clearValues.size()),
             .pClearValues = clearValues.data()
@@ -59,31 +62,32 @@ namespace merutilm::vkh {
     void RenderPassExecutor::end() {
         vkCmdEndRenderPass(renderContext.commandBuffer->getCommandBufferHandle(frameIndex));
 
-        std::vector<VkPipelineStageFlags> waitStages = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
         VkCommandBuffer commandBufferHandle = renderContext.commandBuffer->getCommandBufferHandle(frameIndex);
         VkSemaphore imageAvailableSemaphore = renderContext.syncObject->getImageAvailableSemaphore(frameIndex);
         VkSemaphore renderFinishedSemaphore = renderContext.syncObject->getRenderFinishedSemaphore(frameIndex);
+        std::array<VkPipelineStageFlags, 1> waitStages = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
         vkEndCommandBuffer(commandBufferHandle);
 
-        const VkSubmitInfo submitInfo = {
-            .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
-            .pNext = nullptr,
-            .waitSemaphoreCount = 1,
-            .pWaitSemaphores = &imageAvailableSemaphore,
-            .pWaitDstStageMask = waitStages.data(),
-            .commandBufferCount = 1,
-            .pCommandBuffers = &commandBufferHandle,
-            .signalSemaphoreCount = 1,
-            .pSignalSemaphores = &renderFinishedSemaphore
-        };
 
-        if (vkQueueSubmit(engine.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo, renderContext.syncObject->getFence(frameIndex)) != VK_SUCCESS) {
+        if (const VkSubmitInfo submitInfo = {
+                .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
+                .pNext = nullptr,
+                .waitSemaphoreCount = 1,
+                .pWaitSemaphores = &imageAvailableSemaphore,
+                .pWaitDstStageMask = waitStages.data(),
+                .commandBufferCount = 1,
+                .pCommandBuffers = &commandBufferHandle,
+                .signalSemaphoreCount = 1,
+                .pSignalSemaphores = &renderFinishedSemaphore
+            };
+            vkQueueSubmit(engine.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo,
+                          renderContext.syncObject->getFence(frameIndex)) != VK_SUCCESS) {
             std::cerr << "Failed to submit queue" << std::endl;
         }
 
-        VkSwapchainKHR swapchainHandle = engine.getWindowContext(renderContext.windowAttachmentName).swapchain->getSwapchainHandle();
+        VkSwapchainKHR swapchainHandle = swapchain.getSwapchainHandle();
         const VkPresentInfoKHR presentInfo = {
             .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
             .pNext = nullptr,

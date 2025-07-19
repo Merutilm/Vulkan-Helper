@@ -31,75 +31,83 @@ namespace merutilm::vkh {
             .height = 720,
             .framerate = 120.0f
         };
-        engine = Engine::createEngine();
-        engine->attachWindow(windowCreateInfo);
-        commandPool = std::make_unique<CommandPool>(*engine);
-        createRenderContext();
+        auto core = Core::createCore();
+        core->createWindow(windowCreateInfo);
+        engine = std::make_unique<Engine>(std::move(core));
+        engine->attachRenderContext(createRenderContext());
 
 
         auto vertexBufferManager = std::make_unique<BufferObjectManager>();
-        const std::vector<Vertex> vertices{
-            {{0.0f, -0.5f, 0.0f}, {1, 0, 0}},
-            {{0.5f, 0.5f, 0.0f}, {0, 1, 0}},
-            {{-0.5f, 0.5f, 0.0f}, {0, 0, 1}}
+        const std::vector vertices{
+            Vertex::generate({0.5f, 0.5f, 0.0f}, {1, 0, 0}),
+            Vertex::generate({0.5f, -0.5f, 0.0f}, {0, 1, 0}),
+            Vertex::generate({-0.5f, -0.5f, 0.0f}, {0, 0, 1}),
+            Vertex::generate({-0.5f, 0.5f, 0.0f}, {1, 1, 0})
         };
 
-        vertexBufferManager->add("vertices", vertices);
-        vertexBuffer = std::make_unique<VertexBuffer>(*engine, std::move(vertexBufferManager));
+        vertexBufferManager->add("triangle", vertices);
+        auto vertexBuffer = std::make_unique<VertexBuffer>(engine->getCore(), std::move(vertexBufferManager));
+        auto indexBufferManager = std::make_unique<BufferObjectManager>();
+        const std::vector indices{
+            0, 1, 2, 2, 3, 0
+        };
 
+        indexBufferManager->add("triangle", indices);
+        auto indexBuffer = std::make_unique<IndexBuffer>(engine->getCore(), std::move(indexBufferManager));
+        indexBuffer->finalize();
 
-        repositories = std::make_unique<Repositories>();
-        repositories->addRepository<DescriptorSetLayoutRepo>(*engine);
-        repositories->addRepository<PipelineLayoutRepo>(*engine);
-        repositories->addRepository<ShaderModuleRepo>(*engine);
-
-
-        auto descriptorLayoutManager = std::make_unique<DescriptorSetLayoutManager>();
-        descriptorLayoutManager->append({
-            .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, .stage = VK_SHADER_STAGE_FRAGMENT_BIT
-        });
-        auto &descriptorLayout = repositories->getRepository<DescriptorSetLayoutRepo>()->pick(std::move(descriptorLayoutManager));
-
-        auto pipelineLayoutManager = std::make_unique<PipelineLayoutManager>();
-        pipelineLayoutManager->appendDescriptorSetLayout(descriptorLayout.getLayoutHandle());
-
-        auto &pipelineLayout = repositories->getRepository<PipelineLayoutRepo>()->pick(std::move(pipelineLayoutManager));
+        auto &descriptorLayout = engine->getRepositories().getRepository<DescriptorSetLayoutRepo>()->pick(DescriptorSetLayoutName::UNIFORM_F1);
         auto descManager = std::make_unique<DescriptorManager>(descriptorLayout);
+        auto bom = std::make_unique<BufferObjectManager>();
+        bom->reserve<float>("time");
 
-        auto uploader = std::make_unique<BufferObjectManager>();
-        uploader->reserve<uint32_t>("time");
-
-        auto ubo = std::make_unique<UniformBuffer>(*engine, std::move(uploader));
+        auto ubo = std::make_unique<UniformBuffer>(engine->getCore(), std::move(bom));
         descManager->appendUBO("SS", std::move(ubo));
 
-        auto descriptor = std::make_unique<Descriptor>(*engine, std::move(descManager));
+
+        auto pom = std::make_unique<BufferObjectManager>();
+        pom->reserve<glm::vec2>("resolution");
+        auto pushManager = std::make_unique<PushConstantManager>(VK_SHADER_STAGE_FRAGMENT_BIT, std::move(pom));
+
+        auto descriptor = std::make_unique<Descriptor>(engine->getCore(), std::move(descManager));
+
+
+        auto pipelineLayoutManager = std::make_unique<PipelineLayoutManager>();
+        pipelineLayoutManager->appendDescriptorSetLayout(descriptor->getDescriptorManager().getLayout().getLayoutHandle());
+        pipelineLayoutManager->appendPushConstantManager("push", std::move(pushManager));
+        auto &pipelineLayout = engine->getRepositories().getRepository<PipelineLayoutRepo>()->
+                pick(std::move(pipelineLayoutManager));
+
+
         auto pipelineManager = std::make_unique<PipelineManager>(pipelineLayout, std::move(descriptor));
-        auto &vert = repositories->getRepository<ShaderModuleRepo>()->pick("../shaders/template.vert");
-        auto &frag = repositories->getRepository<ShaderModuleRepo>()->pick("../shaders/template.frag");
+        auto &vert = engine->getRepositories().getRepository<ShaderModuleRepo>()->pick("../shaders/template.vert");
+        auto &frag = engine->getRepositories().getRepository<ShaderModuleRepo>()->pick("../shaders/template.frag");
         pipelineManager->attachShader(&vert);
         pipelineManager->attachShader(&frag);
-        pipeline = std::make_unique<Pipeline>(*engine, pipelineLayout, *renderContext->renderPass, *vertexBuffer,
+        pipeline = std::make_unique<Pipeline>(*engine, pipelineLayout,
+                                              std::move(vertexBuffer), std::move(indexBuffer),
                                               "Sample",
                                               std::move(pipelineManager));
 
         const HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
 
-        Window &window = *engine->getWindowContext(windowCreateInfo.windowAttachmentName).window;
+        Window &window = *engine->getCore().getWindowContext(windowCreateInfo.windowAttachmentName).window;
 
         window.setListener(WM_MOUSEMOVE, [hCursor](const Window &) {
             SetCursor(hCursor);
             return static_cast<LRESULT>(true);
         });
         window.setListener(WM_SIZE, [this](const Window &) {
-            resolveResize();
+            resolveWindowResize();
             return static_cast<LRESULT>(0);
         });
+
         window.appendRenderer([this] { drawFrame(); });
         window.start();
     }
 
-    void Application::createRenderContext() {
-        auto renderPassManager = std::make_unique<RenderPassManager>(*engine);
+    std::unique_ptr<RenderContext> Application::createRenderContext() const {
+        auto renderPassManager = std::make_unique<RenderPassManager>(engine->getCore());
         renderPassManager->appendSubpass("Sample");
         renderPassManager->appendAttachment("col", RenderPassAttachmentType::COLOR, {
                                                 .flags = 0,
@@ -154,19 +162,21 @@ namespace merutilm::vkh {
             .dependencyFlags = 0
         });
 
-        renderContext = std::make_unique<RenderContext>(*engine, MAIN_WINDOW_ATTACHMENT_NAME, *commandPool,
-                                                        std::move(renderPassManager));
+        return std::make_unique<RenderContext>(engine->getCore(), MAIN_WINDOW_ATTACHMENT_NAME, engine->getCommandPool(),
+                                               std::move(renderPassManager));
     }
 
     void Application::drawFrame() {
-        if (engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).window->isUnrenderable()) {
+        Core &core = engine->getCore();
+        const RenderContext &renderContext = engine->getRenderContext();
+        if (core.getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).window->isUnrenderable()) {
             return;
         }
         changeFrameIndex();
-        const Swapchain &swapchain = *engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).swapchain;
-        const VkDevice device = engine->getLogicalDevice().getLogicalDeviceHandle();
-        const VkFence currentFence = renderContext->syncObject->getFence(currentFrame);
-        const VkSemaphore imageAvailableSemaphore = renderContext->syncObject->getImageAvailableSemaphore(currentFrame);
+        const Swapchain &swapchain = *core.getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).swapchain;
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const VkFence currentFence = renderContext.syncObject->getFence(currentFrame);
+        const VkSemaphore imageAvailableSemaphore = renderContext.syncObject->getImageAvailableSemaphore(currentFrame);
         const VkSwapchainKHR swapchainHandle = swapchain.getSwapchainHandle();
 
 
@@ -180,10 +190,11 @@ namespace merutilm::vkh {
 
         //COMMAND SCOPE START
         {
-            const auto renderPassExecutor = RenderPassExecutor(*engine, *renderContext,
+            const auto renderPassExecutor = RenderPassExecutor(core, renderContext,
                                                                currentFrame, imageIndex);
-            const VkCommandBuffer cbh = renderContext->commandBuffer->getCommandBufferHandle(currentFrame);
-            const VkDescriptorSet sets = pipeline->getPipelineManager().getDescriptor().getDescriptorSetHandle(currentFrame);
+            const VkCommandBuffer cbh = renderContext.commandBuffer->getCommandBufferHandle(currentFrame);
+            const VkDescriptorSet sets = pipeline->getPipelineManager().getDescriptor().getDescriptorSetHandle(
+                currentFrame);
             vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getPipelineHandle());
             vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
                                     pipeline->getPipelineManager().getLayout().getLayoutHandle(), 0, 1, &sets, 0,
@@ -201,54 +212,53 @@ namespace merutilm::vkh {
                 .offset = {0, 0},
                 .extent = {width, height}
             };
-            const VkBuffer vertexBufferHandle = vertexBuffer->getBuffer(currentFrame);
-            const float time = engine->getTime();
-            const float sin = std::sin(time) / 2 + 0.5f;
-            const float cos = std::cos(time) / 2 + 0.5f;
 
-            vertexBuffer->set("vertices", std::vector{
-                                  Vertex{{0.0f, -0.5f, 0.0f}, {cos, cos, sin}},
-                                  Vertex{{0.5f, 0.5f, 0.0f}, {sin, cos, sin}},
-                                  Vertex{{-0.5f, 0.5f, 0.0f}, {sin, cos, cos}}
-                              });
-
+            const VkBuffer vertexBufferHandle = pipeline->getVertexBuffer().getBufferHandle(currentFrame);
+            pipeline->getVertexBuffer().set("triangle", std::vector{
+                                                Vertex::generate({1, 1, 0}, {1, 1, 1}),
+                                                Vertex::generate({1, -1, 0}, {1, 1, 1}),
+                                                Vertex::generate({-1, -1, 0}, {1, 1, 1}),
+                                                Vertex::generate({-1, 1, 0}, {1, 1, 1})
+                                            });
+            pipeline->getPipelineManager().getLayout().getPipelineLayoutManager().getPushConstantManager("push").set("resolution", glm::vec2{static_cast<float>(width / 2), static_cast<float>(height / 2)});
             pipeline->getPipelineManager().getLayout().push(cbh);
-            pipeline->getPipelineManager().getDescriptor().getDescriptorManager().getUBO("SS").set("time", time);
+            pipeline->getPipelineManager().getDescriptor().getDescriptorManager().getUBO("SS").set("time", core.getTime());
             pipeline->getPipelineManager().getDescriptor().update(currentFrame);
-            vertexBuffer->update(currentFrame);
+            pipeline->getVertexBuffer().update(currentFrame);
 
             constexpr VkDeviceSize vertexBufferOffset = 0;
             vkCmdSetViewport(cbh, 0, 1, &viewport);
             vkCmdSetScissor(cbh, 0, 1, &scissor);
             vkCmdBindVertexBuffers(cbh, 0, 1, &vertexBufferHandle, &vertexBufferOffset);
-            vkCmdDraw(cbh, 3, 1, 0, 0);
+            vkCmdBindIndexBuffer(cbh, pipeline->getIndexBuffer().getBufferHandle(currentFrame),
+                                 pipeline->getIndexBuffer().getOffset("triangle"), VK_INDEX_TYPE_UINT32);
+            vkCmdDrawIndexed(cbh, pipeline->getIndexBuffer().getElementCount("triangle"), 1, 0, 0, 0);
         } // COMMAND SCOPE END
     }
 
     void Application::changeFrameIndex() {
-        ++currentFrame %= engine->getPhysicalDevice().getMaxFramesInFlight();
+        ++currentFrame %= engine->getCore().getPhysicalDevice().getMaxFramesInFlight();
     }
 
-    void Application::resolveResize() {
-        if (engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).window->isUnrenderable()) {
+    void Application::resolveWindowResize() {
+        Core &core = engine->getCore();
+        const RenderContext &renderContext = engine->getRenderContext();
+        if (core.getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).window->isUnrenderable()) {
             return;
         }
-        vkDeviceWaitIdle(engine->getLogicalDevice().getLogicalDeviceHandle());
-        renderContext->framebuffer->detach();
-        renderContext->renderPass->detach();
-        engine->getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).swapchain->recreate();
-        renderContext->renderPass->attach();
-        renderContext->framebuffer->attach();
+        vkDeviceWaitIdle(core.getLogicalDevice().getLogicalDeviceHandle());
+        renderContext.framebuffer->detach();
+        renderContext.renderPass->detach();
+        core.getWindowContext(MAIN_WINDOW_ATTACHMENT_NAME).swapchain->recreate();
+        renderContext.renderPass->attach();
+        renderContext.framebuffer->attach();
         currentFrame = 0;
+        drawFrame();
     }
 
     void Application::quit() {
-        vkDeviceWaitIdle(engine->getLogicalDevice().getLogicalDeviceHandle());
+        vkDeviceWaitIdle(engine->getCore().getLogicalDevice().getLogicalDeviceHandle());
         pipeline = nullptr;
-        repositories = nullptr;
-        renderContext = nullptr;
-        vertexBuffer = nullptr;
-        commandPool = nullptr;
         engine = nullptr;
     }
 }

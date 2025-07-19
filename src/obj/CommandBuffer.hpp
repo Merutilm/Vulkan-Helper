@@ -4,15 +4,15 @@
 
 #pragma once
 #include "CommandPool.hpp"
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
+#include "../base/Core.hpp"
 
 namespace merutilm::vkh {
-    class CommandBuffer final : public EngineHandler {
-        const CommandPool &commandPool;
+    class CommandBuffer final : public CoreHandler {
         std::vector<VkCommandBuffer> commandBuffers = {};
-
+        const CommandPool &commandPool;
     public:
-        explicit CommandBuffer(const Engine &engine, const CommandPool &commandPool);
+        explicit CommandBuffer(const Core &core, const CommandPool &commandPool);
 
         ~CommandBuffer() override;
 

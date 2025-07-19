@@ -4,7 +4,7 @@
 
 #pragma once
 #include "../exception/exception.hpp"
-#include "../context/Engine.hpp"
+#include "../base/Core.hpp"
 #include "../struct/ImageInitInfo.hpp"
 
 namespace merutilm::vkh {
@@ -12,7 +12,7 @@ namespace merutilm::vkh {
         BufferUtils() = delete;
 
 
-        static void initImage(const Engine &engine,
+        static void initImage(const Core &engine,
                               const ImageInitInfo &iii, VkImage *image,
                               VkDeviceMemory *imageMemory,
                               VkImageView *imageView) {
@@ -119,7 +119,7 @@ namespace merutilm::vkh {
             return VK_IMAGE_ASPECT_COLOR_BIT;
         }
 
-        static void initBuffer(const Engine &engine, const VkDeviceSize size, const VkBufferUsageFlags usage,
+        static void initBuffer(const Core &engine, const VkDeviceSize size, const VkBufferUsageFlags usage,
                                const VkMemoryPropertyFlags properties, VkBuffer *buffer, VkDeviceMemory *bufferMemory) {
             initBuffer(engine.getLogicalDevice().getLogicalDeviceHandle(),
                        engine.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), size, usage,

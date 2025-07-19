@@ -6,8 +6,8 @@
 #include <glm/glm.hpp>
 
 #include "BufferObject.hpp"
-#include "../handle/EngineHandler.hpp"
-#include "../manage/Uploader.hpp"
+#include "../handle/CoreHandler.hpp"
+#include "../manage/ConstBufferObjectManager.hpp"
 
 namespace merutilm::vkh {
     class VertexBuffer final : public BufferObject {
@@ -15,7 +15,7 @@ namespace merutilm::vkh {
         std::vector<VkVertexInputAttributeDescription> vertexInputAttributeDescriptions = {};
 
     public:
-        explicit VertexBuffer(const Engine &engine, std::unique_ptr<BufferObjectManager> &&manager);
+        explicit VertexBuffer(const Core &core, std::unique_ptr<BufferObjectManager> &&manager);
 
         ~VertexBuffer() override;
 

@@ -4,16 +4,16 @@
 
 #pragma once
 #include "RenderPass.hpp"
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
-    class Framebuffer final : public EngineHandler {
+    class Framebuffer final : public CoreHandler {
         const Swapchain &swapchain;
         const RenderPass &renderPass;
         std::vector<VkFramebuffer> framebuffer = {};
 
     public:
-        explicit Framebuffer(const Engine &engine, const std::string &windowAttachmentName, const RenderPass &renderPass);
+        explicit Framebuffer(const Core &core, const std::string &windowAttachmentName, const RenderPass &renderPass);
 
         ~Framebuffer() override;
 

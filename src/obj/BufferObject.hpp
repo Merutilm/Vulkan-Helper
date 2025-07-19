@@ -3,12 +3,12 @@
 //
 
 #pragma once
-#include "../handle/EngineHandler.hpp"
-#include "../manage/Uploader.hpp"
+#include "../handle/CoreHandler.hpp"
+#include "../manage/ConstBufferObjectManager.hpp"
 #include "../manage/BufferObjectManager.hpp"
 
 namespace merutilm::vkh {
-    class BufferObject : public EngineHandler, public Uploader{
+    class BufferObject : public CoreHandler, public ConstBufferObjectManager{
 
         VkBufferUsageFlags bufferUsage;
         std::vector<VkBuffer> buffers = {};
@@ -17,7 +17,7 @@ namespace merutilm::vkh {
         bool finalized = false;
 
     public:
-        explicit BufferObject(const Engine &engine, std::unique_ptr<BufferObjectManager> &&dataManager, VkBufferUsageFlags bufferUsage);
+        explicit BufferObject(const Core &core, std::unique_ptr<BufferObjectManager> &&dataManager, VkBufferUsageFlags bufferUsage);
 
         ~BufferObject() override;
 
@@ -31,7 +31,7 @@ namespace merutilm::vkh {
 
         void finalize();
 
-        [[nodiscard]] VkBuffer getBuffer(const uint32_t frameIndex) const { return buffers[frameIndex]; }
+        [[nodiscard]] VkBuffer getBufferHandle(const uint32_t frameIndex) const { return buffers[frameIndex]; }
 
 
         void update(uint32_t frameIndex) const;

@@ -10,13 +10,13 @@
 #include "../obj/PipelineLayout.hpp"
 
 namespace merutilm::vkh {
-    struct PipelineLayoutRepo final : Repo<PipelineLayoutManager *, PipelineLayout, PipelineLayoutManagerPtrHasher, PointerDerefEquals, std::unique_ptr<PipelineLayoutManager> &&>{
+    struct PipelineLayoutRepo final : Repo<PipelineLayoutManager *, std::unique_ptr<PipelineLayoutManager> &&, PipelineLayout, PipelineLayoutManagerPtrHasher, PointerDerefEquals>{
 
         using Repo::Repo;
 
         const PipelineLayout &pick(std::unique_ptr<PipelineLayoutManager> &&layoutManager) override {
             auto *ptr = layoutManager.get();
-            return *repository.try_emplace(ptr, std::make_unique<PipelineLayout>(engine, std::move(layoutManager))).first->
+            return *repository.try_emplace(ptr, std::make_unique<PipelineLayout>(core, std::move(layoutManager))).first->
                     second;
         }
 

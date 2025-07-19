@@ -7,7 +7,7 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    SyncObject::SyncObject(const Engine &engine) : EngineHandler(engine) {
+    SyncObject::SyncObject(const Core &core) : CoreHandler(core) {
         SyncObject::attach();
     }
 
@@ -17,8 +17,8 @@ namespace merutilm::vkh {
 
     void SyncObject::attach() {
         
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
 
         constexpr VkSemaphoreCreateInfo semaphoreInfo = {
             .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
@@ -46,8 +46,8 @@ namespace merutilm::vkh {
     }
 
     void SyncObject::detach() {
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkDestroySemaphore(device, imageRenderedSemaphores[i], nullptr);
             vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);

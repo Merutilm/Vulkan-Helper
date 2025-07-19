@@ -3,16 +3,16 @@
 //
 
 #pragma once
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
-    class SyncObject final : public EngineHandler {
+    class SyncObject final : public CoreHandler {
         std::vector<VkSemaphore> imageRenderedSemaphores;
         std::vector<VkSemaphore> renderFinishedSemaphores;
         std::vector<VkFence> fences;
 
     public:
-        explicit SyncObject(const Engine &engine);
+        explicit SyncObject(const Core &core);
 
         ~SyncObject() override;
 

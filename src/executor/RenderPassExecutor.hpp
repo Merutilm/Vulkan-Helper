@@ -5,16 +5,17 @@
 #pragma once
 #include "Executor.hpp"
 #include "../context/RenderContext.hpp"
-#include "../handle/EngineHandler.hpp"
+#include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
     class RenderPassExecutor final : public Executor {
+        const Swapchain &swapchain;
         const RenderContext &renderContext;
         const uint32_t frameIndex;
         const uint32_t imageIndex;
 
     public:
-        explicit RenderPassExecutor(const Engine &engine, const RenderContext &renderContext,  uint32_t frameIndex, uint32_t imageIndex);
+        explicit RenderPassExecutor(const Core &engine, const RenderContext &renderContext,  uint32_t frameIndex, uint32_t imageIndex);
 
         ~RenderPassExecutor() override;
 

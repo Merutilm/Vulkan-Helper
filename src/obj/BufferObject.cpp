@@ -7,8 +7,8 @@
 #include "../util/BufferUtils.hpp"
 
 namespace merutilm::vkh {
-    BufferObject::BufferObject(const Engine &engine, std::unique_ptr<BufferObjectManager> &&dataManager,
-                               const VkBufferUsageFlags bufferUsage) : EngineHandler(engine), Uploader(std::move(dataManager)),
+    BufferObject::BufferObject(const Core &core, std::unique_ptr<BufferObjectManager> &&dataManager,
+                               const VkBufferUsageFlags bufferUsage) : CoreHandler(core), ConstBufferObjectManager(std::move(dataManager)),
                                                                  bufferUsage(bufferUsage) {
         BufferObject::attach();
     }
@@ -22,21 +22,21 @@ namespace merutilm::vkh {
         if (finalized) {
             throw exception_invalid_state("BufferObject::update() This bufferObject is already been finalized. It cannot be modified.");
         }
-        memcpy(bufferMapped[frameIndex], data.data(), getSize());
+        memcpy(bufferMapped[frameIndex], data.data(), getSizeByte());
     }
 
     void BufferObject::attach() {
-        const uint32_t size = getSize();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t size = getSizeByte();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         buffers.resize(maxFramesInFlight);
         bufferMemory.resize(maxFramesInFlight);
         bufferMapped.resize(maxFramesInFlight);
 
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            BufferUtils::initBuffer(engine, size, bufferUsage,
+            BufferUtils::initBuffer(core, size, bufferUsage,
                                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                                     &buffers[i], &bufferMemory[i]);
-            vkMapMemory(engine.getLogicalDevice().getLogicalDeviceHandle(), bufferMemory[i], 0, size, 0,
+            vkMapMemory(core.getLogicalDevice().getLogicalDeviceHandle(), bufferMemory[i], 0, size, 0,
                         &bufferMapped[i]);
             update(i);
         }
@@ -44,11 +44,11 @@ namespace merutilm::vkh {
 
     void BufferObject::finalize() {
         if (finalized) {
-            throw exception_invalid_state("BufferObject::finalize() called more than once");
+            throw exception_invalid_state("Double-call of BufferObject::finalize()");
         }
 
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkUnmapMemory(device, bufferMemory[i]);
         }
@@ -60,8 +60,8 @@ namespace merutilm::vkh {
         if (!finalized) {
             finalize();
         }
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkFreeMemory(device, bufferMemory[i], nullptr);
             vkDestroyBuffer(device, buffers[i], nullptr);

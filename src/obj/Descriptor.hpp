@@ -7,13 +7,13 @@
 #include "../manage/DescriptorManager.hpp"
 
 namespace merutilm::vkh {
-    class Descriptor final : public EngineHandler {
+    class Descriptor final : public CoreHandler {
         std::vector<VkDescriptorPool> descriptorPools = {};
         std::vector<VkDescriptorSet> descriptorSets = {};
         const std::unique_ptr<DescriptorManager> descriptorManager = nullptr;
 
     public:
-        explicit Descriptor(const Engine &engine, std::unique_ptr<DescriptorManager> &&descriptorManager);
+        explicit Descriptor(const Core &core, std::unique_ptr<DescriptorManager> &&descriptorManager);
 
         ~Descriptor() override;
 

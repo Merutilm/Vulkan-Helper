@@ -2,38 +2,37 @@
 // Created by Merutilm on 2025-07-13.
 //
 
-#include "Engine.hpp"
+#include "Core.hpp"
 
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
 
-    Engine::Engine() {
-        Engine::attach();
+    Core::Core() {
+        Core::attach();
     }
 
-    Engine::~Engine() {
-        Engine::detach();
+    Core::~Core() {
+        Core::detach();
     }
 
-    std::unique_ptr<Engine> Engine::createEngine() {
-        return std::make_unique<Engine>();
+    std::unique_ptr<Core> Core::createCore() {
+        return std::make_unique<Core>();
     }
 
-    float Engine::getTime() const {
+    float Core::getTime() const {
         using namespace std::chrono;
         const auto currentTime = high_resolution_clock::now();
         return std::chrono::duration_cast<duration<float>>(currentTime - startTime).count();
     }
 
 
-    void Engine::attach() {
+    void Core::attach() {
         instance = std::make_unique<Instance>(true);
-
         startTime = std::chrono::high_resolution_clock::now();
     }
 
-    void Engine::attachWindow(const WindowCreateInfo &windowCreateInfo) {
+    void Core::createWindow(const WindowCreateInfo &windowCreateInfo) {
         const std::string &attachmentName = windowCreateInfo.windowAttachmentName;
         if (windowContexts.contains(attachmentName)) {
             throw exception_invalid_args("Window already exists");
@@ -56,7 +55,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Engine::detach() {
+    void Core::detach() {
         windowContexts.clear();
         logicalDevice = nullptr;
         physicalDevice = nullptr;

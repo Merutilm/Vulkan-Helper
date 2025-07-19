@@ -7,10 +7,10 @@
 #include "../util/BufferUtils.hpp"
 
 namespace merutilm::vkh {
-    Framebuffer::Framebuffer(const Engine &engine, const std::string &windowAttachmentName,
-                             const RenderPass &renderPass) : EngineHandler(engine),
+    Framebuffer::Framebuffer(const Core &core, const std::string &windowAttachmentName,
+                             const RenderPass &renderPass) : CoreHandler(core),
                                                              swapchain(
-                                                                 *engine.getWindowContext(windowAttachmentName).
+                                                                 *core.getWindowContext(windowAttachmentName).
                                                                  swapchain),
                                                              renderPass(renderPass) {
         Framebuffer::attach();
@@ -21,7 +21,7 @@ namespace merutilm::vkh {
     }
 
     void Framebuffer::attach() {
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         const auto [width, height] = swapchain.populateSwapchainExtent();
         framebuffer.resize(maxFramesInFlight);
         auto &attachments = renderPass.getAttachments();
@@ -46,7 +46,7 @@ namespace merutilm::vkh {
             };
 
 
-            if (vkCreateFramebuffer(engine.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr,
+            if (vkCreateFramebuffer(core.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr,
                                     &framebuffer[i]) != VK_SUCCESS) {
                 throw exception_init("Failed to create framebuffer");
             }
@@ -54,8 +54,8 @@ namespace merutilm::vkh {
     }
 
     void Framebuffer::detach() {
-        const VkDevice device = engine.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = engine.getPhysicalDevice().getMaxFramesInFlight();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkDestroyFramebuffer(device, framebuffer[i], nullptr);
         }

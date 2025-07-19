@@ -10,7 +10,7 @@
 #include <fstream>
 
 namespace merutilm::vkh {
-    ShaderModule::ShaderModule(const Engine &engine, const std::string &filename) : EngineHandler(engine), shaderStage(getShaderStage(filename)),
+    ShaderModule::ShaderModule(const Core &core, const std::string &filename) : CoreHandler(core), shaderStage(getShaderStage(filename)),
                                                          filename(filename + ".spv") {
         ShaderModule::attach();
     }
@@ -45,12 +45,12 @@ namespace merutilm::vkh {
             .codeSize = code.size(),
             .pCode = reinterpret_cast<uint32_t *>(code.data()),
         };
-        if (vkCreateShaderModule(engine.getLogicalDevice().getLogicalDeviceHandle(), &info, nullptr, &shaderModule) != VK_SUCCESS) {
+        if (vkCreateShaderModule(core.getLogicalDevice().getLogicalDeviceHandle(), &info, nullptr, &shaderModule) != VK_SUCCESS) {
             throw exception_init("Failed to create shader module!");
         }
     }
 
     void ShaderModule::detach() {
-        vkDestroyShaderModule(engine.getLogicalDevice().getLogicalDeviceHandle(), shaderModule, nullptr);
+        vkDestroyShaderModule(core.getLogicalDevice().getLogicalDeviceHandle(), shaderModule, nullptr);
     }
 }
