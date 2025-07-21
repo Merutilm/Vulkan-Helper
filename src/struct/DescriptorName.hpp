@@ -6,7 +6,7 @@
 namespace merutilm::vkh {
 
     enum class DescriptorName {
-        CAMERA_3D
-
+        CAMERA_3D,
+        TIME
     };
 }

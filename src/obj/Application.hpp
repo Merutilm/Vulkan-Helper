@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "../base/Core.hpp"
-#include "Pipeline.hpp"
+#include "../base/BasicShaderProgram.hpp"
 #include "../base/Engine.hpp"
 
 
@@ -17,7 +17,8 @@ namespace merutilm::vkh {
         inline static const std::string MAIN_WINDOW_ATTACHMENT_NAME = "Main";
 
         std::unique_ptr<Engine> engine = nullptr;
-        std::unique_ptr<Pipeline> pipeline = nullptr;
+        std::unique_ptr<BasicShaderProgram> shaderProgram = nullptr;
+
 
     public:
         explicit Application();

@@ -11,20 +11,22 @@
 namespace merutilm::vkh {
     class PipelineManager {
         const PipelineLayout &layout;
-        std::unique_ptr<Descriptor> descriptor = nullptr;
+        std::vector<const Descriptor *> descriptors = {};
         std::vector<const ShaderModule *> shaderModules;
 
     public:
-        explicit PipelineManager(const PipelineLayout &layout,
-                                 std::unique_ptr<Descriptor> &&descriptor) : layout(layout),
-                                                                             descriptor(std::move(descriptor)) {
+        explicit PipelineManager(const PipelineLayout &layout) : layout(layout) {
         }
 
         void attachShader(const ShaderModule *shaderStage);
 
-        [[nodiscard]] const Descriptor &getDescriptor() const { return *descriptor; }
+        void attachDescriptor(std::vector<const Descriptor *> &&descriptor) { descriptors = std::move(descriptor); }
 
-        [[nodiscard]] Descriptor &getDescriptor() { return *descriptor; }
+        [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setNumber) const {
+            return *descriptors[setNumber];
+        }
+
+        [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setNumber) { return *descriptors[setNumber]; }
 
         [[nodiscard]] const PipelineLayout &getLayout() const { return layout; }
 

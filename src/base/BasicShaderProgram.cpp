@@ -4,22 +4,20 @@
 
 #include "BasicShaderProgram.hpp"
 
+#include "../repo/DescriptorRepo.hpp"
 #include "../repo/Repositories.hpp"
 
 namespace merutilm::vkh {
-    BasicShaderProgram::BasicShaderProgram(const Core &engine, Repositories *repositories,
-                                           const RenderContext &renderContext,
+    BasicShaderProgram::BasicShaderProgram(const Engine &engine,
                                            const std::string &subpassName,
                                            const std::string &vertName,
-                                           const std::string &fragName) : CoreHandler(engine),
-                                                                          repositories(repositories),
-                                                                          renderContext(renderContext),
+                                           const std::string &fragName) : EngineHandler(engine),
                                                                           subpassName(subpassName),
                                                                           vertexShader(
-                                                                              repositories->getRepository<
+                                                                              engine.getRepositories().getRepository<
                                                                                   ShaderModuleRepo>()->pick(vertName)),
                                                                           fragmentShader(
-                                                                              repositories->getRepository<
+                                                                              engine.getRepositories().getRepository<
                                                                                   ShaderModuleRepo>()->pick(fragName)) {
         BasicShaderProgram::attach();
     }
@@ -28,30 +26,41 @@ namespace merutilm::vkh {
         BasicShaderProgram::detach();
     }
 
-    void BasicShaderProgram::attach() {
+    void BasicShaderProgram::configure() {
         auto pipelineLayoutManager = std::make_unique<PipelineLayoutManager>();
-        auto descLayoutManager = std::make_unique<DescriptorSetLayoutManager>();
+        auto &layoutRepo = *engine.getRepositories().getRepository<DescriptorSetLayoutRepo>();
+        auto &descRepo = *engine.getRepositories().getRepository<DescriptorRepo>();
 
-        //do something logics
+        configurePipelineLayout(layoutRepo, *pipelineLayoutManager);
+        const PipelineLayout &pipelineLayout = engine.getRepositories().getRepository<PipelineLayoutRepo>()->pick(std::move(pipelineLayoutManager));
 
-        // const DescriptorSetLayout &descriptorSetLayout = repositories->getRepository<DescriptorSetLayoutRepo>()->pick(
-        //     std::move(descLayoutManager));
-        // const PipelineLayout &pipelineLayout = repositories->getRepository<PipelineLayoutRepo>()->
-        //         pick(std::move(pipelineLayoutManager));
-        //
-        // auto descManager = std::make_unique<DescriptorManager>(descriptorSetLayout);
-        //
-        // //do something logics
-        //
-        // auto descriptor = std::make_unique<Descriptor>(core, std::move(descManager));
-        // auto pipelineManager = std::make_unique<PipelineManager>(pipelineLayout, std::move(descriptor));
 
-        // TODO : create repository
-        // pipeline = std::make_unique<Pipeline>(engine, pipelineLayout, *renderContext.renderPass, createVertexBuffer(), subpassName,
-        //                                       std::move(pipelineManager));
+        auto pipelineManager = std::make_unique<PipelineManager>(pipelineLayout);
+
+        std::vector<const Descriptor *> descriptors = {};
+        configureDescriptors(descriptors, layoutRepo, descRepo);
+
+        pipelineManager->attachDescriptor(std::move(descriptors));
+        pipelineManager->attachShader(&vertexShader);
+        pipelineManager->attachShader(&fragmentShader);
+        vertexBuffer = createVertexBuffer();
+        indexBuffer = createIndexBuffer();
+
+        pipeline = std::make_unique<Pipeline>(engine, pipelineLayout, *vertexBuffer, *indexBuffer, subpassName,
+                                              std::move(pipelineManager));
+
+    }
+
+
+    void BasicShaderProgram::attach() {
+        //no operation
     }
 
     void BasicShaderProgram::detach() {
         pipeline = nullptr;
+        indexBuffer = nullptr;
+        vertexBuffer = nullptr;
     }
+
+
 }

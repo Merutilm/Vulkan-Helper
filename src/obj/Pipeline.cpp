@@ -11,14 +11,14 @@
 
 namespace merutilm::vkh {
     Pipeline::Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
-                       std::unique_ptr<VertexBuffer> &&vertexBuffer,
-                       std::unique_ptr<IndexBuffer> &&indexBuffer,
+                       VertexBuffer &vertexBuffer,
+                       IndexBuffer &indexBuffer,
                        std::string subpassName,
                        std::unique_ptr<PipelineManager> &&pipelineManager) : EngineHandler(engine),
                                                                              pipelineLayout(pipelineLayout),
                                                                              subpassName(std::move(subpassName)),
-                                                                             vertexBuffer(std::move(vertexBuffer)),
-                                                                             indexBuffer(std::move(indexBuffer)),
+                                                                             vertexBuffer(vertexBuffer),
+                                                                             indexBuffer(indexBuffer),
                                                                              pipelineManager(
                                                                                  std::move(pipelineManager)) {
         Pipeline::attach();
@@ -44,8 +44,8 @@ namespace merutilm::vkh {
             };
         }
 
-        auto &vertInputAttributeDescription = vertexBuffer->getVertexInputAttributeDescriptions();
-        auto &vertBindingDescription = vertexBuffer->getVertexInputBindingDescriptions();
+        auto &vertInputAttributeDescription = vertexBuffer.getVertexInputAttributeDescriptions();
+        auto &vertBindingDescription = vertexBuffer.getVertexInputBindingDescriptions();
 
 
         VkPipelineVertexInputStateCreateInfo vertexInputStateCreateInfo = {
@@ -175,7 +175,8 @@ namespace merutilm::vkh {
             .basePipelineIndex = -1
         };
 
-        if (vkCreateGraphicsPipelines(engine.getCore().getLogicalDevice().getLogicalDeviceHandle(), nullptr, 1, &info, nullptr,
+        if (vkCreateGraphicsPipelines(engine.getCore().getLogicalDevice().getLogicalDeviceHandle(), nullptr, 1, &info,
+                                      nullptr,
                                       &pipeline) != VK_SUCCESS) {
             throw exception_init("Failed to create graphics pipeline!");
         }

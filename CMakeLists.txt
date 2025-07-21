@@ -87,7 +87,6 @@ add_executable(VulkanHelper
         src/context/RenderContext.hpp
         src/hash/VectorHasher.hpp
         src/hash/PointerDerefEquals.hpp
-        src/hash/DescriptorSetLayoutBuildTypeHasher.hpp
         src/repo/Repo.hpp
         src/repo/Repositories.hpp
         src/repo/IRepo.hpp
@@ -106,6 +105,10 @@ add_executable(VulkanHelper
         src/template/DSTemplate.hpp
         src/base/Engine.cpp
         src/base/Engine.hpp
+        src/base/TemplateShaderProgram.cpp
+        src/base/TemplateShaderProgram.hpp
+        src/executor/ScopedCommandExecutor.cpp
+        src/executor/ScopedCommandExecutor.hpp
 )
 
 

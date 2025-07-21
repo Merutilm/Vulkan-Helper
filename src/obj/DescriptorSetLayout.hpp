@@ -6,7 +6,7 @@
 #include "../base/Core.hpp"
 #include "../handle/CoreHandler.hpp"
 #include "../manage/DescriptorSetLayoutManager.hpp"
-#include "../struct/DescriptorSetLayoutBuildType.hpp"
+#include "../struct/DescriptorSetLayoutName.hpp"
 
 
 namespace merutilm::vkh {

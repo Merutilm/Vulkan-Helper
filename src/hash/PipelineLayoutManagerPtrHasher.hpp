@@ -16,7 +16,7 @@ namespace merutilm::vkh {
 
         size_t operator()(const PipelineLayoutManager *key) const {
             size_t seed = 0;
-            constexpr auto descHasher = VectorHasher<VkDescriptorSetLayout>();
+            constexpr auto descHasher = VectorHasher<const DescriptorSetLayout *>();
             BoostHasher::hash(descHasher(key->getDescriptorSetLayouts()), &seed);
 
             constexpr auto pushMngPtrHasher = VectorHasher<std::unique_ptr<PushConstantManager>, UniquePtrHasher>();

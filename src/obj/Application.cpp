@@ -8,6 +8,8 @@
 #include <glm/glm.hpp>
 
 #include "UniformBuffer.hpp"
+#include "../base/BasicShaderProgram.hpp"
+#include "../base/TemplateShaderProgram.hpp"
 #include "../executor/RenderPassExecutor.hpp"
 #include "../repo/DescriptorSetLayoutRepo.hpp"
 #include "../repo/PipelineLayoutRepo.hpp"
@@ -36,58 +38,8 @@ namespace merutilm::vkh {
         engine = std::make_unique<Engine>(std::move(core));
         engine->attachRenderContext(createRenderContext());
 
+        shaderProgram = BasicShaderProgram::createProgram<TemplateShaderProgram>(*engine, "Sample", "../shaders/template.vert", "../shaders/template.frag");
 
-        auto vertexBufferManager = std::make_unique<BufferObjectManager>();
-        const std::vector vertices{
-            Vertex::generate({0.5f, 0.5f, 0.0f}, {1, 0, 0}),
-            Vertex::generate({0.5f, -0.5f, 0.0f}, {0, 1, 0}),
-            Vertex::generate({-0.5f, -0.5f, 0.0f}, {0, 0, 1}),
-            Vertex::generate({-0.5f, 0.5f, 0.0f}, {1, 1, 0})
-        };
-
-        vertexBufferManager->add("triangle", vertices);
-        auto vertexBuffer = std::make_unique<VertexBuffer>(engine->getCore(), std::move(vertexBufferManager));
-        auto indexBufferManager = std::make_unique<BufferObjectManager>();
-        const std::vector indices{
-            0, 1, 2, 2, 3, 0
-        };
-
-        indexBufferManager->add("triangle", indices);
-        auto indexBuffer = std::make_unique<IndexBuffer>(engine->getCore(), std::move(indexBufferManager));
-        indexBuffer->finalize();
-
-        auto &descriptorLayout = engine->getRepositories().getRepository<DescriptorSetLayoutRepo>()->pick(DescriptorSetLayoutName::UNIFORM_F1);
-        auto descManager = std::make_unique<DescriptorManager>(descriptorLayout);
-        auto bom = std::make_unique<BufferObjectManager>();
-        bom->reserve<float>("time");
-
-        auto ubo = std::make_unique<UniformBuffer>(engine->getCore(), std::move(bom));
-        descManager->appendUBO("SS", std::move(ubo));
-
-
-        auto pom = std::make_unique<BufferObjectManager>();
-        pom->reserve<glm::vec2>("resolution");
-        auto pushManager = std::make_unique<PushConstantManager>(VK_SHADER_STAGE_FRAGMENT_BIT, std::move(pom));
-
-        auto descriptor = std::make_unique<Descriptor>(engine->getCore(), std::move(descManager));
-
-
-        auto pipelineLayoutManager = std::make_unique<PipelineLayoutManager>();
-        pipelineLayoutManager->appendDescriptorSetLayout(descriptor->getDescriptorManager().getLayout().getLayoutHandle());
-        pipelineLayoutManager->appendPushConstantManager("push", std::move(pushManager));
-        auto &pipelineLayout = engine->getRepositories().getRepository<PipelineLayoutRepo>()->
-                pick(std::move(pipelineLayoutManager));
-
-
-        auto pipelineManager = std::make_unique<PipelineManager>(pipelineLayout, std::move(descriptor));
-        auto &vert = engine->getRepositories().getRepository<ShaderModuleRepo>()->pick("../shaders/template.vert");
-        auto &frag = engine->getRepositories().getRepository<ShaderModuleRepo>()->pick("../shaders/template.frag");
-        pipelineManager->attachShader(&vert);
-        pipelineManager->attachShader(&frag);
-        pipeline = std::make_unique<Pipeline>(*engine, pipelineLayout,
-                                              std::move(vertexBuffer), std::move(indexBuffer),
-                                              "Sample",
-                                              std::move(pipelineManager));
 
         const HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -193,11 +145,11 @@ namespace merutilm::vkh {
             const auto renderPassExecutor = RenderPassExecutor(core, renderContext,
                                                                currentFrame, imageIndex);
             const VkCommandBuffer cbh = renderContext.commandBuffer->getCommandBufferHandle(currentFrame);
-            const VkDescriptorSet sets = pipeline->getPipelineManager().getDescriptor().getDescriptorSetHandle(
+            const VkDescriptorSet sets = shaderProgram->getPipeline().getPipelineManager().getDescriptor(0).getDescriptorSetHandle(
                 currentFrame);
-            vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->getPipelineHandle());
+            vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, shaderProgram->getPipeline().getPipelineHandle());
             vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    pipeline->getPipelineManager().getLayout().getLayoutHandle(), 0, 1, &sets, 0,
+                                    shaderProgram->getPipeline().getPipelineManager().getLayout().getLayoutHandle(), 0, 1, &sets, 0,
                                     nullptr);
             const auto [width, height] = swapchain.populateSwapchainExtent();
             const VkViewport viewport = {
@@ -213,26 +165,17 @@ namespace merutilm::vkh {
                 .extent = {width, height}
             };
 
-            const VkBuffer vertexBufferHandle = pipeline->getVertexBuffer().getBufferHandle(currentFrame);
-            pipeline->getVertexBuffer().set("triangle", std::vector{
-                                                Vertex::generate({1, 1, 0}, {1, 1, 1}),
-                                                Vertex::generate({1, -1, 0}, {1, 1, 1}),
-                                                Vertex::generate({-1, -1, 0}, {1, 1, 1}),
-                                                Vertex::generate({-1, 1, 0}, {1, 1, 1})
-                                            });
-            pipeline->getPipelineManager().getLayout().getPipelineLayoutManager().getPushConstantManager("push").set("resolution", glm::vec2{static_cast<float>(width / 2), static_cast<float>(height / 2)});
-            pipeline->getPipelineManager().getLayout().push(cbh);
-            pipeline->getPipelineManager().getDescriptor().getDescriptorManager().getUBO("SS").set("time", core.getTime());
-            pipeline->getPipelineManager().getDescriptor().update(currentFrame);
-            pipeline->getVertexBuffer().update(currentFrame);
 
-            constexpr VkDeviceSize vertexBufferOffset = 0;
             vkCmdSetViewport(cbh, 0, 1, &viewport);
             vkCmdSetScissor(cbh, 0, 1, &scissor);
-            vkCmdBindVertexBuffers(cbh, 0, 1, &vertexBufferHandle, &vertexBufferOffset);
-            vkCmdBindIndexBuffer(cbh, pipeline->getIndexBuffer().getBufferHandle(currentFrame),
-                                 pipeline->getIndexBuffer().getOffset("triangle"), VK_INDEX_TYPE_UINT32);
-            vkCmdDrawIndexed(cbh, pipeline->getIndexBuffer().getElementCount("triangle"), 1, 0, 0, 0);
+
+            shaderProgram->getPipeline().getPipelineManager().getLayout().getPipelineLayoutManager().getPCM("push").set(
+                "resolution", glm::vec2{static_cast<float>(width / 2), static_cast<float>(height / 2)});
+
+            shaderProgram->getPipeline().getPipelineManager().getLayout().push(cbh);
+            shaderProgram->update(currentFrame);
+            shaderProgram->draw(cbh, currentFrame);
+
         } // COMMAND SCOPE END
     }
 
@@ -258,7 +201,7 @@ namespace merutilm::vkh {
 
     void Application::quit() {
         vkDeviceWaitIdle(engine->getCore().getLogicalDevice().getLogicalDeviceHandle());
-        pipeline = nullptr;
+        shaderProgram = nullptr;
         engine = nullptr;
     }
 }

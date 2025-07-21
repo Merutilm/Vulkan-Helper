@@ -8,6 +8,7 @@
 
 namespace merutilm::vkh {
     class Descriptor final : public CoreHandler {
+
         std::vector<VkDescriptorPool> descriptorPools = {};
         std::vector<VkDescriptorSet> descriptorSets = {};
         const std::unique_ptr<DescriptorManager> descriptorManager = nullptr;
@@ -25,9 +26,7 @@ namespace merutilm::vkh {
 
         Descriptor &operator=(Descriptor &&) = delete;
 
-        [[nodiscard]] DescriptorManager &getDescriptorManager() { return *descriptorManager; }
-
-        [[nodiscard]] const DescriptorManager &getDescriptorManager() const { return *descriptorManager; }
+        [[nodiscard]] DescriptorManager &getDescriptorManager() const { return *descriptorManager; }
 
         [[nodiscard]] VkDescriptorSet getDescriptorSetHandle(const uint32_t frameIndex) const { return descriptorSets[frameIndex]; }
 

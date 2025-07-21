@@ -9,10 +9,10 @@
 #include "../context/RenderContext.hpp"
 
 namespace merutilm::vkh {
-    RenderPassExecutor::RenderPassExecutor(const Core &engine, const RenderContext &renderContext,
+    RenderPassExecutor::RenderPassExecutor(const Core &core, const RenderContext &renderContext,
                                            const uint32_t frameIndex,
-                                           const uint32_t imageIndex) : Executor(engine),
-                                                                        swapchain(*engine.getWindowContext(
+                                           const uint32_t imageIndex) : Executor(core),
+                                                                        swapchain(*core.getWindowContext(
                                                                                 renderContext.windowAttachmentName).
                                                                             swapchain),
                                                                         renderContext(renderContext),
@@ -82,7 +82,7 @@ namespace merutilm::vkh {
                 .signalSemaphoreCount = 1,
                 .pSignalSemaphores = &renderFinishedSemaphore
             };
-            vkQueueSubmit(engine.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo,
+            vkQueueSubmit(core.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo,
                           renderContext.syncObject->getFence(frameIndex)) != VK_SUCCESS) {
             std::cerr << "Failed to submit queue" << std::endl;
         }
@@ -98,7 +98,7 @@ namespace merutilm::vkh {
             .pImageIndices = &imageIndex,
             .pResults = nullptr
         };
-        if (vkQueuePresentKHR(engine.getLogicalDevice().getPresentQueue(), &presentInfo) != VK_SUCCESS) {
+        if (vkQueuePresentKHR(core.getLogicalDevice().getPresentQueue(), &presentInfo) != VK_SUCCESS) {
             std::cerr << "Failed to present queue" << std::endl;
         }
     }

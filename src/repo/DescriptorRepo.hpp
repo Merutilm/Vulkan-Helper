@@ -11,25 +11,28 @@
 #include "../template/DSTemplate.hpp"
 
 namespace merutilm::vkh {
-    struct DescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher> {
+    struct DescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher, std::equal_to<>, const DescriptorSetLayout &> {
 
-        DescriptorSetLayoutRepo &layoutRepo;
-        explicit DescriptorRepo(const Core &core, DescriptorSetLayoutRepo &repo) : Repo(core), layoutRepo(repo) {
+        explicit DescriptorRepo(const Core &core) : Repo(core) {
 
         }
 
-        const Descriptor &pick(const DescriptorName descName) override {
+
+        const Descriptor &pick(const DescriptorName descName, const DescriptorSetLayout &layout) override {
             return *repository.try_emplace(
-                descName, std::make_unique<Descriptor>(core, findDescriptorManager(descName))).first->second;
+                descName, std::make_unique<Descriptor>(core, findDescriptorManager(descName, layout))).first->second;
         }
 
-        std::unique_ptr<DescriptorManager> findDescriptorManager(const DescriptorName descName) const {
+        static std::unique_ptr<DescriptorManager> findDescriptorManager(const DescriptorName descName, const DescriptorSetLayout &layout) {
             //  <factory method>
 
             switch (descName) {
                     using enum DescriptorName;
                 case CAMERA_3D: {
-                    return DSTemplate::Camera3D::create(layoutRepo);
+                    return DSTemplate::Camera3D::create(layout);
+                }
+                case TIME: {
+                    return DSTemplate::Time::create(layout);
                 }
                 //do something
             }

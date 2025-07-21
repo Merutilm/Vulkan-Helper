@@ -11,7 +11,7 @@
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
-    struct ShaderModuleRepo final : Repo<std::string, const std::string&, ShaderModule, StringHasher>{
+    struct ShaderModuleRepo final : Repo<std::string, const std::string&, ShaderModule, StringHasher, std::equal_to<>>{
 
         using Repo::Repo;
 

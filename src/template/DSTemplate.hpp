@@ -18,18 +18,30 @@ namespace merutilm::vkh::DSTemplate {
         inline static const std::string CAMERA_VIEW = "view";
         inline static const std::string CAMERA_PROJ = "proj";
 
-        static std::unique_ptr<DescriptorManager> create(DescriptorSetLayoutRepo &layoutRepo) {
-            auto &descLayout = layoutRepo.pick(DescriptorSetLayoutName::UNIFORM_V1);
+        static std::unique_ptr<DescriptorManager> create(const DescriptorSetLayout &descriptorSetLayout) {
             auto bufferManager = std::make_unique<BufferObjectManager>();
 
             bufferManager->reserve<glm::mat4>(CAMERA_MODEL);
             bufferManager->reserve<glm::mat4>(CAMERA_VIEW);
             bufferManager->reserve<glm::mat4>(CAMERA_PROJ);
 
-            auto ubo = std::make_unique<UniformBuffer>(layoutRepo.core, std::move(bufferManager));
-            auto descManager = std::make_unique<DescriptorManager>(descLayout);
+            auto ubo = std::make_unique<UniformBuffer>(descriptorSetLayout.core, std::move(bufferManager));
+            auto descManager = std::make_unique<DescriptorManager>(descriptorSetLayout);
 
             descManager->appendUBO(UBO_CAMERA, std::move(ubo));
+            return descManager;
+        }
+    };
+    struct Time {
+        inline static const std::string UBO_TIME = "time";
+        inline static const std::string TIME_CURRENT = "currentTime";
+
+        static std::unique_ptr<DescriptorManager> create(const DescriptorSetLayout &descriptorSetLayout) {
+            auto bufferManager = std::make_unique<BufferObjectManager>();
+            bufferManager->reserve<float>(TIME_CURRENT);
+            auto ubo = std::make_unique<UniformBuffer>(descriptorSetLayout.core, std::move(bufferManager));
+            auto descManager = std::make_unique<DescriptorManager>(descriptorSetLayout);
+            descManager->appendUBO(UBO_TIME, std::move(ubo));
             return descManager;
         }
     };

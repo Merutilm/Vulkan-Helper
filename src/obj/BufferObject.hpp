@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "CommandPool.hpp"
 #include "../handle/CoreHandler.hpp"
 #include "../manage/ConstBufferObjectManager.hpp"
 #include "../manage/BufferObjectManager.hpp"
@@ -29,12 +30,16 @@ namespace merutilm::vkh {
 
         BufferObject &operator=(BufferObject &&) noexcept = delete;
 
-        void finalize();
+        void finalize(const CommandPool &commandPool);
 
         [[nodiscard]] VkBuffer getBufferHandle(const uint32_t frameIndex) const { return buffers[frameIndex]; }
 
 
         void update(uint32_t frameIndex) const;
+
+        void update(uint32_t frameIndex, const std::string &varname) const;
+
+        void checkFinalizedBeforeUpdate() const;
 
     protected:
         void attach() override;

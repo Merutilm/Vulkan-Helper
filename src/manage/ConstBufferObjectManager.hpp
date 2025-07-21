@@ -20,11 +20,12 @@ namespace merutilm::vkh {
         std::vector<uint32_t> offsets = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
 
-        explicit ConstBufferObjectManager(std::unique_ptr<BufferObjectManager> &&uploadManager) : data(std::move(uploadManager->data)),
-                                                                            elements(std::move(uploadManager->elements)),
-                                                                            sizes(std::move(uploadManager->sizes)),
-                                                                            offsets(std::move(uploadManager->offsets)),
-                                                                            names(std::move(uploadManager->names)) {
+        explicit ConstBufferObjectManager(std::unique_ptr<BufferObjectManager> &&uploadManager) : data(std::move(
+                uploadManager->data)),
+            elements(std::move(uploadManager->elements)),
+            sizes(std::move(uploadManager->sizes)),
+            offsets(std::move(uploadManager->offsets)),
+            names(std::move(uploadManager->names)) {
         }
 
         uint32_t getIndex(const std::string &varName) const {
@@ -59,11 +60,15 @@ namespace merutilm::vkh {
 
         const std::vector<std::byte> &getData() const { return data; }
 
-        uint32_t getOffset(const std::string &varName) const { return getOffset(getIndex(varName)); }
+        uint32_t getOffset(const std::string &varname) const { return getOffset(getIndex(varname)); }
 
         uint32_t getOffset(const uint32_t index) const { return offsets[index]; }
 
-        uint32_t getSizeByte() const { return static_cast<uint32_t>(data.size()); }
+        uint32_t getSizeByte(const std::string &varname) const { return getSizeByte(getIndex(varname)); }
+
+        uint32_t getSizeByte(const uint32_t index) const { return sizes[index]; }
+
+        uint32_t getTotalSizeByte() const { return static_cast<uint32_t>(data.size()); }
 
         uint32_t getObjectCount() const {
             return static_cast<uint32_t>(names.size());

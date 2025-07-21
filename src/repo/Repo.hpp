@@ -8,7 +8,7 @@
 
 namespace merutilm::vkh {
 
-    template<typename Key, typename KeyInput, typename Type, typename KeyHasher = std::hash<Key>, typename KeyPredicate = std::equal_to<>>
+    template<typename Key, typename KeyInput, typename Type, typename KeyHasher, typename KeyPredicate, typename... Args>
     struct Repo : IRepo{
 
         const Core &core;
@@ -17,7 +17,7 @@ namespace merutilm::vkh {
 
         explicit Repo(const Core &core) : core(core) {}
 
-        virtual const Type &pick(KeyInput keyInput) = 0;
+        virtual const Type &pick(KeyInput keyInput, Args&&... args) = 0;
 
     };
 

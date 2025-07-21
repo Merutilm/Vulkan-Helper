@@ -5,6 +5,7 @@
 #pragma once
 #include <vector>
 
+#include "DescriptorRepo.hpp"
 #include "DescriptorSetLayoutRepo.hpp"
 #include "PipelineLayoutRepo.hpp"
 #include "Repo.hpp"
@@ -20,6 +21,7 @@ namespace merutilm::vkh {
 
         explicit Repositories(const Core &engine) {
             addRepository<DescriptorSetLayoutRepo>(engine);
+            addRepository<DescriptorRepo>(engine);
             addRepository<PipelineLayoutRepo>(engine);
             addRepository<ShaderModuleRepo>(engine);
         }

@@ -15,7 +15,7 @@
 
 namespace merutilm::vkh {
     struct DescriptorSetLayoutRepo final : Repo<DescriptorSetLayoutName, DescriptorSetLayoutName, DescriptorSetLayout,
-                EnumHasher> {
+                EnumHasher, std::equal_to<>> {
         using Repo::Repo;
 
         const DescriptorSetLayout &pick(const DescriptorSetLayoutName layoutName) override {

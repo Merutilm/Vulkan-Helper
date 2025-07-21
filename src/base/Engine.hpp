@@ -32,21 +32,13 @@ namespace merutilm::vkh {
 
         void attachRenderContext(std::unique_ptr<RenderContext> &&renderContext);
 
-        const Core &getCore() const { return *core; }
+        Core &getCore() const { return *core; }
 
-        const Repositories &getRepositories() const { return *repositories; }
+        Repositories &getRepositories() const { return *repositories; }
 
-        const CommandPool &getCommandPool() const { return *commandPool; }
+        CommandPool &getCommandPool() const { return *commandPool; }
 
-        const RenderContext &getRenderContext() const { return *renderContext; }
-
-        Core &getCore() { return *core; }
-
-        Repositories &getRepositories() { return *repositories; }
-
-        CommandPool &getCommandPool() { return *commandPool; }
-
-        RenderContext &getRenderContext() { return *renderContext; }
+        RenderContext &getRenderContext() const { return *renderContext; }
 
     private:
         void attach() override;

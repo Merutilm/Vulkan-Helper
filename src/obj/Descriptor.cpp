@@ -29,7 +29,7 @@ namespace merutilm::vkh {
             bufferInfos[i] = {
                 .buffer = ubo.getBufferHandle(frameIndex),
                 .offset = 0,
-                .range = ubo.getSizeByte()
+                .range = ubo.getTotalSizeByte()
             };
 
             writeDescriptorSets[i] = {
