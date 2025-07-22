@@ -9,24 +9,24 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    struct BufferObjectManager final {
+    struct ShaderObjectManager final {
         std::vector<std::byte> data = {};
         std::vector<uint32_t> elements = {};
         std::vector<uint32_t> sizes = {};
         std::vector<uint32_t> offsets = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
 
-        explicit BufferObjectManager() = default;
+        explicit ShaderObjectManager() = default;
 
-        ~BufferObjectManager() = default;
+        ~ShaderObjectManager() = default;
 
-        BufferObjectManager(const BufferObjectManager &) = delete;
+        ShaderObjectManager(const ShaderObjectManager &) = delete;
 
-        BufferObjectManager &operator=(const BufferObjectManager &) = delete;
+        ShaderObjectManager &operator=(const ShaderObjectManager &) = delete;
 
-        BufferObjectManager(BufferObjectManager &&) noexcept = delete;
+        ShaderObjectManager(ShaderObjectManager &&) noexcept = delete;
 
-        BufferObjectManager &operator=(BufferObjectManager &&) noexcept = delete;
+        ShaderObjectManager &operator=(ShaderObjectManager &&) noexcept = delete;
 
 
         template<typename T> requires std::is_trivially_copyable_v<T>
@@ -44,7 +44,7 @@ namespace merutilm::vkh {
 
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void BufferObjectManager::reserve(const std::string &varName) {
+    void ShaderObjectManager::reserve(const std::string &varName) {
         if (names.contains(varName)) {
             throw exception_invalid_args("varName already exists : " + varName);
         }
@@ -57,7 +57,7 @@ namespace merutilm::vkh {
     }
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void BufferObjectManager::reserve(const std::string &varName, uint32_t elementCount) {
+    void ShaderObjectManager::reserve(const std::string &varName, uint32_t elementCount) {
         if (names.contains(varName)) {
             throw exception_invalid_args("varName already exists : " + varName);
         }
@@ -71,7 +71,7 @@ namespace merutilm::vkh {
 
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void BufferObjectManager::add(const std::string &varName, const T &t) {
+    void ShaderObjectManager::add(const std::string &varName, const T &t) {
         if (names.contains(varName)) {
             throw exception_invalid_args("varName already exists : " + varName);
         }
@@ -84,7 +84,7 @@ namespace merutilm::vkh {
     }
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void BufferObjectManager::add(const std::string &varName, const std::vector<T> &t) {
+    void ShaderObjectManager::add(const std::string &varName, const std::vector<T> &t) {
         if (names.contains(varName)) {
             throw exception_invalid_args("varName already exists : " + varName);
         }

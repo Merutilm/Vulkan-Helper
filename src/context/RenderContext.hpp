@@ -5,12 +5,14 @@
 #pragma once
 #include <memory>
 
-#include "../obj/CommandBuffer.hpp"
-#include "../obj/Framebuffer.hpp"
-#include "../obj/RenderPass.hpp"
-#include "../obj/SyncObject.hpp"
+#include "../configurator/RenderPassConfigurator.hpp"
+#include "../core/CommandBuffer.hpp"
+#include "../core/Framebuffer.hpp"
+#include "../core/RenderPass.hpp"
+#include "../core/SyncObject.hpp"
 
 namespace merutilm::vkh {
+
     struct RenderContext final {
         const std::string windowAttachmentName;
         std::unique_ptr<CommandBuffer> commandBuffer = nullptr;
@@ -18,14 +20,17 @@ namespace merutilm::vkh {
         std::unique_ptr<RenderPass> renderPass = nullptr;
         std::unique_ptr<Framebuffer> framebuffer = nullptr;
 
-        explicit RenderContext(const Core &engine, const std::string &windowAttachmentName,
+        explicit RenderContext(const Core &core, const std::string &windowAttachmentName,
                                const CommandPool &commandPool,
-                               std::unique_ptr<RenderPassManager> &&renderPassManager) : windowAttachmentName(
+                               const RenderPassConfigurator &renderPassConfigurator) : windowAttachmentName(
             windowAttachmentName) {
-            commandBuffer = std::make_unique<CommandBuffer>(engine, commandPool);
-            syncObject = std::make_unique<SyncObject>(engine);
-            renderPass = std::make_unique<RenderPass>(engine, windowAttachmentName, std::move(renderPassManager));
-            framebuffer = std::make_unique<Framebuffer>(engine, windowAttachmentName, *renderPass);
+            commandBuffer = std::make_unique<CommandBuffer>(core, commandPool);
+            syncObject = std::make_unique<SyncObject>(core);
+
+            auto renderPassManager = std::make_unique<RenderPassManager>();
+            renderPassConfigurator.configure(*renderPassManager);
+            renderPass = std::make_unique<RenderPass>(core, windowAttachmentName, std::move(renderPassManager));
+            framebuffer = std::make_unique<Framebuffer>(core, windowAttachmentName, *renderPass);
         }
     };
 }

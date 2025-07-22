@@ -5,7 +5,7 @@
 #include "UniformBuffer.hpp"
 
 namespace merutilm::vkh {
-    UniformBuffer::UniformBuffer(const Core &core, std::unique_ptr<BufferObjectManager> &&manager) : BufferObject(core, std::move(manager), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT){
+    UniformBuffer::UniformBuffer(const Core &core, std::unique_ptr<ShaderObjectManager> &&manager) : BufferObject(core, std::move(manager), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT){
         UniformBuffer::attach();
     }
 

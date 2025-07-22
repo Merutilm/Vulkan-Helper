@@ -14,7 +14,7 @@
 
 namespace merutilm::vkh {
     class RenderPassManager {
-        const Core &engine;
+
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > subpassNames = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > attachmentNames = {};
 
@@ -27,8 +27,7 @@ namespace merutilm::vkh {
         uint32_t count = 0;
 
     public:
-        explicit RenderPassManager(const Core &engine) : engine(engine) {
-        }
+        explicit RenderPassManager() = default;
 
         ~RenderPassManager() = default;
 
@@ -73,7 +72,7 @@ namespace merutilm::vkh {
 
         void appendAttachment(const std::string &attachmentName, RenderPassAttachmentType attachmentType,
                               const VkAttachmentDescription &attachment,
-                              const ImageInitInfo &imageInitInfo);
+                              const ImageInitInfo &imageInitInfo = {});
 
         uint32_t getSubpassIndex(const std::string &subpassName) const;
 
@@ -123,7 +122,7 @@ namespace merutilm::vkh {
     inline void RenderPassManager::appendAttachment(const std::string &attachmentName,
                                                     const RenderPassAttachmentType attachmentType,
                                                     const VkAttachmentDescription &attachment,
-                                                    const ImageInitInfo &imageInitInfo = {}) {
+                                                    const ImageInitInfo &imageInitInfo) {
         using enum RenderPassAttachmentType;
         if (attachmentNames.contains(attachmentName)) {
             throw exception_invalid_args("Attachment already exists");

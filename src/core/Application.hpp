@@ -5,9 +5,9 @@
 #pragma once
 #include <memory>
 
-#include "../base/Core.hpp"
-#include "../base/BasicShaderProgram.hpp"
-#include "../base/Engine.hpp"
+#include "Core.hpp"
+#include "../configurator/VFPipelineConfigurator.hpp"
+#include "Engine.hpp"
 
 
 namespace merutilm::vkh {
@@ -17,7 +17,7 @@ namespace merutilm::vkh {
         inline static const std::string MAIN_WINDOW_ATTACHMENT_NAME = "Main";
 
         std::unique_ptr<Engine> engine = nullptr;
-        std::unique_ptr<BasicShaderProgram> shaderProgram = nullptr;
+        std::unique_ptr<VFPipelineConfigurator> shaderProgram = nullptr;
 
 
     public:

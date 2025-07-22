@@ -8,9 +8,9 @@
 
 #include "../context/WindowContext.hpp"
 #include "../exception/exception.hpp"
-#include "../obj/Instance.hpp"
-#include "../obj/LogicalDevice.hpp"
-#include "../obj/PhysicalDevice.hpp"
+#include "Instance.hpp"
+#include "LogicalDevice.hpp"
+#include "PhysicalDevice.hpp"
 #include "../struct/StringHasher.hpp"
 #include "../struct/WindowCreateInfo.hpp"
 

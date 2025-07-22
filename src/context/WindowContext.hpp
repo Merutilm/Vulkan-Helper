@@ -5,9 +5,9 @@
 #pragma once
 #include <memory>
 
-#include "../obj/Window.hpp"
-#include "../obj/Surface.hpp"
-#include "../obj/Swapchain.hpp"
+#include "../core/Window.hpp"
+#include "../core/Surface.hpp"
+#include "../core/Swapchain.hpp"
 
 namespace merutilm::vkh {
     struct WindowContext final {

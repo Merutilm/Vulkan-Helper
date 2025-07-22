@@ -5,8 +5,8 @@
 #pragma once
 #include <vector>
 
-#include "../obj/DescriptorSetLayout.hpp"
-#include "../obj/UniformBuffer.hpp"
+#include "../core/DescriptorSetLayout.hpp"
+#include "../core/UniformBuffer.hpp"
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {

@@ -5,7 +5,7 @@
 #pragma once
 #include "CommandPool.hpp"
 #include "../handle/CoreHandler.hpp"
-#include "../base/Core.hpp"
+#include "Core.hpp"
 
 namespace merutilm::vkh {
     class CommandBuffer final : public CoreHandler {

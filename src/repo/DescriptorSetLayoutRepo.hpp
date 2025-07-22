@@ -8,7 +8,7 @@
 
 #include "Repo.hpp"
 #include "../manage/DescriptorSetLayoutManager.hpp"
-#include "../obj/DescriptorSetLayout.hpp"
+#include "../core/DescriptorSetLayout.hpp"
 #include "../struct/DescriptorSetLayoutName.hpp"
 #include "../struct/EnumHasher.hpp"
 #include "../template/DSLTemplate.hpp"

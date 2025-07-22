@@ -19,7 +19,7 @@ namespace merutilm::vkh::DSTemplate {
         inline static const std::string CAMERA_PROJ = "proj";
 
         static std::unique_ptr<DescriptorManager> create(const DescriptorSetLayout &descriptorSetLayout) {
-            auto bufferManager = std::make_unique<BufferObjectManager>();
+            auto bufferManager = std::make_unique<ShaderObjectManager>();
 
             bufferManager->reserve<glm::mat4>(CAMERA_MODEL);
             bufferManager->reserve<glm::mat4>(CAMERA_VIEW);
@@ -37,7 +37,7 @@ namespace merutilm::vkh::DSTemplate {
         inline static const std::string TIME_CURRENT = "currentTime";
 
         static std::unique_ptr<DescriptorManager> create(const DescriptorSetLayout &descriptorSetLayout) {
-            auto bufferManager = std::make_unique<BufferObjectManager>();
+            auto bufferManager = std::make_unique<ShaderObjectManager>();
             bufferManager->reserve<float>(TIME_CURRENT);
             auto ubo = std::make_unique<UniformBuffer>(descriptorSetLayout.core, std::move(bufferManager));
             auto descManager = std::make_unique<DescriptorManager>(descriptorSetLayout);

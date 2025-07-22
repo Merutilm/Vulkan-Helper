@@ -35,6 +35,8 @@ namespace merutilm::vkh {
 
         Swapchain &operator=(Swapchain &&) = delete;
 
+        void matchViewportAndScissor(VkCommandBuffer cbh) const;
+
         void recreate();
 
         [[nodiscard]] VkExtent2D populateSwapchainExtent() const;

@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "BufferObjectManager.hpp"
+#include "ShaderObjectManager.hpp"
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
@@ -20,7 +20,7 @@ namespace merutilm::vkh {
         std::vector<uint32_t> offsets = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
 
-        explicit ConstBufferObjectManager(std::unique_ptr<BufferObjectManager> &&uploadManager) : data(std::move(
+        explicit ConstBufferObjectManager(std::unique_ptr<ShaderObjectManager> &&uploadManager) : data(std::move(
                 uploadManager->data)),
             elements(std::move(uploadManager->elements)),
             sizes(std::move(uploadManager->sizes)),

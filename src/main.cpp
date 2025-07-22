@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "obj/Application.hpp"
+#include "core/Application.hpp"
 
 void counter(const std::filesystem::path &path, uint32_t *lines) {
     if (std::filesystem::is_directory(path)) {;

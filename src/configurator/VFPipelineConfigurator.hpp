@@ -7,14 +7,14 @@
 
 #include "../context/RenderContext.hpp"
 #include "../handle/EngineHandler.hpp"
-#include "../obj/Pipeline.hpp"
-#include "../obj/ShaderModule.hpp"
+#include "../core/Pipeline.hpp"
+#include "../core/ShaderModule.hpp"
 #include "../repo/DescriptorRepo.hpp"
 #include "../repo/Repositories.hpp"
 
 
 namespace merutilm::vkh {
-    class BasicShaderProgram : public EngineHandler {
+    class VFPipelineConfigurator : public EngineHandler {
         const std::string subpassName;
         const ShaderModule &vertexShader;
         const ShaderModule &fragmentShader;
@@ -23,23 +23,23 @@ namespace merutilm::vkh {
         std::unique_ptr<IndexBuffer> indexBuffer = nullptr;
 
     public:
-        explicit BasicShaderProgram(const Engine &engine,
+        explicit VFPipelineConfigurator(const Engine &engine,
                                     const std::string &subpassName,
                                     const std::string &vertName,
                                     const std::string &fragName);
 
-        ~BasicShaderProgram() override;
+        ~VFPipelineConfigurator() override;
 
-        BasicShaderProgram(const BasicShaderProgram &) = delete;
+        VFPipelineConfigurator(const VFPipelineConfigurator &) = delete;
 
-        BasicShaderProgram(BasicShaderProgram &&) = delete;
+        VFPipelineConfigurator(VFPipelineConfigurator &&) = delete;
 
-        BasicShaderProgram &operator=(const BasicShaderProgram &) = delete;
+        VFPipelineConfigurator &operator=(const VFPipelineConfigurator &) = delete;
 
-        BasicShaderProgram &operator=(BasicShaderProgram &&) = delete;
+        VFPipelineConfigurator &operator=(VFPipelineConfigurator &&) = delete;
 
-        template<typename ProgramName> requires std::is_base_of_v<BasicShaderProgram, ProgramName>
-        static std::unique_ptr<ProgramName> createProgram(const Engine &engine,
+        template<typename ProgramName> requires std::is_base_of_v<VFPipelineConfigurator, ProgramName>
+        static std::unique_ptr<ProgramName> createShaderProgram(const Engine &engine,
                                                           const std::string &subpassName,
                                                           const std::string &vertName,
                                                           const std::string &fragName) {
@@ -59,15 +59,17 @@ namespace merutilm::vkh {
         virtual void draw(VkCommandBuffer cbh, uint32_t frameIndex) = 0;
 
     protected:
+        void draw(VkCommandBuffer cbh, uint32_t frameIndex, const std::string &indexVarname) const;
+
         virtual void configure();
 
         virtual void configurePipelineLayout(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) = 0;
 
         virtual void configureDescriptors(std::vector<const Descriptor *> &descriptors, DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &descRepo) = 0;
 
-        virtual std::unique_ptr<VertexBuffer> createVertexBuffer() = 0;
+        virtual void configureVertexBuffer(ShaderObjectManager &som) = 0;
 
-        virtual std::unique_ptr<IndexBuffer> createIndexBuffer() = 0;
+        virtual void configureIndexBuffer(ShaderObjectManager &som) = 0;
 
     private:
         void attach() override;

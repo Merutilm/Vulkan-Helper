@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../obj/Descriptor.hpp"
-#include "../obj/PipelineLayout.hpp"
-#include "../obj/ShaderModule.hpp"
+#include "../core/Descriptor.hpp"
+#include "../core/PipelineLayout.hpp"
+#include "../core/ShaderModule.hpp"
 
 namespace merutilm::vkh {
     class PipelineManager {

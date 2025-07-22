@@ -6,7 +6,7 @@
 #include "CommandPool.hpp"
 #include "../handle/CoreHandler.hpp"
 #include "../manage/ConstBufferObjectManager.hpp"
-#include "../manage/BufferObjectManager.hpp"
+#include "../manage/ShaderObjectManager.hpp"
 
 namespace merutilm::vkh {
     class BufferObject : public CoreHandler, public ConstBufferObjectManager{
@@ -18,7 +18,7 @@ namespace merutilm::vkh {
         bool finalized = false;
 
     public:
-        explicit BufferObject(const Core &core, std::unique_ptr<BufferObjectManager> &&dataManager, VkBufferUsageFlags bufferUsage);
+        explicit BufferObject(const Core &core, std::unique_ptr<ShaderObjectManager> &&dataManager, VkBufferUsageFlags bufferUsage);
 
         ~BufferObject() override;
 

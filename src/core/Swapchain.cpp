@@ -18,6 +18,27 @@ namespace merutilm::vkh {
         Swapchain::detach();
     }
 
+    void Swapchain::matchViewportAndScissor(const VkCommandBuffer cbh) const {
+        const auto [width, height] = populateSwapchainExtent();
+        const VkViewport viewport = {
+            .x = 0,
+            .y = 0,
+            .width = static_cast<float>(width),
+            .height = static_cast<float>(height),
+            .minDepth = 0,
+            .maxDepth = 1
+        };
+        const VkRect2D scissor = {
+            .offset = {0, 0},
+            .extent = {width, height}
+        };
+
+
+        vkCmdSetViewport(cbh, 0, 1, &viewport);
+        vkCmdSetScissor(cbh, 0, 1, &scissor);
+    }
+
+
     void Swapchain::recreate() {
         destroyImageViews();
         oldSwapchain = swapchain;

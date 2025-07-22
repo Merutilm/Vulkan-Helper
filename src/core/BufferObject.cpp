@@ -10,7 +10,7 @@
 #include "../util/BufferUtils.hpp"
 
 namespace merutilm::vkh {
-    BufferObject::BufferObject(const Core &core, std::unique_ptr<BufferObjectManager> &&dataManager,
+    BufferObject::BufferObject(const Core &core, std::unique_ptr<ShaderObjectManager> &&dataManager,
                                const VkBufferUsageFlags bufferUsage) : CoreHandler(core),
                                                                        ConstBufferObjectManager(std::move(dataManager)),
                                                                        bufferUsage(bufferUsage) {

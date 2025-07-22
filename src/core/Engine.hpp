@@ -7,7 +7,7 @@
 
 #include "Core.hpp"
 #include "../context/RenderContext.hpp"
-#include "../obj/CommandPool.hpp"
+#include "CommandPool.hpp"
 #include "../repo/Repositories.hpp"
 
 namespace merutilm::vkh {

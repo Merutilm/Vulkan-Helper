@@ -7,7 +7,7 @@
 #include "../hash/PipelineLayoutManagerPtrHasher.hpp"
 #include "../hash/PointerDerefEquals.hpp"
 #include "../manage/PipelineLayoutManager.hpp"
-#include "../obj/PipelineLayout.hpp"
+#include "../core/PipelineLayout.hpp"
 
 namespace merutilm::vkh {
     struct PipelineLayoutRepo final : Repo<PipelineLayoutManager *, std::unique_ptr<PipelineLayoutManager> &&, PipelineLayout, PipelineLayoutManagerPtrHasher, PointerDerefEquals>{
