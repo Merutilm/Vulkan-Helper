@@ -13,14 +13,14 @@
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
-    struct ConstBufferObjectManager {
+    struct ConstShaderObjectManager {
         std::vector<std::byte> data = {};
         std::vector<uint32_t> elements = {};
         std::vector<uint32_t> sizes = {};
         std::vector<uint32_t> offsets = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
 
-        explicit ConstBufferObjectManager(std::unique_ptr<ShaderObjectManager> &&uploadManager) : data(std::move(
+        explicit ConstShaderObjectManager(std::unique_ptr<ShaderObjectManager> &&uploadManager) : data(std::move(
                 uploadManager->data)),
             elements(std::move(uploadManager->elements)),
             sizes(std::move(uploadManager->sizes)),

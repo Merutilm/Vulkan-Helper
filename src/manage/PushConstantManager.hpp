@@ -5,16 +5,16 @@
 #pragma once
 
 
-#include "ConstBufferObjectManager.hpp"
+#include "ConstShaderObjectManager.hpp"
 #include "ShaderObjectManager.hpp"
 
 namespace merutilm::vkh {
-    class PushConstantManager : public ConstBufferObjectManager {
+    class PushConstantManager : public ConstShaderObjectManager {
         VkShaderStageFlags useStage;
 
     public:
         explicit PushConstantManager(const VkShaderStageFlags useStage,
-                              std::unique_ptr<ShaderObjectManager> &&manager) : ConstBufferObjectManager(std::move(manager)),
+                              std::unique_ptr<ShaderObjectManager> &&manager) : ConstShaderObjectManager(std::move(manager)),
                                                                           useStage(useStage) {
         }
 

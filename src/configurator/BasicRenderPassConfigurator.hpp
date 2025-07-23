@@ -14,7 +14,7 @@ namespace merutilm::vkh {
 
         void configure(RenderPassManager &rpm) const override {
             rpm.appendSubpass(SUBPASS_PRIMARY);
-            rpm.appendAttachment("col", RenderPassAttachmentType::COLOR, {
+            rpm.appendAttachment(ATTACHMENT_COLOR, RenderPassAttachmentType::COLOR, {
                                      .flags = 0,
                                      .format = VK_FORMAT_R8G8B8A8_SRGB,
                                      .samples = VK_SAMPLE_COUNT_1_BIT,
@@ -25,7 +25,7 @@ namespace merutilm::vkh {
                                      .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
                                      .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
                                  });
-            rpm.appendAttachment("depth_stencil", RenderPassAttachmentType::DEPTH_STENCIL, {
+            rpm.appendAttachment(ATTACHMENT_DEPTH, RenderPassAttachmentType::DEPTH_STENCIL, {
                                      .flags = 0,
                                      .format = VK_FORMAT_D32_SFLOAT,
                                      .samples = VK_SAMPLE_COUNT_1_BIT,
@@ -50,7 +50,7 @@ namespace merutilm::vkh {
                                  });
             rpm.appendDependency({
                 .srcSubpass = VK_SUBPASS_EXTERNAL,
-                .dstSubpass = rpm.getSubpassIndex("Sample"),
+                .dstSubpass = rpm.getSubpassIndex(SUBPASS_PRIMARY),
                 .srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
                 .dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
                 .srcAccessMask = 0,
@@ -58,7 +58,7 @@ namespace merutilm::vkh {
                 .dependencyFlags = 0
             });
             rpm.appendDependency({
-                .srcSubpass = rpm.getSubpassIndex("Sample"),
+                .srcSubpass = rpm.getSubpassIndex(SUBPASS_PRIMARY),
                 .dstSubpass = VK_SUBPASS_EXTERNAL,
                 .srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
                 .dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,

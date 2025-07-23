@@ -5,11 +5,11 @@
 #pragma once
 #include "CommandPool.hpp"
 #include "../handle/CoreHandler.hpp"
-#include "../manage/ConstBufferObjectManager.hpp"
+#include "../manage/ConstShaderObjectManager.hpp"
 #include "../manage/ShaderObjectManager.hpp"
 
 namespace merutilm::vkh {
-    class BufferObject : public CoreHandler, public ConstBufferObjectManager{
+    class BufferObject : public CoreHandler, public ConstShaderObjectManager{
 
         VkBufferUsageFlags bufferUsage;
         std::vector<VkBuffer> buffers = {};

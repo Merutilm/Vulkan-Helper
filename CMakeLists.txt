@@ -15,6 +15,8 @@ add_compile_options(
 set(EXECUTABLE_OUTPUT_PATH bin)
 
 add_executable(VulkanHelper
+        extern/stb_image.c
+        extern/stb_image.h
         src/main.cpp
         src/core/Application.hpp
         src/core/Application.cpp
@@ -77,7 +79,7 @@ add_executable(VulkanHelper
         src/struct/Vertex.hpp
         src/core/VertexBuffer.cpp
         src/core/VertexBuffer.hpp
-        src/manage/ConstBufferObjectManager.hpp
+        src/manage/ConstShaderObjectManager.hpp
         src/core/UniformBuffer.cpp
         src/core/UniformBuffer.hpp
         src/executor/Executor.hpp

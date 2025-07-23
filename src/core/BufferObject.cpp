@@ -12,7 +12,7 @@
 namespace merutilm::vkh {
     BufferObject::BufferObject(const Core &core, std::unique_ptr<ShaderObjectManager> &&dataManager,
                                const VkBufferUsageFlags bufferUsage) : CoreHandler(core),
-                                                                       ConstBufferObjectManager(std::move(dataManager)),
+                                                                       ConstShaderObjectManager(std::move(dataManager)),
                                                                        bufferUsage(bufferUsage) {
         BufferObject::attach();
     }
@@ -50,7 +50,7 @@ namespace merutilm::vkh {
         bufferMapped.resize(maxFramesInFlight);
 
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            BufferUtils::initBuffer(core, size, bufferUsage,
+            BufferUtils::initBuffer(core, size, bufferUsage | VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                                     &buffers[i], &bufferMemory[i]);
             vkMapMemory(core.getLogicalDevice().getLogicalDeviceHandle(), bufferMemory[i], 0, size, 0,
@@ -74,16 +74,31 @@ namespace merutilm::vkh {
             .srcOffset = 0,
             .dstOffset = 0,
             .size = getTotalSizeByte(),
-        };
-
-        {
+        }; {
             const auto cex = ScopedCommandExecutor(core, commandPool);
 
             for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
                 vkUnmapMemory(device, bufferMemory[i]);
-                BufferUtils::initBuffer(core, getTotalSizeByte(), bufferUsage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+                BufferUtils::initBuffer(core, getTotalSizeByte(), bufferUsage | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+                                        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
                                         &finalizedBuffer[i], &finalizedMemory[i]);
+                VkBufferMemoryBarrier barrier = {
+                    .sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER,
+                    .srcAccessMask = VK_ACCESS_HOST_WRITE_BIT,
+                    .dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT,
+                    .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                    .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                    .buffer = buffers[i],
+                    .offset = 0,
+                    .size = getTotalSizeByte(),
+                };
 
+                vkCmdPipelineBarrier(cex.getCommandBufferHandle(),
+                                     VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0,
+                                     0, nullptr,
+                                     1, &barrier,
+                                     0, nullptr
+                );
                 vkCmdCopyBuffer(cex.getCommandBufferHandle(), buffers[i], finalizedBuffer[i], 1, &copyRegion);
             }
         }

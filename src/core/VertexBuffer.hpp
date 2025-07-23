@@ -7,7 +7,7 @@
 
 #include "BufferObject.hpp"
 #include "../handle/CoreHandler.hpp"
-#include "../manage/ConstBufferObjectManager.hpp"
+#include "../manage/ConstShaderObjectManager.hpp"
 
 namespace merutilm::vkh {
     class VertexBuffer final : public BufferObject {

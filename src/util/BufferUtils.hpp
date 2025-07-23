@@ -12,11 +12,12 @@ namespace merutilm::vkh {
         BufferUtils() = delete;
 
 
-        static void initImage(const Core &engine,
+        static void initImage(const Core &core,
                               const ImageInitInfo &iii, VkImage *image,
                               VkDeviceMemory *imageMemory,
                               VkImageView *imageView) {
-            initImage(engine.getLogicalDevice().getLogicalDeviceHandle(), engine.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), iii, image, imageMemory, imageView);
+            initImage(core.getLogicalDevice().getLogicalDeviceHandle(),
+                      core.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), iii, image, imageMemory, imageView);
         }
 
 
@@ -24,10 +25,8 @@ namespace merutilm::vkh {
                               const ImageInitInfo &iii, VkImage *image,
                               VkDeviceMemory *imageMemory,
                               VkImageView *imageView) {
-            createImage(device, image, iii.imageType, iii.imageFormat,
-                        iii.extent, iii.mipLevels, iii.arrayLayers, iii.samples, iii.imageTiling,
-                        iii.usage, iii.initialLayout);
-            allocateImageMemory(device, memProperties, iii.properties, *image,
+            createImage(device, image, iii);
+            allocateImageMemory(device, memProperties, iii, *image,
                                 imageMemory);
             vkBindImageMemory(device, *image, *imageMemory, 0);
             createImageView(device, *image, iii.imageViewType, iii.mipLevels, iii.imageFormat, imageView);
@@ -35,27 +34,23 @@ namespace merutilm::vkh {
 
 
         static void createImage(const VkDevice device, VkImage *image,
-                                const VkImageType imageType, const VkFormat imageFormat, const VkExtent3D extent,
-                                const uint32_t mipLevels, const uint32_t arrayLayers,
-                                const VkSampleCountFlagBits samples,
-                                const VkImageTiling imageTiling, const VkImageUsageFlags usage,
-                                const VkImageLayout initialLayout) {
+                                const ImageInitInfo &iii) {
             const VkImageCreateInfo imageInfo = {
                 .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
                 .pNext = nullptr,
                 .flags = 0,
-                .imageType = imageType,
-                .format = imageFormat,
-                .extent = extent,
-                .mipLevels = mipLevels,
-                .arrayLayers = arrayLayers,
-                .samples = samples,
-                .tiling = imageTiling,
-                .usage = usage,
+                .imageType = iii.imageType,
+                .format = iii.imageFormat,
+                .extent = iii.extent,
+                .mipLevels = iii.mipLevels,
+                .arrayLayers = iii.arrayLayers,
+                .samples = iii.samples,
+                .tiling = iii.imageTiling,
+                .usage = iii.usage,
                 .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
                 .queueFamilyIndexCount = 0,
                 .pQueueFamilyIndices = nullptr,
-                .initialLayout = initialLayout,
+                .initialLayout = iii.initialLayout,
             };
             if (vkCreateImage(device, &imageInfo, nullptr, image)) {
                 throw exception_init("Failed to create image!");
@@ -63,7 +58,7 @@ namespace merutilm::vkh {
         }
 
         static void allocateImageMemory(const VkDevice device, const VkPhysicalDeviceMemoryProperties &memProperties,
-                                        const VkMemoryPropertyFlags properties,
+                                        const ImageInitInfo &iii,
                                         const VkImage image, VkDeviceMemory *imageMemory) {
             VkMemoryRequirements memRequirements;
             vkGetImageMemoryRequirements(device, image, &memRequirements);
@@ -71,7 +66,7 @@ namespace merutilm::vkh {
                 .sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
                 .pNext = nullptr,
                 .allocationSize = memRequirements.size,
-                .memoryTypeIndex = findMemoryTypeIndex(memProperties, memRequirements.memoryTypeBits, properties),
+                .memoryTypeIndex = findMemoryTypeIndex(memProperties, memRequirements.memoryTypeBits, iii.properties),
             };
             if (vkAllocateMemory(device, &allocInfo, nullptr,
                                  imageMemory)) {
@@ -79,8 +74,8 @@ namespace merutilm::vkh {
             }
         }
 
-        static void createImageView(const VkDevice device, const VkImage image, const VkImageViewType imageViewType,
-                                    const uint32_t mipLevels,
+        static void createImageView(const VkDevice device, const VkImage image,
+                                    const VkImageViewType imageViewType, const uint32_t mipLevels,
                                     const VkFormat imageFormat, VkImageView *imageView) {
             const VkImageViewCreateInfo viewInfo = {
                 .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
@@ -119,10 +114,10 @@ namespace merutilm::vkh {
             return VK_IMAGE_ASPECT_COLOR_BIT;
         }
 
-        static void initBuffer(const Core &engine, const VkDeviceSize size, const VkBufferUsageFlags usage,
+        static void initBuffer(const Core &core, const VkDeviceSize size, const VkBufferUsageFlags usage,
                                const VkMemoryPropertyFlags properties, VkBuffer *buffer, VkDeviceMemory *bufferMemory) {
-            initBuffer(engine.getLogicalDevice().getLogicalDeviceHandle(),
-                       engine.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), size, usage,
+            initBuffer(core.getLogicalDevice().getLogicalDeviceHandle(),
+                       core.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), size, usage,
                        properties, buffer, bufferMemory);
         }
 

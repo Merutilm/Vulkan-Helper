@@ -35,8 +35,7 @@ namespace merutilm::vkh {
         engine = std::make_unique<Engine>(std::move(core));
         engine->attachRenderContext(std::make_unique<RenderContext>(engine->getCore(), MAIN_WINDOW_ATTACHMENT_NAME, engine->getCommandPool(), BasicRenderPassConfigurator{}));
 
-        shaderProgram = VFPipelineConfigurator::createShaderProgram<TemplatePipelineConfigurator>(*engine, "Sample", "../shaders/template.vert", "../shaders/template.frag");
-
+        shaderProgram = VFPipelineConfigurator::createShaderProgram<TemplatePipelineConfigurator>(*engine, BasicRenderPassConfigurator::SUBPASS_PRIMARY, "../shaders/template.vert", "../shaders/template.frag");
 
         const HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
 
