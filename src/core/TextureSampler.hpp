@@ -3,11 +3,13 @@
 //
 
 #pragma once
-#include "../handle/EngineHandler.hpp"
+#include "CommandPool.hpp"
+#include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
-    class Texture final : public EngineHandler {
+    class TextureSampler final : public CoreHandler {
 
+        const CommandPool &commandPool;
         const std::string path;
 
         VkImage image = nullptr;
@@ -17,17 +19,17 @@ namespace merutilm::vkh {
         VkSampler sampler = nullptr;
 
     public:
-        explicit Texture(const Engine &engine, const std::string &path);
+        explicit TextureSampler(const Core &core, const CommandPool &commandPool, const std::string &path);
 
-        ~Texture() override;
+        ~TextureSampler() override;
 
-        Texture(const Texture &) = delete;
+        TextureSampler(const TextureSampler &) = delete;
 
-        Texture &operator=(const Texture &) = delete;
+        TextureSampler &operator=(const TextureSampler &) = delete;
 
-        Texture(Texture &&) = delete;
+        TextureSampler(TextureSampler &&) = delete;
 
-        Texture &operator=(Texture &&) = delete;
+        TextureSampler &operator=(TextureSampler &&) = delete;
 
     private:
         void attach() override;

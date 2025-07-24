@@ -2,21 +2,21 @@
 // Created by Merutilm on 2025-07-18.
 //
 
-#include "Texture.hpp"
+#include "TextureSampler.hpp"
 #include <stb_image.h>
 
 #include "../executor/ScopedCommandExecutor.hpp"
 
 namespace merutilm::vkh {
-    Texture::Texture(const Engine &engine, const std::string &path) : EngineHandler(engine), path(path) {
-        Texture::attach();
+    TextureSampler::TextureSampler(const Core &core, const CommandPool &commandPool, const std::string &path) : CoreHandler(core), commandPool(commandPool), path(path) {
+        TextureSampler::attach();
     }
 
-    Texture::~Texture() {
-        Texture::detach();
+    TextureSampler::~TextureSampler() {
+        TextureSampler::detach();
     }
 
-    void Texture::attach() {
+    void TextureSampler::attach() {
         stbi_uc *data = nullptr;
         int width = 0;
         int height = 0;
@@ -28,11 +28,11 @@ namespace merutilm::vkh {
 
         VkBuffer stagingBuffer = nullptr;
         VkDeviceMemory stagingMemory = nullptr;
-        const VkDevice device = engine.getCore().getLogicalDevice().getLogicalDeviceHandle();
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         const VkDeviceSize size = static_cast<uint64_t>(width) * static_cast<uint64_t>(height) * static_cast<uint64_t>(
                                       texChannels);
 
-        BufferUtils::initBuffer(engine.getCore(), size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        BufferUtils::initBuffer(core, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                                 &stagingBuffer, &stagingMemory);
         void *mapped = nullptr;
@@ -55,13 +55,13 @@ namespace merutilm::vkh {
             .properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
         };
 
-        BufferUtils::initImage(engine.getCore(), initInfo, &image, &memory, &view);
+        BufferUtils::initImage(core, initInfo, &image, &memory, &view);
 
 
         stbi_image_free(data);
         //COMMAND START
         {
-            const auto sce = ScopedCommandExecutor(engine.getCore(), engine.getCommandPool());
+            const auto sce = ScopedCommandExecutor(core, commandPool);
             const VkBufferImageCopy copyRegion = {
                 .bufferOffset = 0,
                 .bufferRowLength = 0,
@@ -104,7 +104,7 @@ namespace merutilm::vkh {
             .addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT,
             .mipLodBias = 0,
             .anisotropyEnable = VK_TRUE,
-            .maxAnisotropy = engine.getCore().getPhysicalDevice().getPhysicalDeviceProperties().limits.maxSamplerAnisotropy,
+            .maxAnisotropy = core.getPhysicalDevice().getPhysicalDeviceProperties().limits.maxSamplerAnisotropy,
             .compareEnable = VK_TRUE,
             .compareOp = VK_COMPARE_OP_LESS,
             .minLod = 0,
@@ -112,14 +112,14 @@ namespace merutilm::vkh {
             .borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_BLACK,
             .unnormalizedCoordinates = VK_FALSE
         };
-        if (vkCreateSampler(engine.getCore().getLogicalDevice().getLogicalDeviceHandle(), &samplerInfo, nullptr, &sampler)) {
+        if (vkCreateSampler(core.getLogicalDevice().getLogicalDeviceHandle(), &samplerInfo, nullptr, &sampler)) {
             throw exception_init("Failed to create sampler!");
         }
 
     }
 
-    void Texture::detach() {
-        const VkDevice device = engine.getCore().getLogicalDevice().getLogicalDeviceHandle();
+    void TextureSampler::detach() {
+        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         vkDestroySampler(device, sampler, nullptr);
         vkDestroyImageView(device, view, nullptr);
         vkFreeMemory(device, memory, nullptr);
@@ -127,7 +127,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Texture::transformImageLayout(const VkCommandBuffer commandBuffer, const VkAccessFlags srcAccessMask,
+    void TextureSampler::transformImageLayout(const VkCommandBuffer commandBuffer, const VkAccessFlags srcAccessMask,
                                        const VkAccessFlags dstAccessMask, const VkImageLayout newLayout, const VkPipelineStageFlags srcStageMask,
                                        const VkPipelineStageFlags dstStageMask) {
         const VkImageMemoryBarrier barrier = {

@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 
 #include "../configurator/BasicRenderPassConfigurator.hpp"
-#include "../configurator/VFPipelineConfigurator.hpp"
+#include "../configurator/GeneralPipelineConfigurator.hpp"
 #include "../configurator/TemplatePipelineConfigurator.hpp"
 #include "../executor/RenderPassExecutor.hpp"
 #include "../repo/PipelineLayoutRepo.hpp"
@@ -35,7 +35,7 @@ namespace merutilm::vkh {
         engine = std::make_unique<Engine>(std::move(core));
         engine->attachRenderContext(std::make_unique<RenderContext>(engine->getCore(), MAIN_WINDOW_ATTACHMENT_NAME, engine->getCommandPool(), BasicRenderPassConfigurator{}));
 
-        shaderProgram = VFPipelineConfigurator::createShaderProgram<TemplatePipelineConfigurator>(*engine, BasicRenderPassConfigurator::SUBPASS_PRIMARY, "../shaders/template.vert", "../shaders/template.frag");
+        shaderProgram = GeneralPipelineConfigurator::createShaderProgram<TemplatePipelineConfigurator>(*engine, BasicRenderPassConfigurator::SUBPASS_PRIMARY, "../shaders/template.vert", "../shaders/template.frag");
 
         const HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
 

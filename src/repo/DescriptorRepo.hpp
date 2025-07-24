@@ -11,32 +11,36 @@
 #include "../template/DSTemplate.hpp"
 
 namespace merutilm::vkh {
-    struct DescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher, std::equal_to<>, const DescriptorSetLayout &> {
+    struct DescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher, std::equal_to<>, DescriptorSetLayoutRepo&, VkShaderStageFlags> {
+
 
         explicit DescriptorRepo(const Core &core) : Repo(core) {
 
         }
 
 
-        const Descriptor &pick(const DescriptorName descName, const DescriptorSetLayout &layout) override {
+        const Descriptor &pick(const DescriptorName descName, DescriptorSetLayoutRepo& layoutRepo, VkShaderStageFlags &&useStage) override {
+            auto descManager = findDescriptorManager(descName, useStage);
+            auto &layout = layoutRepo.pick(descManager->getLayoutManager());
             return *repository.try_emplace(
-                descName, std::make_unique<Descriptor>(core, findDescriptorManager(descName, layout))).first->second;
+                descName, std::make_unique<Descriptor>(core, layout, std::move(descManager))).first->second;
         }
 
-        static std::unique_ptr<DescriptorManager> findDescriptorManager(const DescriptorName descName, const DescriptorSetLayout &layout) {
+        std::unique_ptr<DescriptorManager> findDescriptorManager(const DescriptorName descName, const VkShaderStageFlags useStage) const {
             //  <factory method>
 
             switch (descName) {
                     using enum DescriptorName;
                 case CAMERA_3D: {
-                    return DSTemplate::Camera3D::create(layout);
+                    return DSTemplate::Camera3D::create(core, useStage);
                 }
                 case TIME: {
-                    return DSTemplate::Time::create(layout);
+                    return DSTemplate::Time::create(core, useStage);
                 }
                 //do something
             }
             return nullptr;
         }
+
     };
 }

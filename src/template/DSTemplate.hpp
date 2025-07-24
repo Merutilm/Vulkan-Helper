@@ -18,17 +18,16 @@ namespace merutilm::vkh::DSTemplate {
         inline static const std::string CAMERA_VIEW = "view";
         inline static const std::string CAMERA_PROJ = "proj";
 
-        static std::unique_ptr<DescriptorManager> create(const DescriptorSetLayout &descriptorSetLayout) {
+        static std::unique_ptr<DescriptorManager> create(const Core &core, const VkShaderStageFlags useStage) {
             auto bufferManager = std::make_unique<ShaderObjectManager>();
 
             bufferManager->reserve<glm::mat4>(CAMERA_MODEL);
             bufferManager->reserve<glm::mat4>(CAMERA_VIEW);
             bufferManager->reserve<glm::mat4>(CAMERA_PROJ);
 
-            auto ubo = std::make_unique<UniformBuffer>(descriptorSetLayout.core, std::move(bufferManager));
-            auto descManager = std::make_unique<DescriptorManager>(descriptorSetLayout);
-
-            descManager->appendUBO(UBO_CAMERA, std::move(ubo));
+            auto ubo = std::make_unique<UniformBuffer>(core, std::move(bufferManager));
+            auto descManager = std::make_unique<DescriptorManager>();
+            descManager->appendUBO(UBO_CAMERA, useStage, std::move(ubo));
             return descManager;
         }
     };
@@ -36,12 +35,12 @@ namespace merutilm::vkh::DSTemplate {
         inline static const std::string UBO_TIME = "time";
         inline static const std::string TIME_CURRENT = "currentTime";
 
-        static std::unique_ptr<DescriptorManager> create(const DescriptorSetLayout &descriptorSetLayout) {
+        static std::unique_ptr<DescriptorManager> create(const Core &core, const VkShaderStageFlags useStage) {
             auto bufferManager = std::make_unique<ShaderObjectManager>();
             bufferManager->reserve<float>(TIME_CURRENT);
-            auto ubo = std::make_unique<UniformBuffer>(descriptorSetLayout.core, std::move(bufferManager));
-            auto descManager = std::make_unique<DescriptorManager>(descriptorSetLayout);
-            descManager->appendUBO(UBO_TIME, std::move(ubo));
+            auto ubo = std::make_unique<UniformBuffer>(core, std::move(bufferManager));
+            auto descManager = std::make_unique<DescriptorManager>();
+            descManager->appendUBO(UBO_TIME, useStage, std::move(ubo));
             return descManager;
         }
     };

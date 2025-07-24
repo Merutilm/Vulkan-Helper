@@ -3,13 +3,13 @@
 //
 
 #pragma once
-#include "VFPipelineConfigurator.hpp"
+#include "GeneralPipelineConfigurator.hpp"
 #include "../repo/DescriptorRepo.hpp"
 
 namespace merutilm::vkh {
-    class TemplatePipelineConfigurator final : public VFPipelineConfigurator {
+    class TemplatePipelineConfigurator final : public GeneralPipelineConfigurator {
     public:
-        using VFPipelineConfigurator::VFPipelineConfigurator;
+        using GeneralPipelineConfigurator::GeneralPipelineConfigurator;
 
         ~TemplatePipelineConfigurator() override = default;
 
@@ -26,11 +26,11 @@ namespace merutilm::vkh {
         void draw(VkCommandBuffer cbh, uint32_t frameIndex) override;
 
     protected:
-        void configurePipelineLayout(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) override;
-
         void configureDescriptors(std::vector<const Descriptor *> &descriptors,
                                                          DescriptorSetLayoutRepo &layoutRepo,
                                                          DescriptorRepo &repo) override;
+        void configurePushConstant(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) override;
+
 
         void configureVertexBuffer(ShaderObjectManager &som) override;
 

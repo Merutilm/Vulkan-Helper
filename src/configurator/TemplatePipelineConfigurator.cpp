@@ -16,23 +16,22 @@ namespace merutilm::vkh {
     }
 
     void TemplatePipelineConfigurator::draw(const VkCommandBuffer cbh, const uint32_t frameIndex) {
-        VFPipelineConfigurator::draw(cbh, frameIndex, "index");
+        GeneralPipelineConfigurator::draw(cbh, frameIndex, "index");
     }
 
 
-    void TemplatePipelineConfigurator::configurePipelineLayout(DescriptorSetLayoutRepo &layoutRepo,
+
+    void TemplatePipelineConfigurator::configureDescriptors(std::vector<const Descriptor *> &descriptors,
+                                                     DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &repo) {
+        descriptors.push_back(&repo.pick(DescriptorName::TIME, layoutRepo, VK_SHADER_STAGE_FRAGMENT_BIT));
+    }
+
+    void TemplatePipelineConfigurator::configurePushConstant(DescriptorSetLayoutRepo &layoutRepo,
                                                         PipelineLayoutManager &pipelineLayoutManager) {
-        pipelineLayoutManager.appendDescriptorSetLayout(&layoutRepo.pick(DescriptorSetLayoutName::UNIFORM_F1));
         pipelineLayoutManager.appendPushConstantManager("push", VK_SHADER_STAGE_FRAGMENT_BIT,
             PushConstantReserve<glm::vec2>{"resolution"}
         );
     }
-
-    void TemplatePipelineConfigurator::configureDescriptors(std::vector<const Descriptor *> &descriptors,
-                                                     DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &repo) {
-        descriptors.push_back(&repo.pick(DescriptorName::TIME, layoutRepo.pick(DescriptorSetLayoutName::UNIFORM_F1)));
-    }
-
     void TemplatePipelineConfigurator::configureVertexBuffer(ShaderObjectManager &som) {
         som.add("square", std::vector{
                      Vertex::generate({1, 1, 0}, {1, 1, 1}),

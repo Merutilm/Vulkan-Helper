@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "DescriptorSetLayout.hpp"
 #include "../manage/DescriptorManager.hpp"
 
 namespace merutilm::vkh {
@@ -11,10 +12,11 @@ namespace merutilm::vkh {
 
         std::vector<VkDescriptorPool> descriptorPools = {};
         std::vector<VkDescriptorSet> descriptorSets = {};
+        const DescriptorSetLayout &descriptorSetLayout;
         const std::unique_ptr<DescriptorManager> descriptorManager = nullptr;
 
     public:
-        explicit Descriptor(const Core &core, std::unique_ptr<DescriptorManager> &&descriptorManager);
+        explicit Descriptor(const Core &core, const DescriptorSetLayout &descriptorSetLayout, std::unique_ptr<DescriptorManager> &&descriptorManager);
 
         ~Descriptor() override;
 

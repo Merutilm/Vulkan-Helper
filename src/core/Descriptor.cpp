@@ -4,11 +4,12 @@
 
 #include "Descriptor.hpp"
 
+#include "DescriptorSetLayout.hpp"
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    Descriptor::Descriptor(const Core &core,
-                           std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core),
+    Descriptor::Descriptor(const Core &core, const DescriptorSetLayout &descriptorSetLayout,
+                           std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core), descriptorSetLayout(descriptorSetLayout),
         descriptorManager(std::move(descriptorManager)) {
         Descriptor::attach();
     }
@@ -18,7 +19,7 @@ namespace merutilm::vkh {
     }
 
     void Descriptor::update(const uint32_t frameIndex) const {
-        const uint32_t descCount = descriptorManager->getUBOCount();
+        const uint32_t descCount = descriptorManager->getElementCount();
         std::vector<VkDescriptorBufferInfo> bufferInfos(descCount);
         std::vector<VkWriteDescriptorSet> writeDescriptorSets(descCount);
 
@@ -51,9 +52,9 @@ namespace merutilm::vkh {
 
 
     void Descriptor::attach() {
-        const uint32_t layoutLen = descriptorManager->getLayout().getDescriptorSetLayoutManager().getDescriptorCount();
+        const uint32_t layoutLen = descriptorManager->getLayoutManager().getDescriptorCount();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
-        const uint32_t descLen = descriptorManager->getUBOCount();
+        const uint32_t descLen = descriptorManager->getElementCount();
         if (descLen == 0) {
             return;
         }
@@ -84,7 +85,7 @@ namespace merutilm::vkh {
             }
         }
 
-        VkDescriptorSetLayout layout = descriptorManager->getLayout().getLayoutHandle();
+        VkDescriptorSetLayout layout = descriptorSetLayout.getLayoutHandle();
 
         descriptorSets.resize(maxFramesInFlight);
         for (int i = 0; i < maxFramesInFlight; ++i) {
@@ -102,7 +103,7 @@ namespace merutilm::vkh {
     }
 
     void Descriptor::detach() {
-        if (descriptorManager->getUBOCount() == 0) {
+        if (descriptorManager->getElementCount() == 0) {
             return;
         }
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();

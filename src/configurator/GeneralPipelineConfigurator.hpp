@@ -14,7 +14,7 @@
 
 
 namespace merutilm::vkh {
-    class VFPipelineConfigurator : public EngineHandler {
+    class GeneralPipelineConfigurator : public EngineHandler {
         const std::string subpassName;
         const ShaderModule &vertexShader;
         const ShaderModule &fragmentShader;
@@ -23,22 +23,22 @@ namespace merutilm::vkh {
         std::unique_ptr<IndexBuffer> indexBuffer = nullptr;
 
     public:
-        explicit VFPipelineConfigurator(const Engine &engine,
+        explicit GeneralPipelineConfigurator(const Engine &engine,
                                     const std::string &subpassName,
                                     const std::string &vertName,
                                     const std::string &fragName);
 
-        ~VFPipelineConfigurator() override;
+        ~GeneralPipelineConfigurator() override;
 
-        VFPipelineConfigurator(const VFPipelineConfigurator &) = delete;
+        GeneralPipelineConfigurator(const GeneralPipelineConfigurator &) = delete;
 
-        VFPipelineConfigurator(VFPipelineConfigurator &&) = delete;
+        GeneralPipelineConfigurator(GeneralPipelineConfigurator &&) = delete;
 
-        VFPipelineConfigurator &operator=(const VFPipelineConfigurator &) = delete;
+        GeneralPipelineConfigurator &operator=(const GeneralPipelineConfigurator &) = delete;
 
-        VFPipelineConfigurator &operator=(VFPipelineConfigurator &&) = delete;
+        GeneralPipelineConfigurator &operator=(GeneralPipelineConfigurator &&) = delete;
 
-        template<typename ProgramName> requires std::is_base_of_v<VFPipelineConfigurator, ProgramName>
+        template<typename ProgramName> requires std::is_base_of_v<GeneralPipelineConfigurator, ProgramName>
         static std::unique_ptr<ProgramName> createShaderProgram(const Engine &engine,
                                                           const std::string &subpassName,
                                                           const std::string &vertName,
@@ -63,7 +63,7 @@ namespace merutilm::vkh {
 
         virtual void configure();
 
-        virtual void configurePipelineLayout(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) = 0;
+        virtual void configurePushConstant(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) = 0;
 
         virtual void configureDescriptors(std::vector<const Descriptor *> &descriptors, DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &descRepo) = 0;
 

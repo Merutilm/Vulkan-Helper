@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "Core.hpp"
-#include "../configurator/VFPipelineConfigurator.hpp"
+#include "../configurator/GeneralPipelineConfigurator.hpp"
 #include "Engine.hpp"
 
 
@@ -17,7 +17,7 @@ namespace merutilm::vkh {
         inline static const std::string MAIN_WINDOW_ATTACHMENT_NAME = "Main";
 
         std::unique_ptr<Engine> engine = nullptr;
-        std::unique_ptr<VFPipelineConfigurator> shaderProgram = nullptr;
+        std::unique_ptr<GeneralPipelineConfigurator> shaderProgram = nullptr;
 
 
     public:

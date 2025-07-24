@@ -97,13 +97,12 @@ add_executable(VulkanHelper
         src/repo/PipelineLayoutRepo.hpp
         src/core/IndexBuffer.cpp
         src/core/IndexBuffer.hpp
-        src/core/Texture.cpp
-        src/core/Texture.hpp
-        src/configurator/VFPipelineConfigurator.cpp
-        src/configurator/VFPipelineConfigurator.hpp
+        src/core/TextureSampler.cpp
+        src/core/TextureSampler.hpp
+        src/configurator/GeneralPipelineConfigurator.cpp
+        src/configurator/GeneralPipelineConfigurator.hpp
         src/repo/DescriptorRepo.hpp
         src/struct/DescriptorName.hpp
-        src/template/DSLTemplate.hpp
         src/template/DSTemplate.hpp
         src/core/Engine.cpp
         src/core/Engine.hpp
@@ -114,6 +113,8 @@ add_executable(VulkanHelper
         src/struct/PushConstantReserve.hpp
         src/configurator/RenderPassConfigurator.hpp
         src/configurator/BasicRenderPassConfigurator.hpp
+        src/hash/DescriptorSetLayoutManagerHasher.hpp
+        src/hash/DescriptorSetLayoutBuildTypeHasher.hpp
 )
 
 
