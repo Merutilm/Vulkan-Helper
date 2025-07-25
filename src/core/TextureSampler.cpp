@@ -50,9 +50,9 @@ namespace merutilm::vkh {
             .arrayLayers = 1,
             .samples = VK_SAMPLE_COUNT_1_BIT,
             .imageTiling = VK_IMAGE_TILING_OPTIMAL,
-            .usage = VK_IMAGE_USAGE_SAMPLED_BIT,
+            .usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
             .initialLayout = currentLayout,
-            .properties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+            .properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
         };
 
         BufferUtils::initImage(core, initInfo, &image, &memory, &view);
@@ -87,12 +87,11 @@ namespace merutilm::vkh {
                                  VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
         }
         //COMMAND END
-
         vkFreeMemory(device, stagingMemory, nullptr);
         vkDestroyBuffer(device, stagingBuffer, nullptr);
 
 
-        VkSamplerCreateInfo samplerInfo = {
+        const VkSamplerCreateInfo samplerInfo = {
             .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,

@@ -7,7 +7,7 @@
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
-    DescriptorSetLayout::DescriptorSetLayout(const Core &core, const DescriptorSetLayoutManager &layoutManager) : CoreHandler(core), descriptorSetLayoutManager(layoutManager) {
+    DescriptorSetLayout::DescriptorSetLayout(const Core &core, const DescriptorSetLayoutBuilder &layoutBuilder) : CoreHandler(core), layoutBuilder(layoutBuilder) {
         DescriptorSetLayout::attach();
     }
 
@@ -19,7 +19,6 @@ namespace merutilm::vkh {
         if (layout != nullptr) {
             throw exception_invalid_state("double-finish called");
         }
-        auto &layoutBuilder = descriptorSetLayoutManager.getLayoutBuildTypes();
 
         std::vector<VkDescriptorSetLayoutBinding> bindings(layoutBuilder.size());
         for (uint32_t i = 0; i < layoutBuilder.size(); ++i) {
@@ -47,12 +46,6 @@ namespace merutilm::vkh {
     }
 
 
-    VkDescriptorSetLayout DescriptorSetLayout::getLayoutHandle() const {
-        if (layout == nullptr) {
-            throw exception_nullptr("No descriptor set layout (Is DescriptorManager::finish(VkDevice) called?)");
-        }
-        return layout;
-    }
 
     void DescriptorSetLayout::detach() {
         if (layout != nullptr) {

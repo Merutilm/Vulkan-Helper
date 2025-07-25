@@ -5,16 +5,16 @@
 #pragma once
 #include "Core.hpp"
 #include "../handle/CoreHandler.hpp"
-#include "../manage/DescriptorSetLayoutManager.hpp"
+#include "../manage/DescriptorManager.hpp"
 
 
 namespace merutilm::vkh {
     class DescriptorSetLayout final : public CoreHandler {
-        const DescriptorSetLayoutManager & descriptorSetLayoutManager;
+        const DescriptorSetLayoutBuilder &layoutBuilder;
         VkDescriptorSetLayout layout = nullptr;
 
     public:
-        explicit DescriptorSetLayout(const Core &core, const DescriptorSetLayoutManager &layoutManager);
+        explicit DescriptorSetLayout(const Core &core, const DescriptorSetLayoutBuilder &layoutBuilder);
 
         ~DescriptorSetLayout() override;
 
@@ -26,7 +26,7 @@ namespace merutilm::vkh {
 
         DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
 
-        [[nodiscard]] VkDescriptorSetLayout getLayoutHandle() const;
+        [[nodiscard]] VkDescriptorSetLayout getLayoutHandle() const {return layout;}
 
     private:
         void attach() override;

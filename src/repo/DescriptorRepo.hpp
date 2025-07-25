@@ -13,15 +13,11 @@
 namespace merutilm::vkh {
     struct DescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher, std::equal_to<>, DescriptorSetLayoutRepo&, VkShaderStageFlags> {
 
+        using Repo::Repo;
 
-        explicit DescriptorRepo(const Core &core) : Repo(core) {
-
-        }
-
-
-        const Descriptor &pick(const DescriptorName descName, DescriptorSetLayoutRepo& layoutRepo, VkShaderStageFlags &&useStage) override {
+        const Descriptor &pick(const DescriptorName descName, DescriptorSetLayoutRepo& layoutRepo, const VkShaderStageFlags useStage) override {
             auto descManager = findDescriptorManager(descName, useStage);
-            auto &layout = layoutRepo.pick(descManager->getLayoutManager());
+            auto &layout = layoutRepo.pick(descManager->getLayoutBuilder());
             return *repository.try_emplace(
                 descName, std::make_unique<Descriptor>(core, layout, std::move(descManager))).first->second;
         }
@@ -37,7 +33,9 @@ namespace merutilm::vkh {
                 case TIME: {
                     return DSTemplate::Time::create(core, useStage);
                 }
-                //do something
+                default: {
+                    //no operation
+                }
             }
             return nullptr;
         }

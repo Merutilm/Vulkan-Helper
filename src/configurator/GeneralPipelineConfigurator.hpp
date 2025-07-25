@@ -21,12 +21,13 @@ namespace merutilm::vkh {
         std::unique_ptr<Pipeline> pipeline = nullptr;
         std::unique_ptr<VertexBuffer> vertexBuffer = {};
         std::unique_ptr<IndexBuffer> indexBuffer = nullptr;
+        std::vector<std::unique_ptr<Descriptor> > uniqueDescriptors = {};
 
     public:
         explicit GeneralPipelineConfigurator(const Engine &engine,
-                                    const std::string &subpassName,
-                                    const std::string &vertName,
-                                    const std::string &fragName);
+                                             std::string subpassName,
+                                             const std::string &vertName,
+                                             const std::string &fragName);
 
         ~GeneralPipelineConfigurator() override;
 
@@ -40,19 +41,25 @@ namespace merutilm::vkh {
 
         template<typename ProgramName> requires std::is_base_of_v<GeneralPipelineConfigurator, ProgramName>
         static std::unique_ptr<ProgramName> createShaderProgram(const Engine &engine,
-                                                          const std::string &subpassName,
-                                                          const std::string &vertName,
-                                                          const std::string &fragName) {
+                                                                const std::string &subpassName,
+                                                                const std::string &vertName,
+                                                                const std::string &fragName) {
             auto shaderProgram = std::make_unique<ProgramName>(engine, subpassName, vertName, fragName);
             shaderProgram->configure();
             return shaderProgram;
         }
 
-        Pipeline &getPipeline() const { return *pipeline; }
+        [[nodiscard]] Pipeline &getPipeline() const { return *pipeline; }
 
-        const VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
+        [[nodiscard]] const VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
 
-        const IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
+        [[nodiscard]] const IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
+
+        [[nodiscard]] const Descriptor *appendUniqueDescriptor(DescriptorSetLayoutRepo &layoutRepo, std::unique_ptr<DescriptorManager> &&manager) {
+            auto desc = std::make_unique<Descriptor>(engine.getCore(), layoutRepo.pick(manager->getLayoutBuilder()), std::move(manager));
+            uniqueDescriptors.push_back(std::move(desc));
+            return uniqueDescriptors.back().get();
+        }
 
         virtual void update(uint32_t frameIndex) = 0;
 
@@ -63,9 +70,11 @@ namespace merutilm::vkh {
 
         virtual void configure();
 
-        virtual void configurePushConstant(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) = 0;
+        virtual void configurePushConstant(DescriptorSetLayoutRepo &layoutRepo,
+                                           PipelineLayoutManager &pipelineLayoutManager) = 0;
 
-        virtual void configureDescriptors(std::vector<const Descriptor *> &descriptors, DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &descRepo) = 0;
+        virtual void configureDescriptors(std::vector<const Descriptor *> &descriptors,
+                                          DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &descRepo) = 0;
 
         virtual void configureVertexBuffer(ShaderObjectManager &som) = 0;
 

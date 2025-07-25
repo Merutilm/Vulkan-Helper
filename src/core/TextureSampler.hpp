@@ -8,7 +8,6 @@
 
 namespace merutilm::vkh {
     class TextureSampler final : public CoreHandler {
-
         const CommandPool &commandPool;
         const std::string path;
 
@@ -30,6 +29,14 @@ namespace merutilm::vkh {
         TextureSampler(TextureSampler &&) = delete;
 
         TextureSampler &operator=(TextureSampler &&) = delete;
+
+        [[nodiscard]] VkImage getImageHandle() const { return image; }
+
+        [[nodiscard]] VkImageView getImageViewHandle() const { return view; }
+
+        [[nodiscard]] VkImageLayout getCurrentImageLayout() const { return currentLayout; }
+
+        [[nodiscard]] VkSampler getSamplerHandle() const { return sampler; }
 
     private:
         void attach() override;

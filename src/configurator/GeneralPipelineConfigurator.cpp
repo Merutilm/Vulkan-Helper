@@ -4,15 +4,17 @@
 
 #include "GeneralPipelineConfigurator.hpp"
 
+#include <utility>
+
 #include "../repo/DescriptorRepo.hpp"
 #include "../repo/Repositories.hpp"
 
 namespace merutilm::vkh {
     GeneralPipelineConfigurator::GeneralPipelineConfigurator(const Engine &engine,
-                                           const std::string &subpassName,
+                                           std::string subpassName,
                                            const std::string &vertName,
                                            const std::string &fragName) : EngineHandler(engine),
-                                                                          subpassName(subpassName),
+                                                                          subpassName(std::move(subpassName)),
                                                                           vertexShader(
                                                                               engine.getRepositories().getRepository<
                                                                                   ShaderModuleRepo>()->pick(vertName)),
@@ -44,7 +46,7 @@ namespace merutilm::vkh {
         configureDescriptors(descriptors, layoutRepo, descRepo);
 
         for (const auto descriptor : descriptors) {
-        const DescriptorSetLayout &layout = layoutRepo.pick(descriptor->getDescriptorManager().getLayoutManager());
+        const DescriptorSetLayout &layout = layoutRepo.pick(descriptor->getDescriptorManager().getLayoutBuilder());
             pipelineLayoutManager->appendDescriptorSetLayout(&layout);
         }
 

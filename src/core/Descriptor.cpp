@@ -9,7 +9,8 @@
 
 namespace merutilm::vkh {
     Descriptor::Descriptor(const Core &core, const DescriptorSetLayout &descriptorSetLayout,
-                           std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core), descriptorSetLayout(descriptorSetLayout),
+                           std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core),
+        descriptorSetLayout(descriptorSetLayout),
         descriptorManager(std::move(descriptorManager)) {
         Descriptor::attach();
     }
@@ -19,21 +20,24 @@ namespace merutilm::vkh {
     }
 
     void Descriptor::update(const uint32_t frameIndex) const {
-        const uint32_t descCount = descriptorManager->getElementCount();
-        std::vector<VkDescriptorBufferInfo> bufferInfos(descCount);
-        std::vector<VkWriteDescriptorSet> writeDescriptorSets(descCount);
+        const uint32_t uboCount = descriptorManager->getUBOCount();
+        const uint32_t texSamplerCount = descriptorManager->getTexSamplerCount();
+        const uint32_t elementCount = descriptorManager->getElementCount();
+        std::vector<VkDescriptorBufferInfo> bufferInfos = {};
+        std::vector<VkDescriptorImageInfo> imageInfos = {};
+        std::vector<VkWriteDescriptorSet> writeDescriptorSets = {};
 
-        for (uint32_t i = 0; i < descCount; ++i) {
+        for (uint32_t i = 0; i < uboCount; ++i) {
             const UniformBuffer &ubo = descriptorManager->getUBO(i);
             ubo.update(frameIndex);
 
-            bufferInfos[i] = {
+            bufferInfos.push_back({
                 .buffer = ubo.getBufferHandle(frameIndex),
                 .offset = 0,
                 .range = ubo.getTotalSizeByte()
-            };
+            });
 
-            writeDescriptorSets[i] = {
+            writeDescriptorSets.push_back({
                 .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                 .pNext = nullptr,
                 .dstSet = descriptorSets[frameIndex],
@@ -44,37 +48,65 @@ namespace merutilm::vkh {
                 .pImageInfo = nullptr,
                 .pBufferInfo = &bufferInfos[i],
                 .pTexelBufferView = nullptr,
-            };
+            });
         }
-        vkUpdateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(), descCount,
+        for (uint32_t i = 0; i < texSamplerCount; ++i) {
+            const TextureSampler &tex = descriptorManager->getSampler(i);
+
+            imageInfos.push_back({
+                .sampler = tex.getSamplerHandle(),
+                .imageView = tex.getImageViewHandle(),
+                .imageLayout = tex.getCurrentImageLayout()
+            });
+
+            writeDescriptorSets.push_back({
+                .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                .pNext = nullptr,
+                .dstSet = descriptorSets[frameIndex],
+                .dstBinding = uboCount + i,
+                .dstArrayElement = 0,
+                .descriptorCount = 1,
+                .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                .pImageInfo = &imageInfos[i],
+                .pBufferInfo = nullptr,
+                .pTexelBufferView = nullptr,
+            });
+        }
+        vkUpdateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(), elementCount,
                                writeDescriptorSets.data(), 0, nullptr);
     }
 
 
     void Descriptor::attach() {
-        const uint32_t layoutLen = descriptorManager->getLayoutManager().getDescriptorCount();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
-        const uint32_t descLen = descriptorManager->getElementCount();
-        if (descLen == 0) {
-            return;
+        const uint32_t ubo = descriptorManager->getUBOCount();
+        const uint32_t sampler = descriptorManager->getTexSamplerCount();
+        const uint32_t elements = descriptorManager->getElementCount();
+
+        std::vector<VkDescriptorPoolSize> sizes = {};
+
+        if (ubo > 0) {
+
+            sizes.push_back({
+                .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                .descriptorCount = ubo
+            });
         }
 
-        if (descLen != layoutLen) {
-            throw exception_invalid_args(std::format("layout count {} and descriptor count {} are not matched",
-                                                     layoutLen, descLen));
+        if (sampler > 0) {
+            sizes.push_back({
+                .type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                .descriptorCount = sampler
+            });
         }
 
-        VkDescriptorPoolSize poolSize = {
-            .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-            .descriptorCount = descLen
-        };
         const VkDescriptorPoolCreateInfo descriptorPoolInfo = {
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
-            .maxSets = descLen,
-            .poolSizeCount = 1,
-            .pPoolSizes = &poolSize
+            .maxSets = elements,
+            .poolSizeCount = static_cast<uint32_t>(sizes.size()),
+            .pPoolSizes = sizes.data()
         };
         descriptorPools.resize(maxFramesInFlight);
 

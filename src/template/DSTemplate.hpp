@@ -44,4 +44,5 @@ namespace merutilm::vkh::DSTemplate {
             return descManager;
         }
     };
+
 }

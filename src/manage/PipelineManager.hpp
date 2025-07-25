@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <algorithm>
 
 #include "../core/Descriptor.hpp"
 #include "../core/PipelineLayout.hpp"
@@ -28,6 +29,8 @@ namespace merutilm::vkh {
 
         [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setNumber) { return *descriptors[setNumber]; }
 
+        [[nodiscard]] std::vector<VkDescriptorSet> getDescriptorSets(uint32_t frameIndex);
+
         [[nodiscard]] const PipelineLayout &getLayout() const { return layout; }
 
         [[nodiscard]] std::span<const ShaderModule * const> getShaderModules() const {
@@ -37,5 +40,13 @@ namespace merutilm::vkh {
 
     inline void PipelineManager::attachShader(const ShaderModule *shaderStage) {
         shaderModules.emplace_back(shaderStage);
+    }
+
+    inline std::vector<VkDescriptorSet> PipelineManager::getDescriptorSets(uint32_t frameIndex) {
+        std::vector<VkDescriptorSet> sets(descriptors.size());
+        std::ranges::transform(descriptors, sets.begin(), [frameIndex](const Descriptor * desc) {
+            return desc->getDescriptorSetHandle(frameIndex);
+        });
+        return sets;
     }
 }

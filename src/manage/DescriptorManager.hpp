@@ -7,17 +7,24 @@
 
 #include "../core/TextureSampler.hpp"
 #include "../core/UniformBuffer.hpp"
+#include "../hash/DescriptorSetLayoutBuildTypeHasher.hpp"
+#include "../hash/VectorHasher.hpp"
+#include "../struct/DescriptorSetLayoutBuildType.hpp"
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {
+
+    using DescriptorSetLayoutBuilder = std::vector<DescriptorSetLayoutBuildType>;
+    using DescriptorSetLayoutBuilderHasher = VectorHasher<DescriptorSetLayoutBuildType, DescriptorSetLayoutBuildTypeHasher>;
+
     class DescriptorManager {
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
         std::vector<std::unique_ptr<UniformBuffer> > uboData = {};
         std::vector<std::unique_ptr<TextureSampler> > texSamplerData = {};
-        std::unique_ptr<DescriptorSetLayoutManager> layoutManager = nullptr;
+        DescriptorSetLayoutBuilder layoutBuilder = {};
 
     public:
-        explicit DescriptorManager();
+        explicit DescriptorManager() = default;
 
         ~DescriptorManager() = default;
 
@@ -31,9 +38,14 @@ namespace merutilm::vkh {
 
         void appendUBO(const std::string &name, VkShaderStageFlags useStage, std::unique_ptr<UniformBuffer> &&ubo);
 
-        void appendCombinedImgSampler(const std::string &name, VkShaderStageFlags useStage, std::unique_ptr<TextureSampler> &&texture);
+        void appendCombinedImgSampler(const std::string &name, VkShaderStageFlags useStage,
+                                      std::unique_ptr<TextureSampler> &&texture);
 
-        const DescriptorSetLayoutManager &getLayoutManager() const {return *layoutManager;};
+        const DescriptorSetLayoutBuilder &getLayoutBuilder() const { return layoutBuilder; }
+
+        uint32_t getUBOCount() const;
+
+        uint32_t getTexSamplerCount() const;
 
         [[nodiscard]] uint32_t getElementCount() const;
 
@@ -48,13 +60,16 @@ namespace merutilm::vkh {
         [[nodiscard]] TextureSampler &getSampler(const std::string &samplerName) const;
     };
 
-    inline DescriptorManager::DescriptorManager() {
-        layoutManager = std::make_unique<DescriptorSetLayoutManager>();
+    inline uint32_t DescriptorManager::getUBOCount() const {
+        return static_cast<uint32_t>(uboData.size());
     }
 
+    inline uint32_t DescriptorManager::getTexSamplerCount() const {
+        return static_cast<uint32_t>(texSamplerData.size());
+    }
 
     inline uint32_t DescriptorManager::getElementCount() const {
-        return static_cast<uint32_t>(uboData.size() + texSamplerData.size());
+        return getUBOCount() + getTexSamplerCount();
     }
 
     inline void DescriptorManager::appendUBO(const std::string &name, const VkShaderStageFlags useStage,
@@ -64,16 +79,17 @@ namespace merutilm::vkh {
         }
         names[name] = static_cast<uint32_t>(uboData.size());
         uboData.emplace_back(std::move(ubo));
-        layoutManager->append({VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, useStage});
+        layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, useStage);
     }
 
-    inline void DescriptorManager::appendCombinedImgSampler(const std::string &name, const VkShaderStageFlags useStage, std::unique_ptr<TextureSampler> &&texture) {
+    inline void DescriptorManager::appendCombinedImgSampler(const std::string &name, const VkShaderStageFlags useStage,
+                                                            std::unique_ptr<TextureSampler> &&texture) {
         if (names.contains(name)) {
             throw exception_invalid_args("value already in use");
         }
         names[name] = static_cast<uint32_t>(texSamplerData.size());
         texSamplerData.emplace_back(std::move(texture));
-        layoutManager->append({VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, useStage});
+        layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, useStage);
     }
 
 

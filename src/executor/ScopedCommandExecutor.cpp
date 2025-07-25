@@ -56,7 +56,7 @@ namespace merutilm::vkh {
             vkQueueSubmit(core.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo, nullptr) != VK_SUCCESS) {
             std::cerr << "Failed to submit command buffer operation.\n" << std::flush;
         }
-        vkFreeCommandBuffers(core.getLogicalDevice().getLogicalDeviceHandle(), commandPool.getCommandPoolHandle(), 1, &commandBuffer);
         vkDeviceWaitIdle(core.getLogicalDevice().getLogicalDeviceHandle());
+        vkFreeCommandBuffers(core.getLogicalDevice().getLogicalDeviceHandle(), commandPool.getCommandPoolHandle(), 1, &commandBuffer);
     }
 }

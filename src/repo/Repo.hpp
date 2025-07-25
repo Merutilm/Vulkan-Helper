@@ -17,7 +17,7 @@ namespace merutilm::vkh {
 
         explicit Repo(const Core &core) : core(core) {}
 
-        virtual const Type &pick(KeyInput keyInput, Args&&... args) = 0;
+        virtual const Type &pick(KeyInput keyInput, Args... args) = 0;
 
     };
 

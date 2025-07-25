@@ -84,7 +84,6 @@ add_executable(VulkanHelper
         src/core/UniformBuffer.hpp
         src/executor/Executor.hpp
         src/repo/ShaderModuleRepo.hpp
-        src/manage/DescriptorSetLayoutManager.hpp
         src/context/WindowContext.hpp
         src/context/RenderContext.hpp
         src/hash/VectorHasher.hpp
@@ -113,7 +112,6 @@ add_executable(VulkanHelper
         src/struct/PushConstantReserve.hpp
         src/configurator/RenderPassConfigurator.hpp
         src/configurator/BasicRenderPassConfigurator.hpp
-        src/hash/DescriptorSetLayoutManagerHasher.hpp
         src/hash/DescriptorSetLayoutBuildTypeHasher.hpp
 )
 

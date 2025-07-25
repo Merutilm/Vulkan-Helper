@@ -41,7 +41,7 @@ namespace merutilm::vkh {
                 throw exception_invalid_args("Duplicate push name : " + pushName);
             }
 
-            pcmNames[pushName] = pushConstantManagers.size();
+            pcmNames[pushName] = static_cast<uint32_t>(pushConstantManagers.size());
             auto som = std::make_unique<ShaderObjectManager>();
             (som->reserve<T>(pushConstantReserves.varname), ...);
             auto pcm = std::make_unique<PushConstantManager>(useStage, std::move(som));

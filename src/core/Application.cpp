@@ -83,17 +83,17 @@ namespace merutilm::vkh {
             const auto renderPassExecutor = RenderPassExecutor(core, renderContext,
                                                                currentFrame, imageIndex);
             const VkCommandBuffer cbh = renderContext.commandBuffer->getCommandBufferHandle(currentFrame);
-            const VkDescriptorSet sets = shaderProgram->getPipeline().getPipelineManager().getDescriptor(0).getDescriptorSetHandle(
+            const auto sets = shaderProgram->getPipeline().getPipelineManager().getDescriptorSets(
                 currentFrame);
             vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, shaderProgram->getPipeline().getPipelineHandle());
             vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    shaderProgram->getPipeline().getPipelineManager().getLayout().getLayoutHandle(), 0, 1, &sets, 0,
+                                    shaderProgram->getPipeline().getPipelineManager().getLayout().getLayoutHandle(), 0, static_cast<uint32_t>(sets.size()), sets.data(), 0,
                                     nullptr);
 
             auto [width, height] = swapchain.populateSwapchainExtent();
             swapchain.matchViewportAndScissor(cbh);
 
-            shaderProgram->getPipeline().getPipelineManager().getLayout().getPipelineLayoutManager().getPCM("push").set("resolution", glm::vec2{static_cast<float>(width / 2), static_cast<float>(height / 2)});
+            shaderProgram->getPipeline().getPipelineManager().getLayout().getPipelineLayoutManager().getPCM("push").set("resolution", glm::vec2{static_cast<float>(width), static_cast<float>(height)});
             shaderProgram->getPipeline().getPipelineManager().getLayout().push(cbh);
             shaderProgram->update(currentFrame);
             shaderProgram->draw(cbh, currentFrame);
