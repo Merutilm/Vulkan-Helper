@@ -32,7 +32,9 @@ namespace merutilm::vkh {
             vertexInputAttributeDescriptions.emplace_back(0, i, getFormat<decltype(Vertex::position)>(),
                                                           offset + offsetof(Vertex, position));
             vertexInputAttributeDescriptions.emplace_back(1, i, getFormat<decltype(Vertex::color)>(),
-                                                          offset + offsetof(Vertex, color));
+            offset + offsetof(Vertex, color));
+            vertexInputAttributeDescriptions.emplace_back(2, i, getFormat<decltype(Vertex::texcoord)>(),
+                                                          offset + offsetof(Vertex, texcoord));
         }
     }
 

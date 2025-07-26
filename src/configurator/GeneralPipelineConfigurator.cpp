@@ -11,16 +11,16 @@
 
 namespace merutilm::vkh {
     GeneralPipelineConfigurator::GeneralPipelineConfigurator(const Engine &engine,
-                                           std::string subpassName,
-                                           const std::string &vertName,
-                                           const std::string &fragName) : EngineHandler(engine),
-                                                                          subpassName(std::move(subpassName)),
-                                                                          vertexShader(
-                                                                              engine.getRepositories().getRepository<
-                                                                                  ShaderModuleRepo>()->pick(vertName)),
-                                                                          fragmentShader(
-                                                                              engine.getRepositories().getRepository<
-                                                                                  ShaderModuleRepo>()->pick(fragName)) {
+                                                             std::string subpassName,
+                                                             const std::string &vertName,
+                                                             const std::string &fragName) : EngineHandler(engine),
+        subpassName(std::move(subpassName)),
+        vertexShader(
+            engine.getRepositories().getRepository<
+                ShaderModuleRepo>()->pick(vertName)),
+        fragmentShader(
+            engine.getRepositories().getRepository<
+                ShaderModuleRepo>()->pick(fragName)) {
         GeneralPipelineConfigurator::attach();
     }
 
@@ -28,7 +28,8 @@ namespace merutilm::vkh {
         GeneralPipelineConfigurator::detach();
     }
 
-    void GeneralPipelineConfigurator::draw(const VkCommandBuffer cbh, const uint32_t frameIndex, const std::string &indexVarname) const {
+    void GeneralPipelineConfigurator::draw(const VkCommandBuffer cbh, const uint32_t frameIndex,
+                                           const std::string &indexVarname) const {
         const VkBuffer vertexBufferHandle = getVertexBuffer().getBufferHandle(frameIndex);
         constexpr VkDeviceSize vertexBufferOffset = 0;
         vkCmdBindVertexBuffers(cbh, 0, 1, &vertexBufferHandle, &vertexBufferOffset);
@@ -45,13 +46,14 @@ namespace merutilm::vkh {
         std::vector<const Descriptor *> descriptors = {};
         configureDescriptors(descriptors, layoutRepo, descRepo);
 
-        for (const auto descriptor : descriptors) {
-        const DescriptorSetLayout &layout = layoutRepo.pick(descriptor->getDescriptorManager().getLayoutBuilder());
+        for (const auto descriptor: descriptors) {
+            const DescriptorSetLayout &layout = layoutRepo.pick(descriptor->getDescriptorManager().getLayoutBuilder());
             pipelineLayoutManager->appendDescriptorSetLayout(&layout);
         }
 
         configurePushConstant(layoutRepo, *pipelineLayoutManager);
-        const PipelineLayout &pipelineLayout = engine.getRepositories().getRepository<PipelineLayoutRepo>()->pick(std::move(pipelineLayoutManager));
+        const PipelineLayout &pipelineLayout = engine.getRepositories().getRepository<PipelineLayoutRepo>()->pick(
+            std::move(pipelineLayoutManager));
 
 
         auto pipelineManager = std::make_unique<PipelineManager>(pipelineLayout);
@@ -72,7 +74,6 @@ namespace merutilm::vkh {
 
         pipeline = std::make_unique<Pipeline>(engine, pipelineLayout, *vertexBuffer, *indexBuffer, subpassName,
                                               std::move(pipelineManager));
-
     }
 
 
@@ -85,6 +86,4 @@ namespace merutilm::vkh {
         indexBuffer = nullptr;
         vertexBuffer = nullptr;
     }
-
-
 }

@@ -28,6 +28,16 @@ namespace merutilm::vkh {
         Pipeline::detach();
     }
 
+    void Pipeline::bind(const VkCommandBuffer cbh, const uint32_t frameIndex) const {
+        const auto sets = pipelineManager->getDescriptorSets(frameIndex);
+        vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+        vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                 pipelineManager->getLayout().getLayoutHandle(), 0,
+                                static_cast<uint32_t>(sets.size()), sets.data(), 0,
+                                nullptr);
+    }
+
+
     void Pipeline::attach() {
         auto modules = pipelineManager->getShaderModules();
 

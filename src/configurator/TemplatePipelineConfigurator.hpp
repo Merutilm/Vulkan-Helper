@@ -21,9 +21,8 @@ namespace merutilm::vkh {
 
         TemplatePipelineConfigurator &operator=(TemplatePipelineConfigurator &&) = delete;
 
-        void update(uint32_t frameIndex) override;
+        void update(VkCommandBuffer cbh, uint32_t frameIndex, uint32_t width, uint32_t height) override;
 
-        void draw(VkCommandBuffer cbh, uint32_t frameIndex) override;
 
     protected:
         void configureDescriptors(std::vector<const Descriptor *> &descriptors,

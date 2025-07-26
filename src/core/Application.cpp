@@ -11,7 +11,6 @@
 #include "../configurator/GeneralPipelineConfigurator.hpp"
 #include "../configurator/TemplatePipelineConfigurator.hpp"
 #include "../executor/RenderPassExecutor.hpp"
-#include "../repo/PipelineLayoutRepo.hpp"
 
 namespace merutilm::vkh {
     Application::Application() {
@@ -33,9 +32,13 @@ namespace merutilm::vkh {
         auto core = Core::createCore();
         core->createWindow(windowCreateInfo);
         engine = std::make_unique<Engine>(std::move(core));
-        engine->attachRenderContext(std::make_unique<RenderContext>(engine->getCore(), MAIN_WINDOW_ATTACHMENT_NAME, engine->getCommandPool(), BasicRenderPassConfigurator{}));
+        engine->attachRenderContext(std::make_unique<RenderContext>(engine->getCore(), MAIN_WINDOW_ATTACHMENT_NAME,
+                                                                    engine->getCommandPool(),
+                                                                    BasicRenderPassConfigurator{}));
 
-        shaderProgram = GeneralPipelineConfigurator::createShaderProgram<TemplatePipelineConfigurator>(*engine, BasicRenderPassConfigurator::SUBPASS_PRIMARY, "../shaders/template.vert", "../shaders/template.frag");
+        shaderProgram = GeneralPipelineConfigurator::createShaderProgram<TemplatePipelineConfigurator>(
+            *engine, BasicRenderPassConfigurator::SUBPASS_PRIMARY, "../shaders/template.vert",
+            "../shaders/template.frag");
 
         const HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -53,7 +56,6 @@ namespace merutilm::vkh {
         window.appendRenderer([this] { drawFrame(); });
         window.start();
     }
-
 
 
     void Application::drawFrame() {
@@ -77,27 +79,16 @@ namespace merutilm::vkh {
         vkAcquireNextImageKHR(device, swapchainHandle, UINT64_MAX, imageAvailableSemaphore,
                               nullptr, &imageIndex);
 
-
         //COMMAND SCOPE START
         {
             const auto renderPassExecutor = RenderPassExecutor(core, renderContext,
                                                                currentFrame, imageIndex);
             const VkCommandBuffer cbh = renderContext.commandBuffer->getCommandBufferHandle(currentFrame);
-            const auto sets = shaderProgram->getPipeline().getPipelineManager().getDescriptorSets(
-                currentFrame);
-            vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, shaderProgram->getPipeline().getPipelineHandle());
-            vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    shaderProgram->getPipeline().getPipelineManager().getLayout().getLayoutHandle(), 0, static_cast<uint32_t>(sets.size()), sets.data(), 0,
-                                    nullptr);
 
+            shaderProgram->getPipeline().bind(cbh, currentFrame);
             auto [width, height] = swapchain.populateSwapchainExtent();
             swapchain.matchViewportAndScissor(cbh);
-
-            shaderProgram->getPipeline().getPipelineManager().getLayout().getPipelineLayoutManager().getPCM("push").set("resolution", glm::vec2{static_cast<float>(width), static_cast<float>(height)});
-            shaderProgram->getPipeline().getPipelineManager().getLayout().push(cbh);
-            shaderProgram->update(currentFrame);
-            shaderProgram->draw(cbh, currentFrame);
-
+            shaderProgram->update(cbh, currentFrame, width, height);
         } // COMMAND SCOPE END
     }
 

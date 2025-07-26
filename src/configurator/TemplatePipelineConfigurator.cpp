@@ -8,7 +8,8 @@
 #include "../struct/Vertex.hpp"
 
 namespace merutilm::vkh {
-    void TemplatePipelineConfigurator::update(const uint32_t frameIndex) {
+    void TemplatePipelineConfigurator::update(const VkCommandBuffer cbh, const uint32_t frameIndex,
+                                              const uint32_t width, const uint32_t height) {
         const Descriptor &desc0 = getPipeline().getPipelineManager().getDescriptor(0);
         desc0.getDescriptorManager().getUBO(DSTemplate::Time::UBO_TIME).set(
             DSTemplate::Time::TIME_CURRENT, engine.getCore().getTime());
@@ -16,10 +17,11 @@ namespace merutilm::vkh {
         const Descriptor &desc1 = getPipeline().getPipelineManager().getDescriptor(1);
         desc1.update(frameIndex);
 
-    }
+        getPipeline().getPipelineManager().getLayout().getPipelineLayoutManager().getPCM("push").set(
+            "resolution", glm::vec2{static_cast<float>(width), static_cast<float>(height)});
+        getPipeline().getPipelineManager().getLayout().push(cbh);
 
-    void TemplatePipelineConfigurator::draw(const VkCommandBuffer cbh, const uint32_t frameIndex) {
-        GeneralPipelineConfigurator::draw(cbh, frameIndex, "index");
+        draw(cbh, frameIndex, "index");
     }
 
 
@@ -41,10 +43,10 @@ namespace merutilm::vkh {
 
     void TemplatePipelineConfigurator::configureVertexBuffer(ShaderObjectManager &som) {
         som.add("square", std::vector{
-                    Vertex::generate({1, 1, 0}, {1, 1, 1}),
-                    Vertex::generate({1, -1, 0}, {0, 1, 0}),
-                    Vertex::generate({-1, -1, 0}, {1, 0, 0}),
-                    Vertex::generate({-1, 1, 0}, {0, 0, 1}),
+                    Vertex::generate({1, 1, 0}, {1, 1, 1}, {1, 1}),
+                    Vertex::generate({1, -1, 0}, {0, 1, 0}, {1, 0}),
+                    Vertex::generate({-1, -1, 0}, {1, 0, 0}, {0.25, 0.25}),
+                    Vertex::generate({-1, 1, 0}, {0, 0, 1}, {0, 1}),
                 });
     }
 

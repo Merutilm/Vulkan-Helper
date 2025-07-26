@@ -49,9 +49,10 @@ namespace merutilm::vkh {
             return shaderProgram;
         }
 
+
         [[nodiscard]] Pipeline &getPipeline() const { return *pipeline; }
 
-        [[nodiscard]] const VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
+        [[nodiscard]] VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
 
         [[nodiscard]] const IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
 
@@ -61,9 +62,7 @@ namespace merutilm::vkh {
             return uniqueDescriptors.back().get();
         }
 
-        virtual void update(uint32_t frameIndex) = 0;
-
-        virtual void draw(VkCommandBuffer cbh, uint32_t frameIndex) = 0;
+        virtual void update(VkCommandBuffer cbh, uint32_t frameIndex, uint32_t width, uint32_t height) = 0;
 
     protected:
         void draw(VkCommandBuffer cbh, uint32_t frameIndex, const std::string &indexVarname) const;

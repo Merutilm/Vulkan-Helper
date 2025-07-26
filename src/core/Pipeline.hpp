@@ -36,6 +36,8 @@ namespace merutilm::vkh {
 
         Pipeline &operator=(Pipeline &&) = delete;
 
+        void bind( VkCommandBuffer cbh, uint32_t frameIndex) const;
+
         [[nodiscard]] const PipelineManager &getPipelineManager() const { return *pipelineManager; }
 
         [[nodiscard]] PipelineManager &getPipelineManager() { return *pipelineManager; }
