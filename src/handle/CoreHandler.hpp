@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Handler.hpp"
-#include "../core/Core.hpp"
+#include "../def/Core.hpp"
 
 namespace merutilm::vkh {
     struct CoreHandler : Handler {

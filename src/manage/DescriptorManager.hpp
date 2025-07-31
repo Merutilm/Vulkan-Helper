@@ -3,24 +3,27 @@
 //
 
 #pragma once
+#include <variant>
 #include <vector>
 
-#include "../core/TextureSampler.hpp"
-#include "../core/UniformBuffer.hpp"
+#include "../def/Sampler2D.hpp"
+#include "../def/Uniform.hpp"
 #include "../hash/DescriptorSetLayoutBuildTypeHasher.hpp"
 #include "../hash/VectorHasher.hpp"
 #include "../struct/DescriptorSetLayoutBuildType.hpp"
 #include "../struct/StringHasher.hpp"
+#include "../context/ImageContext.hpp"
 
 namespace merutilm::vkh {
-
     using DescriptorSetLayoutBuilder = std::vector<DescriptorSetLayoutBuildType>;
-    using DescriptorSetLayoutBuilderHasher = VectorHasher<DescriptorSetLayoutBuildType, DescriptorSetLayoutBuildTypeHasher>;
+    using DescriptorSetLayoutBuilderHasher = VectorHasher<DescriptorSetLayoutBuildType,
+        DescriptorSetLayoutBuildTypeHasher>;
+
+    using DescriptorType = std::variant<std::unique_ptr<Uniform>, std::unique_ptr<Sampler2D>,  ImageContext >;
 
     class DescriptorManager {
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
-        std::vector<std::unique_ptr<UniformBuffer> > uboData = {};
-        std::vector<std::unique_ptr<TextureSampler> > texSamplerData = {};
+        std::vector<DescriptorType> data = {};
         DescriptorSetLayoutBuilder layoutBuilder = {};
 
     public:
@@ -36,91 +39,108 @@ namespace merutilm::vkh {
 
         DescriptorManager &operator=(DescriptorManager &&) noexcept = delete;
 
-        void appendUBO(const std::string &name, VkShaderStageFlags useStage, std::unique_ptr<UniformBuffer> &&ubo);
+        void appendUBO(const std::string &name, VkShaderStageFlags useStage, std::unique_ptr<Uniform> &&ubo);
 
         void appendCombinedImgSampler(const std::string &name, VkShaderStageFlags useStage,
-                                      std::unique_ptr<TextureSampler> &&texture);
+                                      std::unique_ptr<Sampler2D> &&texture);
+
+        void appendInputAttachment(const std::string &name, VkShaderStageFlags useStage);
 
         const DescriptorSetLayoutBuilder &getLayoutBuilder() const { return layoutBuilder; }
 
-        uint32_t getUBOCount() const;
-
-        uint32_t getTexSamplerCount() const;
-
+        template<typename T>
         [[nodiscard]] uint32_t getElementCount() const;
 
-        [[nodiscard]] uint32_t getIndex(const std::string &varName) const;
+        uint32_t getElements() const;
 
-        [[nodiscard]] UniformBuffer &getUBO(uint32_t index) const;
+        [[nodiscard]] uint32_t getIndex(const std::string &varname) const;
 
-        [[nodiscard]] UniformBuffer &getUBO(const std::string &uboName) const;
+        const DescriptorType &getRaw(uint32_t index);
 
-        [[nodiscard]] TextureSampler &getSampler(uint32_t index) const;
+        const DescriptorType &getRaw(const std::string &varname);
 
-        [[nodiscard]] TextureSampler &getSampler(const std::string &samplerName) const;
+        template<typename T>
+        [[nodiscard]] T &get(uint32_t index);
+
+        template<typename T>
+        [[nodiscard]] T &get(const std::string &varname);
     };
 
-    inline uint32_t DescriptorManager::getUBOCount() const {
-        return static_cast<uint32_t>(uboData.size());
+    template<typename T>
+    uint32_t DescriptorManager::getElementCount() const {
+        uint32_t count = 0;
+        for (auto &variant: data) {
+            if (std::holds_alternative<T>(variant)) ++count;
+        }
+        return count;
     }
 
-    inline uint32_t DescriptorManager::getTexSamplerCount() const {
-        return static_cast<uint32_t>(texSamplerData.size());
-    }
-
-    inline uint32_t DescriptorManager::getElementCount() const {
-        return getUBOCount() + getTexSamplerCount();
+    inline uint32_t DescriptorManager::getElements() const {
+        return static_cast<uint32_t>(data.size());
     }
 
     inline void DescriptorManager::appendUBO(const std::string &name, const VkShaderStageFlags useStage,
-                                             std::unique_ptr<UniformBuffer> &&ubo) {
+                                             std::unique_ptr<Uniform> &&ubo) {
         if (names.contains(name)) {
             throw exception_invalid_args("value already in use");
         }
-        names[name] = static_cast<uint32_t>(uboData.size());
-        uboData.emplace_back(std::move(ubo));
+        names[name] = static_cast<uint32_t>(data.size());
+        data.emplace_back(std::move(ubo));
         layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, useStage);
     }
 
     inline void DescriptorManager::appendCombinedImgSampler(const std::string &name, const VkShaderStageFlags useStage,
-                                                            std::unique_ptr<TextureSampler> &&texture) {
+                                                            std::unique_ptr<Sampler2D> &&texture) {
         if (names.contains(name)) {
             throw exception_invalid_args("value already in use");
         }
-        names[name] = static_cast<uint32_t>(texSamplerData.size());
-        texSamplerData.emplace_back(std::move(texture));
+        names[name] = static_cast<uint32_t>(data.size());
+        data.emplace_back(std::move(texture));
         layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, useStage);
     }
 
+    inline void DescriptorManager::appendInputAttachment(const std::string &name, const VkShaderStageFlags useStage) {
+        if (names.contains(name)) {
+            throw exception_invalid_args("value already in use");
+        }
+        names[name] = static_cast<uint32_t>(data.size());
+        data.emplace_back(ImageContext{});
+        layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, useStage);
+    }
 
-    inline uint32_t DescriptorManager::getIndex(const std::string &varName) const {
-        if (!names.contains(varName)) {
+
+    inline uint32_t DescriptorManager::getIndex(const std::string &varname) const {
+        if (!names.contains(varname)) {
             throw exception_invalid_args("cannot found value");
         }
-        return names.at(varName);
+        return names.at(varname);
     }
 
-    inline UniformBuffer &DescriptorManager::getUBO(const uint32_t index) const {
-        if (index >= uboData.size()) {
+    inline const DescriptorType &DescriptorManager::getRaw(
+        const uint32_t index) {
+        if (index >= data.size()) {
             throw exception_invalid_args("index out of range");
         }
-        return *uboData[index];
+        return data[index];
     }
 
-    inline UniformBuffer &DescriptorManager::getUBO(const std::string &uboName) const {
-        const uint32_t index = getIndex(uboName);
-        return *uboData[index];
+    inline const DescriptorType &DescriptorManager::getRaw(
+        const std::string &varname) {
+        const uint32_t index = getIndex(varname);
+        return getRaw(index);
     }
 
-    inline TextureSampler &DescriptorManager::getSampler(const uint32_t index) const {
-        if (index >= texSamplerData.size()) {
+    template<typename T>
+    T &DescriptorManager::get(const uint32_t index) {
+        if (index >= data.size()) {
             throw exception_invalid_args("index out of range");
         }
-        return *texSamplerData[index];
+        return std::get<T>(data[index]);
     }
 
-    inline TextureSampler &DescriptorManager::getSampler(const std::string &samplerName) const {
-        const uint32_t index = getIndex(samplerName);
-        return *texSamplerData[index];
+    template<typename T>
+    T &DescriptorManager::get(const std::string &varname) {
+        const uint32_t index = getIndex(varname);
+        return get<T>(index);
     }
 }

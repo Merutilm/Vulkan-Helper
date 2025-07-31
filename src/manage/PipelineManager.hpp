@@ -5,9 +5,9 @@
 #pragma once
 #include <algorithm>
 
-#include "../core/Descriptor.hpp"
-#include "../core/PipelineLayout.hpp"
-#include "../core/ShaderModule.hpp"
+#include "../def/Descriptor.hpp"
+#include "../def/PipelineLayout.hpp"
+#include "../def/ShaderModule.hpp"
 
 namespace merutilm::vkh {
     class PipelineManager {
@@ -23,11 +23,11 @@ namespace merutilm::vkh {
 
         void attachDescriptor(std::vector<const Descriptor *> &&descriptor) { descriptors = std::move(descriptor); }
 
-        [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setNumber) const {
-            return *descriptors[setNumber];
+        [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setIndex) const {
+            return *descriptors[setIndex];
         }
 
-        [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setNumber) { return *descriptors[setNumber]; }
+        [[nodiscard]] std::vector<const Descriptor *> &getDescriptors() { return descriptors; }
 
         [[nodiscard]] std::vector<VkDescriptorSet> getDescriptorSets(uint32_t frameIndex);
 
@@ -44,7 +44,7 @@ namespace merutilm::vkh {
 
     inline std::vector<VkDescriptorSet> PipelineManager::getDescriptorSets(uint32_t frameIndex) {
         std::vector<VkDescriptorSet> sets(descriptors.size());
-        std::ranges::transform(descriptors, sets.begin(), [frameIndex](const Descriptor * desc) {
+        std::ranges::transform(descriptors, sets.begin(), [frameIndex](const Descriptor *desc) {
             return desc->getDescriptorSetHandle(frameIndex);
         });
         return sets;

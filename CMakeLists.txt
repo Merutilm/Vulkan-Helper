@@ -18,70 +18,70 @@ add_executable(VulkanHelper
         extern/stb_image.c
         extern/stb_image.h
         src/main.cpp
-        src/core/Application.hpp
-        src/core/Application.cpp
+        src/def/Application.hpp
+        src/def/Application.cpp
         src/handle/Handler.hpp
-        src/core/Window.cpp
-        src/core/Window.hpp
-        src/core/ValidationLayer.cpp
-        src/core/ValidationLayer.hpp
+        src/def/Window.cpp
+        src/def/Window.hpp
+        src/def/ValidationLayer.cpp
+        src/def/ValidationLayer.hpp
         src/exception/exception.hpp
-        src/core/Instance.cpp
-        src/core/Instance.hpp
-        src/core/Surface.cpp
-        src/core/Surface.hpp
-        src/core/PhysicalDevice.cpp
-        src/core/PhysicalDevice.hpp
+        src/def/Instance.cpp
+        src/def/Instance.hpp
+        src/def/Surface.cpp
+        src/def/Surface.hpp
+        src/def/PhysicalDevice.cpp
+        src/def/PhysicalDevice.hpp
         src/struct/QueueFamilyIndices.hpp
-        src/core/LogicalDevice.cpp
-        src/core/LogicalDevice.hpp
+        src/def/LogicalDevice.cpp
+        src/def/LogicalDevice.hpp
         src/struct/StringHasher.hpp
-        src/core/Swapchain.cpp
-        src/core/Swapchain.hpp
-        src/core/CommandPool.cpp
-        src/core/CommandPool.hpp
-        src/core/CommandBuffer.cpp
-        src/core/CommandBuffer.hpp
-        src/core/Descriptor.cpp
-        src/core/Descriptor.hpp
+        src/def/Swapchain.cpp
+        src/def/Swapchain.hpp
+        src/def/CommandPool.cpp
+        src/def/CommandPool.hpp
+        src/def/CommandBuffer.cpp
+        src/def/CommandBuffer.hpp
+        src/def/Descriptor.cpp
+        src/def/Descriptor.hpp
         src/manage/ShaderObjectManager.hpp
-        src/core/BufferObject.cpp
-        src/core/BufferObject.hpp
-        src/util/BufferUtils.hpp
+        src/def/BufferObject.cpp
+        src/def/BufferObject.hpp
+        src/util/BufferImageUtils.hpp
         src/manage/DescriptorManager.hpp
-        src/core/Pipeline.cpp
-        src/core/Pipeline.hpp
-        src/core/RenderPass.cpp
-        src/core/RenderPass.hpp
+        src/def/Pipeline.cpp
+        src/def/Pipeline.hpp
+        src/def/RenderPass.cpp
+        src/def/RenderPass.hpp
         src/manage/PipelineManager.hpp
-        src/core/DescriptorSetLayout.hpp
+        src/def/DescriptorSetLayout.hpp
         src/struct/DescriptorSetLayoutBuildType.hpp
-        src/core/PipelineLayout.hpp
-        src/core/DescriptorSetLayout.cpp
-        src/core/PipelineLayout.cpp
+        src/def/PipelineLayout.hpp
+        src/def/DescriptorSetLayout.cpp
+        src/def/PipelineLayout.cpp
         src/manage/PushConstantManager.hpp
-        src/core/ShaderModule.hpp
-        src/core/ShaderModule.cpp
+        src/def/ShaderModule.hpp
+        src/def/ShaderModule.cpp
         src/manage/RenderPassManager.hpp
         src/struct/RenderPassAttachmentType.hpp
-        src/core/Core.cpp
-        src/core/Core.hpp
+        src/def/Core.cpp
+        src/def/Core.hpp
         src/handle/CoreHandler.hpp
         src/struct/WindowCreateInfo.hpp
-        src/core/Framebuffer.cpp
-        src/core/Framebuffer.hpp
-        src/struct/RenderPassAttachmentConfig.hpp
+        src/def/Framebuffer.cpp
+        src/def/Framebuffer.hpp
+        src/struct/RenderPassAttachment.hpp
         src/struct/ImageInitInfo.hpp
-        src/core/SyncObject.cpp
-        src/core/SyncObject.hpp
+        src/def/SyncObject.cpp
+        src/def/SyncObject.hpp
         src/executor/RenderPassExecutor.cpp
         src/executor/RenderPassExecutor.hpp
         src/struct/Vertex.hpp
-        src/core/VertexBuffer.cpp
-        src/core/VertexBuffer.hpp
-        src/manage/ConstShaderObjectManager.hpp
-        src/core/UniformBuffer.cpp
-        src/core/UniformBuffer.hpp
+        src/def/VertexBuffer.cpp
+        src/def/VertexBuffer.hpp
+        src/manage/CompleteShaderObjectManager.hpp
+        src/def/Uniform.cpp
+        src/def/Uniform.hpp
         src/executor/Executor.hpp
         src/repo/ShaderModuleRepo.hpp
         src/context/WindowContext.hpp
@@ -94,25 +94,29 @@ add_executable(VulkanHelper
         src/manage/PipelineLayoutManager.hpp
         src/hash/BoostHasher.hpp
         src/repo/PipelineLayoutRepo.hpp
-        src/core/IndexBuffer.cpp
-        src/core/IndexBuffer.hpp
-        src/core/TextureSampler.cpp
-        src/core/TextureSampler.hpp
+        src/def/IndexBuffer.cpp
+        src/def/IndexBuffer.hpp
+        src/def/Sampler2D.cpp
+        src/def/Sampler2D.hpp
         src/configurator/GeneralPipelineConfigurator.cpp
         src/configurator/GeneralPipelineConfigurator.hpp
         src/repo/DescriptorRepo.hpp
         src/struct/DescriptorName.hpp
         src/template/DSTemplate.hpp
-        src/core/Engine.cpp
-        src/core/Engine.hpp
-        src/configurator/TemplatePipelineConfigurator.cpp
-        src/configurator/TemplatePipelineConfigurator.hpp
+        src/def/Engine.cpp
+        src/def/Engine.hpp
+        src/configurator/Template2PipelineConfigurator.cpp
+        src/configurator/Template2PipelineConfigurator.hpp
         src/executor/ScopedCommandExecutor.cpp
         src/executor/ScopedCommandExecutor.hpp
         src/struct/PushConstantReserve.hpp
-        src/configurator/RenderPassConfigurator.hpp
-        src/configurator/BasicRenderPassConfigurator.hpp
+        src/configurator/RenderContextConfigurator.hpp
+        src/configurator/BasicRenderContextConfigurator.hpp
         src/hash/DescriptorSetLayoutBuildTypeHasher.hpp
+        src/context/ImageContext.hpp
+        src/util/Presenter.hpp
+        src/configurator/Template1PipelineConfigurator.cpp
+        src/configurator/Template1PipelineConfigurator.hpp
 )
 
 

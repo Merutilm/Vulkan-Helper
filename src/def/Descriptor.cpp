@@ -1,0 +1,179 @@
+//
+// Created by Merutilm on 2025-07-09.
+//
+
+#include "Descriptor.hpp"
+
+#include <iostream>
+
+#include "DescriptorSetLayout.hpp"
+#include "../exception/exception.hpp"
+
+namespace merutilm::vkh {
+    Descriptor::Descriptor(const Core &core, const DescriptorSetLayout &descriptorSetLayout,
+                           std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core),
+        descriptorSetLayout(descriptorSetLayout),
+        descriptorManager(std::move(descriptorManager)) {
+        Descriptor::attach();
+    }
+
+    Descriptor::~Descriptor() {
+        Descriptor::detach();
+    }
+
+
+    void Descriptor::updateIndices(const uint32_t frameIndex, const std::vector<uint32_t> &indices) const {
+        std::vector<VkWriteDescriptorSet> writeDescriptorSets = {};
+        std::vector<VkDescriptorBufferInfo> bufferInfos = {};
+        std::vector<VkDescriptorImageInfo> imageInfos = {};
+
+        for (const uint32_t index : indices) {
+            const auto &raw = descriptorManager->getRaw(index);
+            if (std::holds_alternative<std::unique_ptr<Uniform>>(raw)) {
+                auto &ubo = std::get<std::unique_ptr<Uniform>>(raw);
+                ubo->update(frameIndex);
+                bufferInfos.push_back({
+                    .buffer = ubo->getBufferHandle(frameIndex),
+                    .offset = 0,
+                    .range = ubo->getTotalSizeByte()
+                });
+
+                writeDescriptorSets.push_back({
+                    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                    .pNext = nullptr,
+                    .dstSet = descriptorSets[frameIndex],
+                    .dstBinding = index,
+                    .dstArrayElement = 0,
+                    .descriptorCount = 1,
+                    .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                    .pImageInfo = nullptr,
+                    .pBufferInfo = &bufferInfos.back(),
+                    .pTexelBufferView = nullptr,
+                });
+            }
+            if (std::holds_alternative<std::unique_ptr<Sampler2D>>(raw)) {
+                auto &tex = std::get<std::unique_ptr<Sampler2D>>(raw);
+                imageInfos.push_back({
+                    .sampler = tex->getSamplerHandle(),
+                    .imageView = tex->getImageViewHandle(),
+                    .imageLayout = tex->getCurrentImageLayout()
+                });
+
+                writeDescriptorSets.push_back({
+                    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                    .pNext = nullptr,
+                    .dstSet = descriptorSets[frameIndex],
+                    .dstBinding = index,
+                    .dstArrayElement = 0,
+                    .descriptorCount = 1,
+                    .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                    .pImageInfo = &imageInfos.back(),
+                    .pBufferInfo = nullptr,
+                    .pTexelBufferView = nullptr,
+                });
+            }
+            if (std::holds_alternative<ImageContext>(raw)) {
+                auto &input = std::get<ImageContext>(raw);
+
+                imageInfos.push_back({
+                    .sampler = VK_NULL_HANDLE,
+                    .imageView = input.imageView,
+                    .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
+                });
+
+                writeDescriptorSets.push_back({
+                    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                    .pNext = nullptr,
+                    .dstSet = descriptorSets[frameIndex],
+                    .dstBinding = index,
+                    .dstArrayElement = 0,
+                    .descriptorCount = 1,
+                    .descriptorType = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,
+                    .pImageInfo = &imageInfos.back(),
+                    .pBufferInfo = nullptr,
+                    .pTexelBufferView = nullptr,
+                });
+            }
+        }
+
+        vkUpdateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(),
+                               static_cast<uint32_t>(writeDescriptorSets.size()),
+                               writeDescriptorSets.data(), 0, nullptr);
+    }
+
+
+    void Descriptor::attach() {
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t ubo = descriptorManager->getElementCount<std::unique_ptr<Uniform>>();
+        const uint32_t sampler = descriptorManager->getElementCount<std::unique_ptr<Sampler2D>>();
+        const uint32_t inputAttachment = descriptorManager->getElementCount<ImageContext>();
+        const uint32_t elements = descriptorManager->getElements();
+
+        std::vector<VkDescriptorPoolSize> sizes = {};
+
+        if (ubo > 0) {
+            sizes.push_back({
+                .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                .descriptorCount = ubo
+            });
+        }
+
+        if (sampler > 0) {
+            sizes.push_back({
+                .type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                .descriptorCount = sampler
+            });
+        }
+
+        if (inputAttachment > 0) {
+            sizes.push_back({
+                .type = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,
+                .descriptorCount = inputAttachment
+            });
+        }
+
+        const VkDescriptorPoolCreateInfo descriptorPoolInfo = {
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
+            .pNext = nullptr,
+            .flags = 0,
+            .maxSets = elements,
+            .poolSizeCount = static_cast<uint32_t>(sizes.size()),
+            .pPoolSizes = sizes.data()
+        };
+        descriptorPools.resize(maxFramesInFlight);
+
+        for (uint32_t i = 0; i < maxFramesInFlight; i++) {
+            if (vkCreateDescriptorPool(core.getLogicalDevice().getLogicalDeviceHandle(), &descriptorPoolInfo, nullptr,
+                                       &descriptorPools[i]) != VK_SUCCESS) {
+                throw exception_init("Failed to create descriptor pool!");
+            }
+        }
+
+        VkDescriptorSetLayout layout = descriptorSetLayout.getLayoutHandle();
+
+        descriptorSets.resize(maxFramesInFlight);
+        for (int i = 0; i < maxFramesInFlight; ++i) {
+            if (const VkDescriptorSetAllocateInfo descriptorSetAllocateInfo = {
+                .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
+                .pNext = nullptr,
+                .descriptorPool = descriptorPools[i],
+                .descriptorSetCount = 1,
+                .pSetLayouts = &layout
+            }; vkAllocateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(), &descriptorSetAllocateInfo,
+                                        &descriptorSets[i]) != VK_SUCCESS) {
+                throw exception_init("Failed to allocate descriptor sets!");
+            }
+        }
+    }
+
+    void Descriptor::detach() {
+        if (descriptorManager->getElements() == 0) {
+            return;
+        }
+        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+
+        for (int i = 0; i < maxFramesInFlight; ++i) {
+            vkDestroyDescriptorPool(core.getLogicalDevice().getLogicalDeviceHandle(), descriptorPools[i], nullptr);
+        }
+    }
+}

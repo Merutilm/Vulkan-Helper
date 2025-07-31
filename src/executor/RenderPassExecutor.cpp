@@ -9,13 +9,11 @@
 #include "../context/RenderContext.hpp"
 
 namespace merutilm::vkh {
-    RenderPassExecutor::RenderPassExecutor(const Core &core, const RenderContext &renderContext,
+    RenderPassExecutor::RenderPassExecutor(const Engine &engine, const RenderContext &renderContext,
+                                           const VkExtent2D extent,
                                            const uint32_t frameIndex,
-                                           const uint32_t imageIndex) : Executor(core),
-                                                                        swapchain(*core.getWindowContext(
-                                                                                renderContext.windowAttachmentName).
-                                                                            swapchain),
-                                                                        renderContext(renderContext),
+                                           const uint32_t imageIndex) : Executor(engine.getCore()), engine(engine),
+                                                                        renderContext(renderContext), extent(extent),
                                                                         frameIndex(frameIndex), imageIndex(imageIndex) {
         RenderPassExecutor::begin();
     }
@@ -26,15 +24,15 @@ namespace merutilm::vkh {
 
 
     void RenderPassExecutor::begin() {
-        const VkCommandBuffer commandBufferHandle = renderContext.commandBuffer->getCommandBufferHandle(frameIndex);
+        const VkCommandBuffer cbh = engine.getCommandBuffer().getCommandBufferHandle(frameIndex);
         constexpr VkCommandBufferBeginInfo beginInfo = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
             .pNext = nullptr,
             .flags = 0,
             .pInheritanceInfo = nullptr
         };
-        vkResetCommandBuffer(commandBufferHandle, 0);
-        if (vkBeginCommandBuffer(commandBufferHandle, &beginInfo) != VK_SUCCESS) {
+        vkResetCommandBuffer(cbh, 0);
+        if (vkBeginCommandBuffer(cbh, &beginInfo) != VK_SUCCESS) {
             throw exception_init("Failed to begin command buffer transmission");
         }
 
@@ -49,57 +47,42 @@ namespace merutilm::vkh {
             .framebuffer = renderContext.framebuffer->getFramebufferHandle(imageIndex),
             .renderArea = {
                 .offset = {0, 0},
-                .extent = swapchain.populateSwapchainExtent()
+                .extent = extent
             },
             .clearValueCount = static_cast<uint32_t>(clearValues.size()),
             .pClearValues = clearValues.data()
         };
 
-        vkCmdBeginRenderPass(renderContext.commandBuffer->getCommandBufferHandle(frameIndex), &renderPassBeginInfo,
+        vkCmdBeginRenderPass(cbh, &renderPassBeginInfo,
                              VK_SUBPASS_CONTENTS_INLINE);
     }
 
     void RenderPassExecutor::end() {
-        vkCmdEndRenderPass(renderContext.commandBuffer->getCommandBufferHandle(frameIndex));
+        const VkCommandBuffer cbh = engine.getCommandBuffer().getCommandBufferHandle(frameIndex);
+        vkCmdEndRenderPass(cbh);
 
 
-        VkCommandBuffer commandBufferHandle = renderContext.commandBuffer->getCommandBufferHandle(frameIndex);
-        VkSemaphore imageAvailableSemaphore = renderContext.syncObject->getImageAvailableSemaphore(frameIndex);
-        VkSemaphore renderFinishedSemaphore = renderContext.syncObject->getRenderFinishedSemaphore(frameIndex);
+        VkCommandBuffer commandBufferHandle = cbh;
+        VkSemaphore imageAvailableSemaphore = engine.getSyncObject().getImageAvailableSemaphore(frameIndex);
+        VkSemaphore renderFinishedSemaphore = engine.getSyncObject().getRenderFinishedSemaphore(frameIndex);
         std::array<VkPipelineStageFlags, 1> waitStages = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
         vkEndCommandBuffer(commandBufferHandle);
-
-
-        if (const VkSubmitInfo submitInfo = {
-                .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
-                .pNext = nullptr,
-                .waitSemaphoreCount = 1,
-                .pWaitSemaphores = &imageAvailableSemaphore,
-                .pWaitDstStageMask = waitStages.data(),
-                .commandBufferCount = 1,
-                .pCommandBuffers = &commandBufferHandle,
-                .signalSemaphoreCount = 1,
-                .pSignalSemaphores = &renderFinishedSemaphore
-            };
-            vkQueueSubmit(core.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo,
-                          renderContext.syncObject->getFence(frameIndex)) != VK_SUCCESS) {
-            std::cerr << "Failed to submit queue" << std::endl;
-        }
-
-        VkSwapchainKHR swapchainHandle = swapchain.getSwapchainHandle();
-        const VkPresentInfoKHR presentInfo = {
-            .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
+        const VkSubmitInfo submitInfo = {
+            .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
             .pNext = nullptr,
             .waitSemaphoreCount = 1,
-            .pWaitSemaphores = &renderFinishedSemaphore,
-            .swapchainCount = 1,
-            .pSwapchains = &swapchainHandle,
-            .pImageIndices = &imageIndex,
-            .pResults = nullptr
+            .pWaitSemaphores = &imageAvailableSemaphore,
+            .pWaitDstStageMask = waitStages.data(),
+            .commandBufferCount = 1,
+            .pCommandBuffers = &commandBufferHandle,
+            .signalSemaphoreCount = 1,
+            .pSignalSemaphores = &renderFinishedSemaphore
         };
-        if (vkQueuePresentKHR(core.getLogicalDevice().getPresentQueue(), &presentInfo) != VK_SUCCESS) {
-            std::cerr << "Failed to present queue" << std::endl;
+
+        if (const VkResult result = vkQueueSubmit(core.getLogicalDevice().getGraphicsQueue(), 1, &submitInfo,
+                                                  engine.getSyncObject().getFence(frameIndex)); result != VK_SUCCESS) {
+            std::cerr << "Failed to submit queue!! | CAUSE : " << result << std::endl;
         }
     }
 }

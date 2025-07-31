@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Handler.hpp"
-#include "../core/Engine.hpp"
+#include "../def/Engine.hpp"
 
 namespace merutilm::vkh {
     struct EngineHandler : Handler {

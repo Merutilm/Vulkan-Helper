@@ -7,7 +7,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "../core/ShaderModule.hpp"
+#include "../def/ShaderModule.hpp"
 #include "../struct/StringHasher.hpp"
 
 namespace merutilm::vkh {

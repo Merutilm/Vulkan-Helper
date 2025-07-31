@@ -7,8 +7,8 @@
 
 #include "../context/RenderContext.hpp"
 #include "../handle/EngineHandler.hpp"
-#include "../core/Pipeline.hpp"
-#include "../core/ShaderModule.hpp"
+#include "../def/Pipeline.hpp"
+#include "../def/ShaderModule.hpp"
 #include "../repo/DescriptorRepo.hpp"
 #include "../repo/Repositories.hpp"
 
@@ -49,20 +49,21 @@ namespace merutilm::vkh {
             return shaderProgram;
         }
 
-
         [[nodiscard]] Pipeline &getPipeline() const { return *pipeline; }
 
         [[nodiscard]] VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
 
         [[nodiscard]] const IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
 
-        [[nodiscard]] const Descriptor *appendUniqueDescriptor(DescriptorSetLayoutRepo &layoutRepo, std::unique_ptr<DescriptorManager> &&manager) {
+        void appendUniqueDescriptor(std::vector<const Descriptor *> &descriptors, DescriptorSetLayoutRepo &layoutRepo, std::unique_ptr<DescriptorManager> &&manager) {
             auto desc = std::make_unique<Descriptor>(engine.getCore(), layoutRepo.pick(manager->getLayoutBuilder()), std::move(manager));
             uniqueDescriptors.push_back(std::move(desc));
-            return uniqueDescriptors.back().get();
+            descriptors.push_back(uniqueDescriptors.back().get());
         }
 
-        virtual void update(VkCommandBuffer cbh, uint32_t frameIndex, uint32_t width, uint32_t height) = 0;
+        virtual void update(uint32_t frameIndex, uint32_t imageIndex, uint32_t width, uint32_t height) = 0;
+
+        virtual void render(VkCommandBuffer cbh, uint32_t frameIndex, uint32_t width, uint32_t height) = 0;
 
     protected:
         void draw(VkCommandBuffer cbh, uint32_t frameIndex, const std::string &indexVarname) const;
@@ -78,6 +79,14 @@ namespace merutilm::vkh {
         virtual void configureVertexBuffer(ShaderObjectManager &som) = 0;
 
         virtual void configureIndexBuffer(ShaderObjectManager &som) = 0;
+
+        [[nodiscard]] const Descriptor &getDescriptor(const uint32_t setIndex) const {return getPipeline().getPipelineManager().getDescriptor(setIndex);}
+
+        [[nodiscard]] PushConstantManager &getPushConstantManager(const std::string &pushName) const {return getPipeline().getPipelineManager().getLayout().getPipelineLayoutManager().getPCM(pushName);}
+
+        void pushAll(const VkCommandBuffer cbh) const {
+            getPipeline().getPipelineManager().getLayout().push(cbh);
+        }
 
     private:
         void attach() override;

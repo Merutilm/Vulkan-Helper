@@ -8,13 +8,14 @@
 
 namespace merutilm::vkh {
     class RenderPassExecutor final : public Executor {
-        const Swapchain &swapchain;
+        const Engine &engine;
         const RenderContext &renderContext;
+        const VkExtent2D extent;
         const uint32_t frameIndex;
         const uint32_t imageIndex;
 
     public:
-        explicit RenderPassExecutor(const Core &core, const RenderContext &renderContext,  uint32_t frameIndex, uint32_t imageIndex);
+        explicit RenderPassExecutor(const Engine &engine, const RenderContext &renderContext, VkExtent2D extent, uint32_t frameIndex, uint32_t imageIndex);
 
         ~RenderPassExecutor() override;
 
@@ -26,9 +27,11 @@ namespace merutilm::vkh {
 
         RenderPassExecutor &operator=(RenderPassExecutor &&) = delete;
 
+
     private:
         void begin() override;
 
         void end() override;
+
     };
 }

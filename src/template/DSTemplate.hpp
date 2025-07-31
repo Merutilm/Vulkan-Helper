@@ -25,7 +25,7 @@ namespace merutilm::vkh::DSTemplate {
             bufferManager->reserve<glm::mat4>(CAMERA_VIEW);
             bufferManager->reserve<glm::mat4>(CAMERA_PROJ);
 
-            auto ubo = std::make_unique<UniformBuffer>(core, std::move(bufferManager));
+            auto ubo = std::make_unique<Uniform>(core, std::move(bufferManager));
             auto descManager = std::make_unique<DescriptorManager>();
             descManager->appendUBO(UBO_CAMERA, useStage, std::move(ubo));
             return descManager;
@@ -38,7 +38,7 @@ namespace merutilm::vkh::DSTemplate {
         static std::unique_ptr<DescriptorManager> create(const Core &core, const VkShaderStageFlags useStage) {
             auto bufferManager = std::make_unique<ShaderObjectManager>();
             bufferManager->reserve<float>(TIME_CURRENT);
-            auto ubo = std::make_unique<UniformBuffer>(core, std::move(bufferManager));
+            auto ubo = std::make_unique<Uniform>(core, std::move(bufferManager));
             auto descManager = std::make_unique<DescriptorManager>();
             descManager->appendUBO(UBO_TIME, useStage, std::move(ubo));
             return descManager;

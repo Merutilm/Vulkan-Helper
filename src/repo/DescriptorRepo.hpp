@@ -5,7 +5,7 @@
 #pragma once
 #include "DescriptorSetLayoutRepo.hpp"
 #include "Repo.hpp"
-#include "../core/Descriptor.hpp"
+#include "../def/Descriptor.hpp"
 #include "../struct/DescriptorName.hpp"
 #include "../struct/EnumHasher.hpp"
 #include "../template/DSTemplate.hpp"

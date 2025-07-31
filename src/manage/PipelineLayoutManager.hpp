@@ -5,7 +5,7 @@
 #pragma once
 #include <vector>
 #include "PushConstantManager.hpp"
-#include "../core/DescriptorSetLayout.hpp"
+#include "../def/DescriptorSetLayout.hpp"
 #include "../struct/EnumHasher.hpp"
 #include "../struct/PushConstantReserve.hpp"
 

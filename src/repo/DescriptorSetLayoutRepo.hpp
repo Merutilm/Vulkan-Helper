@@ -7,7 +7,7 @@
 #include <unordered_map>
 
 #include "Repo.hpp"
-#include "../core/DescriptorSetLayout.hpp"
+#include "../def/DescriptorSetLayout.hpp"
 
 namespace merutilm::vkh {
     struct DescriptorSetLayoutRepo final : Repo<DescriptorSetLayoutBuilder, const DescriptorSetLayoutBuilder &, DescriptorSetLayout,

@@ -6,19 +6,17 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+
 #include "../exception/exception.hpp"
+#include "../struct/RenderPassAttachment.hpp"
 #include "../struct/StringHasher.hpp"
-#include "../struct/RenderPassAttachmentConfig.hpp"
 #include "../struct/RenderPassAttachmentType.hpp"
-#include "../util/BufferUtils.hpp"
 
 namespace merutilm::vkh {
     class RenderPassManager {
-
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > subpassNames = {};
         std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > attachmentNames = {};
-
-        std::vector<RenderPassAttachmentConfig> attachments = {};
+        std::vector<RenderPassAttachment> attachments = {};
         std::vector<std::vector<uint32_t> > preserveIndices = {};
         std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference> > >
         attachmentReferences{};
@@ -47,7 +45,7 @@ namespace merutilm::vkh {
             return preserveIndices[subpassIndex].data();
         }
 
-        [[nodiscard]] const std::vector<RenderPassAttachmentConfig> &getAttachmentConfigs() const {
+        [[nodiscard]] const std::vector<RenderPassAttachment> &getAttachments() const {
             return attachments;
         }
 
@@ -64,15 +62,19 @@ namespace merutilm::vkh {
             return subpassDependencies;
         }
 
+        void checkValidAttachmentName(const std::string &attachmentName) const;
+
         void setPreserved(const std::string &attachmentName);
 
         void unsetPreserved(const std::string &attachmentName);
 
         void appendSubpass(const std::string &subpassName);
 
-        void appendAttachment(const std::string &attachmentName, RenderPassAttachmentType attachmentType,
-                              const VkAttachmentDescription &attachment,
-                              const ImageInitInfo &imageInitInfo = {});
+        void appendReference(const std::string &attachmentName, RenderPassAttachmentType attachmentType);
+
+        void appendAttachment(const std::string &attachmentName,
+                              const VkAttachmentDescription &attachmentDescription,
+                              const MultiframeImageContext &imageContext);
 
         uint32_t getSubpassIndex(const std::string &subpassName) const;
 
@@ -80,19 +82,22 @@ namespace merutilm::vkh {
         void appendDependency(const VkSubpassDependency &subpassDependency);
     };
 
+    inline void RenderPassManager::checkValidAttachmentName(const std::string &attachmentName) const {
+        if (!attachmentNames.contains(attachmentName)) {
+            throw exception_invalid_args("Invalid attachment name : " + attachmentName);
+        }
+    }
+
+
 
     inline void RenderPassManager::setPreserved(const std::string &attachmentName) {
-        if (!attachmentNames.contains(attachmentName)) {
-            throw exception_invalid_args("Invalid attachment name");
-        }
+        checkValidAttachmentName(attachmentName);
         preserveIndices.back().emplace_back(attachmentNames[attachmentName]);
     }
 
 
     inline void RenderPassManager::unsetPreserved(const std::string &attachmentName) {
-        if (!attachmentNames.contains(attachmentName)) {
-            throw exception_invalid_args("Invalid attachment name");
-        }
+        checkValidAttachmentName(attachmentName);
 
         auto &indices = preserveIndices.back();
         const uint32_t preserveIndex = attachmentNames[attachmentName];
@@ -119,14 +124,11 @@ namespace merutilm::vkh {
         ++subpassCount;
     }
 
-    inline void RenderPassManager::appendAttachment(const std::string &attachmentName,
-                                                    const RenderPassAttachmentType attachmentType,
-                                                    const VkAttachmentDescription &attachment,
-                                                    const ImageInitInfo &imageInitInfo) {
+    inline void RenderPassManager::appendReference(const std::string &attachmentName,
+                                                    const RenderPassAttachmentType attachmentType) {
         using enum RenderPassAttachmentType;
-        if (attachmentNames.contains(attachmentName)) {
-            throw exception_invalid_args("Attachment already exists");
-        }
+        checkValidAttachmentName(attachmentName);
+        const uint32_t attachmentIndex = attachmentNames.at(attachmentName);
 
         auto &ref = this->attachmentReferences.back()[attachmentType];
         VkAttachmentReference attachmentReference = {};
@@ -134,16 +136,15 @@ namespace merutilm::vkh {
         switch (attachmentType) {
             case INPUT: {
                 attachmentReference = {
-                    .attachment = count,
-                    .layout = VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL,
+                    .attachment = attachmentIndex,
+                    .layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
                 };
-
                 break;
             }
             case COLOR:
             case RESOLVE: {
                 attachmentReference = {
-                    .attachment = count,
+                    .attachment = attachmentIndex,
                     .layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
                 };
                 break;
@@ -153,20 +154,30 @@ namespace merutilm::vkh {
                     throw exception_invalid_args("Depth Stencil attachment has already been set");
                 }
                 attachmentReference = {
-                    .attachment = count,
+                    .attachment = attachmentIndex,
                     .layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
                 };
                 break;
             }
         }
-
-
-        this->attachments.emplace_back(attachmentType, attachment, imageInitInfo);
-
         ref.emplace_back(attachmentReference);
+
+    }
+
+
+    inline void RenderPassManager::appendAttachment(const std::string &attachmentName,
+                                                    const VkAttachmentDescription &attachmentDescription,
+                                                    const MultiframeImageContext &imageContext) {
+        using enum RenderPassAttachmentType;
+        if (attachmentNames.contains(attachmentName)) {
+            throw exception_invalid_args("Attachment name already exists : " + attachmentName);
+        }
         attachmentNames[attachmentName] = count;
+        attachments.emplace_back(attachmentDescription, imageContext);
         ++count;
     }
+
+
 
     inline uint32_t RenderPassManager::getSubpassIndex(const std::string &subpassName) const {
         if (!subpassNames.contains(subpassName)) {
