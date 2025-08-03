@@ -12,14 +12,14 @@
 namespace merutilm::vkh {
     Sampler2D::Sampler2D(const Core &core, const CommandPool &commandPool, std::string path) : CoreHandler(core),
         commandPool(commandPool), path(std::move(path)) {
-        Sampler2D::attach();
+        Sampler2D::init();
     }
 
     Sampler2D::~Sampler2D() {
-        Sampler2D::detach();
+        Sampler2D::destroy();
     }
 
-    void Sampler2D::attach() {
+    void Sampler2D::init() {
         stbi_uc *data = nullptr;
         int width = 0;
         int height = 0;
@@ -120,7 +120,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Sampler2D::detach() {
+    void Sampler2D::destroy() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         vkDestroySampler(device, sampler, nullptr);
         vkDestroyImageView(device, view, nullptr);

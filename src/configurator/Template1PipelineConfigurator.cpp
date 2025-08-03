@@ -11,9 +11,10 @@ namespace merutilm::vkh {
 
 
 
-    void Template1PipelineConfigurator::update(const uint32_t frameIndex, const uint32_t imageIndex,
+    void Template1PipelineConfigurator::updateQueue(DescriptorUpdateQueue &queue, const uint32_t frameIndex, const uint32_t imageIndex,
                                                const uint32_t width, const uint32_t height) {
-        getDescriptor(0).update(frameIndex, imageIndex);
+
+        getDescriptor(0).updateQueue(queue, frameIndex);
     }
 
     void Template1PipelineConfigurator::render(const VkCommandBuffer cbh, const uint32_t frameIndex, const uint32_t width, const uint32_t height) {

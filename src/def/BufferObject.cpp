@@ -14,11 +14,11 @@ namespace merutilm::vkh {
                                const VkBufferUsageFlags bufferUsage) : CoreHandler(core),
                                                                        CompleteShaderObjectManager(std::move(dataManager)),
                                                                        bufferUsage(bufferUsage) {
-        BufferObject::attach();
+        BufferObject::init();
     }
 
     BufferObject::~BufferObject() {
-        BufferObject::detach();
+        BufferObject::destroy();
     }
 
 
@@ -42,7 +42,7 @@ namespace merutilm::vkh {
     }
 
 
-    void BufferObject::attach() {
+    void BufferObject::init() {
         const uint32_t size = getTotalSizeByte();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         buffers.resize(maxFramesInFlight);
@@ -113,7 +113,7 @@ namespace merutilm::vkh {
     }
 
 
-    void BufferObject::detach() {
+    void BufferObject::destroy() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {

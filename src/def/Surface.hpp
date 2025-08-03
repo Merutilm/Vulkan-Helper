@@ -35,8 +35,8 @@ namespace merutilm::vkh {
         [[nodiscard]] VkSurfaceKHR getSurfaceHandle() const { return surface; }
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

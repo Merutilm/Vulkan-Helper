@@ -11,11 +11,11 @@
 
 namespace merutilm::vkh {
     PhysicalDevice::PhysicalDevice(const Instance &instance, const Surface &surface) : instance(instance), surface(surface) {
-        PhysicalDevice::attach();
+        PhysicalDevice::init();
     }
 
     PhysicalDevice::~PhysicalDevice() {
-        PhysicalDevice::detach();
+        PhysicalDevice::destroy();
     }
 
     VkSurfaceCapabilitiesKHR PhysicalDevice::populateSurfaceCapabilities() const {
@@ -25,7 +25,7 @@ namespace merutilm::vkh {
     }
 
 
-    void PhysicalDevice::attach() {
+    void PhysicalDevice::init() {
         uint32_t physicalDeviceCount = 0;
         vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, nullptr);
         std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
@@ -105,7 +105,7 @@ namespace merutilm::vkh {
         return required.empty();
     }
 
-    void PhysicalDevice::detach() {
+    void PhysicalDevice::destroy() {
         //nothing to do
     }
 }

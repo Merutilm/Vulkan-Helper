@@ -39,9 +39,9 @@ namespace merutilm::vkh {
         [[nodiscard]] VkSampler getSamplerHandle() const { return sampler; }
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
 
         void transformImageLayout(VkCommandBuffer commandBuffer, VkAccessFlags srcAccessMask,
                                   VkAccessFlags dstAccessMask,

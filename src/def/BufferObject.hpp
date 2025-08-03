@@ -42,8 +42,8 @@ namespace merutilm::vkh {
         void checkFinalizedBeforeUpdate() const;
 
     protected:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

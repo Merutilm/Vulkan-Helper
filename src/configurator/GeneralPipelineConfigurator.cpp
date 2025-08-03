@@ -21,11 +21,11 @@ namespace merutilm::vkh {
         fragmentShader(
             engine.getRepositories().getRepository<
                 ShaderModuleRepo>()->pick(fragName)) {
-        GeneralPipelineConfigurator::attach();
+        GeneralPipelineConfigurator::init();
     }
 
     GeneralPipelineConfigurator::~GeneralPipelineConfigurator() {
-        GeneralPipelineConfigurator::detach();
+        GeneralPipelineConfigurator::destroy();
     }
 
     void GeneralPipelineConfigurator::draw(const VkCommandBuffer cbh, const uint32_t frameIndex,
@@ -77,11 +77,11 @@ namespace merutilm::vkh {
     }
 
 
-    void GeneralPipelineConfigurator::attach() {
+    void GeneralPipelineConfigurator::init() {
         //no operation
     }
 
-    void GeneralPipelineConfigurator::detach() {
+    void GeneralPipelineConfigurator::destroy() {
         pipeline = nullptr;
         indexBuffer = nullptr;
         vertexBuffer = nullptr;

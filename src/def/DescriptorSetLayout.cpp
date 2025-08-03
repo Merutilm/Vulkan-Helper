@@ -8,14 +8,14 @@
 
 namespace merutilm::vkh {
     DescriptorSetLayout::DescriptorSetLayout(const Core &core, const DescriptorSetLayoutBuilder &layoutBuilder) : CoreHandler(core), layoutBuilder(layoutBuilder) {
-        DescriptorSetLayout::attach();
+        DescriptorSetLayout::init();
     }
 
     DescriptorSetLayout::~DescriptorSetLayout() {
-        DescriptorSetLayout::detach();
+        DescriptorSetLayout::destroy();
     }
 
-    void DescriptorSetLayout::attach() {
+    void DescriptorSetLayout::init() {
         if (layout != nullptr) {
             throw exception_invalid_state("double-finish called");
         }
@@ -47,7 +47,7 @@ namespace merutilm::vkh {
 
 
 
-    void DescriptorSetLayout::detach() {
+    void DescriptorSetLayout::destroy() {
         if (layout != nullptr) {
             vkDestroyDescriptorSetLayout(core.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
         }

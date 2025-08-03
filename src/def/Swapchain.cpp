@@ -11,11 +11,11 @@ namespace merutilm::vkh {
     Swapchain::Swapchain(const Surface &surface, const PhysicalDevice &physicalDevice,
                          const LogicalDevice &logicalDevice) : surface(surface), physicalDevice(physicalDevice),
                                                                logicalDevice(logicalDevice) {
-        Swapchain::attach();
+        Swapchain::init();
     }
 
     Swapchain::~Swapchain() {
-        Swapchain::detach();
+        Swapchain::destroy();
     }
 
     void Swapchain::matchViewportAndScissor(const VkCommandBuffer cbh) const {
@@ -69,7 +69,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Swapchain::attach() {
+    void Swapchain::init() {
         createSwapchain(&swapchain, nullptr);
         setupSwapchainImages();
     }
@@ -124,7 +124,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Swapchain::detach() {
+    void Swapchain::destroy() {
         destroyImageViews();
         vkDestroySwapchainKHR(logicalDevice.getLogicalDeviceHandle(), swapchain, nullptr);
     }

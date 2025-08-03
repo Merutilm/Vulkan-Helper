@@ -6,14 +6,14 @@
 
 namespace merutilm::vkh {
     Engine::Engine(std::unique_ptr<Core> &&core) : core(std::move(core)) {
-        Engine::attach();
+        Engine::init();
     }
 
     Engine::~Engine() {
-        Engine::detach();
+        Engine::destroy();
     }
 
-    void Engine::attach() {
+    void Engine::init() {
         repositories = std::make_unique<Repositories>(*core);
         commandPool = std::make_unique<CommandPool>(*core);
         commandBuffer = std::make_unique<CommandBuffer>(*core, *commandPool);
@@ -29,7 +29,7 @@ namespace merutilm::vkh {
         return std::move(renderContext);
     }
 
-    void Engine::detach() {
+    void Engine::destroy() {
         renderContext = nullptr;
         syncObject = nullptr;
         commandBuffer = nullptr;

@@ -26,8 +26,9 @@ namespace merutilm::vkh {
             return commandPool;
         }
 
-        void attach() override;
+    private:
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

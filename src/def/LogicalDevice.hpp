@@ -37,8 +37,8 @@ namespace merutilm::vkh {
         [[nodiscard]] VkQueue getPresentQueue() const { return presentQueue; }
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

@@ -117,6 +117,7 @@ add_executable(VulkanHelper
         src/util/Presenter.hpp
         src/configurator/Template1PipelineConfigurator.cpp
         src/configurator/Template1PipelineConfigurator.hpp
+        src/context/DescriptorUpdateContext.hpp
 )
 
 

@@ -22,8 +22,8 @@ namespace merutilm::vkh {
         Uniform &operator=(Uniform &&) = delete;
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

@@ -40,10 +40,10 @@ namespace merutilm::vkh {
         [[nodiscard]] const ValidationLayer &getValidationLayer() const { return *validationLayer; }
 
     private:
-        void attach() override;
+        void init() override;
 
         void createInstance();
 
-        void detach() override;
+        void destroy() override;
     };
 }

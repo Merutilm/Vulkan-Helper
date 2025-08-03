@@ -7,11 +7,11 @@
 namespace merutilm::vkh {
     IndexBuffer::IndexBuffer(const Core &core, std::unique_ptr<ShaderObjectManager> &&manager) : BufferObject(
         core, std::move(manager), VK_BUFFER_USAGE_INDEX_BUFFER_BIT) {
-        IndexBuffer::attach();
+        IndexBuffer::init();
     }
 
     IndexBuffer::~IndexBuffer() {
-        IndexBuffer::detach();
+        IndexBuffer::destroy();
     }
 
     void IndexBuffer::bind(const VkCommandBuffer cbh, const uint32_t frameIndex, const std::string &varname) const {
@@ -19,11 +19,11 @@ namespace merutilm::vkh {
     }
 
 
-    void IndexBuffer::attach() {
+    void IndexBuffer::init() {
         //no operation
     }
 
-    void IndexBuffer::detach() {
+    void IndexBuffer::destroy() {
         //no operation
     }
 }

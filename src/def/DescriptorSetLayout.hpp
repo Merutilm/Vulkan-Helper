@@ -29,8 +29,8 @@ namespace merutilm::vkh {
         [[nodiscard]] VkDescriptorSetLayout getLayoutHandle() const {return layout;}
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

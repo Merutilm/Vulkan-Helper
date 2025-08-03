@@ -63,13 +63,13 @@ namespace merutilm::vkh {
         uint32_t getMaxFramesInFlight() const {return maxFramesInFlight;}
 
     private:
-        void attach() override;
+        void init() override;
 
 
         static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 
         static bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice);
 
-        void detach() override;
+        void destroy() override;
     };
 }

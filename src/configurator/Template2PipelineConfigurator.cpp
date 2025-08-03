@@ -11,17 +11,19 @@
 #include "../struct/Vertex.hpp"
 
 namespace merutilm::vkh {
-    void Template2PipelineConfigurator::update(const uint32_t frameIndex, const uint32_t imageIndex,
+    void Template2PipelineConfigurator::updateQueue(DescriptorUpdateQueue &queue, const uint32_t frameIndex, const uint32_t imageIndex,
                                                const uint32_t width, const uint32_t height) {
         const Descriptor &desc0 = getDescriptor(0);
-        desc0.getDescriptorManager().get<std::unique_ptr<Uniform> >(DSTemplate::Time::UBO_TIME)->set(
-            DSTemplate::Time::TIME_CURRENT, engine.getCore().getTime());
 
-        desc0.update(frameIndex, imageIndex);
-        const auto &context = engine.getRenderContext().configurator->getImageContext(
-            BasicRenderContextConfigurator::PRIMARY_SECONDARY_LINK_FRAME_IMG_CONTEXT)[imageIndex];
+        const auto& ubo = desc0.getDescriptorManager().get<std::unique_ptr<Uniform>>(DSTemplate::Time::UBO_TIME);
+        ubo->set(DSTemplate::Time::TIME_CURRENT, engine.getCore().getTime());
+        ubo->update(frameIndex);
+
+        desc0.updateQueue(queue, frameIndex);
+
+        const auto &context = engine.getRenderContext().configurator->getImageContext(BasicRenderContextConfigurator::PRIMARY_SECONDARY_LINK_FRAME_IMG_CONTEXT)[imageIndex];
         getDescriptor(1).getDescriptorManager().get<ImageContext>("i") = context;
-        getDescriptor(1).update(frameIndex, imageIndex);
+        getDescriptor(1).updateQueue(queue, frameIndex);
 
         getPushConstantManager("push").set("resolution", glm::vec2{
                                                static_cast<float>(width), static_cast<float>(height)

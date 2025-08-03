@@ -84,15 +84,6 @@ namespace merutilm::vkh {
                 .dependencyFlags = 0
             });
             rpm.appendDependency({
-                .srcSubpass = VK_SUBPASS_EXTERNAL,
-                .dstSubpass = rpm.getSubpassIndex(SUBPASS_SECONDARY),
-                .srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                .dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                .srcAccessMask = 0,
-                .dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-                .dependencyFlags = 0
-            });
-            rpm.appendDependency({
                 .srcSubpass = rpm.getSubpassIndex(SUBPASS_PRIMARY),
                 .dstSubpass = rpm.getSubpassIndex(SUBPASS_SECONDARY),
                 .srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,

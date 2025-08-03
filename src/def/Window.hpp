@@ -50,7 +50,7 @@ namespace merutilm::vkh {
         void start() const;
 
     private:
-        void attach() override;
+        void init() override;
 
         static void registerClass();
 
@@ -58,7 +58,7 @@ namespace merutilm::vkh {
 
         static LRESULT CALLBACK winProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
-        void detach() override;
+        void destroy() override;
 
         void clear() {
             listeners.clear();

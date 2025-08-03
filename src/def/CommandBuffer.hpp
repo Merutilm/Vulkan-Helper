@@ -26,8 +26,9 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkCommandBuffer getCommandBufferHandle(const uint32_t frameIndex) const { return commandBuffers[frameIndex]; }
 
-        void attach() override;
+    private:
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

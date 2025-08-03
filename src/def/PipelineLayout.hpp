@@ -33,8 +33,8 @@ namespace merutilm::vkh {
         [[nodiscard]] const PipelineLayoutManager &getPipelineLayoutManager() const { return *pipelineLayoutManager; }
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

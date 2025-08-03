@@ -21,11 +21,11 @@ namespace merutilm::vkh {
                                                                              indexBuffer(indexBuffer),
                                                                              pipelineManager(
                                                                                  std::move(pipelineManager)) {
-        Pipeline::attach();
+        Pipeline::init();
     }
 
     Pipeline::~Pipeline() {
-        Pipeline::detach();
+        Pipeline::destroy();
     }
 
     void Pipeline::bind(const VkCommandBuffer cbh, const uint32_t frameIndex) const {
@@ -38,7 +38,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Pipeline::attach() {
+    void Pipeline::init() {
         auto modules = pipelineManager->getShaderModules();
 
         std::vector<VkPipelineShaderStageCreateInfo> shaderStageCreateInfos(modules.size());
@@ -192,7 +192,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Pipeline::detach() {
+    void Pipeline::destroy() {
         vkDestroyPipeline(engine.getCore().getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
     }
 }

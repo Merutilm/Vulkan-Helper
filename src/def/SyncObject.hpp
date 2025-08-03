@@ -34,8 +34,9 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkFence getFence(const uint32_t frameIndex) const { return fences[frameIndex]; }
 
-        void attach() override;
+    private:
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

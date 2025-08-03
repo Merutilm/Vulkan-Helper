@@ -49,10 +49,10 @@ namespace merutilm::vkh {
         [[nodiscard]] RenderContext &getRenderContext() const { return *renderContext; }
 
     private:
-        void attach() override;
+        void init() override;
 
         std::unique_ptr<RenderContext> detachRenderContext();
 
-        void detach() override;
+        void destroy() override;
     };
 }

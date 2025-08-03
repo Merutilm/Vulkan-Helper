@@ -61,7 +61,7 @@ namespace merutilm::vkh {
             descriptors.push_back(uniqueDescriptors.back().get());
         }
 
-        virtual void update(uint32_t frameIndex, uint32_t imageIndex, uint32_t width, uint32_t height) = 0;
+        virtual void updateQueue(DescriptorUpdateQueue &queue, uint32_t frameIndex, uint32_t imageIndex, uint32_t width, uint32_t height) = 0;
 
         virtual void render(VkCommandBuffer cbh, uint32_t frameIndex, uint32_t width, uint32_t height) = 0;
 
@@ -89,8 +89,8 @@ namespace merutilm::vkh {
         }
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

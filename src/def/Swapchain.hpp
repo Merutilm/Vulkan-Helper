@@ -48,13 +48,13 @@ namespace merutilm::vkh {
         [[nodiscard]] std::span<const VkImageView> getSwapchainImageViews() const { return swapchainImageViews; }
 
     private:
-        void attach() override;
+        void init() override;
 
         void createSwapchain(VkSwapchainKHR *target, VkSwapchainKHR old) const;
 
         void setupSwapchainImages();
 
-        void detach() override;
+        void destroy() override;
 
         void destroyImageViews() const;
     };

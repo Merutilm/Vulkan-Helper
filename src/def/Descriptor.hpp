@@ -6,10 +6,12 @@
 
 #include <algorithm>
 #include <numeric>
+#include <vector>
 
 #include "DescriptorSetLayout.hpp"
-#include "../context/ImageContext.hpp"
+#include "../context/DescriptorUpdateContext.hpp"
 #include "../manage/DescriptorManager.hpp"
+
 
 namespace merutilm::vkh {
     class Descriptor final : public CoreHandler {
@@ -42,33 +44,34 @@ namespace merutilm::vkh {
             return descriptorPools[frameIndex];
         }
 
-        void update(uint32_t frameIndex, uint32_t imageIndex) const;
+        void updateQueue(DescriptorUpdateQueue &updateQueue, uint32_t frameIndex) const;
 
         template<typename... T>
-        void update(uint32_t frameIndex, uint32_t imageIndex, T &&... varname) const;
-
-        void updateIndices(uint32_t frameIndex, const std::vector<uint32_t> &indices) const;
+        void updateQueue(DescriptorUpdateQueue &queue, uint32_t frameIndex, T &&... varname) const;
 
     private:
-        void attach() override;
 
-        void detach() override;
+        void updateIndices(DescriptorUpdateQueue &queue, uint32_t frameIndex, const std::vector<uint32_t> &indices) const;
+
+        void init() override;
+
+        void destroy() override;
     };
 
 
-    inline void Descriptor::update(const uint32_t frameIndex, const uint32_t imageIndex) const {
+    inline void Descriptor::updateQueue(DescriptorUpdateQueue &updateQueue, const uint32_t frameIndex) const {
         const uint32_t elementCount = descriptorManager->getElements();
         std::vector<uint32_t> specifiedIndices(elementCount);
         std::iota(specifiedIndices.begin(), specifiedIndices.end(), 0);
-        updateIndices(frameIndex, specifiedIndices);
+        updateIndices(updateQueue, frameIndex, specifiedIndices);
     }
 
 
     template<typename... T>
-    void Descriptor::update(const uint32_t frameIndex, const uint32_t imageIndex, T &&... varname) const {
+    void Descriptor::updateQueue(DescriptorUpdateQueue &queue, const uint32_t frameIndex, T &&... varname) const {
         std::vector<uint32_t> specifiedIndices;
         (specifiedIndices.push_back(descriptorManager->getIndex(std::forward<T>(varname))), ...);
         std::ranges::sort(specifiedIndices);
-        updateIndices(frameIndex, specifiedIndices);
+        updateIndices(queue, frameIndex, specifiedIndices);
     }
 }

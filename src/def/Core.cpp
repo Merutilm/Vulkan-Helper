@@ -9,11 +9,11 @@
 namespace merutilm::vkh {
 
     Core::Core() {
-        Core::attach();
+        Core::init();
     }
 
     Core::~Core() {
-        Core::detach();
+        Core::destroy();
     }
 
     std::unique_ptr<Core> Core::createCore() {
@@ -27,7 +27,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Core::attach() {
+    void Core::init() {
         instance = std::make_unique<Instance>(true);
         startTime = std::chrono::high_resolution_clock::now();
     }
@@ -55,7 +55,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Core::detach() {
+    void Core::destroy() {
         windowContexts.clear();
         logicalDevice = nullptr;
         physicalDevice = nullptr;

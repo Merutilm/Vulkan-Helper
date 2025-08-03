@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "DescriptorSetLayout.hpp"
+#include "../context/DescriptorUpdateContext.hpp"
 #include "../exception/exception.hpp"
 
 namespace merutilm::vkh {
@@ -14,31 +15,30 @@ namespace merutilm::vkh {
                            std::unique_ptr<DescriptorManager> &&descriptorManager) : CoreHandler(core),
         descriptorSetLayout(descriptorSetLayout),
         descriptorManager(std::move(descriptorManager)) {
-        Descriptor::attach();
+        Descriptor::init();
     }
 
     Descriptor::~Descriptor() {
-        Descriptor::detach();
+        Descriptor::destroy();
     }
 
 
-    void Descriptor::updateIndices(const uint32_t frameIndex, const std::vector<uint32_t> &indices) const {
-        std::vector<VkWriteDescriptorSet> writeDescriptorSets = {};
-        std::vector<VkDescriptorBufferInfo> bufferInfos = {};
-        std::vector<VkDescriptorImageInfo> imageInfos = {};
-
-        for (const uint32_t index : indices) {
+    void Descriptor::updateIndices(DescriptorUpdateQueue &queue, const uint32_t frameIndex,
+                                   const std::vector<uint32_t> &indices) const {
+        for (const uint32_t index: indices) {
             const auto &raw = descriptorManager->getRaw(index);
-            if (std::holds_alternative<std::unique_ptr<Uniform>>(raw)) {
-                auto &ubo = std::get<std::unique_ptr<Uniform>>(raw);
-                ubo->update(frameIndex);
-                bufferInfos.push_back({
-                    .buffer = ubo->getBufferHandle(frameIndex),
-                    .offset = 0,
-                    .range = ubo->getTotalSizeByte()
-                });
+            if (std::holds_alternative<std::unique_ptr<Uniform> >(raw)) {
+                auto &ubo = std::get<std::unique_ptr<Uniform> >(raw);
 
-                writeDescriptorSets.push_back({
+
+                queue.push_back({
+                    .bufferInfo = VkDescriptorBufferInfo{
+                        .buffer = ubo->getBufferHandle(frameIndex),
+                        .offset = 0,
+                        .range = ubo->getTotalSizeByte()
+                    },
+                });
+                queue.back().writeSet = {
                     .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                     .pNext = nullptr,
                     .dstSet = descriptorSets[frameIndex],
@@ -47,19 +47,22 @@ namespace merutilm::vkh {
                     .descriptorCount = 1,
                     .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                     .pImageInfo = nullptr,
-                    .pBufferInfo = &bufferInfos.back(),
+                    .pBufferInfo = &queue.back().bufferInfo,
                     .pTexelBufferView = nullptr,
-                });
+                };
             }
-            if (std::holds_alternative<std::unique_ptr<Sampler2D>>(raw)) {
-                auto &tex = std::get<std::unique_ptr<Sampler2D>>(raw);
-                imageInfos.push_back({
-                    .sampler = tex->getSamplerHandle(),
-                    .imageView = tex->getImageViewHandle(),
-                    .imageLayout = tex->getCurrentImageLayout()
+            if (std::holds_alternative<std::unique_ptr<Sampler2D> >(raw)) {
+                auto &tex = std::get<std::unique_ptr<Sampler2D> >(raw);
+
+                queue.push_back({
+                    .imageInfo = VkDescriptorImageInfo{
+                        .sampler = tex->getSamplerHandle(),
+                        .imageView = tex->getImageViewHandle(),
+                        .imageLayout = tex->getCurrentImageLayout()
+                    }
                 });
 
-                writeDescriptorSets.push_back({
+                queue.back().writeSet = {
                     .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                     .pNext = nullptr,
                     .dstSet = descriptorSets[frameIndex],
@@ -67,21 +70,22 @@ namespace merutilm::vkh {
                     .dstArrayElement = 0,
                     .descriptorCount = 1,
                     .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                    .pImageInfo = &imageInfos.back(),
+                    .pImageInfo = &queue.back().imageInfo,
                     .pBufferInfo = nullptr,
                     .pTexelBufferView = nullptr,
-                });
+                };
             }
             if (std::holds_alternative<ImageContext>(raw)) {
                 auto &input = std::get<ImageContext>(raw);
-
-                imageInfos.push_back({
-                    .sampler = VK_NULL_HANDLE,
-                    .imageView = input.imageView,
-                    .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
+                queue.push_back({
+                    .imageInfo = VkDescriptorImageInfo{
+                        .sampler = VK_NULL_HANDLE,
+                        .imageView = input.imageView,
+                        .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
+                    }
                 });
 
-                writeDescriptorSets.push_back({
+                queue.back().writeSet = {
                     .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                     .pNext = nullptr,
                     .dstSet = descriptorSets[frameIndex],
@@ -89,23 +93,20 @@ namespace merutilm::vkh {
                     .dstArrayElement = 0,
                     .descriptorCount = 1,
                     .descriptorType = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT,
-                    .pImageInfo = &imageInfos.back(),
+                    .pImageInfo = &queue.back().imageInfo,
                     .pBufferInfo = nullptr,
                     .pTexelBufferView = nullptr,
-                });
+                };
+
             }
         }
-
-        vkUpdateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(),
-                               static_cast<uint32_t>(writeDescriptorSets.size()),
-                               writeDescriptorSets.data(), 0, nullptr);
     }
 
 
-    void Descriptor::attach() {
+    void Descriptor::init() {
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
-        const uint32_t ubo = descriptorManager->getElementCount<std::unique_ptr<Uniform>>();
-        const uint32_t sampler = descriptorManager->getElementCount<std::unique_ptr<Sampler2D>>();
+        const uint32_t ubo = descriptorManager->getElementCount<std::unique_ptr<Uniform> >();
+        const uint32_t sampler = descriptorManager->getElementCount<std::unique_ptr<Sampler2D> >();
         const uint32_t inputAttachment = descriptorManager->getElementCount<ImageContext>();
         const uint32_t elements = descriptorManager->getElements();
 
@@ -166,7 +167,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Descriptor::detach() {
+    void Descriptor::destroy() {
         if (descriptorManager->getElements() == 0) {
             return;
         }

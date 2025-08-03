@@ -8,12 +8,12 @@
 
 namespace merutilm::vkh {
     Window::Window(const wchar_t *windowName, const float framerate, const uint32_t width, const uint32_t height) : windowName(windowName), framerate(framerate), width(width), height(height) {
-        Window::attach();
+        Window::init();
     }
 
 
     Window::~Window() {
-        Window::detach();
+        Window::destroy();
     }
 
     void Window::start() const {
@@ -43,7 +43,7 @@ namespace merutilm::vkh {
     }
 
 
-    void Window::attach() {
+    void Window::init() {
         registerClass();
         createWindow();
     }
@@ -107,7 +107,7 @@ namespace merutilm::vkh {
         return DefWindowProc(hwnd, message, wparam, lparam);
     }
 
-    void Window::detach() {
+    void Window::destroy() {
         //nothing to do.
     }
 }

@@ -8,11 +8,11 @@ namespace merutilm::vkh {
     PipelineLayout::PipelineLayout(const Core &core,
                                    std::unique_ptr<PipelineLayoutManager> &&pipelineLayoutManager) : CoreHandler(
         core), pipelineLayoutManager(std::move(pipelineLayoutManager)) {
-        PipelineLayout::attach();
+        PipelineLayout::init();
     }
 
     PipelineLayout::~PipelineLayout() {
-        PipelineLayout::detach();
+        PipelineLayout::destroy();
     }
 
     void PipelineLayout::push(const VkCommandBuffer commandBuffer) const {
@@ -20,14 +20,14 @@ namespace merutilm::vkh {
         for (auto &pushConstant: pipelineLayoutManager->getPushConstantManagers()) {
             const uint32_t size = pushConstant->getTotalSizeByte();
             vkCmdPushConstants(commandBuffer, layout, pushConstant->getUseStage(),
-                               sizeSum, size,
-                               pushConstant->getData().data());
+                             sizeSum, size,
+                             pushConstant->getData().data());
             sizeSum += size;
         }
     }
 
 
-    void PipelineLayout::attach() {
+    void PipelineLayout::init() {
         uint32_t sizeSum = 0;
         std::vector<VkPushConstantRange> pushConstantRanges = {};
         for (const auto &pushConstantManager: pipelineLayoutManager->getPushConstantManagers()) {
@@ -60,7 +60,7 @@ namespace merutilm::vkh {
     }
 
 
-    void PipelineLayout::detach() {
+    void PipelineLayout::destroy() {
         vkDestroyPipelineLayout(core.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
     }
 }

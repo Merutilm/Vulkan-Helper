@@ -90,9 +90,20 @@ namespace merutilm::vkh {
 
         const auto extent = swapchain.populateSwapchainExtent();
 
-        for (const auto &shaderProgram : shaderPrograms) {
-            shaderProgram->update(currentFrame, imageIndex, extent.width, extent.height);
+        DescriptorUpdateQueue queue = {};
+
+        for (const auto &shaderProgram: shaderPrograms) {
+            shaderProgram->updateQueue(queue, currentFrame, imageIndex, extent.width, extent.height);
         }
+
+        std::vector<VkWriteDescriptorSet> writeDescriptorSets(queue.size());
+        std::ranges::transform(queue, writeDescriptorSets.begin(), [](const DescriptorUpdateContext &context) {
+            return context.writeSet;
+        });
+
+        vkUpdateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(),
+                               static_cast<uint32_t>(writeDescriptorSets.size()),
+                               writeDescriptorSets.data(), 0, nullptr);
 
         //COMMAND SCOPE START
         {

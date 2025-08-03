@@ -12,11 +12,11 @@
 namespace merutilm::vkh {
     ShaderModule::ShaderModule(const Core &core, const std::string &filename) : CoreHandler(core), shaderStage(getShaderStage(filename)),
                                                          filename(filename + ".spv") {
-        ShaderModule::attach();
+        ShaderModule::init();
     }
 
     ShaderModule::~ShaderModule() {
-        ShaderModule::detach();
+        ShaderModule::destroy();
     }
 
     VkShaderStageFlagBits ShaderModule::getShaderStage(const std::string &filename) {
@@ -32,7 +32,7 @@ namespace merutilm::vkh {
 
 
 
-    void ShaderModule::attach() {
+    void ShaderModule::init() {
         std::ifstream file(filename, std::ios::binary);
         if (!file.is_open()) {
             throw exception_invalid_args("invalid filename : " + filename);
@@ -50,7 +50,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void ShaderModule::detach() {
+    void ShaderModule::destroy() {
         vkDestroyShaderModule(core.getLogicalDevice().getLogicalDeviceHandle(), shaderModule, nullptr);
     }
 }

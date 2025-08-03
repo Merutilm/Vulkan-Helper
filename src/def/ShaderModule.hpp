@@ -38,8 +38,8 @@ namespace merutilm::vkh {
         [[nodiscard]] static VkShaderStageFlagBits getShaderStage(const std::string &filename);
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

@@ -67,8 +67,8 @@ namespace merutilm::vkh {
         [[nodiscard]] float getTime() const;
 
     private:
-        void attach() override;
+        void init() override;
 
-        void detach() override;
+        void destroy() override;
     };
 }

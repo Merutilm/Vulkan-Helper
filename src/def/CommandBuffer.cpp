@@ -8,15 +8,15 @@
 
 namespace merutilm::vkh {
     CommandBuffer::CommandBuffer(const Core &core, const CommandPool &commandPool) : CoreHandler(core), commandPool(commandPool) {
-        CommandBuffer::attach();
+        CommandBuffer::init();
     }
 
     CommandBuffer::~CommandBuffer() {
-        CommandBuffer::detach();
+        CommandBuffer::destroy();
     }
 
 
-    void CommandBuffer::attach() {
+    void CommandBuffer::init() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         commandBuffers.resize(maxFramesInFlight);
@@ -34,7 +34,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void CommandBuffer::detach() {
+    void CommandBuffer::destroy() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
