@@ -9,20 +9,17 @@
 
 #include "../exception/exception.hpp"
 #include "../struct/RenderPassAttachment.hpp"
-#include "../struct/StringHasher.hpp"
 #include "../struct/RenderPassAttachmentType.hpp"
+#include "../util/IndexChecker.hpp"
 
 namespace merutilm::vkh {
     class RenderPassManager {
-        std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > subpassNames = {};
-        std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > attachmentNames = {};
         std::vector<RenderPassAttachment> attachments = {};
         std::vector<std::vector<uint32_t> > preserveIndices = {};
         std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference> > >
         attachmentReferences{};
         std::vector<VkSubpassDependency> subpassDependencies = {};
         uint32_t subpassCount = 0;
-        uint32_t count = 0;
 
     public:
         explicit RenderPassManager() = default;
@@ -62,46 +59,33 @@ namespace merutilm::vkh {
             return subpassDependencies;
         }
 
-        void checkValidAttachmentName(const std::string &attachmentName) const;
 
-        void setPreserved(const std::string &attachmentName);
+        void setPreserved(uint32_t attachmentIndex);
 
-        void unsetPreserved(const std::string &attachmentName);
+        void unsetPreserved(uint32_t attachmentIndex);
 
-        void appendSubpass(const std::string &subpassName);
+        void appendSubpass(uint32_t subpassIndexExpected);
 
-        void appendReference(const std::string &attachmentName, RenderPassAttachmentType attachmentType);
+        void appendReference(uint32_t attachmentIndex, RenderPassAttachmentType attachmentType);
 
-        void appendAttachment(const std::string &attachmentName,
+        void appendAttachment(uint32_t attachmentIndexExpected,
                               const VkAttachmentDescription &attachmentDescription,
                               const MultiframeImageContext &imageContext);
 
-        uint32_t getSubpassIndex(const std::string &subpassName) const;
-
 
         void appendDependency(const VkSubpassDependency &subpassDependency);
+
     };
 
-    inline void RenderPassManager::checkValidAttachmentName(const std::string &attachmentName) const {
-        if (!attachmentNames.contains(attachmentName)) {
-            throw exception_invalid_args("Invalid attachment name : " + attachmentName);
-        }
+
+    inline void RenderPassManager::setPreserved(const uint32_t attachmentIndex) {
+        preserveIndices.back().emplace_back(attachmentIndex);
     }
 
 
-
-    inline void RenderPassManager::setPreserved(const std::string &attachmentName) {
-        checkValidAttachmentName(attachmentName);
-        preserveIndices.back().emplace_back(attachmentNames[attachmentName]);
-    }
-
-
-    inline void RenderPassManager::unsetPreserved(const std::string &attachmentName) {
-        checkValidAttachmentName(attachmentName);
-
+    inline void RenderPassManager::unsetPreserved(const uint32_t attachmentIndex) {
         auto &indices = preserveIndices.back();
-        const uint32_t preserveIndex = attachmentNames[attachmentName];
-        const auto it = std::ranges::find(indices, preserveIndex);
+        const auto it = std::ranges::find(indices, attachmentIndex);
         if (it == indices.end()) {
             throw exception_invalid_args("given attachment is not preserved");
         }
@@ -109,26 +93,21 @@ namespace merutilm::vkh {
     }
 
 
-    inline void RenderPassManager::appendSubpass(const std::string &subpassName) {
+    inline void RenderPassManager::appendSubpass(const uint32_t subpassIndexExpected) {
         using enum RenderPassAttachmentType;
-        if (subpassNames.contains(subpassName)) {
-            throw exception_invalid_args("Subpass already exists");
-        }
         attachmentReferences.emplace_back();
         attachmentReferences.back()[INPUT];
         attachmentReferences.back()[COLOR];
         attachmentReferences.back()[RESOLVE];
         attachmentReferences.back()[DEPTH_STENCIL];
         preserveIndices.emplace_back();
-        subpassNames[subpassName] = subpassCount;
+        IndexChecker::checkIndexEqual(subpassIndexExpected, subpassCount, "Subpass Index");
         ++subpassCount;
     }
 
-    inline void RenderPassManager::appendReference(const std::string &attachmentName,
-                                                    const RenderPassAttachmentType attachmentType) {
+    inline void RenderPassManager::appendReference(const uint32_t attachmentIndex,
+                                                   const RenderPassAttachmentType attachmentType) {
         using enum RenderPassAttachmentType;
-        checkValidAttachmentName(attachmentName);
-        const uint32_t attachmentIndex = attachmentNames.at(attachmentName);
 
         auto &ref = this->attachmentReferences.back()[attachmentType];
         VkAttachmentReference attachmentReference = {};
@@ -161,30 +140,16 @@ namespace merutilm::vkh {
             }
         }
         ref.emplace_back(attachmentReference);
-
     }
 
 
-    inline void RenderPassManager::appendAttachment(const std::string &attachmentName,
+    inline void RenderPassManager::appendAttachment(const uint32_t attachmentIndexExpected,
                                                     const VkAttachmentDescription &attachmentDescription,
                                                     const MultiframeImageContext &imageContext) {
-        using enum RenderPassAttachmentType;
-        if (attachmentNames.contains(attachmentName)) {
-            throw exception_invalid_args("Attachment name already exists : " + attachmentName);
-        }
-        attachmentNames[attachmentName] = count;
         attachments.emplace_back(attachmentDescription, imageContext);
-        ++count;
+        IndexChecker::checkIndexEqual(attachmentIndexExpected, static_cast<uint32_t>(attachments.size() - 1), "Attachment Index");
     }
 
-
-
-    inline uint32_t RenderPassManager::getSubpassIndex(const std::string &subpassName) const {
-        if (!subpassNames.contains(subpassName)) {
-            throw exception_invalid_args("Invalid subpass name");
-        }
-        return subpassNames.at(subpassName);
-    }
 
     inline void RenderPassManager::appendDependency(const VkSubpassDependency &subpassDependency) {
         subpassDependencies.push_back(subpassDependency);

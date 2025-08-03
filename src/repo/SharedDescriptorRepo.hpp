@@ -8,10 +8,10 @@
 #include "../def/Descriptor.hpp"
 #include "../struct/DescriptorName.hpp"
 #include "../struct/EnumHasher.hpp"
-#include "../template/DSTemplate.hpp"
+#include "../template/DSSharedTemplate.hpp"
 
 namespace merutilm::vkh {
-    struct DescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher, std::equal_to<>, DescriptorSetLayoutRepo&, VkShaderStageFlags> {
+    struct SharedDescriptorRepo final : Repo<DescriptorName, DescriptorName, Descriptor, EnumHasher, std::equal_to<>, DescriptorSetLayoutRepo&, VkShaderStageFlags> {
 
         using Repo::Repo;
 
@@ -28,10 +28,10 @@ namespace merutilm::vkh {
             switch (descName) {
                     using enum DescriptorName;
                 case CAMERA_3D: {
-                    return DSTemplate::Camera3D::create(core, useStage);
+                    return DSSharedTemplate::Camera3D::create(core, useStage);
                 }
                 case TIME: {
-                    return DSTemplate::Time::create(core, useStage);
+                    return DSSharedTemplate::Time::create(core, useStage);
                 }
                 default: {
                     //no operation

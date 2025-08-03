@@ -37,7 +37,7 @@ namespace merutilm::vkh {
 
         void update(uint32_t frameIndex) const;
 
-        void update(uint32_t frameIndex, const std::string &varname) const;
+        void update(uint32_t frameIndex, uint32_t target) const;
 
         void checkFinalizedBeforeUpdate() const;
 

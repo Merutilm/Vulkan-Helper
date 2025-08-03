@@ -42,10 +42,10 @@ namespace merutilm::vkh {
                                                                     std::move(configurator)));
 
         shaderPrograms.emplace_back(GeneralPipelineConfigurator::createShaderProgram<Template1PipelineConfigurator>(
-            *engine, BasicRenderContextConfigurator::SUBPASS_PRIMARY, "../shaders/template.vert",
+            *engine, BasicRenderContextConfigurator::SUBPASS_PRIMARY_INDEX, "../shaders/template.vert",
             "../shaders/template-1.frag"));
         shaderPrograms.emplace_back(GeneralPipelineConfigurator::createShaderProgram<Template2PipelineConfigurator>(
-            *engine, BasicRenderContextConfigurator::SUBPASS_SECONDARY, "../shaders/template.vert",
+            *engine, BasicRenderContextConfigurator::SUBPASS_SECONDARY_INDEX, "../shaders/template.vert",
             "../shaders/template-2.frag"
         ));
 

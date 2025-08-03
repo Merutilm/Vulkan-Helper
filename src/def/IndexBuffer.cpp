@@ -14,8 +14,8 @@ namespace merutilm::vkh {
         IndexBuffer::destroy();
     }
 
-    void IndexBuffer::bind(const VkCommandBuffer cbh, const uint32_t frameIndex, const std::string &varname) const {
-        vkCmdBindIndexBuffer(cbh, getBufferHandle(frameIndex), getOffset(varname), VK_INDEX_TYPE_UINT32);
+    void IndexBuffer::bind(const VkCommandBuffer cbh, const uint32_t frameIndex, const uint32_t binding) const {
+        vkCmdBindIndexBuffer(cbh, getBufferHandle(frameIndex), getOffset(binding), VK_INDEX_TYPE_UINT32);
     }
 
 

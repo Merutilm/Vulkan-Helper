@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         IndexBuffer &operator=(IndexBuffer &&) = delete;
 
-        void bind(VkCommandBuffer cbh, uint32_t frameIndex, const std::string &varname) const;
+        void bind(VkCommandBuffer cbh, uint32_t frameIndex, uint32_t binding) const;
 
     private:
 

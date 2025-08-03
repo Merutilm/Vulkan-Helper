@@ -6,15 +6,15 @@
 
 #include <utility>
 
-#include "../repo/DescriptorRepo.hpp"
+#include "../repo/SharedDescriptorRepo.hpp"
 #include "../repo/Repositories.hpp"
 
 namespace merutilm::vkh {
     GeneralPipelineConfigurator::GeneralPipelineConfigurator(const Engine &engine,
-                                                             std::string subpassName,
+                                                             const uint32_t subpassIndex,
                                                              const std::string &vertName,
                                                              const std::string &fragName) : EngineHandler(engine),
-        subpassName(std::move(subpassName)),
+        subpassIndex(subpassIndex),
         vertexShader(
             engine.getRepositories().getRepository<
                 ShaderModuleRepo>()->pick(vertName)),
@@ -29,19 +29,19 @@ namespace merutilm::vkh {
     }
 
     void GeneralPipelineConfigurator::draw(const VkCommandBuffer cbh, const uint32_t frameIndex,
-                                           const std::string &indexVarname) const {
+                                           const uint32_t indexVarBinding) const {
         const VkBuffer vertexBufferHandle = getVertexBuffer().getBufferHandle(frameIndex);
         constexpr VkDeviceSize vertexBufferOffset = 0;
         vkCmdBindVertexBuffers(cbh, 0, 1, &vertexBufferHandle, &vertexBufferOffset);
-        getIndexBuffer().bind(cbh, frameIndex, indexVarname);
-        vkCmdDrawIndexed(cbh, getIndexBuffer().getElementCount(indexVarname), 1, 0, 0, 0);
+        getIndexBuffer().bind(cbh, frameIndex, indexVarBinding);
+        vkCmdDrawIndexed(cbh, getIndexBuffer().getElementCount(indexVarBinding), 1, 0, 0, 0);
     }
 
 
     void GeneralPipelineConfigurator::configure() {
         auto pipelineLayoutManager = std::make_unique<PipelineLayoutManager>();
         auto &layoutRepo = *engine.getRepositories().getRepository<DescriptorSetLayoutRepo>();
-        auto &descRepo = *engine.getRepositories().getRepository<DescriptorRepo>();
+        auto &descRepo = *engine.getRepositories().getRepository<SharedDescriptorRepo>();
 
         std::vector<const Descriptor *> descriptors = {};
         configureDescriptors(descriptors, layoutRepo, descRepo);
@@ -72,7 +72,7 @@ namespace merutilm::vkh {
         vertexBuffer = std::make_unique<VertexBuffer>(engine.getCore(), std::move(vertManager));
         indexBuffer = std::make_unique<IndexBuffer>(engine.getCore(), std::move(indexManager));
 
-        pipeline = std::make_unique<Pipeline>(engine, pipelineLayout, *vertexBuffer, *indexBuffer, subpassName,
+        pipeline = std::make_unique<Pipeline>(engine, pipelineLayout, *vertexBuffer, *indexBuffer, subpassIndex,
                                               std::move(pipelineManager));
     }
 

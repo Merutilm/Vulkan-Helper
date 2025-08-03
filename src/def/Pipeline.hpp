@@ -14,7 +14,7 @@ namespace merutilm::vkh {
     class Pipeline final : public EngineHandler {
         VkPipeline pipeline = nullptr;
         const PipelineLayout &pipelineLayout;
-        const std::string subpassName;
+        const uint32_t subpassIndex;
         VertexBuffer &vertexBuffer;
         IndexBuffer &indexBuffer;
         const std::unique_ptr<PipelineManager> pipelineManager = nullptr;
@@ -23,7 +23,7 @@ namespace merutilm::vkh {
         explicit Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
                           VertexBuffer &vertexBuffer,
                           IndexBuffer &indexBuffer,
-                          std::string subpassName,
+                          uint32_t subpassIndex,
                           std::unique_ptr<PipelineManager> &&pipelineManager);
 
         ~Pipeline() override;

@@ -100,9 +100,9 @@ add_executable(VulkanHelper
         src/def/Sampler2D.hpp
         src/configurator/GeneralPipelineConfigurator.cpp
         src/configurator/GeneralPipelineConfigurator.hpp
-        src/repo/DescriptorRepo.hpp
+        src/repo/SharedDescriptorRepo.hpp
         src/struct/DescriptorName.hpp
-        src/template/DSTemplate.hpp
+        src/template/DSSharedTemplate.hpp
         src/def/Engine.cpp
         src/def/Engine.hpp
         src/configurator/Template2PipelineConfigurator.cpp
@@ -118,6 +118,7 @@ add_executable(VulkanHelper
         src/configurator/Template1PipelineConfigurator.cpp
         src/configurator/Template1PipelineConfigurator.hpp
         src/context/DescriptorUpdateContext.hpp
+        src/util/IndexChecker.hpp
 )
 
 

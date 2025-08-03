@@ -6,13 +6,11 @@
 #include <vector>
 #include "PushConstantManager.hpp"
 #include "../def/DescriptorSetLayout.hpp"
-#include "../struct/EnumHasher.hpp"
 #include "../struct/PushConstantReserve.hpp"
 
 namespace merutilm::vkh {
     class PipelineLayoutManager {
 
-        std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > pcmNames = {};
         std::vector<const DescriptorSetLayout *> descriptorSetLayouts = {};
         std::vector<std::unique_ptr<PushConstantManager> > pushConstantManagers = {};
 
@@ -36,14 +34,12 @@ namespace merutilm::vkh {
         }
 
         template<typename... T>
-        void appendPushConstantManager(const std::string &pushName, VkShaderStageFlags useStage, PushConstantReserve<T>&&...pushConstantReserves) {
-            if (pcmNames.contains(pushName)) {
-                throw exception_invalid_args("Duplicate push name : " + pushName);
-            }
+        void appendPushConstantManager(const uint32_t pushIndexExpected, VkShaderStageFlags useStage, PushConstantReserve<T>&&...pushConstantReservesExpected) {
 
-            pcmNames[pushName] = static_cast<uint32_t>(pushConstantManagers.size());
+
+            IndexChecker::checkIndexEqual(pushIndexExpected, pushConstantManagers.size(), "Push Index");
             auto som = std::make_unique<ShaderObjectManager>();
-            (som->reserve<T>(pushConstantReserves.varname), ...);
+            (som->reserve<T>(pushConstantReservesExpected.binding), ...);
             auto pcm = std::make_unique<PushConstantManager>(useStage, std::move(som));
             pushConstantManagers.emplace_back(std::move(pcm));
         }
@@ -56,11 +52,8 @@ namespace merutilm::vkh {
             return pushConstantManagers;
         }
 
-        PushConstantManager &getPCM(const std::string &pushName) const {
-            if (!pcmNames.contains(pushName)) {
-                throw exception_invalid_args("Not found push name : " + pushName);
-            }
-            return *pushConstantManagers[pcmNames.at(pushName)];
+        PushConstantManager &getPCM(const uint32_t pushIndex) const {
+            return *pushConstantManagers[pushIndex];
         }
     };
 }

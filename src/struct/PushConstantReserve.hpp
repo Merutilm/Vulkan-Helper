@@ -10,6 +10,6 @@ namespace merutilm::vkh {
     template<typename T>
     struct PushConstantReserve {
         using type = T;
-        std::string varname;
+        uint32_t binding;
     };
 }

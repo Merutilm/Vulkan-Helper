@@ -14,7 +14,7 @@ namespace merutilm::vkh {
     struct RenderContextConfigurator {
         const Core &core;
         const Swapchain &swapchain;
-        std::unordered_map<std::string, MultiframeImageContext, StringHasher, std::equal_to<>> contexts = {};
+        std::vector<MultiframeImageContext> contexts = {};
 
         explicit RenderContextConfigurator(const Core &core, const Swapchain &swapchain) : core(core), swapchain(swapchain) {
         }
@@ -38,21 +38,25 @@ namespace merutilm::vkh {
 
         virtual void configureImageContext() = 0;
 
-        virtual void configureRenderContext(RenderPassManager &manager) const = 0;
+        virtual void configureRenderContext(RenderPassManager &manager) = 0;
 
-        const MultiframeImageContext &getImageContext(const std::string &name) {
-            if (!contexts.contains(name)) {
-                throw exception_invalid_args("Failed to load image context. given context not exist : " + name);
-            }
-            return contexts.at(name);
+
+        void appendStoredImageContext(const uint32_t contextIndexExpected, MultiframeImageContext &&context) {
+            contexts.emplace_back(std::move(context));
+            IndexChecker::checkIndexEqual(contextIndexExpected, contexts.size() - 1, "Stored Image Context");
+        }
+
+        const MultiframeImageContext &getImageContext(const uint32_t contextIndex) {
+            return contexts[contextIndex];
         }
 
         void cleanupContexts() {
-            for (const auto &context : std::ranges::views::values(contexts)) {
+            for (const auto &context : contexts) {
                 ImageContext::destroy(core, context);
             }
             contexts.clear();
         }
+
 
     };
 }

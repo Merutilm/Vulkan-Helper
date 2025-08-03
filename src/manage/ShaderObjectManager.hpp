@@ -4,9 +4,7 @@
 
 #pragma once
 #include <string>
-#include <unordered_map>
-#include "../struct/StringHasher.hpp"
-#include "../exception/exception.hpp"
+#include "../util/IndexChecker.hpp"
 
 namespace merutilm::vkh {
     struct ShaderObjectManager final {
@@ -14,7 +12,6 @@ namespace merutilm::vkh {
         std::vector<uint32_t> elements = {};
         std::vector<uint32_t> sizes = {};
         std::vector<uint32_t> offsets = {};
-        std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
 
         explicit ShaderObjectManager() = default;
 
@@ -30,68 +27,54 @@ namespace merutilm::vkh {
 
 
         template<typename T> requires std::is_trivially_copyable_v<T>
-        void reserve(const std::string &varName);
+        void reserve(uint32_t targetExpected);
 
         template<typename T> requires std::is_trivially_copyable_v<T>
-        void reserve(const std::string &varName, uint32_t elementCount);
+        void reserve(uint32_t targetExpected, uint32_t elementCount);
 
         template<typename T> requires std::is_trivially_copyable_v<T>
-        void add(const std::string &varName, const T &t);
+        void add(uint32_t targetExpected, const T &t);
 
         template<typename T> requires std::is_trivially_copyable_v<T>
-        void add(const std::string &varName, const std::vector<T> &t);
+        void add(uint32_t targetExpected, const std::vector<T> &t);
     };
 
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void ShaderObjectManager::reserve(const std::string &varName) {
-        if (names.contains(varName)) {
-            throw exception_invalid_args("varName already exists : " + varName);
-        }
-
+    void ShaderObjectManager::reserve(const uint32_t targetExpected) {
         offsets.push_back(static_cast<uint32_t>(data.size()));
         elements.push_back(1);
-        names[varName] = sizes.size();
+        IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Value Reserve");
         data.resize(data.size() + sizeof(T));
         sizes.push_back(sizeof(T));
     }
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void ShaderObjectManager::reserve(const std::string &varName, uint32_t elementCount) {
-        if (names.contains(varName)) {
-            throw exception_invalid_args("varName already exists : " + varName);
-        }
-
+    void ShaderObjectManager::reserve(const uint32_t targetExpected, const uint32_t elementCount) {
         offsets.push_back(static_cast<uint32_t>(data.size()));
         elements.push_back(elementCount);
-        names[varName] = sizes.size();
+        IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Vector Reserve");
         data.resize(data.size() + sizeof(T) * elementCount);
         sizes.push_back(sizeof(T) * elementCount);
     }
 
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void ShaderObjectManager::add(const std::string &varName, const T &t) {
-        if (names.contains(varName)) {
-            throw exception_invalid_args("varName already exists : " + varName);
-        }
+    void ShaderObjectManager::add(const uint32_t targetExpected, const T &t) {
         const auto raw = reinterpret_cast<const std::byte *>(&t);
         offsets.push_back(static_cast<uint32_t>(data.size()));
         elements.push_back(1);
-        names[varName] = sizes.size();
+        IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Value Add");
         data.insert(data.end(), raw, raw + sizeof(T));
         sizes.push_back(sizeof(T));
     }
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    void ShaderObjectManager::add(const std::string &varName, const std::vector<T> &t) {
-        if (names.contains(varName)) {
-            throw exception_invalid_args("varName already exists : " + varName);
-        }
+    void ShaderObjectManager::add(const uint32_t targetExpected, const std::vector<T> &t) {
         const auto raw = reinterpret_cast<const std::byte *>(t.data());
         offsets.push_back(static_cast<uint32_t>(data.size()));
         elements.push_back(t.size());
-        names[varName] = sizes.size();
+        IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Vector Add");
         data.insert(data.end(), raw, raw + sizeof(T) * t.size());
         sizes.push_back(sizeof(T) * t.size());
     }

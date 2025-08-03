@@ -8,6 +8,9 @@
 namespace merutilm::vkh {
     class Template1PipelineConfigurator final : public GeneralPipelineConfigurator{
 
+        static constexpr uint32_t SET_SAMPLE_IMAGE = 0;
+
+
     public:
         using GeneralPipelineConfigurator::GeneralPipelineConfigurator;
 
@@ -30,7 +33,7 @@ namespace merutilm::vkh {
             PipelineLayoutManager &pipelineLayoutManager) override;
 
         void configureDescriptors(std::vector<const Descriptor *> &descriptors, DescriptorSetLayoutRepo &layoutRepo,
-            DescriptorRepo &descRepo) override;
+            SharedDescriptorRepo &descRepo) override;
         void configureVertexBuffer(ShaderObjectManager &som) override;
 
         void configureIndexBuffer(ShaderObjectManager &som) override;

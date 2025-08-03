@@ -7,16 +7,15 @@
 #include <utility>
 
 #include "RenderPass.hpp"
-#include "../manage/RenderPassManager.hpp"
 
 namespace merutilm::vkh {
     Pipeline::Pipeline(const Engine &engine, const PipelineLayout &pipelineLayout,
                        VertexBuffer &vertexBuffer,
                        IndexBuffer &indexBuffer,
-                       std::string subpassName,
+                       const uint32_t subpassIndex,
                        std::unique_ptr<PipelineManager> &&pipelineManager) : EngineHandler(engine),
                                                                              pipelineLayout(pipelineLayout),
-                                                                             subpassName(std::move(subpassName)),
+                                                                             subpassIndex(subpassIndex),
                                                                              vertexBuffer(vertexBuffer),
                                                                              indexBuffer(indexBuffer),
                                                                              pipelineManager(
@@ -180,7 +179,7 @@ namespace merutilm::vkh {
             .pDynamicState = &dynamicState,
             .layout = pipelineLayout.getLayoutHandle(),
             .renderPass = engine.getRenderContext().renderPass->getRenderPassHandle(),
-            .subpass = engine.getRenderContext().renderPass->getManager().getSubpassIndex(subpassName),
+            .subpass = subpassIndex,
             .basePipelineHandle = nullptr,
             .basePipelineIndex = -1
         };

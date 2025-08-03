@@ -8,15 +8,14 @@
 #include <glm/glm.hpp>
 
 #include "../manage/DescriptorManager.hpp"
-#include "../repo/DescriptorSetLayoutRepo.hpp"
 
-namespace merutilm::vkh::DSTemplate {
+namespace merutilm::vkh::DSSharedTemplate {
 
     struct Camera3D {
-        inline static const std::string UBO_CAMERA = "camera";
-        inline static const std::string CAMERA_MODEL = "model";
-        inline static const std::string CAMERA_VIEW = "view";
-        inline static const std::string CAMERA_PROJ = "proj";
+        static constexpr uint32_t UBO_CAMERA = 0;
+        static constexpr uint32_t CAMERA_MODEL = 0;
+        static constexpr uint32_t CAMERA_VIEW = 1;
+        static constexpr uint32_t CAMERA_PROJ = 2;
 
         static std::unique_ptr<DescriptorManager> create(const Core &core, const VkShaderStageFlags useStage) {
             auto bufferManager = std::make_unique<ShaderObjectManager>();
@@ -32,8 +31,8 @@ namespace merutilm::vkh::DSTemplate {
         }
     };
     struct Time {
-        inline static const std::string UBO_TIME = "time";
-        inline static const std::string TIME_CURRENT = "currentTime";
+        static constexpr uint32_t UBO_TIME = 0;
+        static constexpr uint32_t TIME_CURRENT = 0;
 
         static std::unique_ptr<DescriptorManager> create(const Core &core, const VkShaderStageFlags useStage) {
             auto bufferManager = std::make_unique<ShaderObjectManager>();

@@ -4,10 +4,19 @@
 
 #pragma once
 #include "GeneralPipelineConfigurator.hpp"
-#include "../repo/DescriptorRepo.hpp"
+#include "../repo/SharedDescriptorRepo.hpp"
 
 namespace merutilm::vkh {
     class Template2PipelineConfigurator final : public GeneralPipelineConfigurator {
+
+        static constexpr uint32_t SET_TIME = 0;
+        static constexpr uint32_t SET_INPUT_ATTACHMENT = 1;
+
+        static constexpr uint32_t BINDING_INPUT_ATTACHMENT_ELEM = 0;
+
+        static constexpr uint32_t PUSH_RESOLUTION = 0;
+        static constexpr uint32_t PUSH_RESOLUTION_SIZE = 0;
+
     public:
         using GeneralPipelineConfigurator::GeneralPipelineConfigurator;
 
@@ -28,7 +37,7 @@ namespace merutilm::vkh {
     protected:
         void configureDescriptors(std::vector<const Descriptor *> &descriptors,
                                                          DescriptorSetLayoutRepo &layoutRepo,
-                                                         DescriptorRepo &repo) override;
+                                                         SharedDescriptorRepo &repo) override;
         void configurePushConstant(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) override;
 
 

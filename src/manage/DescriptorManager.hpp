@@ -22,7 +22,7 @@ namespace merutilm::vkh {
     using DescriptorType = std::variant<std::unique_ptr<Uniform>, std::unique_ptr<Sampler2D>,  ImageContext >;
 
     class DescriptorManager {
-        std::unordered_map<std::string, uint32_t, StringHasher, std::equal_to<> > names = {};
+
         std::vector<DescriptorType> data = {};
         DescriptorSetLayoutBuilder layoutBuilder = {};
 
@@ -39,12 +39,12 @@ namespace merutilm::vkh {
 
         DescriptorManager &operator=(DescriptorManager &&) noexcept = delete;
 
-        void appendUBO(const std::string &name, VkShaderStageFlags useStage, std::unique_ptr<Uniform> &&ubo);
+        void appendUBO(uint32_t bindingExpected, VkShaderStageFlags useStage, std::unique_ptr<Uniform> &&ubo);
 
-        void appendCombinedImgSampler(const std::string &name, VkShaderStageFlags useStage,
+        void appendCombinedImgSampler(uint32_t bindingExpected, VkShaderStageFlags useStage,
                                       std::unique_ptr<Sampler2D> &&texture);
 
-        void appendInputAttachment(const std::string &name, VkShaderStageFlags useStage);
+        void appendInputAttachment(uint32_t bindingExpected, VkShaderStageFlags useStage);
 
         const DescriptorSetLayoutBuilder &getLayoutBuilder() const { return layoutBuilder; }
 
@@ -55,7 +55,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] uint32_t getIndex(const std::string &varname) const;
 
-        const DescriptorType &getRaw(uint32_t index);
+        const DescriptorType &getRaw(uint32_t bindingIndex);
 
         const DescriptorType &getRaw(const std::string &varname);
 
@@ -79,49 +79,35 @@ namespace merutilm::vkh {
         return static_cast<uint32_t>(data.size());
     }
 
-    inline void DescriptorManager::appendUBO(const std::string &name, const VkShaderStageFlags useStage,
+    inline void DescriptorManager::appendUBO(const uint32_t bindingExpected, const VkShaderStageFlags useStage,
                                              std::unique_ptr<Uniform> &&ubo) {
-        if (names.contains(name)) {
-            throw exception_invalid_args("value already in use");
-        }
-        names[name] = static_cast<uint32_t>(data.size());
+
+        IndexChecker::checkIndexEqual(bindingExpected, static_cast<uint32_t>(data.size()), "Descriptor UBO add");
         data.emplace_back(std::move(ubo));
         layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, useStage);
     }
 
-    inline void DescriptorManager::appendCombinedImgSampler(const std::string &name, const VkShaderStageFlags useStage,
+    inline void DescriptorManager::appendCombinedImgSampler(const uint32_t bindingExpected, const VkShaderStageFlags useStage,
                                                             std::unique_ptr<Sampler2D> &&texture) {
-        if (names.contains(name)) {
-            throw exception_invalid_args("value already in use");
-        }
-        names[name] = static_cast<uint32_t>(data.size());
+
+        IndexChecker::checkIndexEqual(bindingExpected,  static_cast<uint32_t>(data.size()), "Descriptor Sampler add");
         data.emplace_back(std::move(texture));
         layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, useStage);
     }
 
-    inline void DescriptorManager::appendInputAttachment(const std::string &name, const VkShaderStageFlags useStage) {
-        if (names.contains(name)) {
-            throw exception_invalid_args("value already in use");
-        }
-        names[name] = static_cast<uint32_t>(data.size());
+    inline void DescriptorManager::appendInputAttachment(const uint32_t bindingExpected, const VkShaderStageFlags useStage) {
+        IndexChecker::checkIndexEqual(bindingExpected,  static_cast<uint32_t>(data.size()), "Descriptor Input Attachment add");
         data.emplace_back(ImageContext{});
         layoutBuilder.emplace_back(VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, useStage);
     }
 
 
-    inline uint32_t DescriptorManager::getIndex(const std::string &varname) const {
-        if (!names.contains(varname)) {
-            throw exception_invalid_args("cannot found value");
-        }
-        return names.at(varname);
-    }
-
     inline const DescriptorType &DescriptorManager::getRaw(
-        const uint32_t index) {
-        if (index >= data.size()) {
-            throw exception_invalid_args("index out of range");
+        const uint32_t bindingIndex) {
+        if (bindingIndex >= data.size()) {
+            throw exception_invalid_args("bindingIndex out of range");
         }
-        return data[index];
+        return data[bindingIndex];
     }
 
     inline const DescriptorType &DescriptorManager::getRaw(

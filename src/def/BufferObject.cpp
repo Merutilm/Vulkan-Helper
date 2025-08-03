@@ -27,10 +27,10 @@ namespace merutilm::vkh {
         memcpy(bufferMapped[frameIndex], data.data(), getTotalSizeByte());
     }
 
-    void BufferObject::update(const uint32_t frameIndex, const std::string &varname) const {
+    void BufferObject::update(const uint32_t frameIndex, const uint32_t target) const {
         checkFinalizedBeforeUpdate();
-        const uint32_t offset = getOffset(varname);
-        const uint32_t size = getSizeByte(varname);
+        const uint32_t offset = getOffset(target);
+        const uint32_t size = getSizeByte(target);
         memcpy(static_cast<std::byte *>(bufferMapped[frameIndex]) + offset, data.data() + offset, size);
     }
 

@@ -18,7 +18,7 @@ namespace merutilm::vkh {
     }
 
     void Template1PipelineConfigurator::render(const VkCommandBuffer cbh, const uint32_t frameIndex, const uint32_t width, const uint32_t height) {
-        draw(cbh, frameIndex, "index");
+        draw(cbh, frameIndex, 0);
     }
 
 
@@ -28,23 +28,23 @@ namespace merutilm::vkh {
     }
 
     void Template1PipelineConfigurator::configureDescriptors(std::vector<const Descriptor *> &descriptors,
-    DescriptorSetLayoutRepo &layoutRepo, DescriptorRepo &descRepo) {
+    DescriptorSetLayoutRepo &layoutRepo, SharedDescriptorRepo &descRepo) {
         auto texture = std::make_unique<Sampler2D>(engine.getCore(), engine.getCommandPool(), "../res/w.png");
         auto manager = std::make_unique<DescriptorManager>();
-        manager->appendCombinedImgSampler("tex", VK_SHADER_STAGE_FRAGMENT_BIT, std::move(texture));
-        appendUniqueDescriptor(descriptors, layoutRepo, std::move(manager));
+        manager->appendCombinedImgSampler(0, VK_SHADER_STAGE_FRAGMENT_BIT, std::move(texture));
+        appendUniqueDescriptor(0, descriptors, layoutRepo, std::move(manager));
     }
 
     void Template1PipelineConfigurator::configureVertexBuffer(ShaderObjectManager &som) {
-        som.add("square", std::vector{
+        som.add(0, std::vector{
                     Vertex::generate({1, 1, 0}, {1, 1, 1}, {1, 1}),
-                    Vertex::generate({1, -1, 0}, {0, 1, 0}, {1, 0}),
-                    Vertex::generate({-1, -1, 0}, {1, 0, 0}, {0.25, 0.25}),
-                    Vertex::generate({-1, 1, 0}, {0, 0, 1}, {0, 1}),
+                    Vertex::generate({1, -1, 0}, {1, 1, 1}, {1, 0}),
+                    Vertex::generate({-1, -1, 0}, {1, 1, 1}, {0, 0}),
+                    Vertex::generate({-1, 1, 0}, {1, 1, 1}, {0, 1}),
                 });
     }
 
     void Template1PipelineConfigurator::configureIndexBuffer(ShaderObjectManager &som) {
-        som.add("index", std::vector<uint32_t>{0, 1, 2, 2, 3, 0});
+        som.add(0, std::vector<uint32_t>{0, 1, 2, 2, 3, 0});
     }
 }
