@@ -119,6 +119,7 @@ add_executable(VulkanHelper
         src/configurator/Template1PipelineConfigurator.hpp
         src/context/DescriptorUpdateContext.hpp
         src/util/IndexChecker.hpp
+        src/util/ImageContextUtils.hpp
 )
 
 

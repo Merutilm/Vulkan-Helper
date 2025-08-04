@@ -3,22 +3,18 @@
 //
 
 #pragma once
-#include "CommandPool.hpp"
+#include "../context/ImageContext.hpp"
 #include "../handle/CoreHandler.hpp"
 
 namespace merutilm::vkh {
     class Sampler2D final : public CoreHandler {
-        const CommandPool &commandPool;
-        const std::string path;
 
-        VkImage image = nullptr;
-        VkDeviceMemory memory = nullptr;
-        VkImageView view = nullptr;
-        VkImageLayout currentLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        ImageContext imageContext;
         VkSampler sampler = nullptr;
-
+        bool initialized = false;
+        bool isUnique = false;
     public:
-        explicit Sampler2D(const Core &core, const CommandPool &commandPool, std::string path);
+        explicit Sampler2D(const Core &core);
 
         ~Sampler2D() override;
 
@@ -30,11 +26,20 @@ namespace merutilm::vkh {
 
         Sampler2D &operator=(Sampler2D &&) = delete;
 
-        [[nodiscard]] VkImage getImageHandle() const { return image; }
+        void setImageContext(const ImageContext &imageContext) {
+            initialized = true;
+            this->imageContext = imageContext;
+        }
 
-        [[nodiscard]] VkImageView getImageViewHandle() const { return view; }
+        void setImageContext(ImageContext &&imageContext) {
+            initialized = true;
+            isUnique = true;
+            this->imageContext = std::move(imageContext);
+        }
 
-        [[nodiscard]] VkImageLayout getCurrentImageLayout() const { return currentLayout; }
+        [[nodiscard]] const ImageContext &getImageContext() const;
+
+        [[nodiscard]] bool isInitialized() const { return initialized; }
 
         [[nodiscard]] VkSampler getSamplerHandle() const { return sampler; }
 
@@ -42,10 +47,5 @@ namespace merutilm::vkh {
         void init() override;
 
         void destroy() override;
-
-        void transformImageLayout(VkCommandBuffer commandBuffer, VkAccessFlags srcAccessMask,
-                                  VkAccessFlags dstAccessMask,
-                                  VkImageLayout newLayout, VkPipelineStageFlags srcStageMask,
-                                  VkPipelineStageFlags dstStageMask);
     };
 }

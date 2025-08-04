@@ -12,6 +12,7 @@ namespace merutilm::vkh {
         std::vector<uint32_t> elements = {};
         std::vector<uint32_t> sizes = {};
         std::vector<uint32_t> offsets = {};
+        std::vector<bool> initialized = {};
 
         explicit ShaderObjectManager() = default;
 
@@ -47,6 +48,7 @@ namespace merutilm::vkh {
         IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Value Reserve");
         data.resize(data.size() + sizeof(T));
         sizes.push_back(sizeof(T));
+        initialized.push_back(false);
     }
 
     template<typename T> requires std::is_trivially_copyable_v<T>
@@ -56,6 +58,7 @@ namespace merutilm::vkh {
         IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Vector Reserve");
         data.resize(data.size() + sizeof(T) * elementCount);
         sizes.push_back(sizeof(T) * elementCount);
+        initialized.push_back(false);
     }
 
 
@@ -67,6 +70,7 @@ namespace merutilm::vkh {
         IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Value Add");
         data.insert(data.end(), raw, raw + sizeof(T));
         sizes.push_back(sizeof(T));
+        initialized.push_back(true);
     }
 
     template<typename T> requires std::is_trivially_copyable_v<T>
@@ -77,5 +81,6 @@ namespace merutilm::vkh {
         IndexChecker::checkIndexEqual(targetExpected, static_cast<uint32_t>(sizes.size()), "Shader Object Vector Add");
         data.insert(data.end(), raw, raw + sizeof(T) * t.size());
         sizes.push_back(sizeof(T) * t.size());
+        initialized.push_back(true);
     }
 }

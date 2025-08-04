@@ -53,7 +53,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
 
-        [[nodiscard]] const IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
+        [[nodiscard]] IndexBuffer &getIndexBuffer() const { return *indexBuffer; }
 
         static void appendDescriptor(const uint32_t setExpected, std::vector<const Descriptor *> &descriptors, DescriptorSetLayoutRepo &layoutRepo, SharedDescriptorRepo &repo, const DescriptorName descriptorName, const VkShaderStageFlags useStage) {
             IndexChecker::checkIndexEqual(setExpected, descriptors.size(), "Unique Descriptor Add");

@@ -182,34 +182,5 @@ namespace merutilm::vkh {
             throw exception_init("failed to find suitable memory type!");
         }
 
-        static void transformImageLayout(const VkCommandBuffer commandBuffer, const VkImage image, const VkAccessFlags srcAccessMask,
-                                         const VkAccessFlags dstAccessMask, const VkImageLayout oldLayout, const VkImageLayout newLayout,
-                                         const VkPipelineStageFlags srcStageMask,
-                                         const VkPipelineStageFlags dstStageMask) {
-            const VkImageMemoryBarrier barrier = {
-                .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
-                .pNext = nullptr,
-                .srcAccessMask = srcAccessMask,
-                .dstAccessMask = dstAccessMask,
-                .oldLayout = oldLayout,
-                .newLayout = newLayout,
-                .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
-                .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
-                .image = image,
-                .subresourceRange = {
-                    .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-                    .baseMipLevel = 0,
-                    .levelCount = 1,
-                    .baseArrayLayer = 0,
-                    .layerCount = 1
-                }
-            };
-
-            vkCmdPipelineBarrier(commandBuffer, srcStageMask,
-                                 dstStageMask, 0,
-                                 0, nullptr,
-                                 0, nullptr,
-                                 1, &barrier);
-        }
     };
 }

@@ -5,6 +5,7 @@
 #include "Template1PipelineConfigurator.hpp"
 
 #include "../struct/Vertex.hpp"
+#include "../util/ImageContextUtils.hpp"
 
 namespace merutilm::vkh {
 
@@ -13,7 +14,8 @@ namespace merutilm::vkh {
 
     void Template1PipelineConfigurator::updateQueue(DescriptorUpdateQueue &queue, const uint32_t frameIndex, const uint32_t imageIndex,
                                                const uint32_t width, const uint32_t height) {
-
+        getVertexBuffer().update(frameIndex);
+        getIndexBuffer().update(frameIndex);
         getDescriptor(0).updateQueue(queue, frameIndex);
     }
 
@@ -29,7 +31,10 @@ namespace merutilm::vkh {
 
     void Template1PipelineConfigurator::configureDescriptors(std::vector<const Descriptor *> &descriptors,
     DescriptorSetLayoutRepo &layoutRepo, SharedDescriptorRepo &descRepo) {
-        auto texture = std::make_unique<Sampler2D>(engine.getCore(), engine.getCommandPool(), "../res/w.png");
+
+        auto texture = std::make_unique<Sampler2D>(engine.getCore());
+        texture->setImageContext(ImageContextUtils::imageFromPath(engine.getCore(), engine.getCommandPool(), "../res/w.png"));
+
         auto manager = std::make_unique<DescriptorManager>();
         manager->appendCombinedImgSampler(0, VK_SHADER_STAGE_FRAGMENT_BIT, std::move(texture));
         appendUniqueDescriptor(0, descriptors, layoutRepo, std::move(manager));

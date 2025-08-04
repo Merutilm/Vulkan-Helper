@@ -53,17 +53,10 @@ namespace merutilm::vkh {
 
         uint32_t getElements() const;
 
-        [[nodiscard]] uint32_t getIndex(const std::string &varname) const;
-
         const DescriptorType &getRaw(uint32_t bindingIndex);
-
-        const DescriptorType &getRaw(const std::string &varname);
 
         template<typename T>
         [[nodiscard]] T &get(uint32_t index);
-
-        template<typename T>
-        [[nodiscard]] T &get(const std::string &varname);
     };
 
     template<typename T>
@@ -78,6 +71,7 @@ namespace merutilm::vkh {
     inline uint32_t DescriptorManager::getElements() const {
         return static_cast<uint32_t>(data.size());
     }
+
 
     inline void DescriptorManager::appendUBO(const uint32_t bindingExpected, const VkShaderStageFlags useStage,
                                              std::unique_ptr<Uniform> &&ubo) {
@@ -110,11 +104,6 @@ namespace merutilm::vkh {
         return data[bindingIndex];
     }
 
-    inline const DescriptorType &DescriptorManager::getRaw(
-        const std::string &varname) {
-        const uint32_t index = getIndex(varname);
-        return getRaw(index);
-    }
 
     template<typename T>
     T &DescriptorManager::get(const uint32_t index) {
@@ -124,9 +113,4 @@ namespace merutilm::vkh {
         return std::get<T>(data[index]);
     }
 
-    template<typename T>
-    T &DescriptorManager::get(const std::string &varname) {
-        const uint32_t index = getIndex(varname);
-        return get<T>(index);
-    }
 }

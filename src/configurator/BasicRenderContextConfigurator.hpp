@@ -15,29 +15,29 @@ namespace merutilm::vkh {
 
         static constexpr uint32_t PRIMARY_SUBPASS_RESULT_IMAGE = 0;
 
-        explicit BasicRenderContextConfigurator(const Core &core, const Swapchain &swapchain) : RenderContextConfigurator(core, swapchain) {
-
+        explicit BasicRenderContextConfigurator(const Core &core,
+                                                const Swapchain &swapchain) : RenderContextConfigurator(
+            core, swapchain) {
         }
 
         void configureImageContext() override {
             const auto [width, height] = swapchain.populateSwapchainExtent();
 
             appendStoredImageContext(PRIMARY_SUBPASS_RESULT_IMAGE, ImageContext::init(core, ImageInitInfo{
-                                           .imageType = VK_IMAGE_TYPE_2D,
-                                           .imageViewType = VK_IMAGE_VIEW_TYPE_2D,
-                                           .imageFormat = VK_FORMAT_R8G8B8A8_SRGB,
-                                           .extent = {width, height, 1},
-                                           .mipLevels = 1,
-                                           .arrayLayers = 1,
-                                           .samples = VK_SAMPLE_COUNT_1_BIT,
-                                           .imageTiling = VK_IMAGE_TILING_OPTIMAL,
-                                           .usage = VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT |
-                                                    VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
-                                           .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
-                                           .properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-                                       }));
-
-
+                                         .imageType = VK_IMAGE_TYPE_2D,
+                                         .imageViewType = VK_IMAGE_VIEW_TYPE_2D,
+                                         .imageFormat = VK_FORMAT_R8G8B8A8_SRGB,
+                                         .extent = {width, height, 1},
+                                         .mipLevels = 1,
+                                         .arrayLayers = 1,
+                                         .samples = VK_SAMPLE_COUNT_1_BIT,
+                                         .imageTiling = VK_IMAGE_TILING_OPTIMAL,
+                                         .usage = VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT |
+                                                  VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
+                                                  VK_IMAGE_USAGE_SAMPLED_BIT,
+                                         .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+                                         .properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+                                     }));
         }
 
         void configureRenderContext(RenderPassManager &rpm) override {
@@ -52,7 +52,7 @@ namespace merutilm::vkh {
                                      .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
                                      .finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
                                  }, contexts[PRIMARY_SUBPASS_RESULT_IMAGE]);
-            rpm.appendAttachment(PRESENT_ATTACHMENT_INDEX,{
+            rpm.appendAttachment(PRESENT_ATTACHMENT_INDEX, {
                                      .flags = 0,
                                      .format = VK_FORMAT_R8G8B8A8_SRGB,
                                      .samples = VK_SAMPLE_COUNT_1_BIT,

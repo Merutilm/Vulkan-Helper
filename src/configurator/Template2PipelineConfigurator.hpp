@@ -12,7 +12,8 @@ namespace merutilm::vkh {
         static constexpr uint32_t SET_TIME = 0;
         static constexpr uint32_t SET_INPUT_ATTACHMENT = 1;
 
-        static constexpr uint32_t BINDING_INPUT_ATTACHMENT_ELEM = 0;
+        static constexpr uint32_t BINDING_INPUT_SAMPLER = 0;
+        static constexpr uint32_t BINDING_INPUT_ATTACHMENT_ELEM = 1;
 
         static constexpr uint32_t PUSH_RESOLUTION = 0;
         static constexpr uint32_t PUSH_RESOLUTION_SIZE = 0;

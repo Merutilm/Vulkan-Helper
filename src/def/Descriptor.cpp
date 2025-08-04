@@ -57,8 +57,8 @@ namespace merutilm::vkh {
                 queue.push_back({
                     .imageInfo = VkDescriptorImageInfo{
                         .sampler = tex->getSamplerHandle(),
-                        .imageView = tex->getImageViewHandle(),
-                        .imageLayout = tex->getCurrentImageLayout()
+                        .imageView = tex->getImageContext().imageView,
+                        .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
                     }
                 });
 

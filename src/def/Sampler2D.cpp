@@ -3,98 +3,29 @@
 //
 
 #include "Sampler2D.hpp"
-#include <stb_image.h>
 
-#include <utility>
-
-#include "../executor/ScopedCommandExecutor.hpp"
+#include "../util/ImageContextUtils.hpp"
 
 namespace merutilm::vkh {
-    Sampler2D::Sampler2D(const Core &core, const CommandPool &commandPool, std::string path) : CoreHandler(core),
-        commandPool(commandPool), path(std::move(path)) {
+    Sampler2D::Sampler2D(const Core &core) : CoreHandler(core) {
         Sampler2D::init();
     }
+
 
     Sampler2D::~Sampler2D() {
         Sampler2D::destroy();
     }
 
+
+    const ImageContext &Sampler2D::getImageContext() const {
+        if (!initialized) {
+            throw exception_invalid_state{"Sampler2D is not initialized. Is setImageContext() called?"};
+        }
+        return imageContext;
+    }
+
+
     void Sampler2D::init() {
-        stbi_uc *data = nullptr;
-        int width = 0;
-        int height = 0;
-        int texChannels = 0;
-        data = stbi_load(path.data(), &width, &height, &texChannels, STBI_rgb_alpha);
-        if (data == nullptr) {
-            throw exception_init("Failed to load texture");
-        }
-
-        VkBuffer stagingBuffer = nullptr;
-        VkDeviceMemory stagingMemory = nullptr;
-        const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-        const VkDeviceSize size = static_cast<uint64_t>(width) * static_cast<uint64_t>(height) * static_cast<uint64_t>(
-                                      texChannels);
-
-        BufferImageUtils::initBuffer(core, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                                &stagingBuffer, &stagingMemory);
-        void *mapped = nullptr;
-        vkMapMemory(device, stagingMemory, 0, size, 0, &mapped);
-        memcpy(mapped, data, size);
-        vkUnmapMemory(device, stagingMemory);
-
-
-        const ImageInitInfo initInfo = {
-            .imageType = VK_IMAGE_TYPE_2D,
-            .imageViewType = VK_IMAGE_VIEW_TYPE_2D,
-            .imageFormat = VK_FORMAT_R8G8B8A8_SRGB,
-            .extent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height), 1},
-            .mipLevels = 1,
-            .arrayLayers = 1,
-            .samples = VK_SAMPLE_COUNT_1_BIT,
-            .imageTiling = VK_IMAGE_TILING_OPTIMAL,
-            .usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-            .initialLayout = currentLayout,
-            .properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-        };
-
-        BufferImageUtils::initImage(core, initInfo,  &image,
-                               &memory, &view);
-
-
-        stbi_image_free(data);
-        //COMMAND START
-        {
-            const auto sce = ScopedCommandExecutor(core, commandPool);
-            const VkBufferImageCopy copyRegion = {
-                .bufferOffset = 0,
-                .bufferRowLength = 0,
-                .bufferImageHeight = 0,
-                .imageSubresource = {
-                    .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
-                    .mipLevel = 0,
-                    .baseArrayLayer = 0,
-                    .layerCount = 1
-
-                },
-                .imageOffset = {0, 0, 0},
-                .imageExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height), 1}
-            };
-            transformImageLayout(sce.getCommandBufferHandle(), VK_ACCESS_HOST_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                 VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_PIPELINE_STAGE_HOST_BIT,
-                                 VK_PIPELINE_STAGE_TRANSFER_BIT);
-
-            vkCmdCopyBufferToImage(sce.getCommandBufferHandle(), stagingBuffer, image,
-                                   VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
-            transformImageLayout(sce.getCommandBufferHandle(), VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT,
-                                 VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, VK_PIPELINE_STAGE_TRANSFER_BIT,
-                                 VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
-        }
-        //COMMAND END
-        vkFreeMemory(device, stagingMemory, nullptr);
-        vkDestroyBuffer(device, stagingBuffer, nullptr);
-
-
         const VkSamplerCreateInfo samplerInfo = {
             .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
             .pNext = nullptr,
@@ -123,17 +54,10 @@ namespace merutilm::vkh {
     void Sampler2D::destroy() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         vkDestroySampler(device, sampler, nullptr);
-        vkDestroyImageView(device, view, nullptr);
-        vkFreeMemory(device, memory, nullptr);
-        vkDestroyImage(device, image, nullptr);
-    }
-
-
-    void Sampler2D::transformImageLayout(const VkCommandBuffer commandBuffer, const VkAccessFlags srcAccessMask,
-                                         const VkAccessFlags dstAccessMask, const VkImageLayout newLayout,
-                                         const VkPipelineStageFlags srcStageMask,
-                                         const VkPipelineStageFlags dstStageMask) {
-        BufferImageUtils::transformImageLayout(commandBuffer, image, srcAccessMask, dstAccessMask, currentLayout, newLayout, srcStageMask, dstStageMask);
-        currentLayout = newLayout;
+        if (isUnique) {
+            vkDestroyImageView(device, imageContext.imageView, nullptr);
+            vkDestroyImage(device, imageContext.image, nullptr);
+            vkFreeMemory(device, imageContext.imageMemory, nullptr);
+        }
     }
 }

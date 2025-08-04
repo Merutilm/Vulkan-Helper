@@ -16,6 +16,7 @@ namespace merutilm::vkh {
         std::vector<VkDeviceMemory> bufferMemory = {};
         std::vector<void *> bufferMapped = {};
         bool finalized = false;
+        bool allInitialized = false;
 
     public:
         explicit BufferObject(const Core &core, std::unique_ptr<ShaderObjectManager> &&dataManager, VkBufferUsageFlags bufferUsage);
@@ -35,7 +36,7 @@ namespace merutilm::vkh {
         [[nodiscard]] VkBuffer getBufferHandle(const uint32_t frameIndex) const { return buffers[frameIndex]; }
 
 
-        void update(uint32_t frameIndex) const;
+        void update(uint32_t frameIndex);
 
         void update(uint32_t frameIndex, uint32_t target) const;
 

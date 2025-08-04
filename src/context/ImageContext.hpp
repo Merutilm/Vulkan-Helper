@@ -17,6 +17,7 @@ namespace merutilm::vkh {
         VkImage image;
         VkDeviceMemory imageMemory;
         VkImageView imageView;
+        VkImageLayout imageLayout;
 
         static MultiframeImageContext init(const Core &core, const ImageInitInfo &imageInitInfo) {
             const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
@@ -31,7 +32,7 @@ namespace merutilm::vkh {
 
         static void destroy(const Core &core, const MultiframeImageContext &imgCtx) {
             const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-            for (const auto &[image, imageMemory, imageView]: imgCtx) {
+            for (const auto &[image, imageMemory, imageView, imageLayout]: imgCtx) {
                 vkDestroyImageView(device, imageView, nullptr);
                 vkDestroyImage(device, image, nullptr);
                 vkFreeMemory(device, imageMemory, nullptr);
@@ -46,6 +47,7 @@ namespace merutilm::vkh {
                 result[i].image = images[i];
                 result[i].imageMemory = VK_NULL_HANDLE;
                 result[i].imageView = imageViews[i];
+                result[i].imageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
             }
             return result;
         }

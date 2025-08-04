@@ -46,8 +46,7 @@ namespace merutilm::vkh {
 
         void updateQueue(DescriptorUpdateQueue &updateQueue, uint32_t frameIndex) const;
 
-        template<typename... T>
-        void updateQueue(DescriptorUpdateQueue &queue, uint32_t frameIndex, T &&... varname) const;
+        void updateQueue(DescriptorUpdateQueue &queue, uint32_t frameIndex, std::vector<uint32_t> &&bindings) const;
 
     private:
 
@@ -67,11 +66,9 @@ namespace merutilm::vkh {
     }
 
 
-    template<typename... T>
-    void Descriptor::updateQueue(DescriptorUpdateQueue &queue, const uint32_t frameIndex, T &&... varname) const {
-        std::vector<uint32_t> specifiedIndices;
-        (specifiedIndices.push_back(descriptorManager->getIndex(std::forward<T>(varname))), ...);
-        std::ranges::sort(specifiedIndices);
-        updateIndices(queue, frameIndex, specifiedIndices);
+    inline void Descriptor::updateQueue(DescriptorUpdateQueue &queue, const uint32_t frameIndex, std::vector<uint32_t> &&bindings) const {
+        auto bm = std::move(bindings);
+        std::ranges::sort(bm);
+        updateIndices(queue, frameIndex, bm);
     }
 }

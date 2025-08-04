@@ -16,12 +16,14 @@ namespace merutilm::vkh {
         std::vector<uint32_t> elements = {};
         std::vector<uint32_t> sizes = {};
         std::vector<uint32_t> offsets = {};
+        std::vector<bool> initialized = {};
 
         explicit CompleteShaderObjectManager(std::unique_ptr<ShaderObjectManager> &&uploadManager) : data(std::move(
                 uploadManager->data)),
             elements(std::move(uploadManager->elements)),
             sizes(std::move(uploadManager->sizes)),
-            offsets(std::move(uploadManager->offsets)) {
+            offsets(std::move(uploadManager->offsets)),
+            initialized(std::move(uploadManager->initialized)) {
         }
 
         template<typename T> requires std::is_trivially_copyable_v<T>
@@ -32,13 +34,9 @@ namespace merutilm::vkh {
             }
             const uint32_t offset = offsets[target];
             memcpy(&data[offset], &t, sizeof(T));
+            initialized[target] = true;
         }
 
-        template<typename T> requires std::is_trivially_copyable_v<T>
-        void set(const uint32_t target, const uint32_t arrIndex, T &t) {
-            const uint32_t offset = offsets[target] + arrIndex * sizeof(T);
-            memcpy(&data[offset], &t, sizeof(T));
-        }
 
         template<typename T> requires std::is_trivially_copyable_v<T>
         void set(const uint32_t target, const std::vector<T> &arr) {
@@ -49,6 +47,16 @@ namespace merutilm::vkh {
             }
             const uint32_t offset = offsets[target];
             memcpy(&data[offset], arr.data(), size);
+            initialized[target] = true;
+        }
+
+        template<typename T> requires std::is_trivially_copyable_v<T>
+        void set(const uint32_t target, const uint32_t arrIndex, T &t) {
+            if (!initialized[target]) {
+                throw exception_invalid_state("initialize vector first using set(uint32_t target, const std::vector<T> &arr) before use set(uint32_t target, uint32_t arrIndex, T& t)");
+            }
+            const uint32_t offset = offsets[target] + arrIndex * sizeof(T);
+            memcpy(&data[offset], &t, sizeof(T));
         }
 
         const std::vector<std::byte> &getData() const { return data; }

@@ -22,13 +22,25 @@ namespace merutilm::vkh {
     }
 
 
-    void BufferObject::update(const uint32_t frameIndex) const {
+    void BufferObject::update(const uint32_t frameIndex) {
         checkFinalizedBeforeUpdate();
+
+        if (!allInitialized) {
+            for (uint32_t i = 0; i < initialized.size(); ++i) {
+                if (!initialized[i]) {
+                    throw exception_invalid_state(std::format("Buffer Object target {} is not initialized. Is called set()?", i));
+                }
+            }
+            allInitialized = true;
+        }
         memcpy(bufferMapped[frameIndex], data.data(), getTotalSizeByte());
     }
 
     void BufferObject::update(const uint32_t frameIndex, const uint32_t target) const {
         checkFinalizedBeforeUpdate();
+        if (!initialized[target]) {
+            throw exception_invalid_state(std::format("Buffer Object target {} is not initialized. Is called set()?", target));
+        }
         const uint32_t offset = getOffset(target);
         const uint32_t size = getSizeByte(target);
         memcpy(static_cast<std::byte *>(bufferMapped[frameIndex]) + offset, data.data() + offset, size);
@@ -55,7 +67,6 @@ namespace merutilm::vkh {
                                     &buffers[i], &bufferMemory[i]);
             vkMapMemory(core.getLogicalDevice().getLogicalDeviceHandle(), bufferMemory[i], 0, size, 0,
                         &bufferMapped[i]);
-            update(i);
         }
     }
 
