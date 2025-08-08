@@ -3,14 +3,14 @@
 //
 
 #pragma once
-#include "GeneralPipelineConfigurator.hpp"
+#include "GeneralPostProcessPipelineConfigurator.hpp"
 #include "../repo/SharedDescriptorRepo.hpp"
 
 namespace merutilm::vkh {
-    class Template2PipelineConfigurator final : public GeneralPipelineConfigurator {
+    class Template2PipelineConfigurator final : public GeneralPostProcessPipelineConfigurator {
 
         static constexpr uint32_t SET_TIME = 0;
-        static constexpr uint32_t SET_INPUT_ATTACHMENT = 1;
+        static constexpr uint32_t SET_INPUT = 1;
 
         static constexpr uint32_t BINDING_INPUT_SAMPLER = 0;
         static constexpr uint32_t BINDING_INPUT_ATTACHMENT_ELEM = 1;
@@ -19,7 +19,7 @@ namespace merutilm::vkh {
         static constexpr uint32_t PUSH_RESOLUTION_SIZE = 0;
 
     public:
-        using GeneralPipelineConfigurator::GeneralPipelineConfigurator;
+        using GeneralPostProcessPipelineConfigurator::GeneralPostProcessPipelineConfigurator;
 
         ~Template2PipelineConfigurator() override = default;
 
@@ -41,9 +41,5 @@ namespace merutilm::vkh {
                                                          SharedDescriptorRepo &repo) override;
         void configurePushConstant(DescriptorSetLayoutRepo &layoutRepo, PipelineLayoutManager &pipelineLayoutManager) override;
 
-
-        void configureVertexBuffer(ShaderObjectManager &som) override;
-
-        void configureIndexBuffer(ShaderObjectManager &som) override;
     };
 }

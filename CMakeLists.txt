@@ -120,6 +120,8 @@ add_executable(VulkanHelper
         src/context/DescriptorUpdateContext.hpp
         src/util/IndexChecker.hpp
         src/util/ImageContextUtils.hpp
+        src/configurator/GeneralPostProcessPipelineConfigurator.cpp
+        src/configurator/GeneralPostProcessPipelineConfigurator.hpp
 )
 
 

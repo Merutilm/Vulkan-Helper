@@ -46,8 +46,8 @@ namespace merutilm::vkh {
             IndexChecker::checkIndexEqual(contextIndexExpected, contexts.size() - 1, "Stored Image Context");
         }
 
-        const MultiframeImageContext &getImageContext(const uint32_t contextIndex) {
-            return contexts[contextIndex];
+        const MultiframeImageContext &getImageContext(const uint32_t contextIndex) const {
+            return contexts.at(contextIndex);
         }
 
         void cleanupContexts() {

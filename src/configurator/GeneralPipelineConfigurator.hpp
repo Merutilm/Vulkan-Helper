@@ -49,6 +49,15 @@ namespace merutilm::vkh {
             return shaderProgram;
         }
 
+        template<typename Expected> requires std::is_base_of_v<RenderContextConfigurator, Expected>
+        [[nodiscard]] const RenderContextConfigurator & getRenderContextConfigurator() const {
+            auto r = dynamic_cast<const Expected * const>(engine.getRenderContext().configurator.get());
+            if (r == nullptr) {
+                throw exception_invalid_args("Current RenderContext mismatch");
+            }
+            return *r;
+        }
+
         [[nodiscard]] Pipeline &getPipeline() const { return *pipeline; }
 
         [[nodiscard]] VertexBuffer &getVertexBuffer() const { return *vertexBuffer; }
