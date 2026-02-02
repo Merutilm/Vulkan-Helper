@@ -1,0 +1,542 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.exe"
+		},
+		{
+			"path" : "C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_directories",
+			"target_link_libraries",
+			"add_dependencies",
+			"add_compile_options",
+			"target_compile_definitions"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 57,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 39,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 66,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 11,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 51,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-O0"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-march=native"
+				},
+				{
+					"backtrace" : 6,
+					"fragment" : "-funroll-loops"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 7,
+					"define" : "VK_USE_PLATFORM_WIN32_KHR"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "C:/VulkanSDK/1.4.313.2/Include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 5,
+			"id" : "compileShaders::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "vkh_dependency::@bdddf3e0b7dbecdcf48f"
+		},
+		{
+			"id" : "context::@1f6fe80367c79613c998"
+		},
+		{
+			"id" : "configurator::@33f5fe53146f7532dcca"
+		},
+		{
+			"id" : "repo::@3bbea558bec0a20d6121"
+		},
+		{
+			"id" : "manage::@0f4c7d648f303363c8a2"
+		},
+		{
+			"id" : "core::@0940c9782636a1de41a7"
+		},
+		{
+			"id" : "executor::@1bffd3a98d47572fadfe"
+		},
+		{
+			"id" : "util::@aa8cc11fa2b5cff4c207"
+		}
+	],
+	"id" : "VulkanHelper::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-O3 -DNDEBUG",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-LC:\\Users\\nudet\\Desktop\\Main\\Developments\\cpp\\Projects\\VulkanHelper\\lib",
+				"role" : "libraryPath"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\configurator\\CMakeFiles\\configurator.dir\\.\\ComputePipelineConfigurator.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\configurator\\CMakeFiles\\configurator.dir\\.\\GeneralGraphicsPipelineConfigurator.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\configurator\\CMakeFiles\\configurator.dir\\.\\GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\context\\CMakeFiles\\context.dir\\.\\BufferContext.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\context\\CMakeFiles\\context.dir\\.\\ImageContext.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\context\\CMakeFiles\\context.dir\\.\\RenderContext.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\context\\CMakeFiles\\context.dir\\.\\SharedImageContext.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\context\\CMakeFiles\\context.dir\\.\\WindowContext.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\BufferObject.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\CombinedImageSampler.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\CommandBuffer.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\CommandPool.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\ComputeShaderPipeline.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Core.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Descriptor.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\DescriptorSetLayout.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Engine.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Fence.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Framebuffer.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\GraphicsContextWindow.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\GraphicsPipeline.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\IndexBuffer.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Instance.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\LogicalDevice.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\PhysicalDeviceLoader.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Pipeline.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\PipelineLayout.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\PushConstant.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Renderer.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\RenderPass.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Sampler.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Semaphore.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\ShaderModule.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\ShaderStorage.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Surface.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Swapchain.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\SyncObject.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\Uniform.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\ValidationLayer.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\core\\CMakeFiles\\core.dir\\.\\VertexBuffer.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\executor\\CMakeFiles\\executor.dir\\.\\RenderPassFullscreenRecorder.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\executor\\CMakeFiles\\executor.dir\\.\\ScopedCommandBufferExecutor.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\executor\\CMakeFiles\\executor.dir\\.\\ScopedNewCommandBufferExecutor.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\manage\\CMakeFiles\\manage.dir\\.\\DescriptorManager.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\manage\\CMakeFiles\\manage.dir\\.\\HostDataObjectManager.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\manage\\CMakeFiles\\manage.dir\\.\\PipelineLayoutManager.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\manage\\CMakeFiles\\manage.dir\\.\\PipelineManager.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\manage\\CMakeFiles\\manage.dir\\.\\RenderPassManager.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\repo\\CMakeFiles\\repo.dir\\.\\GlobalDescriptorSetLayoutRepo.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\repo\\CMakeFiles\\repo.dir\\.\\GlobalPipelineLayoutRepo.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\repo\\CMakeFiles\\repo.dir\\.\\GlobalSamplerRepo.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\repo\\CMakeFiles\\repo.dir\\.\\GlobalShaderModuleRepo.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\repo\\CMakeFiles\\repo.dir\\.\\WindowLocalDescriptorRepo.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\BarrierUtils.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\BufferImageContextUtils.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\BufferImageUtils.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\Debugger.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\DescriptorUpdater.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\GraphicsContextWindowProc.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\PhysicalDeviceUtils.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "src\\vulkan_helper\\util\\CMakeFiles\\util.dir\\.\\SwapchainUtils.cpp.obj",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "C:\\VulkanSDK\\1.4.313.2\\Lib\\vulkan-1.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "VulkanHelper",
+	"nameOnDisk" : "VulkanHelper.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/vkh_demo/main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "cmake-build-release/src/vulkan_helper/dependency/CMakeFiles/vkh_dependency.dir/__/__/__/extern/stb_image.c.obj",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}
