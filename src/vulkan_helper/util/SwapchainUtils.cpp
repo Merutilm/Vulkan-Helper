@@ -5,12 +5,12 @@
 #include <vulkan_helper/util/SwapchainUtils.hpp>
 namespace merutilm::vkh {
 
-    void SwapchainUtils::changeFrameIndex(CoreRef core, uint32_t *frameIndex) {
+    void SwapchainUtils::changeFrameIndex(Core & core, uint32_t *frameIndex) {
         ++*frameIndex %= core.getPhysicalDevice().getMaxFramesInFlight();
     }
 
-    uint32_t SwapchainUtils::begin(WindowContextRef wc, const uint32_t frameIndex) {
-        const SwapchainRef swapchain = wc.getSwapchain();
+    uint32_t SwapchainUtils::begin(WindowContext & wc, const uint32_t frameIndex) {
+        const Swapchain & swapchain = wc.getSwapchain();
         const VkDevice device = wc.core.getLogicalDevice().getLogicalDeviceHandle();
         const VkSemaphore imageAvailableSemaphore = wc.getSyncObject().
                 getSemaphore(frameIndex).getImageAvailable();
@@ -25,7 +25,7 @@ namespace merutilm::vkh {
         return swapchainImageIndex;
     }
 
-    void SwapchainUtils::end(WindowContextRef wc, const uint32_t frameIndex, uint32_t swapchainImageIndex) {
+    void SwapchainUtils::end(WindowContext & wc, const uint32_t frameIndex, uint32_t swapchainImageIndex) {
         VkSwapchainKHR swapchainHandle = wc.getSwapchain().getSwapchainHandle();
         VkSemaphore renderFinishedSemaphore = wc.getSyncObject().getSemaphore(frameIndex).getRenderFinished();
         const VkPresentInfoKHR presentInfo = {

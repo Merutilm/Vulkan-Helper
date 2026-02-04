@@ -11,17 +11,17 @@ namespace merutilm::vkh {
 
 
         template <typename F> requires std::is_invocable_r_v<void, F, uint32_t>
-        static void renderFrame(WindowContextRef wc, uint32_t *frameIndex, F&&renderer);
+        static void renderFrame(WindowContext & wc, uint32_t *frameIndex, F&&renderer);
 
-        static void changeFrameIndex(CoreRef core, uint32_t *frameIndex);
+        static void changeFrameIndex(Core & core, uint32_t *frameIndex);
 
-        static uint32_t begin(WindowContextRef wc, const uint32_t frameIndex);
+        static uint32_t begin(WindowContext & wc, uint32_t frameIndex);
 
-        static void end(WindowContextRef wc, const uint32_t frameIndex, uint32_t swapchainImageIndex);
+        static void end(WindowContext & wc, uint32_t frameIndex, uint32_t swapchainImageIndex);
     };
 
     template<typename F> requires std::is_invocable_r_v<void, F, unsigned>
-    void SwapchainUtils::renderFrame(WindowContextRef wc, uint32_t *frameIndex, F &&renderer) {
+    void SwapchainUtils::renderFrame(WindowContext & wc, uint32_t *frameIndex, F &&renderer) {
         if (wc.getWindow().isUnrenderable()) {
             return;
         }

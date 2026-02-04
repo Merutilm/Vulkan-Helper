@@ -3,17 +3,17 @@
 //
 
 #pragma once
-#include <vulkan_helper/wrapped/ImageInitInfo.hpp>
+#include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/core/Core.hpp>
-#include <vulkan_helper/wrapped/BufferInitInfo.hpp>
-#include <vulkan_helper/base/vkh_core.hpp>
+#include <vulkan_helper/engine/wrapped/BufferInitInfo.hpp>
+#include <vulkan_helper/engine/wrapped/ImageInitInfo.hpp>
 
 namespace merutilm::vkh {
     struct BufferImageUtils {
         BufferImageUtils() = delete;
 
 
-        static void initImage(CoreRef core,
+        static void initImage(Core & core,
                               const ImageInitInfo &iii, VkImage *image,
                               VkDeviceMemory *imageMemory,
                               VkImageView *imageView, VkImageView *mipmappedImageView, VkDeviceSize *capacity);
@@ -42,7 +42,7 @@ namespace merutilm::vkh {
 
         static VkImageAspectFlags getAspectMask(const VkFormat format);
 
-        static void initBuffer(CoreRef core, const BufferInitInfo &bii, VkBuffer *buffer, VkDeviceMemory *bufferMemory);
+        static void initBuffer(Core & core, const BufferInitInfo &bii, VkBuffer *buffer, VkDeviceMemory *bufferMemory);
 
         static void initBuffer(const VkDevice device, const VkPhysicalDeviceMemoryProperties &memProperties,
                                const BufferInitInfo &bii, VkBuffer *buffer, VkDeviceMemory *bufferMemory);

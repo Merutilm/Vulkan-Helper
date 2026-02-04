@@ -47,11 +47,19 @@ cmake_ninja_workdir = C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/Vul
 #############################################
 # Order-only phony target for VulkanHelper
 
-build cmake_object_order_depends_target_VulkanHelper: phony || cmake_object_order_depends_target_configurator cmake_object_order_depends_target_context cmake_object_order_depends_target_core cmake_object_order_depends_target_executor cmake_object_order_depends_target_manage cmake_object_order_depends_target_repo cmake_object_order_depends_target_util cmake_object_order_depends_target_vkh_dependency compileShaders
+build cmake_object_order_depends_target_VulkanHelper: phony || cmake_object_order_depends_target_core cmake_object_order_depends_target_engine cmake_object_order_depends_target_engine_buffer cmake_object_order_depends_target_engine_cmd cmake_object_order_depends_target_engine_configurator cmake_object_order_depends_target_engine_context cmake_object_order_depends_target_engine_descriptor cmake_object_order_depends_target_engine_executor cmake_object_order_depends_target_engine_graphics cmake_object_order_depends_target_engine_manage cmake_object_order_depends_target_engine_pipeline cmake_object_order_depends_target_engine_repo cmake_object_order_depends_target_engine_sampler cmake_object_order_depends_target_engine_sync cmake_object_order_depends_target_util cmake_object_order_depends_target_vkh_dependency compileShaders
 
 build CMakeFiles/VulkanHelper.dir/src/vkh_demo/main.cpp.obj: CXX_COMPILER__VulkanHelper_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vkh_demo/main.cpp || cmake_object_order_depends_target_VulkanHelper
   DEFINES = -DVK_USE_PLATFORM_WIN32_KHR
   DEP_FILE = CMakeFiles\VulkanHelper.dir\src\vkh_demo\main.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -isystem C:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = CMakeFiles\VulkanHelper.dir
+  OBJECT_FILE_DIR = CMakeFiles\VulkanHelper.dir\src\vkh_demo
+
+build CMakeFiles/VulkanHelper.dir/src/vkh_demo/DemoApplication.cpp.obj: CXX_COMPILER__VulkanHelper_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vkh_demo/DemoApplication.cpp || cmake_object_order_depends_target_VulkanHelper
+  DEFINES = -DVK_USE_PLATFORM_WIN32_KHR
+  DEP_FILE = CMakeFiles\VulkanHelper.dir\src\vkh_demo\DemoApplication.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -isystem C:/VulkanSDK/1.4.313.2/Include
   OBJECT_DIR = CMakeFiles\VulkanHelper.dir
@@ -65,9 +73,9 @@ build CMakeFiles/VulkanHelper.dir/src/vkh_demo/main.cpp.obj: CXX_COMPILER__Vulka
 #############################################
 # Link the executable C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\bin\VulkanHelper.exe
 
-build C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.exe: CXX_EXECUTABLE_LINKER__VulkanHelper_Release src/vulkan_helper/dependency/CMakeFiles/vkh_dependency.dir/__/__/__/extern/stb_image.c.obj CMakeFiles/VulkanHelper.dir/src/vkh_demo/main.cpp.obj | src/vulkan_helper/configurator/CMakeFiles/configurator.dir/./ComputePipelineConfigurator.cpp.obj src/vulkan_helper/configurator/CMakeFiles/configurator.dir/./GeneralGraphicsPipelineConfigurator.cpp.obj src/vulkan_helper/configurator/CMakeFiles/configurator.dir/./GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/./BufferContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/./ImageContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/./RenderContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/./SharedImageContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/./WindowContext.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./BufferObject.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./CombinedImageSampler.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./CommandBuffer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./CommandPool.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./ComputeShaderPipeline.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Core.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Descriptor.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./DescriptorSetLayout.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Engine.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Fence.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Framebuffer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./GraphicsContextWindow.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./GraphicsPipeline.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./IndexBuffer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Instance.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./LogicalDevice.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./PhysicalDeviceLoader.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Pipeline.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./PipelineLayout.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./PushConstant.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Renderer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./RenderPass.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Sampler.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Semaphore.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./ShaderModule.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./ShaderStorage.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Surface.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Swapchain.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./SyncObject.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./Uniform.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./ValidationLayer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/./VertexBuffer.cpp.obj src/vulkan_helper/executor/CMakeFiles/executor.dir/./RenderPassFullscreenRecorder.cpp.obj src/vulkan_helper/executor/CMakeFiles/executor.dir/./ScopedCommandBufferExecutor.cpp.obj src/vulkan_helper/executor/CMakeFiles/executor.dir/./ScopedNewCommandBufferExecutor.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/./DescriptorManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/./HostDataObjectManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/./PipelineLayoutManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/./PipelineManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/./RenderPassManager.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalDescriptorSetLayoutRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalPipelineLayoutRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalSamplerRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalShaderModuleRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/./WindowLocalDescriptorRepo.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./BarrierUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./BufferImageContextUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./BufferImageUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./Debugger.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./DescriptorUpdater.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./GraphicsContextWindowProc.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./PhysicalDeviceUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/./SwapchainUtils.cpp.obj C$:/VulkanSDK/1.4.313.2/Lib/vulkan-1.lib || compileShaders src/vulkan_helper/configurator/configurator src/vulkan_helper/context/context src/vulkan_helper/core/core src/vulkan_helper/dependency/vkh_dependency src/vulkan_helper/executor/executor src/vulkan_helper/manage/manage src/vulkan_helper/repo/repo src/vulkan_helper/util/util
+build C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.exe: CXX_EXECUTABLE_LINKER__VulkanHelper_Release src/vulkan_helper/dependency/CMakeFiles/vkh_dependency.dir/__/__/__/extern/stb_image.c.obj src/vulkan_helper/core/CMakeFiles/core.dir/Core.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/GraphicsContextWindow.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Instance.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/LogicalDevice.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/PhysicalDeviceLoader.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Surface.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Swapchain.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/ValidationLayer.cpp.obj src/vulkan_helper/engine/CMakeFiles/engine.dir/Engine.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/BarrierUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/BufferImageContextUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/BufferImageUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/Debugger.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/DescriptorUpdater.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/GraphicsContextWindowProc.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/PhysicalDeviceUtils.cpp.obj src/vulkan_helper/util/CMakeFiles/util.dir/SwapchainUtils.cpp.obj CMakeFiles/VulkanHelper.dir/src/vkh_demo/main.cpp.obj CMakeFiles/VulkanHelper.dir/src/vkh_demo/DemoApplication.cpp.obj | C$:/VulkanSDK/1.4.313.2/Lib/vulkan-1.lib || compileShaders src/vulkan_helper/core/core src/vulkan_helper/dependency/vkh_dependency src/vulkan_helper/engine/buffer/engine_buffer src/vulkan_helper/engine/cmd/engine_cmd src/vulkan_helper/engine/configurator/engine_configurator src/vulkan_helper/engine/context/engine_context src/vulkan_helper/engine/descriptor/engine_descriptor src/vulkan_helper/engine/engine src/vulkan_helper/engine/executor/engine_executor src/vulkan_helper/engine/graphics/engine_graphics src/vulkan_helper/engine/manage/engine_manage src/vulkan_helper/engine/pipeline/engine_pipeline src/vulkan_helper/engine/repo/engine_repo src/vulkan_helper/engine/sampler/engine_sampler src/vulkan_helper/engine/sync/engine_sync src/vulkan_helper/util/util
   FLAGS = -O3 -DNDEBUG
-  LINK_LIBRARIES = src/vulkan_helper/configurator/CMakeFiles/configurator.dir/./ComputePipelineConfigurator.cpp.obj  src/vulkan_helper/configurator/CMakeFiles/configurator.dir/./GeneralGraphicsPipelineConfigurator.cpp.obj  src/vulkan_helper/configurator/CMakeFiles/configurator.dir/./GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj  src/vulkan_helper/context/CMakeFiles/context.dir/./BufferContext.cpp.obj  src/vulkan_helper/context/CMakeFiles/context.dir/./ImageContext.cpp.obj  src/vulkan_helper/context/CMakeFiles/context.dir/./RenderContext.cpp.obj  src/vulkan_helper/context/CMakeFiles/context.dir/./SharedImageContext.cpp.obj  src/vulkan_helper/context/CMakeFiles/context.dir/./WindowContext.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./BufferObject.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./CombinedImageSampler.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./CommandBuffer.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./CommandPool.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./ComputeShaderPipeline.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Core.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Descriptor.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./DescriptorSetLayout.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Engine.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Fence.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Framebuffer.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./GraphicsContextWindow.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./GraphicsPipeline.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./IndexBuffer.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Instance.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./LogicalDevice.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./PhysicalDeviceLoader.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Pipeline.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./PipelineLayout.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./PushConstant.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Renderer.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./RenderPass.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Sampler.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Semaphore.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./ShaderModule.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./ShaderStorage.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Surface.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Swapchain.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./SyncObject.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./Uniform.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./ValidationLayer.cpp.obj  src/vulkan_helper/core/CMakeFiles/core.dir/./VertexBuffer.cpp.obj  src/vulkan_helper/executor/CMakeFiles/executor.dir/./RenderPassFullscreenRecorder.cpp.obj  src/vulkan_helper/executor/CMakeFiles/executor.dir/./ScopedCommandBufferExecutor.cpp.obj  src/vulkan_helper/executor/CMakeFiles/executor.dir/./ScopedNewCommandBufferExecutor.cpp.obj  src/vulkan_helper/manage/CMakeFiles/manage.dir/./DescriptorManager.cpp.obj  src/vulkan_helper/manage/CMakeFiles/manage.dir/./HostDataObjectManager.cpp.obj  src/vulkan_helper/manage/CMakeFiles/manage.dir/./PipelineLayoutManager.cpp.obj  src/vulkan_helper/manage/CMakeFiles/manage.dir/./PipelineManager.cpp.obj  src/vulkan_helper/manage/CMakeFiles/manage.dir/./RenderPassManager.cpp.obj  src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalDescriptorSetLayoutRepo.cpp.obj  src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalPipelineLayoutRepo.cpp.obj  src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalSamplerRepo.cpp.obj  src/vulkan_helper/repo/CMakeFiles/repo.dir/./GlobalShaderModuleRepo.cpp.obj  src/vulkan_helper/repo/CMakeFiles/repo.dir/./WindowLocalDescriptorRepo.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./BarrierUtils.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./BufferImageContextUtils.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./BufferImageUtils.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./Debugger.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./DescriptorUpdater.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./GraphicsContextWindowProc.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./PhysicalDeviceUtils.cpp.obj  src/vulkan_helper/util/CMakeFiles/util.dir/./SwapchainUtils.cpp.obj  C:/VulkanSDK/1.4.313.2/Lib/vulkan-1.lib  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = C:/VulkanSDK/1.4.313.2/Lib/vulkan-1.lib  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   LINK_PATH = -LC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/lib
   OBJECT_DIR = CMakeFiles\VulkanHelper.dir
   POST_BUILD = cd .
@@ -75,7 +83,6 @@ build C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/Vu
   TARGET_FILE = C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\bin\VulkanHelper.exe
   TARGET_IMPLIB = bin\libVulkanHelper.dll.a
   TARGET_PDB = VulkanHelper.exe.dbg
-  RSP_FILE = CMakeFiles\VulkanHelper.rsp
 
 
 #############################################
@@ -170,150 +177,6 @@ build src/vulkan_helper/dependency/rebuild_cache: phony src/vulkan_helper/depend
 # =============================================================================
 
 # =============================================================================
-# Object build statements for OBJECT_LIBRARY target configurator
-
-
-#############################################
-# Order-only phony target for configurator
-
-build cmake_object_order_depends_target_configurator: phony || cmake_object_order_depends_target_vkh_dependency
-
-build src/vulkan_helper/configurator/CMakeFiles/configurator.dir/ComputePipelineConfigurator.cpp.obj: CXX_COMPILER__configurator_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/configurator/ComputePipelineConfigurator.cpp || cmake_object_order_depends_target_configurator
-  DEP_FILE = src\vulkan_helper\configurator\CMakeFiles\configurator.dir\ComputePipelineConfigurator.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\configurator\CMakeFiles\configurator.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\configurator\CMakeFiles\configurator.dir
-
-build src/vulkan_helper/configurator/CMakeFiles/configurator.dir/GeneralGraphicsPipelineConfigurator.cpp.obj: CXX_COMPILER__configurator_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/configurator/GeneralGraphicsPipelineConfigurator.cpp || cmake_object_order_depends_target_configurator
-  DEP_FILE = src\vulkan_helper\configurator\CMakeFiles\configurator.dir\GeneralGraphicsPipelineConfigurator.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\configurator\CMakeFiles\configurator.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\configurator\CMakeFiles\configurator.dir
-
-build src/vulkan_helper/configurator/CMakeFiles/configurator.dir/GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj: CXX_COMPILER__configurator_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/configurator/GeneralPostProcessGraphicsPipelineConfigurator.cpp || cmake_object_order_depends_target_configurator
-  DEP_FILE = src\vulkan_helper\configurator\CMakeFiles\configurator.dir\GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\configurator\CMakeFiles\configurator.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\configurator\CMakeFiles\configurator.dir
-
-
-
-#############################################
-# Object library configurator
-
-build src/vulkan_helper/configurator/configurator: phony src/vulkan_helper/configurator/CMakeFiles/configurator.dir/ComputePipelineConfigurator.cpp.obj src/vulkan_helper/configurator/CMakeFiles/configurator.dir/GeneralGraphicsPipelineConfigurator.cpp.obj src/vulkan_helper/configurator/CMakeFiles/configurator.dir/GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj
-
-
-#############################################
-# Utility command for edit_cache
-
-build src/vulkan_helper/configurator/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\configurator && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build src/vulkan_helper/configurator/edit_cache: phony src/vulkan_helper/configurator/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build src/vulkan_helper/configurator/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\configurator && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build src/vulkan_helper/configurator/rebuild_cache: phony src/vulkan_helper/configurator/CMakeFiles/rebuild_cache.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt
-# =============================================================================
-
-# =============================================================================
-# Object build statements for OBJECT_LIBRARY target context
-
-
-#############################################
-# Order-only phony target for context
-
-build cmake_object_order_depends_target_context: phony || cmake_object_order_depends_target_vkh_dependency
-
-build src/vulkan_helper/context/CMakeFiles/context.dir/BufferContext.cpp.obj: CXX_COMPILER__context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/BufferContext.cpp || cmake_object_order_depends_target_context
-  DEP_FILE = src\vulkan_helper\context\CMakeFiles\context.dir\BufferContext.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-
-build src/vulkan_helper/context/CMakeFiles/context.dir/ImageContext.cpp.obj: CXX_COMPILER__context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/ImageContext.cpp || cmake_object_order_depends_target_context
-  DEP_FILE = src\vulkan_helper\context\CMakeFiles\context.dir\ImageContext.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-
-build src/vulkan_helper/context/CMakeFiles/context.dir/RenderContext.cpp.obj: CXX_COMPILER__context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/RenderContext.cpp || cmake_object_order_depends_target_context
-  DEP_FILE = src\vulkan_helper\context\CMakeFiles\context.dir\RenderContext.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-
-build src/vulkan_helper/context/CMakeFiles/context.dir/SharedImageContext.cpp.obj: CXX_COMPILER__context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/SharedImageContext.cpp || cmake_object_order_depends_target_context
-  DEP_FILE = src\vulkan_helper\context\CMakeFiles\context.dir\SharedImageContext.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-
-build src/vulkan_helper/context/CMakeFiles/context.dir/WindowContext.cpp.obj: CXX_COMPILER__context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/WindowContext.cpp || cmake_object_order_depends_target_context
-  DEP_FILE = src\vulkan_helper\context\CMakeFiles\context.dir\WindowContext.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\context\CMakeFiles\context.dir
-
-
-
-#############################################
-# Object library context
-
-build src/vulkan_helper/context/context: phony src/vulkan_helper/context/CMakeFiles/context.dir/BufferContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/ImageContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/RenderContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/SharedImageContext.cpp.obj src/vulkan_helper/context/CMakeFiles/context.dir/WindowContext.cpp.obj
-
-
-#############################################
-# Utility command for edit_cache
-
-build src/vulkan_helper/context/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\context && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build src/vulkan_helper/context/edit_cache: phony src/vulkan_helper/context/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build src/vulkan_helper/context/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\context && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build src/vulkan_helper/context/rebuild_cache: phony src/vulkan_helper/context/CMakeFiles/rebuild_cache.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt
-# =============================================================================
-
-# =============================================================================
 # Object build statements for OBJECT_LIBRARY target core
 
 
@@ -322,41 +185,6 @@ build src/vulkan_helper/context/rebuild_cache: phony src/vulkan_helper/context/C
 
 build cmake_object_order_depends_target_core: phony || cmake_object_order_depends_target_vkh_dependency
 
-build src/vulkan_helper/core/CMakeFiles/core.dir/BufferObject.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/BufferObject.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\BufferObject.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/CombinedImageSampler.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CombinedImageSampler.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\CombinedImageSampler.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/CommandBuffer.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CommandBuffer.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\CommandBuffer.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/CommandPool.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CommandPool.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\CommandPool.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/ComputeShaderPipeline.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/ComputeShaderPipeline.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\ComputeShaderPipeline.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
 build src/vulkan_helper/core/CMakeFiles/core.dir/Core.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Core.cpp || cmake_object_order_depends_target_core
   DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Core.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
@@ -364,57 +192,8 @@ build src/vulkan_helper/core/CMakeFiles/core.dir/Core.cpp.obj: CXX_COMPILER__cor
   OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
   OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
 
-build src/vulkan_helper/core/CMakeFiles/core.dir/Descriptor.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Descriptor.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Descriptor.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/DescriptorSetLayout.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/DescriptorSetLayout.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\DescriptorSetLayout.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Engine.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Engine.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Engine.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Fence.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Fence.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Fence.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Framebuffer.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Framebuffer.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Framebuffer.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
 build src/vulkan_helper/core/CMakeFiles/core.dir/GraphicsContextWindow.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/GraphicsContextWindow.cpp || cmake_object_order_depends_target_core
   DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\GraphicsContextWindow.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/GraphicsPipeline.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/GraphicsPipeline.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\GraphicsPipeline.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/IndexBuffer.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/IndexBuffer.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\IndexBuffer.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
   OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
@@ -441,69 +220,6 @@ build src/vulkan_helper/core/CMakeFiles/core.dir/PhysicalDeviceLoader.cpp.obj: C
   OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
   OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
 
-build src/vulkan_helper/core/CMakeFiles/core.dir/Pipeline.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Pipeline.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Pipeline.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/PipelineLayout.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/PipelineLayout.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\PipelineLayout.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/PushConstant.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/PushConstant.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\PushConstant.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Renderer.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Renderer.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Renderer.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/RenderPass.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/RenderPass.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\RenderPass.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Sampler.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Sampler.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Sampler.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Semaphore.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Semaphore.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Semaphore.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/ShaderModule.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/ShaderModule.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\ShaderModule.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/ShaderStorage.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/ShaderStorage.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\ShaderStorage.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
 build src/vulkan_helper/core/CMakeFiles/core.dir/Surface.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Surface.cpp || cmake_object_order_depends_target_core
   DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Surface.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
@@ -518,29 +234,8 @@ build src/vulkan_helper/core/CMakeFiles/core.dir/Swapchain.cpp.obj: CXX_COMPILER
   OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
   OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
 
-build src/vulkan_helper/core/CMakeFiles/core.dir/SyncObject.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/SyncObject.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\SyncObject.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/Uniform.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/Uniform.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\Uniform.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
 build src/vulkan_helper/core/CMakeFiles/core.dir/ValidationLayer.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/ValidationLayer.cpp || cmake_object_order_depends_target_core
   DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\ValidationLayer.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
-
-build src/vulkan_helper/core/CMakeFiles/core.dir/VertexBuffer.cpp.obj: CXX_COMPILER__core_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/VertexBuffer.cpp || cmake_object_order_depends_target_core
-  DEP_FILE = src\vulkan_helper\core\CMakeFiles\core.dir\VertexBuffer.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
   OBJECT_DIR = src\vulkan_helper\core\CMakeFiles\core.dir
@@ -551,7 +246,7 @@ build src/vulkan_helper/core/CMakeFiles/core.dir/VertexBuffer.cpp.obj: CXX_COMPI
 #############################################
 # Object library core
 
-build src/vulkan_helper/core/core: phony src/vulkan_helper/core/CMakeFiles/core.dir/BufferObject.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/CombinedImageSampler.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/CommandBuffer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/CommandPool.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/ComputeShaderPipeline.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Core.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Descriptor.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/DescriptorSetLayout.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Engine.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Fence.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Framebuffer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/GraphicsContextWindow.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/GraphicsPipeline.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/IndexBuffer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Instance.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/LogicalDevice.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/PhysicalDeviceLoader.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Pipeline.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/PipelineLayout.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/PushConstant.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Renderer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/RenderPass.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Sampler.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Semaphore.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/ShaderModule.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/ShaderStorage.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Surface.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Swapchain.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/SyncObject.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Uniform.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/ValidationLayer.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/VertexBuffer.cpp.obj
+build src/vulkan_helper/core/core: phony src/vulkan_helper/core/CMakeFiles/core.dir/Core.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/GraphicsContextWindow.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Instance.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/LogicalDevice.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/PhysicalDeviceLoader.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Surface.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/Swapchain.cpp.obj src/vulkan_helper/core/CMakeFiles/core.dir/ValidationLayer.cpp.obj
 
 
 #############################################
@@ -582,222 +277,886 @@ build src/vulkan_helper/core/rebuild_cache: phony src/vulkan_helper/core/CMakeFi
 # =============================================================================
 
 # =============================================================================
-# Object build statements for OBJECT_LIBRARY target executor
+# Object build statements for OBJECT_LIBRARY target engine
 
 
 #############################################
-# Order-only phony target for executor
+# Order-only phony target for engine
 
-build cmake_object_order_depends_target_executor: phony || cmake_object_order_depends_target_vkh_dependency
+build cmake_object_order_depends_target_engine: phony || cmake_object_order_depends_target_engine_buffer cmake_object_order_depends_target_engine_cmd cmake_object_order_depends_target_engine_configurator cmake_object_order_depends_target_engine_context cmake_object_order_depends_target_engine_descriptor cmake_object_order_depends_target_engine_executor cmake_object_order_depends_target_engine_graphics cmake_object_order_depends_target_engine_manage cmake_object_order_depends_target_engine_pipeline cmake_object_order_depends_target_engine_repo cmake_object_order_depends_target_engine_sampler cmake_object_order_depends_target_engine_sync cmake_object_order_depends_target_vkh_dependency
 
-build src/vulkan_helper/executor/CMakeFiles/executor.dir/RenderPassFullscreenRecorder.cpp.obj: CXX_COMPILER__executor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/executor/RenderPassFullscreenRecorder.cpp || cmake_object_order_depends_target_executor
-  DEP_FILE = src\vulkan_helper\executor\CMakeFiles\executor.dir\RenderPassFullscreenRecorder.cpp.obj.d
+build src/vulkan_helper/engine/CMakeFiles/engine.dir/Engine.cpp.obj: CXX_COMPILER__engine_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/Engine.cpp || cmake_object_order_depends_target_engine
+  DEP_FILE = src\vulkan_helper\engine\CMakeFiles\engine.dir\Engine.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\executor\CMakeFiles\executor.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\executor\CMakeFiles\executor.dir
-
-build src/vulkan_helper/executor/CMakeFiles/executor.dir/ScopedCommandBufferExecutor.cpp.obj: CXX_COMPILER__executor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/executor/ScopedCommandBufferExecutor.cpp || cmake_object_order_depends_target_executor
-  DEP_FILE = src\vulkan_helper\executor\CMakeFiles\executor.dir\ScopedCommandBufferExecutor.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\executor\CMakeFiles\executor.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\executor\CMakeFiles\executor.dir
-
-build src/vulkan_helper/executor/CMakeFiles/executor.dir/ScopedNewCommandBufferExecutor.cpp.obj: CXX_COMPILER__executor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/executor/ScopedNewCommandBufferExecutor.cpp || cmake_object_order_depends_target_executor
-  DEP_FILE = src\vulkan_helper\executor\CMakeFiles\executor.dir\ScopedNewCommandBufferExecutor.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\executor\CMakeFiles\executor.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\executor\CMakeFiles\executor.dir
+  OBJECT_DIR = src\vulkan_helper\engine\CMakeFiles\engine.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\CMakeFiles\engine.dir
 
 
 
 #############################################
-# Object library executor
+# Object library engine
 
-build src/vulkan_helper/executor/executor: phony src/vulkan_helper/executor/CMakeFiles/executor.dir/RenderPassFullscreenRecorder.cpp.obj src/vulkan_helper/executor/CMakeFiles/executor.dir/ScopedCommandBufferExecutor.cpp.obj src/vulkan_helper/executor/CMakeFiles/executor.dir/ScopedNewCommandBufferExecutor.cpp.obj
+build src/vulkan_helper/engine/engine: phony src/vulkan_helper/engine/CMakeFiles/engine.dir/Engine.cpp.obj
 
 
 #############################################
 # Utility command for edit_cache
 
-build src/vulkan_helper/executor/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\executor && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build src/vulkan_helper/engine/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build src/vulkan_helper/executor/edit_cache: phony src/vulkan_helper/executor/CMakeFiles/edit_cache.util
+build src/vulkan_helper/engine/edit_cache: phony src/vulkan_helper/engine/CMakeFiles/edit_cache.util
 
 
 #############################################
 # Utility command for rebuild_cache
 
-build src/vulkan_helper/executor/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\executor && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+build src/vulkan_helper/engine/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build src/vulkan_helper/executor/rebuild_cache: phony src/vulkan_helper/executor/CMakeFiles/rebuild_cache.util
+build src/vulkan_helper/engine/rebuild_cache: phony src/vulkan_helper/engine/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
-# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
 # =============================================================================
 
 # =============================================================================
-# Object build statements for OBJECT_LIBRARY target manage
+# Object build statements for OBJECT_LIBRARY target engine_buffer
 
 
 #############################################
-# Order-only phony target for manage
+# Order-only phony target for engine_buffer
 
-build cmake_object_order_depends_target_manage: phony || cmake_object_order_depends_target_vkh_dependency
+build cmake_object_order_depends_target_engine_buffer: phony || cmake_object_order_depends_target_vkh_dependency
 
-build src/vulkan_helper/manage/CMakeFiles/manage.dir/DescriptorManager.cpp.obj: CXX_COMPILER__manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/DescriptorManager.cpp || cmake_object_order_depends_target_manage
-  DEP_FILE = src\vulkan_helper\manage\CMakeFiles\manage.dir\DescriptorManager.cpp.obj.d
+build src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/BufferObject.cpp.obj: CXX_COMPILER__engine_buffer_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/BufferObject.cpp || cmake_object_order_depends_target_engine_buffer
+  DEP_FILE = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir\BufferObject.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
+  OBJECT_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
 
-build src/vulkan_helper/manage/CMakeFiles/manage.dir/HostDataObjectManager.cpp.obj: CXX_COMPILER__manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/HostDataObjectManager.cpp || cmake_object_order_depends_target_manage
-  DEP_FILE = src\vulkan_helper\manage\CMakeFiles\manage.dir\HostDataObjectManager.cpp.obj.d
+build src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/IndexBuffer.cpp.obj: CXX_COMPILER__engine_buffer_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/IndexBuffer.cpp || cmake_object_order_depends_target_engine_buffer
+  DEP_FILE = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir\IndexBuffer.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
+  OBJECT_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
 
-build src/vulkan_helper/manage/CMakeFiles/manage.dir/PipelineLayoutManager.cpp.obj: CXX_COMPILER__manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/PipelineLayoutManager.cpp || cmake_object_order_depends_target_manage
-  DEP_FILE = src\vulkan_helper\manage\CMakeFiles\manage.dir\PipelineLayoutManager.cpp.obj.d
+build src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/ShaderStorage.cpp.obj: CXX_COMPILER__engine_buffer_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/ShaderStorage.cpp || cmake_object_order_depends_target_engine_buffer
+  DEP_FILE = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir\ShaderStorage.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
+  OBJECT_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
 
-build src/vulkan_helper/manage/CMakeFiles/manage.dir/PipelineManager.cpp.obj: CXX_COMPILER__manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/PipelineManager.cpp || cmake_object_order_depends_target_manage
-  DEP_FILE = src\vulkan_helper\manage\CMakeFiles\manage.dir\PipelineManager.cpp.obj.d
+build src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/Uniform.cpp.obj: CXX_COMPILER__engine_buffer_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/Uniform.cpp || cmake_object_order_depends_target_engine_buffer
+  DEP_FILE = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir\Uniform.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
+  OBJECT_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
 
-build src/vulkan_helper/manage/CMakeFiles/manage.dir/RenderPassManager.cpp.obj: CXX_COMPILER__manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/RenderPassManager.cpp || cmake_object_order_depends_target_manage
-  DEP_FILE = src\vulkan_helper\manage\CMakeFiles\manage.dir\RenderPassManager.cpp.obj.d
+build src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/VertexBuffer.cpp.obj: CXX_COMPILER__engine_buffer_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/VertexBuffer.cpp || cmake_object_order_depends_target_engine_buffer
+  DEP_FILE = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir\VertexBuffer.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\manage\CMakeFiles\manage.dir
+  OBJECT_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\buffer\CMakeFiles\engine_buffer.dir
 
 
 
 #############################################
-# Object library manage
+# Object library engine_buffer
 
-build src/vulkan_helper/manage/manage: phony src/vulkan_helper/manage/CMakeFiles/manage.dir/DescriptorManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/HostDataObjectManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/PipelineLayoutManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/PipelineManager.cpp.obj src/vulkan_helper/manage/CMakeFiles/manage.dir/RenderPassManager.cpp.obj
+build src/vulkan_helper/engine/buffer/engine_buffer: phony src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/BufferObject.cpp.obj src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/IndexBuffer.cpp.obj src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/ShaderStorage.cpp.obj src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/Uniform.cpp.obj src/vulkan_helper/engine/buffer/CMakeFiles/engine_buffer.dir/VertexBuffer.cpp.obj
 
 
 #############################################
 # Utility command for edit_cache
 
-build src/vulkan_helper/manage/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\manage && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build src/vulkan_helper/engine/buffer/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\buffer && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build src/vulkan_helper/manage/edit_cache: phony src/vulkan_helper/manage/CMakeFiles/edit_cache.util
+build src/vulkan_helper/engine/buffer/edit_cache: phony src/vulkan_helper/engine/buffer/CMakeFiles/edit_cache.util
 
 
 #############################################
 # Utility command for rebuild_cache
 
-build src/vulkan_helper/manage/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\manage && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+build src/vulkan_helper/engine/buffer/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\buffer && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build src/vulkan_helper/manage/rebuild_cache: phony src/vulkan_helper/manage/CMakeFiles/rebuild_cache.util
+build src/vulkan_helper/engine/buffer/rebuild_cache: phony src/vulkan_helper/engine/buffer/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
-# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
 # =============================================================================
 
 # =============================================================================
-# Object build statements for OBJECT_LIBRARY target repo
+# Object build statements for OBJECT_LIBRARY target engine_cmd
 
 
 #############################################
-# Order-only phony target for repo
+# Order-only phony target for engine_cmd
 
-build cmake_object_order_depends_target_repo: phony || cmake_object_order_depends_target_vkh_dependency
+build cmake_object_order_depends_target_engine_cmd: phony || cmake_object_order_depends_target_vkh_dependency
 
-build src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalDescriptorSetLayoutRepo.cpp.obj: CXX_COMPILER__repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/GlobalDescriptorSetLayoutRepo.cpp || cmake_object_order_depends_target_repo
-  DEP_FILE = src\vulkan_helper\repo\CMakeFiles\repo.dir\GlobalDescriptorSetLayoutRepo.cpp.obj.d
+build src/vulkan_helper/engine/cmd/CMakeFiles/engine_cmd.dir/CommandBuffer.cpp.obj: CXX_COMPILER__engine_cmd_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/cmd/CommandBuffer.cpp || cmake_object_order_depends_target_engine_cmd
+  DEP_FILE = src\vulkan_helper\engine\cmd\CMakeFiles\engine_cmd.dir\CommandBuffer.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
+  OBJECT_DIR = src\vulkan_helper\engine\cmd\CMakeFiles\engine_cmd.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\cmd\CMakeFiles\engine_cmd.dir
 
-build src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalPipelineLayoutRepo.cpp.obj: CXX_COMPILER__repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/GlobalPipelineLayoutRepo.cpp || cmake_object_order_depends_target_repo
-  DEP_FILE = src\vulkan_helper\repo\CMakeFiles\repo.dir\GlobalPipelineLayoutRepo.cpp.obj.d
+build src/vulkan_helper/engine/cmd/CMakeFiles/engine_cmd.dir/CommandPool.cpp.obj: CXX_COMPILER__engine_cmd_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/cmd/CommandPool.cpp || cmake_object_order_depends_target_engine_cmd
+  DEP_FILE = src\vulkan_helper\engine\cmd\CMakeFiles\engine_cmd.dir\CommandPool.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
   INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-
-build src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalSamplerRepo.cpp.obj: CXX_COMPILER__repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/GlobalSamplerRepo.cpp || cmake_object_order_depends_target_repo
-  DEP_FILE = src\vulkan_helper\repo\CMakeFiles\repo.dir\GlobalSamplerRepo.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-
-build src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalShaderModuleRepo.cpp.obj: CXX_COMPILER__repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/GlobalShaderModuleRepo.cpp || cmake_object_order_depends_target_repo
-  DEP_FILE = src\vulkan_helper\repo\CMakeFiles\repo.dir\GlobalShaderModuleRepo.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-
-build src/vulkan_helper/repo/CMakeFiles/repo.dir/WindowLocalDescriptorRepo.cpp.obj: CXX_COMPILER__repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/WindowLocalDescriptorRepo.cpp || cmake_object_order_depends_target_repo
-  DEP_FILE = src\vulkan_helper\repo\CMakeFiles\repo.dir\WindowLocalDescriptorRepo.cpp.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
-  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
-  OBJECT_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
-  OBJECT_FILE_DIR = src\vulkan_helper\repo\CMakeFiles\repo.dir
+  OBJECT_DIR = src\vulkan_helper\engine\cmd\CMakeFiles\engine_cmd.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\cmd\CMakeFiles\engine_cmd.dir
 
 
 
 #############################################
-# Object library repo
+# Object library engine_cmd
 
-build src/vulkan_helper/repo/repo: phony src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalDescriptorSetLayoutRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalPipelineLayoutRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalSamplerRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/GlobalShaderModuleRepo.cpp.obj src/vulkan_helper/repo/CMakeFiles/repo.dir/WindowLocalDescriptorRepo.cpp.obj
+build src/vulkan_helper/engine/cmd/engine_cmd: phony src/vulkan_helper/engine/cmd/CMakeFiles/engine_cmd.dir/CommandBuffer.cpp.obj src/vulkan_helper/engine/cmd/CMakeFiles/engine_cmd.dir/CommandPool.cpp.obj
 
 
 #############################################
 # Utility command for edit_cache
 
-build src/vulkan_helper/repo/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\repo && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build src/vulkan_helper/engine/cmd/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\cmd && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build src/vulkan_helper/repo/edit_cache: phony src/vulkan_helper/repo/CMakeFiles/edit_cache.util
+build src/vulkan_helper/engine/cmd/edit_cache: phony src/vulkan_helper/engine/cmd/CMakeFiles/edit_cache.util
 
 
 #############################################
 # Utility command for rebuild_cache
 
-build src/vulkan_helper/repo/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\repo && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+build src/vulkan_helper/engine/cmd/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\cmd && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build src/vulkan_helper/repo/rebuild_cache: phony src/vulkan_helper/repo/CMakeFiles/rebuild_cache.util
+build src/vulkan_helper/engine/cmd/rebuild_cache: phony src/vulkan_helper/engine/cmd/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_configurator
+
+
+#############################################
+# Order-only phony target for engine_configurator
+
+build cmake_object_order_depends_target_engine_configurator: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/configurator/CMakeFiles/engine_configurator.dir/ComputePipelineConfigurator.cpp.obj: CXX_COMPILER__engine_configurator_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/configurator/ComputePipelineConfigurator.cpp || cmake_object_order_depends_target_engine_configurator
+  DEP_FILE = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir\ComputePipelineConfigurator.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir
+
+build src/vulkan_helper/engine/configurator/CMakeFiles/engine_configurator.dir/GeneralGraphicsPipelineConfigurator.cpp.obj: CXX_COMPILER__engine_configurator_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/configurator/GeneralGraphicsPipelineConfigurator.cpp || cmake_object_order_depends_target_engine_configurator
+  DEP_FILE = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir\GeneralGraphicsPipelineConfigurator.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir
+
+build src/vulkan_helper/engine/configurator/CMakeFiles/engine_configurator.dir/GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj: CXX_COMPILER__engine_configurator_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/configurator/GeneralPostProcessGraphicsPipelineConfigurator.cpp || cmake_object_order_depends_target_engine_configurator
+  DEP_FILE = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir\GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\configurator\CMakeFiles\engine_configurator.dir
+
+
+
+#############################################
+# Object library engine_configurator
+
+build src/vulkan_helper/engine/configurator/engine_configurator: phony src/vulkan_helper/engine/configurator/CMakeFiles/engine_configurator.dir/ComputePipelineConfigurator.cpp.obj src/vulkan_helper/engine/configurator/CMakeFiles/engine_configurator.dir/GeneralGraphicsPipelineConfigurator.cpp.obj src/vulkan_helper/engine/configurator/CMakeFiles/engine_configurator.dir/GeneralPostProcessGraphicsPipelineConfigurator.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/configurator/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\configurator && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/configurator/edit_cache: phony src/vulkan_helper/engine/configurator/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/configurator/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\configurator && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/configurator/rebuild_cache: phony src/vulkan_helper/engine/configurator/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_context
+
+
+#############################################
+# Order-only phony target for engine_context
+
+build cmake_object_order_depends_target_engine_context: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/BufferContext.cpp.obj: CXX_COMPILER__engine_context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/BufferContext.cpp || cmake_object_order_depends_target_engine_context
+  DEP_FILE = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir\BufferContext.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+
+build src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/ImageContext.cpp.obj: CXX_COMPILER__engine_context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/ImageContext.cpp || cmake_object_order_depends_target_engine_context
+  DEP_FILE = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir\ImageContext.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+
+build src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/RenderContext.cpp.obj: CXX_COMPILER__engine_context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/RenderContext.cpp || cmake_object_order_depends_target_engine_context
+  DEP_FILE = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir\RenderContext.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+
+build src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/SharedImageContext.cpp.obj: CXX_COMPILER__engine_context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/SharedImageContext.cpp || cmake_object_order_depends_target_engine_context
+  DEP_FILE = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir\SharedImageContext.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+
+build src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/WindowContext.cpp.obj: CXX_COMPILER__engine_context_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/WindowContext.cpp || cmake_object_order_depends_target_engine_context
+  DEP_FILE = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir\WindowContext.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\context\CMakeFiles\engine_context.dir
+
+
+
+#############################################
+# Object library engine_context
+
+build src/vulkan_helper/engine/context/engine_context: phony src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/BufferContext.cpp.obj src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/ImageContext.cpp.obj src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/RenderContext.cpp.obj src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/SharedImageContext.cpp.obj src/vulkan_helper/engine/context/CMakeFiles/engine_context.dir/WindowContext.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/context/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\context && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/context/edit_cache: phony src/vulkan_helper/engine/context/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/context/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\context && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/context/rebuild_cache: phony src/vulkan_helper/engine/context/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_descriptor
+
+
+#############################################
+# Order-only phony target for engine_descriptor
+
+build cmake_object_order_depends_target_engine_descriptor: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/descriptor/CMakeFiles/engine_descriptor.dir/Descriptor.cpp.obj: CXX_COMPILER__engine_descriptor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/descriptor/Descriptor.cpp || cmake_object_order_depends_target_engine_descriptor
+  DEP_FILE = src\vulkan_helper\engine\descriptor\CMakeFiles\engine_descriptor.dir\Descriptor.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\descriptor\CMakeFiles\engine_descriptor.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\descriptor\CMakeFiles\engine_descriptor.dir
+
+build src/vulkan_helper/engine/descriptor/CMakeFiles/engine_descriptor.dir/DescriptorSetLayout.cpp.obj: CXX_COMPILER__engine_descriptor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/descriptor/DescriptorSetLayout.cpp || cmake_object_order_depends_target_engine_descriptor
+  DEP_FILE = src\vulkan_helper\engine\descriptor\CMakeFiles\engine_descriptor.dir\DescriptorSetLayout.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\descriptor\CMakeFiles\engine_descriptor.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\descriptor\CMakeFiles\engine_descriptor.dir
+
+
+
+#############################################
+# Object library engine_descriptor
+
+build src/vulkan_helper/engine/descriptor/engine_descriptor: phony src/vulkan_helper/engine/descriptor/CMakeFiles/engine_descriptor.dir/Descriptor.cpp.obj src/vulkan_helper/engine/descriptor/CMakeFiles/engine_descriptor.dir/DescriptorSetLayout.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/descriptor/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\descriptor && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/descriptor/edit_cache: phony src/vulkan_helper/engine/descriptor/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/descriptor/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\descriptor && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/descriptor/rebuild_cache: phony src/vulkan_helper/engine/descriptor/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_executor
+
+
+#############################################
+# Order-only phony target for engine_executor
+
+build cmake_object_order_depends_target_engine_executor: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/executor/CMakeFiles/engine_executor.dir/RenderPassFullscreenRecorder.cpp.obj: CXX_COMPILER__engine_executor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/executor/RenderPassFullscreenRecorder.cpp || cmake_object_order_depends_target_engine_executor
+  DEP_FILE = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir\RenderPassFullscreenRecorder.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir
+
+build src/vulkan_helper/engine/executor/CMakeFiles/engine_executor.dir/ScopedCommandBufferExecutor.cpp.obj: CXX_COMPILER__engine_executor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/executor/ScopedCommandBufferExecutor.cpp || cmake_object_order_depends_target_engine_executor
+  DEP_FILE = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir\ScopedCommandBufferExecutor.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir
+
+build src/vulkan_helper/engine/executor/CMakeFiles/engine_executor.dir/ScopedNewCommandBufferExecutor.cpp.obj: CXX_COMPILER__engine_executor_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/executor/ScopedNewCommandBufferExecutor.cpp || cmake_object_order_depends_target_engine_executor
+  DEP_FILE = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir\ScopedNewCommandBufferExecutor.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\executor\CMakeFiles\engine_executor.dir
+
+
+
+#############################################
+# Object library engine_executor
+
+build src/vulkan_helper/engine/executor/engine_executor: phony src/vulkan_helper/engine/executor/CMakeFiles/engine_executor.dir/RenderPassFullscreenRecorder.cpp.obj src/vulkan_helper/engine/executor/CMakeFiles/engine_executor.dir/ScopedCommandBufferExecutor.cpp.obj src/vulkan_helper/engine/executor/CMakeFiles/engine_executor.dir/ScopedNewCommandBufferExecutor.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/executor/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\executor && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/executor/edit_cache: phony src/vulkan_helper/engine/executor/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/executor/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\executor && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/executor/rebuild_cache: phony src/vulkan_helper/engine/executor/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_graphics
+
+
+#############################################
+# Order-only phony target for engine_graphics
+
+build cmake_object_order_depends_target_engine_graphics: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/graphics/CMakeFiles/engine_graphics.dir/Framebuffer.cpp.obj: CXX_COMPILER__engine_graphics_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/graphics/Framebuffer.cpp || cmake_object_order_depends_target_engine_graphics
+  DEP_FILE = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir\Framebuffer.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir
+
+build src/vulkan_helper/engine/graphics/CMakeFiles/engine_graphics.dir/Renderer.cpp.obj: CXX_COMPILER__engine_graphics_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/graphics/Renderer.cpp || cmake_object_order_depends_target_engine_graphics
+  DEP_FILE = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir\Renderer.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir
+
+build src/vulkan_helper/engine/graphics/CMakeFiles/engine_graphics.dir/RenderPass.cpp.obj: CXX_COMPILER__engine_graphics_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/graphics/RenderPass.cpp || cmake_object_order_depends_target_engine_graphics
+  DEP_FILE = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir\RenderPass.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\graphics\CMakeFiles\engine_graphics.dir
+
+
+
+#############################################
+# Object library engine_graphics
+
+build src/vulkan_helper/engine/graphics/engine_graphics: phony src/vulkan_helper/engine/graphics/CMakeFiles/engine_graphics.dir/Framebuffer.cpp.obj src/vulkan_helper/engine/graphics/CMakeFiles/engine_graphics.dir/Renderer.cpp.obj src/vulkan_helper/engine/graphics/CMakeFiles/engine_graphics.dir/RenderPass.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/graphics/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\graphics && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/graphics/edit_cache: phony src/vulkan_helper/engine/graphics/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/graphics/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\graphics && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/graphics/rebuild_cache: phony src/vulkan_helper/engine/graphics/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_manage
+
+
+#############################################
+# Order-only phony target for engine_manage
+
+build cmake_object_order_depends_target_engine_manage: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/DescriptorManager.cpp.obj: CXX_COMPILER__engine_manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/DescriptorManager.cpp || cmake_object_order_depends_target_engine_manage
+  DEP_FILE = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir\DescriptorManager.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+
+build src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/HostDataObjectManager.cpp.obj: CXX_COMPILER__engine_manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/HostDataObjectManager.cpp || cmake_object_order_depends_target_engine_manage
+  DEP_FILE = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir\HostDataObjectManager.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+
+build src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/PipelineLayoutManager.cpp.obj: CXX_COMPILER__engine_manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/PipelineLayoutManager.cpp || cmake_object_order_depends_target_engine_manage
+  DEP_FILE = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir\PipelineLayoutManager.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+
+build src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/PipelineManager.cpp.obj: CXX_COMPILER__engine_manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/PipelineManager.cpp || cmake_object_order_depends_target_engine_manage
+  DEP_FILE = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir\PipelineManager.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+
+build src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/RenderPassManager.cpp.obj: CXX_COMPILER__engine_manage_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/RenderPassManager.cpp || cmake_object_order_depends_target_engine_manage
+  DEP_FILE = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir\RenderPassManager.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\manage\CMakeFiles\engine_manage.dir
+
+
+
+#############################################
+# Object library engine_manage
+
+build src/vulkan_helper/engine/manage/engine_manage: phony src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/DescriptorManager.cpp.obj src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/HostDataObjectManager.cpp.obj src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/PipelineLayoutManager.cpp.obj src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/PipelineManager.cpp.obj src/vulkan_helper/engine/manage/CMakeFiles/engine_manage.dir/RenderPassManager.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/manage/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\manage && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/manage/edit_cache: phony src/vulkan_helper/engine/manage/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/manage/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\manage && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/manage/rebuild_cache: phony src/vulkan_helper/engine/manage/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_pipeline
+
+
+#############################################
+# Order-only phony target for engine_pipeline
+
+build cmake_object_order_depends_target_engine_pipeline: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/ComputeShaderPipeline.cpp.obj: CXX_COMPILER__engine_pipeline_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/ComputeShaderPipeline.cpp || cmake_object_order_depends_target_engine_pipeline
+  DEP_FILE = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir\ComputeShaderPipeline.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/GraphicsPipeline.cpp.obj: CXX_COMPILER__engine_pipeline_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/GraphicsPipeline.cpp || cmake_object_order_depends_target_engine_pipeline
+  DEP_FILE = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir\GraphicsPipeline.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/Pipeline.cpp.obj: CXX_COMPILER__engine_pipeline_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/Pipeline.cpp || cmake_object_order_depends_target_engine_pipeline
+  DEP_FILE = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir\Pipeline.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/PipelineLayout.cpp.obj: CXX_COMPILER__engine_pipeline_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/PipelineLayout.cpp || cmake_object_order_depends_target_engine_pipeline
+  DEP_FILE = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir\PipelineLayout.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/PushConstant.cpp.obj: CXX_COMPILER__engine_pipeline_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/PushConstant.cpp || cmake_object_order_depends_target_engine_pipeline
+  DEP_FILE = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir\PushConstant.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/ShaderModule.cpp.obj: CXX_COMPILER__engine_pipeline_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/ShaderModule.cpp || cmake_object_order_depends_target_engine_pipeline
+  DEP_FILE = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir\ShaderModule.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\pipeline\CMakeFiles\engine_pipeline.dir
+
+
+
+#############################################
+# Object library engine_pipeline
+
+build src/vulkan_helper/engine/pipeline/engine_pipeline: phony src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/ComputeShaderPipeline.cpp.obj src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/GraphicsPipeline.cpp.obj src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/Pipeline.cpp.obj src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/PipelineLayout.cpp.obj src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/PushConstant.cpp.obj src/vulkan_helper/engine/pipeline/CMakeFiles/engine_pipeline.dir/ShaderModule.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\pipeline && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/pipeline/edit_cache: phony src/vulkan_helper/engine/pipeline/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/pipeline/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\pipeline && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/pipeline/rebuild_cache: phony src/vulkan_helper/engine/pipeline/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_repo
+
+
+#############################################
+# Order-only phony target for engine_repo
+
+build cmake_object_order_depends_target_engine_repo: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalDescriptorSetLayoutRepo.cpp.obj: CXX_COMPILER__engine_repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/GlobalDescriptorSetLayoutRepo.cpp || cmake_object_order_depends_target_engine_repo
+  DEP_FILE = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir\GlobalDescriptorSetLayoutRepo.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+
+build src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalPipelineLayoutRepo.cpp.obj: CXX_COMPILER__engine_repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.cpp || cmake_object_order_depends_target_engine_repo
+  DEP_FILE = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir\GlobalPipelineLayoutRepo.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+
+build src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalSamplerRepo.cpp.obj: CXX_COMPILER__engine_repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/GlobalSamplerRepo.cpp || cmake_object_order_depends_target_engine_repo
+  DEP_FILE = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir\GlobalSamplerRepo.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+
+build src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalShaderModuleRepo.cpp.obj: CXX_COMPILER__engine_repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/GlobalShaderModuleRepo.cpp || cmake_object_order_depends_target_engine_repo
+  DEP_FILE = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir\GlobalShaderModuleRepo.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+
+build src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/WindowLocalDescriptorRepo.cpp.obj: CXX_COMPILER__engine_repo_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/WindowLocalDescriptorRepo.cpp || cmake_object_order_depends_target_engine_repo
+  DEP_FILE = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir\WindowLocalDescriptorRepo.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\repo\CMakeFiles\engine_repo.dir
+
+
+
+#############################################
+# Object library engine_repo
+
+build src/vulkan_helper/engine/repo/engine_repo: phony src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalDescriptorSetLayoutRepo.cpp.obj src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalPipelineLayoutRepo.cpp.obj src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalSamplerRepo.cpp.obj src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/GlobalShaderModuleRepo.cpp.obj src/vulkan_helper/engine/repo/CMakeFiles/engine_repo.dir/WindowLocalDescriptorRepo.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/repo/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\repo && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/repo/edit_cache: phony src/vulkan_helper/engine/repo/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/repo/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\repo && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/repo/rebuild_cache: phony src/vulkan_helper/engine/repo/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_sampler
+
+
+#############################################
+# Order-only phony target for engine_sampler
+
+build cmake_object_order_depends_target_engine_sampler: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/sampler/CMakeFiles/engine_sampler.dir/CombinedImageSampler.cpp.obj: CXX_COMPILER__engine_sampler_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sampler/CombinedImageSampler.cpp || cmake_object_order_depends_target_engine_sampler
+  DEP_FILE = src\vulkan_helper\engine\sampler\CMakeFiles\engine_sampler.dir\CombinedImageSampler.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\sampler\CMakeFiles\engine_sampler.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\sampler\CMakeFiles\engine_sampler.dir
+
+build src/vulkan_helper/engine/sampler/CMakeFiles/engine_sampler.dir/Sampler.cpp.obj: CXX_COMPILER__engine_sampler_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sampler/Sampler.cpp || cmake_object_order_depends_target_engine_sampler
+  DEP_FILE = src\vulkan_helper\engine\sampler\CMakeFiles\engine_sampler.dir\Sampler.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\sampler\CMakeFiles\engine_sampler.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\sampler\CMakeFiles\engine_sampler.dir
+
+
+
+#############################################
+# Object library engine_sampler
+
+build src/vulkan_helper/engine/sampler/engine_sampler: phony src/vulkan_helper/engine/sampler/CMakeFiles/engine_sampler.dir/CombinedImageSampler.cpp.obj src/vulkan_helper/engine/sampler/CMakeFiles/engine_sampler.dir/Sampler.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/sampler/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\sampler && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/sampler/edit_cache: phony src/vulkan_helper/engine/sampler/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/sampler/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\sampler && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/sampler/rebuild_cache: phony src/vulkan_helper/engine/sampler/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for OBJECT_LIBRARY target engine_sync
+
+
+#############################################
+# Order-only phony target for engine_sync
+
+build cmake_object_order_depends_target_engine_sync: phony || cmake_object_order_depends_target_vkh_dependency
+
+build src/vulkan_helper/engine/sync/CMakeFiles/engine_sync.dir/Fence.cpp.obj: CXX_COMPILER__engine_sync_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sync/Fence.cpp || cmake_object_order_depends_target_engine_sync
+  DEP_FILE = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir\Fence.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir
+
+build src/vulkan_helper/engine/sync/CMakeFiles/engine_sync.dir/Semaphore.cpp.obj: CXX_COMPILER__engine_sync_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sync/Semaphore.cpp || cmake_object_order_depends_target_engine_sync
+  DEP_FILE = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir\Semaphore.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir
+
+build src/vulkan_helper/engine/sync/CMakeFiles/engine_sync.dir/SyncObject.cpp.obj: CXX_COMPILER__engine_sync_unscanned_Release C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sync/SyncObject.cpp || cmake_object_order_depends_target_engine_sync
+  DEP_FILE = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir\SyncObject.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always -O0 -march=native -funroll-loops
+  INCLUDES = -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/include -IC:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/extern -IC:/VulkanSDK/1.4.313.2/Include
+  OBJECT_DIR = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir
+  OBJECT_FILE_DIR = src\vulkan_helper\engine\sync\CMakeFiles\engine_sync.dir
+
+
+
+#############################################
+# Object library engine_sync
+
+build src/vulkan_helper/engine/sync/engine_sync: phony src/vulkan_helper/engine/sync/CMakeFiles/engine_sync.dir/Fence.cpp.obj src/vulkan_helper/engine/sync/CMakeFiles/engine_sync.dir/Semaphore.cpp.obj src/vulkan_helper/engine/sync/CMakeFiles/engine_sync.dir/SyncObject.cpp.obj
+
+
+#############################################
+# Utility command for edit_cache
+
+build src/vulkan_helper/engine/sync/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\sync && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build src/vulkan_helper/engine/sync/edit_cache: phony src/vulkan_helper/engine/sync/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src/vulkan_helper/engine/sync/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release\src\vulkan_helper\engine\sync && "C:\Program Files\JetBrains\CLion 2025.1\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper -BC:\Users\nudet\Desktop\Main\Developments\cpp\Projects\VulkanHelper\cmake-build-release"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src/vulkan_helper/engine/sync/rebuild_cache: phony src/vulkan_helper/engine/sync/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -906,17 +1265,33 @@ build VulkanHelper: phony C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects
 
 build VulkanHelper.exe: phony C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.exe
 
-build configurator: phony src/vulkan_helper/configurator/configurator
-
-build context: phony src/vulkan_helper/context/context
-
 build core: phony src/vulkan_helper/core/core
 
-build executor: phony src/vulkan_helper/executor/executor
+build engine: phony src/vulkan_helper/engine/engine
 
-build manage: phony src/vulkan_helper/manage/manage
+build engine_buffer: phony src/vulkan_helper/engine/buffer/engine_buffer
 
-build repo: phony src/vulkan_helper/repo/repo
+build engine_cmd: phony src/vulkan_helper/engine/cmd/engine_cmd
+
+build engine_configurator: phony src/vulkan_helper/engine/configurator/engine_configurator
+
+build engine_context: phony src/vulkan_helper/engine/context/engine_context
+
+build engine_descriptor: phony src/vulkan_helper/engine/descriptor/engine_descriptor
+
+build engine_executor: phony src/vulkan_helper/engine/executor/engine_executor
+
+build engine_graphics: phony src/vulkan_helper/engine/graphics/engine_graphics
+
+build engine_manage: phony src/vulkan_helper/engine/manage/engine_manage
+
+build engine_pipeline: phony src/vulkan_helper/engine/pipeline/engine_pipeline
+
+build engine_repo: phony src/vulkan_helper/engine/repo/engine_repo
+
+build engine_sampler: phony src/vulkan_helper/engine/sampler/engine_sampler
+
+build engine_sync: phony src/vulkan_helper/engine/sync/engine_sync
 
 build util: phony src/vulkan_helper/util/util
 
@@ -930,21 +1305,7 @@ build vkh_dependency: phony src/vulkan_helper/dependency/vkh_dependency
 #############################################
 # Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release
 
-build codegen: phony src/vulkan_helper/dependency/codegen src/vulkan_helper/configurator/codegen src/vulkan_helper/context/codegen src/vulkan_helper/core/codegen src/vulkan_helper/executor/codegen src/vulkan_helper/manage/codegen src/vulkan_helper/repo/codegen src/vulkan_helper/util/codegen
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/configurator
-
-build src/vulkan_helper/configurator/codegen: phony
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/context
-
-build src/vulkan_helper/context/codegen: phony
+build codegen: phony src/vulkan_helper/dependency/codegen src/vulkan_helper/core/codegen src/vulkan_helper/engine/codegen src/vulkan_helper/util/codegen
 
 # =============================================================================
 
@@ -963,23 +1324,93 @@ build src/vulkan_helper/dependency/codegen: phony
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/executor
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine
 
-build src/vulkan_helper/executor/codegen: phony
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/manage
-
-build src/vulkan_helper/manage/codegen: phony
+build src/vulkan_helper/engine/codegen: phony src/vulkan_helper/engine/buffer/codegen src/vulkan_helper/engine/cmd/codegen src/vulkan_helper/engine/configurator/codegen src/vulkan_helper/engine/context/codegen src/vulkan_helper/engine/descriptor/codegen src/vulkan_helper/engine/executor/codegen src/vulkan_helper/engine/graphics/codegen src/vulkan_helper/engine/manage/codegen src/vulkan_helper/engine/pipeline/codegen src/vulkan_helper/engine/repo/codegen src/vulkan_helper/engine/sampler/codegen src/vulkan_helper/engine/sync/codegen
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/repo
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/buffer
 
-build src/vulkan_helper/repo/codegen: phony
+build src/vulkan_helper/engine/buffer/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/cmd
+
+build src/vulkan_helper/engine/cmd/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/configurator
+
+build src/vulkan_helper/engine/configurator/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/context
+
+build src/vulkan_helper/engine/context/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/descriptor
+
+build src/vulkan_helper/engine/descriptor/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/executor
+
+build src/vulkan_helper/engine/executor/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/graphics
+
+build src/vulkan_helper/engine/graphics/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/manage
+
+build src/vulkan_helper/engine/manage/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/pipeline
+
+build src/vulkan_helper/engine/pipeline/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/repo
+
+build src/vulkan_helper/engine/repo/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/sampler
+
+build src/vulkan_helper/engine/sampler/codegen: phony
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/sync
+
+build src/vulkan_helper/engine/sync/codegen: phony
 
 # =============================================================================
 
@@ -993,21 +1424,7 @@ build src/vulkan_helper/util/codegen: phony
 #############################################
 # Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release
 
-build all: phony C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.exe compileShaders src/vulkan_helper/dependency/all src/vulkan_helper/configurator/all src/vulkan_helper/context/all src/vulkan_helper/core/all src/vulkan_helper/executor/all src/vulkan_helper/manage/all src/vulkan_helper/repo/all src/vulkan_helper/util/all
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/configurator
-
-build src/vulkan_helper/configurator/all: phony src/vulkan_helper/configurator/configurator
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/context
-
-build src/vulkan_helper/context/all: phony src/vulkan_helper/context/context
+build all: phony C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/bin/VulkanHelper.exe compileShaders src/vulkan_helper/dependency/all src/vulkan_helper/core/all src/vulkan_helper/engine/all src/vulkan_helper/util/all
 
 # =============================================================================
 
@@ -1026,23 +1443,93 @@ build src/vulkan_helper/dependency/all: phony src/vulkan_helper/dependency/vkh_d
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/executor
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine
 
-build src/vulkan_helper/executor/all: phony src/vulkan_helper/executor/executor
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/manage
-
-build src/vulkan_helper/manage/all: phony src/vulkan_helper/manage/manage
+build src/vulkan_helper/engine/all: phony src/vulkan_helper/engine/engine src/vulkan_helper/engine/buffer/all src/vulkan_helper/engine/cmd/all src/vulkan_helper/engine/configurator/all src/vulkan_helper/engine/context/all src/vulkan_helper/engine/descriptor/all src/vulkan_helper/engine/executor/all src/vulkan_helper/engine/graphics/all src/vulkan_helper/engine/manage/all src/vulkan_helper/engine/pipeline/all src/vulkan_helper/engine/repo/all src/vulkan_helper/engine/sampler/all src/vulkan_helper/engine/sync/all
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/repo
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/buffer
 
-build src/vulkan_helper/repo/all: phony src/vulkan_helper/repo/repo
+build src/vulkan_helper/engine/buffer/all: phony src/vulkan_helper/engine/buffer/engine_buffer
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/cmd
+
+build src/vulkan_helper/engine/cmd/all: phony src/vulkan_helper/engine/cmd/engine_cmd
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/configurator
+
+build src/vulkan_helper/engine/configurator/all: phony src/vulkan_helper/engine/configurator/engine_configurator
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/context
+
+build src/vulkan_helper/engine/context/all: phony src/vulkan_helper/engine/context/engine_context
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/descriptor
+
+build src/vulkan_helper/engine/descriptor/all: phony src/vulkan_helper/engine/descriptor/engine_descriptor
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/executor
+
+build src/vulkan_helper/engine/executor/all: phony src/vulkan_helper/engine/executor/engine_executor
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/graphics
+
+build src/vulkan_helper/engine/graphics/all: phony src/vulkan_helper/engine/graphics/engine_graphics
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/manage
+
+build src/vulkan_helper/engine/manage/all: phony src/vulkan_helper/engine/manage/engine_manage
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/pipeline
+
+build src/vulkan_helper/engine/pipeline/all: phony src/vulkan_helper/engine/pipeline/engine_pipeline
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/repo
+
+build src/vulkan_helper/engine/repo/all: phony src/vulkan_helper/engine/repo/engine_repo
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/sampler
+
+build src/vulkan_helper/engine/sampler/all: phony src/vulkan_helper/engine/sampler/engine_sampler
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/sync
+
+build src/vulkan_helper/engine/sync/all: phony src/vulkan_helper/engine/sync/engine_sync
 
 # =============================================================================
 
@@ -1058,14 +1545,14 @@ build src/vulkan_helper/util/all: phony src/vulkan_helper/util/util
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/WindowsPaths.cmake C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/configurator/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/dependency/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/executor/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/util/CMakeLists.txt CMakeCache.txt CMakeFiles/3.31.6/CMakeCCompiler.cmake CMakeFiles/3.31.6/CMakeCXXCompiler.cmake CMakeFiles/3.31.6/CMakeRCCompiler.cmake CMakeFiles/3.31.6/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/WindowsPaths.cmake C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/dependency/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/cmd/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/configurator/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/descriptor/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/executor/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/graphics/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sampler/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sync/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/util/CMakeLists.txt CMakeCache.txt CMakeFiles/3.31.6/CMakeCCompiler.cmake CMakeFiles/3.31.6/CMakeCXXCompiler.cmake CMakeFiles/3.31.6/CMakeRCCompiler.cmake CMakeFiles/3.31.6/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/WindowsPaths.cmake C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/configurator/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/context/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/dependency/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/executor/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/manage/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/repo/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/util/CMakeLists.txt CMakeCache.txt CMakeFiles/3.31.6/CMakeCCompiler.cmake CMakeFiles/3.31.6/CMakeCXXCompiler.cmake CMakeFiles/3.31.6/CMakeRCCompiler.cmake CMakeFiles/3.31.6/CMakeSystem.cmake: phony
+build C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Linker/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/Platform/WindowsPaths.cmake C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/core/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/dependency/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/buffer/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/cmd/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/configurator/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/context/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/descriptor/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/executor/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/graphics/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/manage/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/pipeline/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/repo/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sampler/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/engine/sync/CMakeLists.txt C$:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/src/vulkan_helper/util/CMakeLists.txt CMakeCache.txt CMakeFiles/3.31.6/CMakeCCompiler.cmake CMakeFiles/3.31.6/CMakeCXXCompiler.cmake CMakeFiles/3.31.6/CMakeRCCompiler.cmake CMakeFiles/3.31.6/CMakeSystem.cmake: phony
 
 
 #############################################

@@ -4,14 +4,14 @@
 
 #pragma once
 
+#include <vulkan_helper/engine/Engine.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
-#include <vulkan_helper/core/Engine.hpp>
 
 namespace merutilm::vkh {
-    struct WindowContextHandler : public Handler {
-        WindowContextRef wc;
+    struct WindowContextHandler : Handler {
+        WindowContext & wc;
 
-        explicit WindowContextHandler(WindowContextRef wc) : wc(wc) {};
+        explicit WindowContextHandler(WindowContext & wc) : wc(wc) {};
 
         ~WindowContextHandler() override = default;
 
@@ -19,7 +19,7 @@ namespace merutilm::vkh {
 
         WindowContextHandler &operator=(const WindowContextHandler &) = delete;
 
-        WindowContextHandler(WindowContextHandler &&) = delete;
+        WindowContextHandler(WindowContextHandler &&) noexcept = default;
 
         WindowContextHandler &operator=(WindowContextHandler &&) = delete;
 

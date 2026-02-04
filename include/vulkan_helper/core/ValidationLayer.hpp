@@ -4,27 +4,26 @@
 
 #pragma once
 
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan_helper/base/pch.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
 
 namespace merutilm::vkh {
-    class ValidationLayerImpl final : public Handler {
+    class ValidationLayer final : public Handler {
         VkInstance instance = nullptr;
         VkDebugUtilsMessengerEXT debugMessenger = nullptr;
-
     public:
 
-        explicit ValidationLayerImpl(VkInstance instance);
+        explicit ValidationLayer(VkInstance instance);
 
-        ~ValidationLayerImpl() override;
+        ~ValidationLayer() override;
 
-        ValidationLayerImpl(const ValidationLayerImpl &) = delete;
+        ValidationLayer(const ValidationLayer &) = delete;
 
-        ValidationLayerImpl &operator=(const ValidationLayerImpl &) = delete;
+        ValidationLayer &operator=(const ValidationLayer &) = delete;
 
-        ValidationLayerImpl(ValidationLayerImpl &&) = delete;
+        ValidationLayer(ValidationLayer &&) noexcept = default;
 
-        ValidationLayerImpl &operator=(ValidationLayerImpl &&) = delete;
+        ValidationLayer &operator=(ValidationLayer &&) = delete;
 
 
     private:
@@ -44,11 +43,9 @@ namespace merutilm::vkh {
                                                   const VkAllocationCallbacks *pAllocator);
 
 
-        void destroy() override;
+        void cleanup() override;
     };
 
-    using ValidationLayer = std::unique_ptr<ValidationLayerImpl>;
-    using ValidationLayerPtr = ValidationLayerImpl *;
-    using ValidationLayerRef = ValidationLayerImpl &;
+
 
 }

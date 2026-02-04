@@ -1,0 +1,475 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						16
+					],
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/dependency",
+					"jsonFile" : "directory-src.vulkan_helper.dependency-Release-6d99cc200d1b6dc9ab6e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/dependency",
+					"targetIndexes" : 
+					[
+						17
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/core",
+					"jsonFile" : "directory-src.vulkan_helper.core-Release-c54d031460d4e997b95b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/core",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine",
+					"childIndexes" : 
+					[
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15
+					],
+					"jsonFile" : "directory-src.vulkan_helper.engine-Release-ce628dfd5319de97831b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/buffer",
+					"jsonFile" : "directory-src.vulkan_helper.engine.buffer-Release-e65dc679a757f36fde2c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/buffer",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/cmd",
+					"jsonFile" : "directory-src.vulkan_helper.engine.cmd-Release-e5c27162d40b73120509.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/cmd",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/configurator",
+					"jsonFile" : "directory-src.vulkan_helper.engine.configurator-Release-caccf6e7386441882c68.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/configurator",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/context",
+					"jsonFile" : "directory-src.vulkan_helper.engine.context-Release-de82f242ebfeb4fc322d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/context",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/descriptor",
+					"jsonFile" : "directory-src.vulkan_helper.engine.descriptor-Release-530c25a72208e1e76742.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/descriptor",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/executor",
+					"jsonFile" : "directory-src.vulkan_helper.engine.executor-Release-f017d516a32cf49b7205.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/executor",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/graphics",
+					"jsonFile" : "directory-src.vulkan_helper.engine.graphics-Release-cd1e94b10c238e66bba5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/graphics",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/manage",
+					"jsonFile" : "directory-src.vulkan_helper.engine.manage-Release-956f51532e0f8191af65.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/manage",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/pipeline",
+					"jsonFile" : "directory-src.vulkan_helper.engine.pipeline-Release-4ce71d1abfef6cd1868d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/pipeline",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/repo",
+					"jsonFile" : "directory-src.vulkan_helper.engine.repo-Release-23f659252f763cb0f80f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/repo",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/sampler",
+					"jsonFile" : "directory-src.vulkan_helper.engine.sampler-Release-d6a4a3a5d01fac004608.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/sampler",
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/engine/sync",
+					"jsonFile" : "directory-src.vulkan_helper.engine.sync-Release-b274009cd118e78fb8fc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/engine/sync",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "src/vulkan_helper/util",
+					"jsonFile" : "directory-src.vulkan_helper.util-Release-47350030322b469ac518.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper/util",
+					"targetIndexes" : 
+					[
+						16
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16
+					],
+					"name" : "VulkanHelper",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "VulkanHelper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-VulkanHelper-Release-7cdc8a2cc49018460bca.json",
+					"name" : "VulkanHelper",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "compileShaders::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-compileShaders-Release-5e5150cca42ddcfa9795.json",
+					"name" : "compileShaders",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "core::@0940c9782636a1de41a7",
+					"jsonFile" : "target-core-Release-47b1ddf5933942a84030.json",
+					"name" : "core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "engine::@fdb428f97d36ce722867",
+					"jsonFile" : "target-engine-Release-75f5bc30d1ec6207cd54.json",
+					"name" : "engine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "engine_buffer::@cd940740aa41b5872038",
+					"jsonFile" : "target-engine_buffer-Release-7c4fb52e0a52fcfb8627.json",
+					"name" : "engine_buffer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "engine_cmd::@636ac35116f50791e43d",
+					"jsonFile" : "target-engine_cmd-Release-3231f84789ba6940153b.json",
+					"name" : "engine_cmd",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "engine_configurator::@48501a71b0a616e4f395",
+					"jsonFile" : "target-engine_configurator-Release-b8531f061a5bdb2bde62.json",
+					"name" : "engine_configurator",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "engine_context::@c43ef512e73fdf55aa89",
+					"jsonFile" : "target-engine_context-Release-738a870193018eba81a9.json",
+					"name" : "engine_context",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "engine_descriptor::@748cacb90c77e40cc176",
+					"jsonFile" : "target-engine_descriptor-Release-11c9e69dac7e8fb5a6f7.json",
+					"name" : "engine_descriptor",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "engine_executor::@48492907779a7c4deca6",
+					"jsonFile" : "target-engine_executor-Release-c8ef0b7c2f9e989fde6c.json",
+					"name" : "engine_executor",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "engine_graphics::@3f954f62397f387e9585",
+					"jsonFile" : "target-engine_graphics-Release-6a454490a14cc3fc7a2a.json",
+					"name" : "engine_graphics",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "engine_manage::@36056b22e66601bec8c8",
+					"jsonFile" : "target-engine_manage-Release-0c391305970bfb8be6b2.json",
+					"name" : "engine_manage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "engine_pipeline::@7197a154984d705f372a",
+					"jsonFile" : "target-engine_pipeline-Release-28320b58dad2774b470c.json",
+					"name" : "engine_pipeline",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "engine_repo::@0f9be46a28832be802cd",
+					"jsonFile" : "target-engine_repo-Release-64846f558b4694c6e6a2.json",
+					"name" : "engine_repo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "engine_sampler::@cbbed754c601e0132f6c",
+					"jsonFile" : "target-engine_sampler-Release-b84d171419df57fa6a10.json",
+					"name" : "engine_sampler",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "engine_sync::@2f9d99c8bb9398d37f8d",
+					"jsonFile" : "target-engine_sync-Release-e6fd82e0af6692245e5c.json",
+					"name" : "engine_sync",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 16,
+					"id" : "util::@aa8cc11fa2b5cff4c207",
+					"jsonFile" : "target-util-Release-408a5e90ea8024f6985a.json",
+					"name" : "util",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "vkh_dependency::@bdddf3e0b7dbecdcf48f",
+					"jsonFile" : "target-vkh_dependency-Release-7214be5a60fe8f80208c.json",
+					"name" : "vkh_dependency",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release",
+		"source" : "C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

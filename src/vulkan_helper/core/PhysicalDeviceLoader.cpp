@@ -4,26 +4,26 @@
 
 #include <vulkan_helper/core/PhysicalDeviceLoader.hpp>
 
-#include <vulkan_helper/base/vkh_core.hpp>
+#include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
 namespace merutilm::vkh {
 
-    PhysicalDeviceLoaderImpl::PhysicalDeviceLoaderImpl(InstanceRef instance) : instance(instance) {
-        PhysicalDeviceLoaderImpl::init();
+    PhysicalDeviceLoader::PhysicalDeviceLoader(Instance & instance) : instance(instance) {
+        PhysicalDeviceLoader::init();
     }
 
-    PhysicalDeviceLoaderImpl::~PhysicalDeviceLoaderImpl() {
-        PhysicalDeviceLoaderImpl::destroy();
+    PhysicalDeviceLoader::~PhysicalDeviceLoader() {
+        PhysicalDeviceLoader::cleanup();
     }
 
-    VkSurfaceCapabilitiesKHR PhysicalDeviceLoaderImpl::populateSurfaceCapabilities(const VkSurfaceKHR surface) const {
+    VkSurfaceCapabilitiesKHR PhysicalDeviceLoader::populateSurfaceCapabilities(const VkSurfaceKHR surface) const {
         VkSurfaceCapabilitiesKHR surfaceCapabilities;
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities);
         return surfaceCapabilities;
     }
 
-    HWND PhysicalDeviceLoaderImpl::createDummyWindow() {
+    HWND PhysicalDeviceLoader::createDummyWindow() {
         const WNDCLASSEXW wcex = {
             .cbSize = sizeof(WNDCLASSEX),
             .style = CS_OWNDC,
@@ -42,7 +42,7 @@ namespace merutilm::vkh {
         return CreateWindowExW(0, config::DUMMY_WINDOW_CLASS, L"", 0, 0, 0, 100, 100, nullptr, nullptr, nullptr, nullptr);
     }
 
-    VkSurfaceKHR PhysicalDeviceLoaderImpl::createDummySurface(const HWND dummyWindow) const {
+    VkSurfaceKHR PhysicalDeviceLoader::createDummySurface(const HWND dummyWindow) const {
         VkSurfaceKHR surface = VK_NULL_HANDLE;
 
         const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {
@@ -58,7 +58,7 @@ namespace merutilm::vkh {
         return surface;
     }
 
-    void PhysicalDeviceLoaderImpl::init() {
+    void PhysicalDeviceLoader::init() {
 
         uint32_t physicalDeviceCount = 0;
         vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, nullptr);
@@ -94,7 +94,7 @@ namespace merutilm::vkh {
 
 
 
-    void PhysicalDeviceLoaderImpl::destroy() {
+    void PhysicalDeviceLoader::cleanup() {
         //nothing to do
     }
 }

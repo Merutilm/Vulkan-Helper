@@ -3,43 +3,40 @@
 //
 
 #pragma once
-#include <vulkan_helper/base/vkh_base.hpp>
-#include <vulkan_helper/core/Instance.hpp>
-#include <vulkan_helper/core/GraphicsContextWindow.hpp>
+#include "GraphicsContextWindow.hpp"
+#include "Instance.hpp"
 #include <vulkan_helper/handle/Handler.hpp>
 
 namespace merutilm::vkh {
-    class SurfaceImpl final : public Handler {
+    class Surface final : public Handler {
 
-        InstanceRef instance;
-        GraphicsContextWindowRef window;
+        Instance & instance;
+        GraphicsContextWindow & window;
 
         VkSurfaceKHR surface = nullptr;
 
     public:
-        explicit SurfaceImpl(InstanceRef instance, GraphicsContextWindowRef window);
+        explicit Surface(Instance & instance, GraphicsContextWindow & window);
 
-        ~SurfaceImpl() override;
+        ~Surface() override;
 
-        SurfaceImpl(const SurfaceImpl &) = delete;
+        Surface(const Surface &) = delete;
 
-        SurfaceImpl &operator=(const SurfaceImpl &) = delete;
+        Surface &operator=(const Surface &) = delete;
 
-        SurfaceImpl(SurfaceImpl &&) = delete;
+        Surface(Surface &&) noexcept = default;
 
-        SurfaceImpl &operator=(SurfaceImpl &&) = delete;
+        Surface &operator=(Surface &&) = delete;
 
-        [[nodiscard]] GraphicsContextWindowRef getTargetWindow() const { return window; }
+        [[nodiscard]] GraphicsContextWindow & getTargetWindow() const { return window; }
 
         [[nodiscard]] VkSurfaceKHR getSurfaceHandle() const { return surface; }
 
     private:
         void init() override;
 
-        void destroy() override;
+        void cleanup() override;
     };
 
-    using Surface = std::unique_ptr<SurfaceImpl>;
-    using SurfacePtr = SurfaceImpl *;
-    using SurfaceRef = SurfaceImpl &;
+
 }

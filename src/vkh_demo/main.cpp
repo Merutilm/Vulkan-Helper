@@ -3,6 +3,9 @@
 #include <fstream>
 #include <iostream>
 
+#include "DemoApplication.hpp"
+#include "vulkan_helper/util/BarrierUtils.hpp"
+
 
 void counter(const std::filesystem::path &path, uint32_t *lines) {
     if (std::filesystem::is_directory(path)) {;
@@ -26,6 +29,8 @@ int main() {
     uint32_t lines = 0;
     counter(path, &lines);
     std::cout << "Lines : " << lines << std::endl;
+    auto application = merutilm::DemoApplication();
+    application.start();
 
     return 0;
 }

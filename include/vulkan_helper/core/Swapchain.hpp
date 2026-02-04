@@ -7,26 +7,26 @@
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
 namespace merutilm::vkh {
-    class SwapchainImpl final : public CoreHandler {
+    class Swapchain final : public CoreHandler {
 
-        SurfaceRef surface;
+        Surface & surface;
         VkSwapchainKHR swapchain = nullptr;
         VkSwapchainKHR oldSwapchain = nullptr;
         std::vector<VkImage> swapchainImages = {};
         std::vector<VkImageView> swapchainImageViews = {};
 
     public:
-        explicit SwapchainImpl(CoreRef core, SurfaceRef surface);
+        explicit Swapchain(Core & core, Surface & surface);
 
-        ~SwapchainImpl() override;
+        ~Swapchain() override;
 
-        SwapchainImpl(const SwapchainImpl &) = delete;
+        Swapchain(const Swapchain &) = delete;
 
-        SwapchainImpl &operator=(const SwapchainImpl &) = delete;
+        Swapchain &operator=(const Swapchain &) = delete;
 
-        SwapchainImpl(SwapchainImpl &&) = delete;
+        Swapchain(Swapchain &&) noexcept = default;
 
-        SwapchainImpl &operator=(SwapchainImpl &&) = delete;
+        Swapchain &operator=(Swapchain &&) = delete;
 
         void recreate();
 
@@ -45,12 +45,10 @@ namespace merutilm::vkh {
 
         void setupSwapchainImages();
 
-        void destroy() override;
+        void cleanup() override;
 
         void destroyImageViews() const;
     };
 
-    using Swapchain = std::unique_ptr<SwapchainImpl>;
-    using SwapchainPtr = SwapchainImpl *;
-    using SwapchainRef = SwapchainImpl &;
+
 }

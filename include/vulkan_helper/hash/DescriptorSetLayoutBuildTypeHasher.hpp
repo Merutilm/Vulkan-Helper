@@ -3,8 +3,8 @@
 //
 
 #pragma once
-#include <vulkan_helper/hash/BoostHasher.hpp>
-#include <vulkan_helper/wrapped/DescriptorSetLayoutBuildType.hpp>
+#include "BoostHasher.hpp"
+#include <vulkan_helper/engine/wrapped/DescriptorSetLayoutBuildType.hpp>
 
 namespace merutilm::vkh {
     struct DescriptorSetLayoutBuildTypeHasher {

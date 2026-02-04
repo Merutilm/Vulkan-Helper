@@ -3,36 +3,36 @@
 //
 
 #pragma once
-#include <vulkan_helper/core/Instance.hpp>
-#include <vulkan_helper/core/LogicalDevice.hpp>
-#include <vulkan_helper/core/PhysicalDeviceLoader.hpp>
+#include "Instance.hpp"
+#include "LogicalDevice.hpp"
+#include "PhysicalDeviceLoader.hpp"
 
 namespace merutilm::vkh {
-    class CoreImpl final : public Handler {
-        Instance instance = nullptr;
-        PhysicalDeviceLoader physicalDevice = nullptr;
-        LogicalDevice logicalDevice = nullptr;
+    class Core final : public Handler {
+        Instance instance;
+        PhysicalDeviceLoader physicalDevice;
+        LogicalDevice logicalDevice;
 
         std::chrono::high_resolution_clock::time_point startTime;
 
     public:
-        explicit CoreImpl();
+        explicit Core();
 
-        ~CoreImpl() override;
+        ~Core() override;
 
-        CoreImpl(const CoreImpl &) = delete;
+        Core(const Core &) = delete;
 
-        CoreImpl &operator=(const CoreImpl &) = delete;
+        Core &operator=(const Core &) = delete;
 
-        CoreImpl(CoreImpl &&) = delete;
+        Core(Core &&) noexcept = default;
 
-        CoreImpl &operator=(CoreImpl &&) = delete;
+        Core &operator=(Core &&) = delete;
 
-        [[nodiscard]] InstanceRef getInstance() const { return *instance; }
+        [[nodiscard]] Instance & getInstance() { return instance; }
 
-        [[nodiscard]] PhysicalDeviceLoaderRef getPhysicalDevice() const { return *physicalDevice; }
+        [[nodiscard]] PhysicalDeviceLoader & getPhysicalDevice() { return physicalDevice; }
 
-        [[nodiscard]] LogicalDeviceRef getLogicalDevice() const { return *logicalDevice; }
+        [[nodiscard]] LogicalDevice & getLogicalDevice() { return logicalDevice; }
 
 
         [[nodiscard]] float getTime() const;
@@ -40,10 +40,8 @@ namespace merutilm::vkh {
     private:
         void init() override;
 
-        void destroy() override;
+        void cleanup() override;
     };
 
-    using Core = std::unique_ptr<CoreImpl>;
-    using CorePtr = CoreImpl *;
-    using CoreRef = CoreImpl &;
+
 }

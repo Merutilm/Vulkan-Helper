@@ -3,33 +3,28 @@
 //
 
 #include <vulkan_helper/core/Instance.hpp>
-
-#include <vulkan_helper/base/factory.hpp>
-#include <vulkan_helper/base/exception.hpp>
 #include <vulkan_helper/base/config.hpp>
+#include <vulkan_helper/base/exception.hpp>
 #include <vulkan_helper/util/Debugger.hpp>
 
 namespace merutilm::vkh {
 
-    InstanceImpl::InstanceImpl() {
-        InstanceImpl::init();
+    Instance::Instance() {
+        Instance::init();
     }
 
-    InstanceImpl::~InstanceImpl() {
-        InstanceImpl::destroy();
+    Instance::~Instance() {
+        Instance::cleanup();
     }
 
-    void InstanceImpl::init() {
+    void Instance::init() {
         createInstance();
         if constexpr(config::ENABLE_VALIDATION) {
-            validationLayer = factory::create<ValidationLayer>(instance);
-        }else {
-            validationLayer = nullptr;
+            validationLayer = std::make_unique<ValidationLayer>(instance);
         }
-
     }
 
-    void InstanceImpl::createInstance() {
+    void Instance::createInstance() {
         VkApplicationInfo applicationInfo = {
             .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
             .pNext = nullptr,
@@ -60,7 +55,7 @@ namespace merutilm::vkh {
 
     }
 
-    void InstanceImpl::destroy() {
+    void Instance::cleanup() {
         validationLayer = nullptr;
         allocator::invoke(vkDestroyInstance, instance, nullptr);
     }

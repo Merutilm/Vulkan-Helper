@@ -3,23 +3,23 @@
 //
 
 #include <vulkan_helper/core/ValidationLayer.hpp>
-#include <vulkan_helper/base/vkh_core.hpp>
+#include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/util/Debugger.hpp>
 
 namespace merutilm::vkh {
-    ValidationLayerImpl::ValidationLayerImpl(const VkInstance instance) : instance(instance) {
-        ValidationLayerImpl::init();
+    ValidationLayer::ValidationLayer(const VkInstance instance) : instance(instance) {
+        ValidationLayer::init();
     }
 
-    ValidationLayerImpl::~ValidationLayerImpl() {
-        ValidationLayerImpl::destroy();
+    ValidationLayer::~ValidationLayer() {
+        ValidationLayer::cleanup();
     }
 
-    void ValidationLayerImpl::init() {
+    void ValidationLayer::init() {
         checkValidationLayerSupport();
         setupDebugMessenger();
     }
-    void ValidationLayerImpl::checkValidationLayerSupport() {
+    void ValidationLayer::checkValidationLayerSupport() {
         uint32_t layerCount;
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
         std::vector<VkLayerProperties> availableLayers(layerCount);
@@ -33,7 +33,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void ValidationLayerImpl::setupDebugMessenger() {
+    void ValidationLayer::setupDebugMessenger() {
 
         if (const VkDebugUtilsMessengerCreateInfoEXT createInfo = Debugger::populateDebugMessengerCreateInfo();
             allocator::invoke(createDebugUtilsMessengerEXT, instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
@@ -42,7 +42,7 @@ namespace merutilm::vkh {
     }
 
 
-    VkResult ValidationLayerImpl::createDebugUtilsMessengerEXT(const VkInstance instance,
+    VkResult ValidationLayer::createDebugUtilsMessengerEXT(const VkInstance instance,
                                                            const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                                            const VkAllocationCallbacks *pAllocator,
                                                            VkDebugUtilsMessengerEXT *pDebugMessenger) {
@@ -55,7 +55,7 @@ namespace merutilm::vkh {
     }
 
 
-    void ValidationLayerImpl::destroyDebugUtilsMessengerEXT(const VkInstance instance,
+    void ValidationLayer::destroyDebugUtilsMessengerEXT(const VkInstance instance,
                                                         const VkDebugUtilsMessengerEXT debugMessenger,
                                                         const VkAllocationCallbacks *pAllocator) {
         const auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(
@@ -66,7 +66,7 @@ namespace merutilm::vkh {
         func(instance, debugMessenger, pAllocator);
     }
 
-    void ValidationLayerImpl::destroy() {
+    void ValidationLayer::cleanup() {
         allocator::invoke(destroyDebugUtilsMessengerEXT, instance, debugMessenger, nullptr);
     }
 }

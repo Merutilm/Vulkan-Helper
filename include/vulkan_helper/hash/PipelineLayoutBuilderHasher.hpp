@@ -5,10 +5,10 @@
 
 #pragma once
 
-#include <vulkan_helper/manage/PipelineLayoutManager.hpp>
-#include <vulkan_helper/hash/UniquePtrHasher.hpp>
-#include <vulkan_helper/hash/VariantHasher.hpp>
-#include <vulkan_helper/hash/VectorHasher.hpp>
+#include <vulkan_helper/engine/manage/PipelineLayoutManager.hpp>
+#include "UniquePtrHasher.hpp"
+#include "VariantHasher.hpp"
+#include "VectorHasher.hpp"
 
 
 namespace merutilm::vkh {

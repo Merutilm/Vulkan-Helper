@@ -15,7 +15,7 @@ namespace merutilm::vkh {
                                                              const LPARAM lparam);
 
 
-        static LRESULT runListeners(GraphicsContextWindowRef window, const HWND hwnd, const UINT message, const WPARAM wparam,
+        static LRESULT runListeners(GraphicsContextWindow & window, const HWND hwnd, const UINT message, const WPARAM wparam,
                                     const LPARAM lparam);
     };
 }

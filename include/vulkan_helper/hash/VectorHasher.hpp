@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan_helper/base/pch.hpp>
 
 #include <vulkan_helper/hash/BoostHasher.hpp>
 

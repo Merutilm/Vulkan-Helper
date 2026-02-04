@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/util/BufferImageUtils.hpp>
 namespace merutilm::vkh {
-    void BufferImageUtils::initImage(CoreRef core, const ImageInitInfo &iii, VkImage*image,
+    void BufferImageUtils::initImage(Core & core, const ImageInitInfo &iii, VkImage*image,
         VkDeviceMemory*imageMemory, VkImageView*imageView, VkImageView*mipmappedImageView, VkDeviceSize *capacity) {
         initImage(core.getLogicalDevice().getLogicalDeviceHandle(),
                   core.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), iii, image, imageMemory, imageView, mipmappedImageView, capacity);
@@ -136,7 +136,7 @@ namespace merutilm::vkh {
         return VK_IMAGE_ASPECT_COLOR_BIT;
     }
 
-    void BufferImageUtils::initBuffer(CoreRef core, const BufferInitInfo &bii, VkBuffer*buffer,
+    void BufferImageUtils::initBuffer(Core & core, const BufferInitInfo &bii, VkBuffer*buffer,
         VkDeviceMemory*bufferMemory) {
         initBuffer(core.getLogicalDevice().getLogicalDeviceHandle(),
                    core.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), bii, buffer, bufferMemory);

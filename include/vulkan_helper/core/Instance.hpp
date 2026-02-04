@@ -4,13 +4,13 @@
 
 #pragma once
 
+#include "ValidationLayer.hpp"
 #include <vulkan_helper/handle/Handler.hpp>
-#include <vulkan_helper/core/ValidationLayer.hpp>
 
 namespace merutilm::vkh {
-    class InstanceImpl final : public Handler {
+    class Instance final : public Handler {
         VkInstance instance = nullptr;
-        ValidationLayer validationLayer;
+        std::unique_ptr<ValidationLayer> validationLayer;
 
         std::vector<const char *> extensions = {
             VK_KHR_SURFACE_EXTENSION_NAME,
@@ -18,17 +18,17 @@ namespace merutilm::vkh {
         };
 
     public:
-        explicit InstanceImpl();
+        explicit Instance();
 
-        ~InstanceImpl() override;
+        ~Instance() override;
 
-        InstanceImpl(const InstanceImpl &) = delete;
+        Instance(const Instance &) = delete;
 
-        InstanceImpl &operator=(const InstanceImpl &) = delete;
+        Instance &operator=(const Instance &) = delete;
 
-        InstanceImpl(InstanceImpl &&) = delete;
+        Instance(Instance &&) noexcept = default;
 
-        InstanceImpl &operator=(InstanceImpl &&) = delete;
+        Instance &operator=(Instance &&) = delete;
 
         [[nodiscard]] VkInstance getInstanceHandle() const { return instance; }
 
@@ -38,10 +38,8 @@ namespace merutilm::vkh {
 
         void createInstance();
 
-        void destroy() override;
+        void cleanup() override;
     };
 
-    using Instance = std::unique_ptr<InstanceImpl>;
-    using InstancePtr = InstanceImpl *;
-    using InstanceRef = InstanceImpl &;
+
 }

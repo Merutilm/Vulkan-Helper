@@ -4,7 +4,6 @@
 
 #pragma once
 #include <vulkan_helper/hash/BoostHasher.hpp>
-#include <vulkan_helper/core/CombinedImageSampler.hpp>
 
 namespace merutilm::vkh {
 

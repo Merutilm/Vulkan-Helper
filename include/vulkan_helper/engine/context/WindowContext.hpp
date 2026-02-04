@@ -1,0 +1,93 @@
+//
+// Created by Merutilm on 2025-07-18.
+//
+
+#pragma once
+#include <vulkan_helper/base/pch.hpp>
+#include <vulkan_helper/core/GraphicsContextWindow.hpp>
+#include <vulkan_helper/core/Surface.hpp>
+#include <vulkan_helper/core/Swapchain.hpp>
+#include <vulkan_helper/engine/cmd/CommandBuffer.hpp>
+#include <vulkan_helper/engine/repo/Repositories.hpp>
+#include <vulkan_helper/engine/sync/SyncObject.hpp>
+#include "RenderContext.hpp"
+
+namespace merutilm::vkh {
+    class WindowContext final : public CoreHandler {
+        const uint32_t attachmentIndex;
+        std::optional<GraphicsContextWindow> window;
+        std::optional<Surface> surface;
+        std::optional<Swapchain> swapchain;
+        std::optional<Repositories> windowLocalRepositories;
+        std::optional<CommandPool> commandPool;
+        std::optional<CommandBuffer> commandBuffer;
+        std::optional<SyncObject> syncObject;
+        std::optional<SharedImageContext> sharedImageContext;
+        std::vector<RenderContext> renderContexts = {};
+
+    public:
+        explicit WindowContext(Core &core, uint32_t index, GraphicsContextWindow &&window);
+
+        ~WindowContext() override;
+
+        WindowContext(const WindowContext &) = delete;
+
+        WindowContext operator=(const WindowContext &) = delete;
+
+        WindowContext(WindowContext &&) noexcept = default;
+
+        WindowContext operator=(WindowContext &&) = delete;
+
+        template<typename T, typename ExtentImgGetter, typename SwapchainImgGetter>
+            requires(std::is_base_of_v<RenderContextConfigurator, T> &&
+                     std::is_invocable_r_v<VkExtent2D, ExtentImgGetter> &&
+                     std::is_invocable_r_v<MultiframeImageContext, SwapchainImgGetter>)
+        void attachRenderContext(Core &core, ExtentImgGetter &&extentGetter,
+                                 SwapchainImgGetter &&swapchainImageContext) {
+            safe_array::check_index_equal(T::CONTEXT_INDEX, static_cast<uint32_t>(this->renderContexts.size()),
+                                          "Render Context Index");
+            this->renderContexts.emplace_back(
+                    core, std::forward<ExtentImgGetter>(extentGetter),
+                    std::make_unique<T>(core, sharedImageContext,
+                                        std::forward<SwapchainImgGetter>(swapchainImageContext)));
+        }
+
+
+        template<typename Configurator>
+            requires std::is_base_of_v<RenderContextConfigurator, Configurator>
+        [[nodiscard]] Configurator &getRenderContextConfigurator() {
+            return *dynamic_cast<Configurator *>(getRenderContext(Configurator::CONTEXT_INDEX).getConfigurator());
+        }
+
+        [[nodiscard]] uint32_t getAttachmentIndex() const { return attachmentIndex; }
+
+        [[nodiscard]] GraphicsContextWindow &getWindow() { return *window; }
+
+        [[nodiscard]] Surface &getSurface() { return *surface; }
+
+        [[nodiscard]] Swapchain &getSwapchain() { return *swapchain; }
+
+        [[nodiscard]] Repositories &getWindowLocalRepositories() { return *windowLocalRepositories; }
+
+        [[nodiscard]] CommandPool &getCommandPool() { return *commandPool; }
+
+        [[nodiscard]] CommandBuffer &getCommandBuffer() { return *commandBuffer; }
+
+        [[nodiscard]] SyncObject &getSyncObject() { return *syncObject; }
+
+        [[nodiscard]] SharedImageContext &getSharedImageContext() { return *sharedImageContext; }
+
+        [[nodiscard]] std::span<const RenderContext> getRenderContexts() const { return renderContexts; }
+
+        [[nodiscard]] RenderContext &getRenderContext(const uint32_t renderContextIndex) {
+            return renderContexts[renderContextIndex];
+        }
+
+        void init() override;
+
+        void configureRepositories();
+
+        void cleanup() override;
+    };
+
+} // namespace merutilm::vkh

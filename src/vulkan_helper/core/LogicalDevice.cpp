@@ -3,26 +3,23 @@
 //
 
 #include <vulkan_helper/core/LogicalDevice.hpp>
-
-#include <queue>
-
 #include <vulkan_helper/base/exception.hpp>
 #include <vulkan_helper/base/config.hpp>
 #include <vulkan_helper/util/Debugger.hpp>
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
 namespace merutilm::vkh {
-    LogicalDeviceImpl::LogicalDeviceImpl(InstanceRef instance,
-                                         PhysicalDeviceLoaderRef physicalDevice) : instance(instance),
+    LogicalDevice::LogicalDevice(Instance & instance,
+                                         PhysicalDeviceLoader & physicalDevice) : instance(instance),
         physicalDevice(physicalDevice) {
-        LogicalDeviceImpl::init();
+        LogicalDevice::init();
     }
 
-    LogicalDeviceImpl::~LogicalDeviceImpl() {
-        LogicalDeviceImpl::destroy();
+    LogicalDevice::~LogicalDevice() {
+        LogicalDevice::cleanup();
     }
 
-    void LogicalDeviceImpl::init() {
+    void LogicalDevice::init() {
         float queuePriority = 1;
         VkDeviceQueueCreateInfo queueCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
@@ -55,7 +52,7 @@ namespace merutilm::vkh {
     }
 
 
-    void LogicalDeviceImpl::destroy() {
+    void LogicalDevice::cleanup() {
         allocator::invoke(vkDestroyDevice, logicalDevice, nullptr);
     }
 }

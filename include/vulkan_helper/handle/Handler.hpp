@@ -4,11 +4,12 @@
 #pragma once
 
 namespace merutilm::vkh {
+
     struct Handler {
         virtual ~Handler() = default;
 
         virtual void init() = 0;
 
-        virtual void destroy() = 0;
+        virtual void cleanup() = 0;
     };
 }

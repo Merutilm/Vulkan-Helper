@@ -14,23 +14,17 @@ add_compile_options(
         -funroll-loops
 )
 
-
-
 set(EXECUTABLE_OUTPUT_PATH bin)
 
 
-
 add_subdirectory(src/vulkan_helper/dependency)
-add_subdirectory(src/vulkan_helper/configurator)
-add_subdirectory(src/vulkan_helper/context)
 add_subdirectory(src/vulkan_helper/core)
-add_subdirectory(src/vulkan_helper/executor)
-add_subdirectory(src/vulkan_helper/manage)
-add_subdirectory(src/vulkan_helper/repo)
+add_subdirectory(src/vulkan_helper/engine)
 add_subdirectory(src/vulkan_helper/util)
 
 add_executable(VulkanHelper
         src/vkh_demo/main.cpp
+        src/vkh_demo/DemoApplication.cpp
 )
 
 
@@ -38,13 +32,9 @@ find_package(Vulkan REQUIRED)
 
 target_link_libraries(VulkanHelper PRIVATE
         vkh_dependency
-        $<TARGET_OBJECTS:configurator>
-        $<TARGET_OBJECTS:context>
-        $<TARGET_OBJECTS:core>
-        $<TARGET_OBJECTS:executor>
-        $<TARGET_OBJECTS:manage>
-        $<TARGET_OBJECTS:repo>
-        $<TARGET_OBJECTS:util>
+        core
+        engine
+        util
 )
 
 

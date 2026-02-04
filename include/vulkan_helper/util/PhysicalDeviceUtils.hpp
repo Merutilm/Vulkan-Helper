@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <vulkan_helper/wrapped/QueueFamilyIndices.hpp>
+#include <vulkan_helper/core/QueueFamilyIndices.hpp>
 #include <vulkan_helper/hash/StringHasher.hpp>
 
 namespace merutilm::vkh {

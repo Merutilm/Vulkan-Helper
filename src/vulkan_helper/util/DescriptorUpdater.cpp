@@ -3,6 +3,8 @@
 //
 
 #include <vulkan_helper/util/DescriptorUpdater.hpp>
+#include <vulkan_helper/base/allocator.hpp>
+
 namespace merutilm::vkh {
     DescriptorUpdateQueue DescriptorUpdater::createQueue() {
         return {};

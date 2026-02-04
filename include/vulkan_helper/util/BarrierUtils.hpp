@@ -3,34 +3,27 @@
 //
 
 #pragma once
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan_helper/base/pch.hpp>
 
 namespace merutilm::vkh {
     struct BarrierUtils {
-        static void cmdMemoryBarrier(const VkCommandBuffer commandBuffer, const VkAccessFlags srcAccessMask,
-                                     const VkAccessFlags dstAccessMask, const VkPipelineStageFlags srcStageMask,
-                                     const VkPipelineStageFlags dstStageMask);
+        static void cmdMemoryBarrier(VkCommandBuffer commandBuffer, VkAccessFlags srcAccessMask,
+                                     VkAccessFlags dstAccessMask, VkPipelineStageFlags srcStageMask,
+                                     VkPipelineStageFlags dstStageMask);
 
-        static void cmdBufferMemoryBarrier(const VkCommandBuffer commandBuffer, const VkAccessFlags srcAccessMask,
-                                           const VkAccessFlags dstAccessMask, const VkBuffer buffer,
-                                           const VkDeviceSize offset,
-                                           const VkDeviceSize size,
-                                           const VkPipelineStageFlags srcStageMask,
-                                           const VkPipelineStageFlags dstStageMask);
+        static void cmdBufferMemoryBarrier(VkCommandBuffer commandBuffer, VkAccessFlags srcAccessMask,
+                                           VkAccessFlags dstAccessMask, VkBuffer buffer, VkDeviceSize offset,
+                                           VkDeviceSize size, VkPipelineStageFlags srcStageMask,
+                                           VkPipelineStageFlags dstStageMask);
 
-        static void cmdSynchronizeImageWriteToRead(const VkCommandBuffer commandBuffer, const VkImage image,
-                                                   const VkImageLayout currentLayout, const uint32_t mipLevel, const uint32_t mipLevelCount,
-                                                   const VkPipelineStageFlags srcStageMask,
-                                                   const VkPipelineStageFlags dstStageMask);
+        static void cmdSynchronizeImageWriteToRead(VkCommandBuffer commandBuffer, VkImage image,
+                                                   VkImageLayout currentLayout, uint32_t mipLevel,
+                                                   uint32_t mipLevelCount, VkPipelineStageFlags srcStageMask,
+                                                   VkPipelineStageFlags dstStageMask);
 
-        static void cmdImageMemoryBarrier(const VkCommandBuffer commandBuffer, const VkImage image,
-                                          const VkAccessFlags srcAccessMask,
-                                          const VkAccessFlags dstAccessMask,
-                                          const VkImageLayout oldLayout,
-                                          const VkImageLayout newLayout,
-                                          const uint32_t mipLevel,
-                                          const uint32_t mipLevelCount,
-                                          const VkPipelineStageFlags srcStageMask,
-                                          const VkPipelineStageFlags dstStageMask);
+        static void cmdImageMemoryBarrier(VkCommandBuffer commandBuffer, VkImage image, VkAccessFlags srcAccessMask,
+                                          VkAccessFlags dstAccessMask, VkImageLayout oldLayout, VkImageLayout newLayout,
+                                          uint32_t mipLevel, uint32_t mipLevelCount, VkPipelineStageFlags srcStageMask,
+                                          VkPipelineStageFlags dstStageMask);
     };
 }

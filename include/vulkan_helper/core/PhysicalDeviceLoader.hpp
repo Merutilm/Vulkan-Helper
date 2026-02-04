@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include <vulkan_helper/core/Instance.hpp>
-#include <vulkan_helper/core/Surface.hpp>
-#include <vulkan_helper/wrapped/QueueFamilyIndices.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
+#include "Instance.hpp"
+#include "QueueFamilyIndices.hpp"
+#include "Surface.hpp"
 
 namespace merutilm::vkh {
-    class PhysicalDeviceLoaderImpl final : public Handler {
+    class PhysicalDeviceLoader final : public Handler {
 
-        InstanceRef instance;
+        Instance & instance;
 
         VkPhysicalDevice physicalDevice = nullptr;
         VkPhysicalDeviceProperties physicalDeviceProperties = {};
@@ -23,17 +23,17 @@ namespace merutilm::vkh {
 
     public:
 
-        explicit PhysicalDeviceLoaderImpl(InstanceRef instance);
+        explicit PhysicalDeviceLoader(Instance & instance);
 
-        ~PhysicalDeviceLoaderImpl() override;
+        ~PhysicalDeviceLoader() override;
 
-        PhysicalDeviceLoaderImpl(const PhysicalDeviceLoaderImpl &) = delete;
+        PhysicalDeviceLoader(const PhysicalDeviceLoader &) = delete;
 
-        PhysicalDeviceLoaderImpl &operator=(const PhysicalDeviceLoaderImpl &) = delete;
+        PhysicalDeviceLoader &operator=(const PhysicalDeviceLoader &) = delete;
 
-        PhysicalDeviceLoaderImpl(PhysicalDeviceLoaderImpl &&) = delete;
+        PhysicalDeviceLoader(PhysicalDeviceLoader &&) noexcept = default;
 
-        PhysicalDeviceLoaderImpl &operator=(PhysicalDeviceLoaderImpl &&) = delete;
+        PhysicalDeviceLoader &operator=(PhysicalDeviceLoader &&) = delete;
 
         [[nodiscard]] VkPhysicalDevice getPhysicalDeviceHandle() const { return physicalDevice; }
 
@@ -64,10 +64,8 @@ namespace merutilm::vkh {
 
         void init() override;
 
-        void destroy() override;
+        void cleanup() override;
     };
 
-    using PhysicalDeviceLoader = std::unique_ptr<PhysicalDeviceLoaderImpl>;
-    using PhysicalDeviceLoaderPtr = PhysicalDeviceLoaderImpl *;
-    using PhysicalDeviceLoaderRef = PhysicalDeviceLoaderImpl &;
+
 }

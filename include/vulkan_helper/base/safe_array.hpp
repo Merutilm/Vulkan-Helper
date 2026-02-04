@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan_helper/base/pch.hpp>
 
 namespace merutilm::vkh {
     struct safe_array {

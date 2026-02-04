@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include <vulkan_helper/context/DescriptorUpdateContext.hpp>
-#include <vulkan_helper/base/allocator.hpp>
+#include <vulkan_helper/engine/context/DescriptorUpdateContext.hpp>
 
 namespace merutilm::vkh {
     struct DescriptorUpdater {
@@ -13,7 +12,7 @@ namespace merutilm::vkh {
 
         static DescriptorUpdateQueue createQueue();
 
-        static void write(const VkDevice device, const DescriptorUpdateQueue &queue);
+        static void write(VkDevice device, const DescriptorUpdateQueue &queue);
     };
 
 

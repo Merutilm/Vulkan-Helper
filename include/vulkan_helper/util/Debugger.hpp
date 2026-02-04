@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-08-24.
 //
 #pragma once
-#include <vulkan_helper/base/vkh_core.hpp>
+#include <vulkan_helper/base/vkh_base.hpp>
 
 namespace merutilm::vkh {
     struct Debugger {
@@ -13,8 +13,8 @@ namespace merutilm::vkh {
         static VkDebugUtilsMessengerCreateInfoEXT populateDebugMessengerCreateInfo();
 
 
-        static VkBool32 debugCallback(const VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                      const VkDebugUtilsMessageTypeFlagsEXT messageType,
+        static VkBool32 debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                      VkDebugUtilsMessageTypeFlagsEXT messageType,
                                       const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
                                       [[maybe_unused]] void *pUserData);
     };

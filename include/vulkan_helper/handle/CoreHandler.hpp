@@ -8,10 +8,10 @@
 #include <vulkan_helper/core/Core.hpp>
 
 namespace merutilm::vkh {
-    struct CoreHandler : public Handler {
-        const CoreRef core;
+    struct CoreHandler : Handler {
+        Core & core;
 
-        explicit CoreHandler(const CoreRef core) : core(core) {};
+        explicit CoreHandler(Core & core) : core(core) {};
 
         ~CoreHandler() override = default;
 
@@ -19,9 +19,8 @@ namespace merutilm::vkh {
 
         CoreHandler &operator=(const CoreHandler &) = delete;
 
-        CoreHandler(CoreHandler &&) = delete;
+        CoreHandler(CoreHandler &&) noexcept = default;
 
-        CoreHandler &operator=(CoreHandler &&) = delete;
-
+        CoreHandler &operator=(CoreHandler &&) noexcept = delete;
     };
 }

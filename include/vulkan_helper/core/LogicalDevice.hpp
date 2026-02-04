@@ -3,31 +3,31 @@
 //
 
 #pragma once
-#include <vulkan_helper/core/Instance.hpp>
-#include <vulkan_helper/core/PhysicalDeviceLoader.hpp>
 #include <vulkan_helper/base/allocator.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
+#include "Instance.hpp"
+#include "PhysicalDeviceLoader.hpp"
 
 namespace merutilm::vkh {
-    class LogicalDeviceImpl final : public Handler {
-        InstanceRef instance;
-        PhysicalDeviceLoaderRef physicalDevice;
+    class LogicalDevice final : public Handler {
+        Instance & instance;
+        PhysicalDeviceLoader & physicalDevice;
         VkDevice logicalDevice = nullptr;
         VkQueue graphicsQueue = nullptr;
         VkQueue presentQueue = nullptr;
 
     public:
-        explicit LogicalDeviceImpl(InstanceRef instance, PhysicalDeviceLoaderRef physicalDevice);
+        explicit LogicalDevice(Instance & instance, PhysicalDeviceLoader & physicalDevice);
 
-        ~LogicalDeviceImpl() override;
+        ~LogicalDevice() override;
 
-        LogicalDeviceImpl(const LogicalDeviceImpl &) = delete;
+        LogicalDevice(const LogicalDevice &) = delete;
 
-        LogicalDeviceImpl &operator=(const LogicalDeviceImpl &) = delete;
+        LogicalDevice &operator=(const LogicalDevice &) = delete;
 
-        LogicalDeviceImpl(LogicalDeviceImpl &&) = delete;
+        LogicalDevice(LogicalDevice &&) noexcept = default;
 
-        LogicalDeviceImpl &operator=(LogicalDeviceImpl &&) = delete;
+        LogicalDevice &operator=(LogicalDevice &&) = delete;
 
         [[nodiscard]] VkDevice getLogicalDeviceHandle() const { return logicalDevice; }
 
@@ -54,10 +54,8 @@ namespace merutilm::vkh {
     private:
         void init() override;
 
-        void destroy() override;
+        void cleanup() override;
     };
 
-    using LogicalDevice = std::unique_ptr<LogicalDeviceImpl>;
-    using LogicalDevicePtr = LogicalDeviceImpl *;
-    using LogicalDeviceRef = LogicalDeviceImpl &;
+
 }

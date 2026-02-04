@@ -2,7 +2,10 @@
 // Created by Merutilm on 2026-02-03.
 //
 
+#include <vulkan_helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
 #include <vulkan_helper/util/BufferImageContextUtils.hpp>
+#include <vulkan_helper/util/BarrierUtils.hpp>
+
 namespace merutilm::vkh {
     std::vector<VkImage> BufferImageContextUtils::enumerateImages(const MultiframeImageContext &context) {
         std::vector<VkImage> images(context.size());
@@ -10,8 +13,8 @@ namespace merutilm::vkh {
         return images;
     }
 
-    ImageContext BufferImageContextUtils::imageFromByteColorArray(CoreRef core,
-        CommandPoolRef commandPool, const VkFormat format, const uint32_t width, const uint32_t height,
+    ImageContext BufferImageContextUtils::imageFromByteColorArray(Core & core,
+        CommandPool & commandPool, const VkFormat format, const uint32_t width, const uint32_t height,
         const uint32_t texChannels, const uint32_t channelBits, const bool useMipmap, const std::byte * const data) {
         const VkDeviceSize size = static_cast<uint64_t>(width) * static_cast<uint64_t>(height) * static_cast<
                                       uint64_t>(
@@ -94,8 +97,8 @@ namespace merutilm::vkh {
         return context;
     }
 
-    ImageContext BufferImageContextUtils::imageFromPath(CoreRef core,
-        CommandPoolRef commandPool, const VkFormat format, const bool useMipmap, const std::string_view path) {
+    ImageContext BufferImageContextUtils::imageFromPath(Core & core,
+        CommandPool & commandPool, const VkFormat format, const bool useMipmap, const std::string_view path) {
         stbi_uc *data = nullptr;
         int width = 0;
         int height = 0;

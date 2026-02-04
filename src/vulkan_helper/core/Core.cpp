@@ -4,36 +4,28 @@
 
 #include <vulkan_helper/core/Core.hpp>
 
-#include <vulkan_helper/base/factory.hpp>
-
 namespace merutilm::vkh {
 
-    CoreImpl::CoreImpl() {
-        CoreImpl::init();
+    Core::Core() : physicalDevice(instance), logicalDevice(instance, physicalDevice) {
+        Core::init();
     }
 
-    CoreImpl::~CoreImpl() {
-        CoreImpl::destroy();
+    Core::~Core() {
+        Core::cleanup();
     }
 
-    float CoreImpl::getTime() const {
+    float Core::getTime() const {
         using namespace std::chrono;
-        const auto currentTime = high_resolution_clock::now();
-        return std::chrono::duration_cast<duration<float>>(currentTime - startTime).count();
+        const time_point<system_clock> currentTime = high_resolution_clock::now();
+        return std::chrono::duration_cast<duration<float> >(currentTime - startTime).count();
     }
 
 
-    void CoreImpl::init() {
-        instance = factory::create<Instance>();
-        physicalDevice = factory::create<PhysicalDeviceLoader>(*instance);
-        logicalDevice = factory::create<LogicalDevice>(*instance, *physicalDevice);
+    void Core::init() {
         startTime = std::chrono::high_resolution_clock::now();
     }
 
 
-    void CoreImpl::destroy() {
-        logicalDevice = nullptr;
-        physicalDevice = nullptr;
-        instance = nullptr;
+    void Core::cleanup() {
     }
 }

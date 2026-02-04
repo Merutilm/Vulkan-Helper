@@ -4,36 +4,34 @@
 
 #pragma once
 #include <vulkan_helper/base/config.hpp>
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan_helper/base/pch.hpp>
 
 namespace merutilm::vkh {
 
-    class GraphicsContextWindowImpl;
+    class GraphicsContextWindow;
 
-    using GraphicsContextWindow = std::unique_ptr<GraphicsContextWindowImpl>;
-    using GraphicsContextWindowPtr = GraphicsContextWindowImpl *;
-    using GraphicsContextWindowRef = GraphicsContextWindowImpl &;
 
-    class GraphicsContextWindowImpl final {
-        using Listeners = std::unordered_map<UINT, std::function<LRESULT(GraphicsContextWindowRef, HWND, WPARAM, LPARAM)> > ;
+
+    class GraphicsContextWindow final {
+        using Listeners = std::unordered_map<UINT, std::function<LRESULT(GraphicsContextWindow &, HWND, WPARAM, LPARAM)> > ;
         HWND window = nullptr;
         float framerate = config::INITIAL_FPS;
         Listeners listeners = {};
         std::vector<std::function<void()> > renderers = {};
 
     public:
-        explicit GraphicsContextWindowImpl(HWND window);
+        explicit GraphicsContextWindow(HWND window);
 
 
-        ~GraphicsContextWindowImpl() = default;
+        ~GraphicsContextWindow() = default;
 
-        GraphicsContextWindowImpl(GraphicsContextWindowImpl &) = delete;
+        GraphicsContextWindow(GraphicsContextWindow &) = delete;
 
-        GraphicsContextWindowImpl(GraphicsContextWindowImpl &&) = delete;
+        GraphicsContextWindow(GraphicsContextWindow &&) noexcept = default;
 
-        GraphicsContextWindowImpl &operator=(const GraphicsContextWindowImpl &) = delete;
+        GraphicsContextWindow &operator=(const GraphicsContextWindow &) = delete;
 
-        GraphicsContextWindowImpl &operator=(GraphicsContextWindowImpl &&) = delete;
+        GraphicsContextWindow &operator=(GraphicsContextWindow &&) = delete;
 
         HWND getWindowHandle() const { return window; }
 
@@ -48,7 +46,7 @@ namespace merutilm::vkh {
                    rect.right - rect.left <= 0;
         }
 
-        template<typename F> requires std::is_invocable_r_v<LRESULT, F, GraphicsContextWindowRef,  HWND, WPARAM,LPARAM>
+        template<typename F> requires std::is_invocable_r_v<LRESULT, F, GraphicsContextWindow &,  HWND, WPARAM,LPARAM>
         void setListener(UINT message, F &&func);
 
         template<typename F> requires std::is_invocable_r_v<void, F>
@@ -66,13 +64,13 @@ namespace merutilm::vkh {
 
     };
 
-    template<typename F> requires std::is_invocable_r_v<LRESULT, F, GraphicsContextWindowRef, HWND, WPARAM, LPARAM>
-    void GraphicsContextWindowImpl::setListener(const UINT message, F &&func) {
+    template<typename F> requires std::is_invocable_r_v<LRESULT, F, GraphicsContextWindow &, HWND, WPARAM, LPARAM>
+    void GraphicsContextWindow::setListener(const UINT message, F &&func) {
         listeners[message] = std::forward<F>(func);
     }
 
     template<typename F> requires std::is_invocable_r_v<void, F>
-    void GraphicsContextWindowImpl::appendRenderer(F &&func) {
+    void GraphicsContextWindow::appendRenderer(F &&func) {
         renderers.emplace_back(std::forward<F>(func));
     }
 

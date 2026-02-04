@@ -7,18 +7,18 @@
 #include <vulkan/vulkan_core.h>
 #include <vulkan/vulkan_win32.h>
 
-#include <vulkan_helper/base/vkh_core.hpp>
+#include <vulkan_helper/base/vkh_base.hpp>
 
 namespace merutilm::vkh {
-    SurfaceImpl::SurfaceImpl(InstanceRef instance, GraphicsContextWindowRef window) : instance(instance), window(window) {
-        SurfaceImpl::init();
+    Surface::Surface(Instance & instance, GraphicsContextWindow & window) : instance(instance), window(window) {
+        Surface::init();
     }
 
-    SurfaceImpl::~SurfaceImpl() {
-        SurfaceImpl::destroy();
+    Surface::~Surface() {
+        Surface::cleanup();
     }
 
-    void SurfaceImpl::init() {
+    void Surface::init() {
         const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
             .pNext = nullptr,
@@ -32,7 +32,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void SurfaceImpl::destroy() {
+    void Surface::cleanup() {
         allocator::invoke(vkDestroySurfaceKHR, instance.getInstanceHandle(), surface, nullptr);
     }
 }

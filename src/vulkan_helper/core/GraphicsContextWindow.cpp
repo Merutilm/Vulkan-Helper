@@ -7,16 +7,16 @@
 #include <windows.h>
 
 namespace merutilm::vkh {
-    GraphicsContextWindowImpl::GraphicsContextWindowImpl(const HWND window) : window(window) {
+    GraphicsContextWindow::GraphicsContextWindow(const HWND window) : window(window) {
     }
 
-    void GraphicsContextWindowImpl::renderOnce() const {
+    void GraphicsContextWindow::renderOnce() const {
         for (const auto &renderer: renderers) {
             renderer();
         }
     }
 
-    void GraphicsContextWindowImpl::start() const {
+    void GraphicsContextWindow::start() const {
         MSG message;
         using namespace std::chrono;
         auto started = high_resolution_clock::now();

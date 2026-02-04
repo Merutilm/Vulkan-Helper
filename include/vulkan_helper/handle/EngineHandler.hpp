@@ -4,14 +4,14 @@
 
 #pragma once
 
+#include <vulkan_helper/engine/Engine.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
-#include <vulkan_helper/core/Engine.hpp>
 
 namespace merutilm::vkh {
-    struct EngineHandler : public Handler {
-        const EngineRef engine;
+    struct EngineHandler : Handler {
+        const Engine & engine;
 
-        explicit EngineHandler(const EngineRef engine) : engine(engine) {};
+        explicit EngineHandler(const Engine & engine) : engine(engine) {};
 
         ~EngineHandler() override = default;
 
@@ -19,7 +19,7 @@ namespace merutilm::vkh {
 
         EngineHandler &operator=(const EngineHandler &) = delete;
 
-        EngineHandler(EngineHandler &&) = delete;
+        EngineHandler(EngineHandler &&) = default;
 
         EngineHandler &operator=(EngineHandler &&) = delete;
 

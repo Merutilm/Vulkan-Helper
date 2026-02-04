@@ -6,7 +6,7 @@
 namespace merutilm::vkh {
     LRESULT GraphicsContextWindowProc::WinProc(const HWND hwnd, const UINT message, const WPARAM wparam,
         const LPARAM lparam) {
-        const auto windowPtr = reinterpret_cast<GraphicsContextWindowPtr>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        const auto windowPtr = reinterpret_cast<GraphicsContextWindow *>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
         if (windowPtr == nullptr) {
             return DefWindowProcW(hwnd, message, wparam, lparam);
@@ -21,7 +21,7 @@ namespace merutilm::vkh {
         return runListeners(window, hwnd, message, wparam, lparam);
     }
 
-    LRESULT GraphicsContextWindowProc::runListeners(GraphicsContextWindowRef window, const HWND hwnd,
+    LRESULT GraphicsContextWindowProc::runListeners(GraphicsContextWindow & window, const HWND hwnd,
         const UINT message, const WPARAM wparam, const LPARAM lparam) {
         if (const auto &listeners = window.getListeners();
             listeners.contains(message)) {
