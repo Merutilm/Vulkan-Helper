@@ -8,10 +8,7 @@
 					"build" : ".",
 					"childIndexes" : 
 					[
-						1,
-						2,
-						3,
-						16
+						1
 					],
 					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
@@ -27,13 +24,35 @@
 					]
 				},
 				{
+					"build" : "src/vulkan_helper",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						4,
+						17
+					],
+					"jsonFile" : "directory-src.vulkan_helper-Release-934eef7054c76994dac3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/vulkan_helper",
+					"targetIndexes" : 
+					[
+						18
+					]
+				},
+				{
 					"build" : "src/vulkan_helper/dependency",
 					"jsonFile" : "directory-src.vulkan_helper.dependency-Release-6d99cc200d1b6dc9ab6e.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 0,
+					"parentIndex" : 1,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/dependency",
 					"targetIndexes" : 
@@ -48,7 +67,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 0,
+					"parentIndex" : 1,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/core",
 					"targetIndexes" : 
@@ -60,7 +79,6 @@
 					"build" : "src/vulkan_helper/engine",
 					"childIndexes" : 
 					[
-						4,
 						5,
 						6,
 						7,
@@ -71,14 +89,15 @@
 						12,
 						13,
 						14,
-						15
+						15,
+						16
 					],
 					"jsonFile" : "directory-src.vulkan_helper.engine-Release-ce628dfd5319de97831b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 0,
+					"parentIndex" : 1,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine",
 					"targetIndexes" : 
@@ -93,7 +112,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/buffer",
 					"targetIndexes" : 
@@ -108,7 +127,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/cmd",
 					"targetIndexes" : 
@@ -123,7 +142,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/configurator",
 					"targetIndexes" : 
@@ -138,7 +157,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/context",
 					"targetIndexes" : 
@@ -153,7 +172,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/descriptor",
 					"targetIndexes" : 
@@ -168,7 +187,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/executor",
 					"targetIndexes" : 
@@ -183,7 +202,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/graphics",
 					"targetIndexes" : 
@@ -198,7 +217,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/manage",
 					"targetIndexes" : 
@@ -213,7 +232,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/pipeline",
 					"targetIndexes" : 
@@ -228,7 +247,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/repo",
 					"targetIndexes" : 
@@ -243,7 +262,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/sampler",
 					"targetIndexes" : 
@@ -258,7 +277,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 3,
+					"parentIndex" : 4,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/engine/sync",
 					"targetIndexes" : 
@@ -273,7 +292,7 @@
 					{
 						"string" : "3.31"
 					},
-					"parentIndex" : 0,
+					"parentIndex" : 1,
 					"projectIndex" : 0,
 					"source" : "src/vulkan_helper/util",
 					"targetIndexes" : 
@@ -304,7 +323,8 @@
 						13,
 						14,
 						15,
-						16
+						16,
+						17
 					],
 					"name" : "VulkanHelper",
 					"targetIndexes" : 
@@ -326,7 +346,8 @@
 						14,
 						15,
 						16,
-						17
+						17,
+						18
 					]
 				}
 			],
@@ -335,127 +356,134 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "VulkanHelper::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-VulkanHelper-Release-7cdc8a2cc49018460bca.json",
+					"jsonFile" : "target-VulkanHelper-Release-922776c8ba557c7d43c1.json",
 					"name" : "VulkanHelper",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "compileShaders::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-compileShaders-Release-5e5150cca42ddcfa9795.json",
+					"jsonFile" : "target-compileShaders-Release-e2631e04081cc0a9d811.json",
 					"name" : "compileShaders",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 2,
+					"directoryIndex" : 3,
 					"id" : "core::@0940c9782636a1de41a7",
 					"jsonFile" : "target-core-Release-47b1ddf5933942a84030.json",
 					"name" : "core",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 3,
+					"directoryIndex" : 4,
 					"id" : "engine::@fdb428f97d36ce722867",
-					"jsonFile" : "target-engine-Release-75f5bc30d1ec6207cd54.json",
+					"jsonFile" : "target-engine-Release-c5e54fafe920baa1a0ce.json",
 					"name" : "engine",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 4,
+					"directoryIndex" : 5,
 					"id" : "engine_buffer::@cd940740aa41b5872038",
 					"jsonFile" : "target-engine_buffer-Release-7c4fb52e0a52fcfb8627.json",
 					"name" : "engine_buffer",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 5,
+					"directoryIndex" : 6,
 					"id" : "engine_cmd::@636ac35116f50791e43d",
 					"jsonFile" : "target-engine_cmd-Release-3231f84789ba6940153b.json",
 					"name" : "engine_cmd",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 6,
+					"directoryIndex" : 7,
 					"id" : "engine_configurator::@48501a71b0a616e4f395",
 					"jsonFile" : "target-engine_configurator-Release-b8531f061a5bdb2bde62.json",
 					"name" : "engine_configurator",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 7,
+					"directoryIndex" : 8,
 					"id" : "engine_context::@c43ef512e73fdf55aa89",
 					"jsonFile" : "target-engine_context-Release-738a870193018eba81a9.json",
 					"name" : "engine_context",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 8,
+					"directoryIndex" : 9,
 					"id" : "engine_descriptor::@748cacb90c77e40cc176",
 					"jsonFile" : "target-engine_descriptor-Release-11c9e69dac7e8fb5a6f7.json",
 					"name" : "engine_descriptor",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 9,
+					"directoryIndex" : 10,
 					"id" : "engine_executor::@48492907779a7c4deca6",
 					"jsonFile" : "target-engine_executor-Release-c8ef0b7c2f9e989fde6c.json",
 					"name" : "engine_executor",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 10,
+					"directoryIndex" : 11,
 					"id" : "engine_graphics::@3f954f62397f387e9585",
 					"jsonFile" : "target-engine_graphics-Release-6a454490a14cc3fc7a2a.json",
 					"name" : "engine_graphics",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 11,
+					"directoryIndex" : 12,
 					"id" : "engine_manage::@36056b22e66601bec8c8",
 					"jsonFile" : "target-engine_manage-Release-0c391305970bfb8be6b2.json",
 					"name" : "engine_manage",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 12,
+					"directoryIndex" : 13,
 					"id" : "engine_pipeline::@7197a154984d705f372a",
 					"jsonFile" : "target-engine_pipeline-Release-28320b58dad2774b470c.json",
 					"name" : "engine_pipeline",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 13,
+					"directoryIndex" : 14,
 					"id" : "engine_repo::@0f9be46a28832be802cd",
 					"jsonFile" : "target-engine_repo-Release-64846f558b4694c6e6a2.json",
 					"name" : "engine_repo",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 14,
+					"directoryIndex" : 15,
 					"id" : "engine_sampler::@cbbed754c601e0132f6c",
 					"jsonFile" : "target-engine_sampler-Release-b84d171419df57fa6a10.json",
 					"name" : "engine_sampler",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 15,
+					"directoryIndex" : 16,
 					"id" : "engine_sync::@2f9d99c8bb9398d37f8d",
 					"jsonFile" : "target-engine_sync-Release-e6fd82e0af6692245e5c.json",
 					"name" : "engine_sync",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 16,
+					"directoryIndex" : 17,
 					"id" : "util::@aa8cc11fa2b5cff4c207",
 					"jsonFile" : "target-util-Release-408a5e90ea8024f6985a.json",
 					"name" : "util",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 1,
+					"directoryIndex" : 2,
 					"id" : "vkh_dependency::@bdddf3e0b7dbecdcf48f",
 					"jsonFile" : "target-vkh_dependency-Release-7214be5a60fe8f80208c.json",
 					"name" : "vkh_dependency",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "vulkan_helper::@e48a9a8b59f57c5c5a1c",
+					"jsonFile" : "target-vulkan_helper-Release-a331b2e1befa7c665f70.json",
+					"name" : "vulkan_helper",
 					"projectIndex" : 0
 				}
 			]

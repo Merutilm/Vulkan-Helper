@@ -8,4 +8,6 @@ add_library(util OBJECT
         PhysicalDeviceUtils.cpp
         SwapchainUtils.cpp
 )
-target_link_libraries(util PRIVATE vkh_dependency)
+target_link_libraries(util PRIVATE
+        vkh_dependency
+)

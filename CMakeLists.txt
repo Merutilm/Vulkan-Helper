@@ -17,26 +17,20 @@ add_compile_options(
 set(EXECUTABLE_OUTPUT_PATH bin)
 
 
-add_subdirectory(src/vulkan_helper/dependency)
-add_subdirectory(src/vulkan_helper/core)
-add_subdirectory(src/vulkan_helper/engine)
-add_subdirectory(src/vulkan_helper/util)
+add_subdirectory(src/vulkan_helper)
 
 add_executable(VulkanHelper
         src/vkh_demo/main.cpp
         src/vkh_demo/DemoApplication.cpp
+        include/vulkan_helper/Application.hpp
 )
 
 
 find_package(Vulkan REQUIRED)
 
 target_link_libraries(VulkanHelper PRIVATE
-        vkh_dependency
-        core
-        engine
-        util
+        vulkan_helper
 )
-
 
 target_compile_definitions(VulkanHelper
         PRIVATE

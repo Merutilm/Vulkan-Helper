@@ -39,22 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/dependency/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/core/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/engine/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/util/cmake_install.cmake")
+  include("C:/Users/nudet/Desktop/Main/Developments/cpp/Projects/VulkanHelper/cmake-build-release/src/vulkan_helper/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT

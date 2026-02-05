@@ -9,4 +9,6 @@ add_library(core OBJECT
         ValidationLayer.cpp
 )
 
-target_link_libraries(core PRIVATE vkh_dependency)
+target_link_libraries(core PRIVATE
+        vkh_dependency
+)

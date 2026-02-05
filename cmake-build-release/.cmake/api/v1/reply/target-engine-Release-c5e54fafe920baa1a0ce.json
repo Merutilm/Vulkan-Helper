@@ -27,19 +27,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 1,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 18,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 22,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -49,7 +43,7 @@
 				"command" : 2,
 				"file" : 1,
 				"line" : 11,
-				"parent" : 4
+				"parent" : 3
 			}
 		]
 	},
@@ -62,15 +56,15 @@
 					"fragment" : "-O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 4,
 					"fragment" : "-O0"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 4,
 					"fragment" : "-march=native"
 				},
 				{
-					"backtrace" : 5,
+					"backtrace" : 4,
 					"fragment" : "-funroll-loops"
 				}
 			],
@@ -109,54 +103,6 @@
 		{
 			"backtrace" : 2,
 			"id" : "vkh_dependency::@bdddf3e0b7dbecdcf48f"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_buffer::@cd940740aa41b5872038"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_descriptor::@748cacb90c77e40cc176"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_configurator::@48501a71b0a616e4f395"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_cmd::@636ac35116f50791e43d"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_context::@c43ef512e73fdf55aa89"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_graphics::@3f954f62397f387e9585"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_executor::@48492907779a7c4deca6"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_manage::@36056b22e66601bec8c8"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_repo::@0f9be46a28832be802cd"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_pipeline::@7197a154984d705f372a"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_sampler::@cbbed754c601e0132f6c"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "engine_sync::@2f9d99c8bb9398d37f8d"
 		}
 	],
 	"id" : "engine::@fdb428f97d36ce722867",

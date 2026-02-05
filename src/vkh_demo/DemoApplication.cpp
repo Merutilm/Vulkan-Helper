@@ -3,7 +3,6 @@
 //
 #include "DemoApplication.hpp"
 
-#include "vulkan_helper/base/vkh.hpp"
 
 namespace merutilm {
 
@@ -12,7 +11,6 @@ namespace merutilm {
     }
 
     void DemoApplication::init() {
-
 
         // engine.attachWindowContext()
     }

@@ -231,6 +231,9 @@
 			"path" : "C:/Program Files/JetBrains/CLion 2025.1/bin/cmake/win/x64/share/cmake-3.31/Modules/FindPackageMessage.cmake"
 		},
 		{
+			"path" : "src/vulkan_helper/CMakeLists.txt"
+		},
+		{
 			"path" : "src/vulkan_helper/dependency/CMakeLists.txt"
 		},
 		{
