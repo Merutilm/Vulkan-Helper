@@ -37,14 +37,16 @@ namespace merutilm::vkh {
         return *windowContexts[windowAttachmentIndexExpected];
     }
 
-    void Engine::detachWindowContext(const uint32_t windowAttachmentIndex) {
+    WindowContext Engine::detachWindowContext(const uint32_t windowAttachmentIndex) {
         if (windowAttachmentIndex >= windowContexts.size()) {
             throw exception_invalid_args(std::format("window attachment index out of range : {}, size = {}", windowAttachmentIndex, windowContexts.size()));
         }
         if (windowContexts[windowAttachmentIndex] == std::nullopt) {
             throw exception_invalid_args(std::format("deleted non-existing context {}", windowAttachmentIndex));
         }
+        WindowContext && result = *std::move(windowContexts[windowAttachmentIndex]);
         windowContexts[windowAttachmentIndex].reset();
+        return std::move(result);
     }
 
 

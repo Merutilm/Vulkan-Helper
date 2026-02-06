@@ -8,10 +8,6 @@
 
 namespace merutilm::vkh {
 
-    class GraphicsContextWindow;
-
-
-
     class GraphicsContextWindow final {
         using Listeners = std::unordered_map<UINT, std::function<LRESULT(GraphicsContextWindow &, HWND, WPARAM, LPARAM)> > ;
         HWND window = nullptr;

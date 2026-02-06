@@ -31,7 +31,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] WindowContext & attachWindowContext(HWND hwnd, uint32_t windowAttachmentIndexExpected);
 
-        void detachWindowContext(uint32_t windowAttachmentIndex);
+        [[nodiscard]] WindowContext detachWindowContext(uint32_t windowAttachmentIndex);
 
         [[nodiscard]] Core & getCore() { return core; }
 
@@ -42,6 +42,8 @@ namespace merutilm::vkh {
         [[nodiscard]] Repositories & getGlobalRepositories()  {
             return globalRepositories;
         }
+
+        [[nodiscard]] uint32_t getWindowContextCount() const { return windowContexts.size(); }
 
     private:
         void init() override;

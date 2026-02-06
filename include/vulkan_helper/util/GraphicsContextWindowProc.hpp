@@ -11,11 +11,10 @@ namespace merutilm::vkh {
 
 
 
-        static LRESULT CALLBACK WinProc(const HWND hwnd, const UINT message, const WPARAM wparam,
-                                                             const LPARAM lparam);
+        static LRESULT CALLBACK WinProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
 
-        static LRESULT runListeners(GraphicsContextWindow & window, const HWND hwnd, const UINT message, const WPARAM wparam,
-                                    const LPARAM lparam);
+        static LRESULT runListeners(GraphicsContextWindow & window, HWND hwnd, UINT message, WPARAM wparam,
+                                    LPARAM lparam);
     };
 }

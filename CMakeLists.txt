@@ -22,7 +22,7 @@ add_subdirectory(src/vulkan_helper)
 add_executable(VulkanHelper
         src/vkh_demo/main.cpp
         src/vkh_demo/DemoApplication.cpp
-        include/vulkan_helper/Application.hpp
+        include/vulkan_helper/window/win/Menubar.hpp
 )
 
 

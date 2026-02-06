@@ -1,3 +1,11 @@
+
+add_subdirectory(dependency)
+add_subdirectory(core)
+add_subdirectory(engine)
+add_subdirectory(util)
+add_subdirectory(window)
+
+
 add_library(vulkan_helper STATIC
         Application.cpp
         $<TARGET_OBJECTS:core>
@@ -15,12 +23,20 @@ add_library(vulkan_helper STATIC
         $<TARGET_OBJECTS:engine_repo>
         $<TARGET_OBJECTS:engine_sampler>
         $<TARGET_OBJECTS:engine_sync>
+        $<TARGET_OBJECTS:window>
 )
 
-add_subdirectory(dependency)
-add_subdirectory(core)
-add_subdirectory(engine)
-add_subdirectory(util)
+if(WIN32)
+    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:window_win>)
+elseif (APPLE)
+    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:window_mac>)
+elseif (UNIX)
+    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:window_linux>)
+else()
+    message(STATUS "failed to find OS")
+endif ()
+
+
 
 target_link_libraries(vulkan_helper PUBLIC
         vkh_dependency

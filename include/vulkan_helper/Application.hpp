@@ -3,33 +3,32 @@
 //
 
 #pragma once
-#include "engine/Engine.hpp"
+#include "handle/EngineHandler.hpp"
+#include "window/WindowInitializerSettings.hpp"
 namespace merutilm::vkh {
 
-    struct Application : Handler{
-        Engine engine;
 
-        Application() = default;
+    struct Application : Handler {
 
-        ~Application() override = default;
+        Engine engine{};
+
+        explicit Application(WindowInitializerSettings &&settings);
+
+        ~Application() override;
 
         Application(const Application &) = delete;
 
+        Application(Application &&) = delete;
+
         Application &operator=(const Application &) = delete;
 
-        Application(Application &&) noexcept = default;
+        Application &operator=(Application &&) = delete;
 
-        Application &operator=(Application &&) noexcept = delete;
+    private:
+        void init() override;
 
-        template<typename T> requires std::is_base_of_v<Application, T>
-        static T start();
+        void cleanup() override;
     };
 
-    template<typename T> requires std::is_base_of_v<Application, T>
-    T Application::start() {
-        T app;
-        //TODO some logics
-        return app;
-    }
 
 } // namespace merutilm::vkh

@@ -8,6 +8,7 @@
 
 namespace merutilm::vkh {
     GraphicsContextWindow::GraphicsContextWindow(const HWND window) : window(window) {
+        SetWindowLongPtrW(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
 
     void GraphicsContextWindow::renderOnce() const {

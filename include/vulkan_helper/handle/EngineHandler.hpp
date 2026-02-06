@@ -9,15 +9,15 @@
 
 namespace merutilm::vkh {
     struct EngineHandler : Handler {
-        const Engine & engine;
+        Engine & engine;
 
-        explicit EngineHandler(const Engine & engine) : engine(engine) {};
+        explicit EngineHandler(Engine & engine) : engine(engine) {};
 
         ~EngineHandler() override = default;
 
-        EngineHandler(const EngineHandler &) = delete;
+        EngineHandler(EngineHandler &) = delete;
 
-        EngineHandler &operator=(const EngineHandler &) = delete;
+        EngineHandler &operator=(EngineHandler &) = delete;
 
         EngineHandler(EngineHandler &&) = default;
 
