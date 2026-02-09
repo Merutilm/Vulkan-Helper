@@ -3,18 +3,27 @@
 //
 
 #pragma once
-#include "vulkan_helper/base/vkh.hpp"
+#include "SampleRenderer.hpp"
+#include "vulkan_helper/Application.hpp"
 
 namespace merutilm {
-    struct DemoApplication {
+    struct DemoApplication final : vkh::Application{
 
-        vkh::Engine engine;
+        vkh::WindowContext * wc = nullptr;
+        std::optional<SampleRenderer> renderer;
 
         DemoApplication();
 
-        void init();
+        void init() override;
+
         void createWindow();
 
-        void start();
+        void addListeners();
+        void createContexts() const;
+        void createRenderers();
+        void update();
+
+        void start() const;
+
     };
 }

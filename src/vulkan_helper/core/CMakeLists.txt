@@ -1,11 +1,8 @@
 add_library(core OBJECT
         Core.cpp
-        GraphicsContextWindow.cpp
         Instance.cpp
         LogicalDevice.cpp
         PhysicalDeviceLoader.cpp
-        Surface.cpp
-        Swapchain.cpp
         ValidationLayer.cpp
 )
 

@@ -9,8 +9,8 @@
 
 namespace merutilm::vkh {
     class SyncObject final : public CoreHandler {
-        std::vector<Fence> fences = {};
-        std::vector<Semaphore> semaphores = {};
+        std::vector<std::unique_ptr<Fence>> fences = {};
+        std::vector<std::unique_ptr<Semaphore>> semaphores = {};
 
 
     public:
@@ -22,15 +22,15 @@ namespace merutilm::vkh {
 
         SyncObject &operator=(const SyncObject &) = delete;
 
-        SyncObject(SyncObject &&) noexcept = default;
+        SyncObject(SyncObject &&) = delete;
 
         SyncObject &operator=(SyncObject &&) = delete;
 
-        [[nodiscard]] Semaphore & getSemaphore(const uint32_t frameIndex) {
-            return semaphores[frameIndex];
+        [[nodiscard]] Semaphore & getSemaphore(const uint32_t frameIndex) const {
+            return *semaphores[frameIndex];
         }
 
-        [[nodiscard]] Fence & getFence(const uint32_t frameIndex) { return fences[frameIndex]; }
+        [[nodiscard]] Fence & getFence(const uint32_t frameIndex) const { return *fences[frameIndex]; }
 
     private:
         void init() override;

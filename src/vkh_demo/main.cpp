@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "DemoApplication.hpp"
-#include "vulkan_helper/util/BarrierUtils.hpp"
 
 
 void counter(const std::filesystem::path &path, uint32_t *lines) {
@@ -26,10 +25,12 @@ void counter(const std::filesystem::path &path, uint32_t *lines) {
 
 int main() {
     const std::filesystem::path path("../src");
+    const std::filesystem::path path2("../include");
     uint32_t lines = 0;
     counter(path, &lines);
+    counter(path2, &lines);
     std::cout << "Lines : " << lines << std::endl;
-    auto application = merutilm::DemoApplication();
+    const auto application = merutilm::DemoApplication();
     application.start();
 
     return 0;

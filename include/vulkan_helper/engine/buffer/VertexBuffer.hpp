@@ -20,7 +20,7 @@ namespace merutilm::vkh {
 
         VertexBuffer &operator=(const VertexBuffer &) = delete;
 
-        VertexBuffer(VertexBuffer &&) noexcept = default;
+        VertexBuffer(VertexBuffer &&) = delete;
 
         VertexBuffer &operator=(VertexBuffer &&) = delete;
 

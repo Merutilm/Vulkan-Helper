@@ -43,6 +43,7 @@
 #define UNICODE
 #define _UNICODE
 #include <windows.h>
+#include <windowsx.h>
 #include <commctrl.h>
 #include <vulkan/vulkan_win32.h>
 #endif

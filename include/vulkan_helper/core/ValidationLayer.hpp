@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         ValidationLayer &operator=(const ValidationLayer &) = delete;
 
-        ValidationLayer(ValidationLayer &&) noexcept = default;
+        ValidationLayer(ValidationLayer &&) = delete;
 
         ValidationLayer &operator=(ValidationLayer &&) = delete;
 

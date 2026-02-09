@@ -16,11 +16,12 @@ namespace merutilm::vkh {
         explicit PhysicalDeviceUtils() = delete;
 
 
-        static bool isDeviceSuitable(const VkPhysicalDevice physicalDevice, const VkSurfaceKHR surface);
+        static bool isDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 
-        static QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice physicalDevice, const VkSurfaceKHR surface);
+        static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 
+        static bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice);
 
-        static bool checkDeviceExtensionSupport(const VkPhysicalDevice physicalDevice);
+        static VkSurfaceKHR createDummySurface(VkInstance instance);
     };
 }

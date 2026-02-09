@@ -3,8 +3,8 @@
 //
 
 #pragma once
+#include "engine/configurator/PipelineConfigurator.hpp"
 #include "handle/EngineHandler.hpp"
-#include "window/WindowInitializerSettings.hpp"
 namespace merutilm::vkh {
 
 
@@ -12,7 +12,7 @@ namespace merutilm::vkh {
 
         Engine engine{};
 
-        explicit Application(WindowInitializerSettings &&settings);
+        explicit Application();
 
         ~Application() override;
 

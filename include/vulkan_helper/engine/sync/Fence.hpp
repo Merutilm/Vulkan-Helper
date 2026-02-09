@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         Fence &operator=(const Fence &) = delete;
 
-        Fence(Fence &&) noexcept = default;
+        Fence(Fence &&) = delete;
 
         Fence &operator=(Fence &&) = delete;
 

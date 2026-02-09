@@ -5,12 +5,11 @@
 
 #include <vulkan_helper/Application.hpp>
 
-#include "vulkan_helper/util/GraphicsContextWindowProc.hpp"
 
 namespace merutilm::vkh {
 
 
-    Application::Application(WindowInitializerSettings &&settings) {
+    Application::Application() {
         Application::init();
     }
 

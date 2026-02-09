@@ -6,9 +6,9 @@ namespace merutilm::vkh {
     inline DescriptorSetLayout & GlobalDescriptorSetLayoutRepo::pick(const DescriptorSetLayoutBuilder &layoutBuilder) {
         auto it = repository.find(layoutBuilder);
         if (it == repository.end()) {
-            auto[newIt, _] = repository.try_emplace(layoutBuilder, DescriptorSetLayout(core, layoutBuilder));
+            auto[newIt, _] = repository.try_emplace(layoutBuilder, std::make_unique<DescriptorSetLayout>(core, layoutBuilder));
             it = newIt;
         }
-        return it->second;
+        return *it->second;
     }
 }

@@ -8,7 +8,7 @@
 #include "Repository.hpp"
 
 namespace merutilm::vkh {
-    struct GlobalDescriptorSetLayoutRepo final : Repository<DescriptorSetLayoutBuilder, const DescriptorSetLayoutBuilder &, DescriptorSetLayout,
+    struct GlobalDescriptorSetLayoutRepo final : Repository<DescriptorSetLayoutBuilder, const DescriptorSetLayoutBuilder &, std::unique_ptr<DescriptorSetLayout>,
                      DescriptorSetLayout &, DescriptorSetLayoutBuilderHasher, std::equal_to<>> {
         using Repository::Repository;
 

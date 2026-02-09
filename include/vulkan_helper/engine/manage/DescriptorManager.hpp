@@ -4,21 +4,23 @@
 
 #pragma once
 
-#include <vulkan_helper/engine/sampler/CombinedImageSampler.hpp>
 #include <vulkan_helper/engine/buffer/ShaderStorage.hpp>
 #include <vulkan_helper/engine/buffer/Uniform.hpp>
-#include <vulkan_helper/hash/DescriptorSetLayoutBuildTypeHasher.hpp>
-#include <vulkan_helper/hash/VectorHasher.hpp>
+#include <vulkan_helper/engine/sampler/CombinedImageSampler.hpp>
 #include <vulkan_helper/engine/wrapped/DescriptorSetLayoutBuildType.hpp>
 #include <vulkan_helper/engine/wrapped/InputAttachment.hpp>
 #include <vulkan_helper/engine/wrapped/StorageImage.hpp>
+#include <vulkan_helper/hash/DescriptorSetLayoutBuildTypeHasher.hpp>
+#include <vulkan_helper/hash/VectorHasher.hpp>
 
 namespace merutilm::vkh {
     using DescriptorSetLayoutBuilder = std::vector<DescriptorSetLayoutBuildType>;
-    using DescriptorSetLayoutBuilderHasher = VectorHasher<DescriptorSetLayoutBuildType,
-        DescriptorSetLayoutBuildTypeHasher>;
+    using DescriptorSetLayoutBuilderHasher =
+            VectorHasher<DescriptorSetLayoutBuildType, DescriptorSetLayoutBuildTypeHasher>;
 
-    using DescriptorType = std::variant<Uniform, ShaderStorage, CombinedImageSampler, InputAttachment, StorageImage>;
+    using DescriptorType = std::variant<std::unique_ptr<Uniform>, std::unique_ptr<ShaderStorage>,
+                                        std::unique_ptr<CombinedImageSampler>, std::unique_ptr<InputAttachment>,
+                                        std::unique_ptr<StorageImage>>;
 
 
     struct DescriptorManager {
@@ -38,14 +40,12 @@ namespace merutilm::vkh {
         DescriptorManager &operator=(DescriptorManager &&) noexcept = delete;
 
 
-        void appendUBO(uint32_t bindingExpected, VkShaderStageFlags useStage,
-                       Uniform &&ubo);
+        void appendUBO(uint32_t bindingExpected, VkShaderStageFlags useStage,  std::unique_ptr<Uniform> &&ubo);
 
-        void appendSSBO(uint32_t bindingExpected, VkShaderStageFlags useStage,
-                        ShaderStorage &&ssbo);
+        void appendSSBO(uint32_t bindingExpected, VkShaderStageFlags useStage,  std::unique_ptr<ShaderStorage> &&ssbo);
 
         void appendCombinedImgSampler(uint32_t bindingExpected, VkShaderStageFlags useStage,
-                                      CombinedImageSampler &&sampler);
+                                       std::unique_ptr<CombinedImageSampler> &&sampler);
 
         void appendInputAttachment(uint32_t bindingExpected, VkShaderStageFlags useStage);
 
@@ -53,4 +53,4 @@ namespace merutilm::vkh {
     };
 
 
-}
+} // namespace merutilm::vkh

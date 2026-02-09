@@ -19,7 +19,7 @@ namespace merutilm::vkh {
 
         Semaphore &operator=(const Semaphore &) = delete;
 
-        Semaphore(Semaphore &&) noexcept = default;
+        Semaphore(Semaphore &&) = delete;
 
         Semaphore &operator=(Semaphore &&) = delete;
 

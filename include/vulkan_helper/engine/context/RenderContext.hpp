@@ -26,7 +26,7 @@ namespace merutilm::vkh {
 
         RenderContext &operator=(const RenderContext &) = delete;
 
-        RenderContext(RenderContext &&) noexcept = default;
+        RenderContext(RenderContext &&) = delete;
 
         RenderContext &operator=(RenderContext &&) = delete;
 

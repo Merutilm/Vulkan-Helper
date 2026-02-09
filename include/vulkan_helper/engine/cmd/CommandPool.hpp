@@ -18,7 +18,7 @@ namespace merutilm::vkh {
 
         CommandPool &operator=(const CommandPool &) = delete;
 
-        CommandPool(CommandPool &&) noexcept = default;
+        CommandPool(CommandPool &&) = delete;
 
         CommandPool &operator=(CommandPool &&) = delete;
 

@@ -9,7 +9,7 @@
 #include "Repository.hpp"
 
 namespace merutilm::vkh {
-    struct WindowLocalDescriptorRepo final : Repository<uint32_t, const DescriptorTemplateInfo &, Descriptor, Descriptor &,
+    struct WindowLocalDescriptorRepo final : Repository<uint32_t, const DescriptorTemplateInfo &, std::unique_ptr<Descriptor>, Descriptor &,
                 std::hash<uint32_t>, std::equal_to<>, GlobalDescriptorSetLayoutRepo &> {
         using Repository::Repository;
 

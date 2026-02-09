@@ -26,7 +26,7 @@ namespace merutilm::vkh {
 
         Instance &operator=(const Instance &) = delete;
 
-        Instance(Instance &&) noexcept = default;
+        Instance(Instance &&) = delete;
 
         Instance &operator=(Instance &&) = delete;
 

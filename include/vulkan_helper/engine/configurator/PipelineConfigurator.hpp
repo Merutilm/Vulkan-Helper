@@ -11,11 +11,18 @@
 #include <vulkan_helper/util/DescriptorUpdater.hpp>
 
 namespace merutilm::vkh {
+
+    struct PipelineConfigurator;
+
+    template<typename Tp, typename... Args>
+    concept PipelineCreatable = std::is_base_of_v<PipelineConfigurator, Tp> && std::is_constructible_v<Tp, Engine &, uint32_t, Args...>;
+
+
     struct PipelineConfigurator {
         Engine &engine;
         WindowContext &wc;
         std::unique_ptr<Pipeline> pipeline = nullptr;
-        std::vector<Descriptor> uniqueDescriptors = {};
+        std::vector<std::unique_ptr<Descriptor>> uniqueDescriptors = {};
 
         explicit PipelineConfigurator(Engine &engine, const uint32_t windowContextIndex) :
             engine(engine), wc(engine.getWindowContext(windowContextIndex)) {}
@@ -24,20 +31,20 @@ namespace merutilm::vkh {
 
         PipelineConfigurator(const PipelineConfigurator &) = delete;
 
-        PipelineConfigurator(PipelineConfigurator &&) noexcept = default;
+        PipelineConfigurator(PipelineConfigurator &&) = delete;
 
         PipelineConfigurator &operator=(const PipelineConfigurator &) = delete;
 
         PipelineConfigurator &operator=(PipelineConfigurator &&) = delete;
 
-        template<typename Tp, typename... Args>
-            requires std::is_base_of_v<PipelineConfigurator, Tp>
-        static Tp *create(std::vector<PipelineConfigurator> &shaderPrograms, Engine &engine,
+
+        template<typename Tp, typename... Args> requires PipelineCreatable<Tp, Args...>
+        static Tp *create(std::vector<std::unique_ptr<PipelineConfigurator>> &currentPipelineConfigurators, Engine &engine,
                           const uint32_t windowContextIndex, Args &&...args) {
             auto pipeline = std::make_unique<Tp>(engine, windowContextIndex, std::forward<Args>(args)...);
             pipeline->configure();
-            shaderPrograms.emplace_back(std::move(pipeline));
-            return dynamic_cast<Tp *>(&shaderPrograms.back());
+            currentPipelineConfigurators.emplace_back(std::move(pipeline));
+            return dynamic_cast<Tp *>(currentPipelineConfigurators.back().get());
         }
 
 
@@ -109,9 +116,9 @@ namespace merutilm::vkh {
             safe_array::check_index_equal(setExpected, static_cast<uint32_t>(descriptors.size()),
                                           "Unique Descriptor Add");
             auto &layoutRepo = *engine.getGlobalRepositories().getRepository<GlobalDescriptorSetLayoutRepo>();
-            auto desc = Descriptor(wc.core, layoutRepo.pick(manager[0].layoutBuilder), std::move(manager));
+            auto desc = std::make_unique<Descriptor>(wc.core, layoutRepo.pick(manager[0].layoutBuilder), std::move(manager));
             uniqueDescriptors.push_back(std::move(desc));
-            descriptors.push_back(&uniqueDescriptors.back());
+            descriptors.push_back(uniqueDescriptors.back().get());
         }
 
         virtual void updateQueue(DescriptorUpdateQueue &queue, uint32_t frameIndex) = 0;

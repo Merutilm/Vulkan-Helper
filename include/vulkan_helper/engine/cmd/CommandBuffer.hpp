@@ -20,7 +20,7 @@ namespace merutilm::vkh {
 
         CommandBuffer &operator=(const CommandBuffer &) = delete;
 
-        CommandBuffer(CommandBuffer &&) noexcept = default;
+        CommandBuffer(CommandBuffer &&) = delete;
 
         CommandBuffer &operator=(CommandBuffer &&) = delete;
 

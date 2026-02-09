@@ -46,8 +46,8 @@ namespace merutilm::vkh {
         for (const uint32_t descIndex: descIndices) {
             for (const uint32_t binding: bindings) {
                 auto &raw = getRaw(descIndex, binding);
-                if (std::holds_alternative<Uniform>(raw)) {
-                    auto &ubo = std::get<Uniform>(raw);
+                if (std::holds_alternative<std::unique_ptr<Uniform>>(raw)) {
+                    auto &ubo = *std::get<std::unique_ptr<Uniform>>(raw);
 
                     updateQueue.push_back({
                             .bufferInfo =
@@ -70,8 +70,8 @@ namespace merutilm::vkh {
                             .pTexelBufferView = nullptr,
                     };
                 }
-                if (std::holds_alternative<ShaderStorage>(raw)) {
-                    auto &ssbo = std::get<ShaderStorage>(raw);
+                if (std::holds_alternative<std::unique_ptr<ShaderStorage>>(raw)) {
+                    auto &ssbo = *std::get<std::unique_ptr<ShaderStorage>>(raw);
 
 
                     updateQueue.push_back({
@@ -95,8 +95,8 @@ namespace merutilm::vkh {
                             .pTexelBufferView = nullptr,
                     };
                 }
-                if (std::holds_alternative<CombinedImageSampler>(raw)) {
-                    auto &tex = std::get<CombinedImageSampler>(raw);
+                if (std::holds_alternative<std::unique_ptr<CombinedImageSampler>>(raw)) {
+                    auto &tex = *std::get<std::unique_ptr<CombinedImageSampler>>(raw);
 
                     updateQueue.push_back(
                             {.imageInfo = VkDescriptorImageInfo{
@@ -120,8 +120,8 @@ namespace merutilm::vkh {
                             .pTexelBufferView = nullptr,
                     };
                 }
-                if (std::holds_alternative<InputAttachment>(raw)) {
-                    const auto &[ctx] = std::get<InputAttachment>(raw);
+                if (std::holds_alternative<std::unique_ptr<InputAttachment>>(raw)) {
+                    const auto &[ctx] = *std::get<std::unique_ptr<InputAttachment>>(raw);
                     updateQueue.push_back({.imageInfo = VkDescriptorImageInfo{
                                                    .sampler = VK_NULL_HANDLE,
                                                    .imageView = ctx[frameIndex].mipmappedImageView,
@@ -140,8 +140,8 @@ namespace merutilm::vkh {
                             .pTexelBufferView = nullptr,
                     };
                 }
-                if (std::holds_alternative<StorageImage>(raw)) {
-                    const auto &[ctx] = std::get<StorageImage>(raw);
+                if (std::holds_alternative<std::unique_ptr<StorageImage>>(raw)) {
+                    const auto &[ctx] = *std::get<std::unique_ptr<StorageImage>>(raw);
                     updateQueue.push_back(
                             {.imageInfo = VkDescriptorImageInfo{.sampler = VK_NULL_HANDLE,
                                                                 .imageView = ctx[frameIndex].mipmappedImageView,

@@ -8,13 +8,11 @@ namespace merutilm::vkh {
     RenderContext::RenderContext(Core &core, std::function<VkExtent2D()> &&extentGetter, std::unique_ptr<RenderContextConfigurator> &&renderContextConfigurator) :
         core(core), extentGetter(std::move(extentGetter)) {
         RenderPassManager rpm{};
-        const VkExtent2D extent = extentGetter();
+        const VkExtent2D extent = this->extentGetter();
         renderContextConfigurator->configure(rpm);
-        RenderPass renderPass(core, std::move(rpm));
-        Framebuffer framebuffer(core, renderPass, extent);
         this->renderContextConfigurator = std::move(renderContextConfigurator);
-        this->renderPass.emplace(std::move(renderPass));
-        this->framebuffer.emplace(std::move(framebuffer));
+        this->renderPass.emplace(core, std::move(rpm));
+        this->framebuffer.emplace(core, *renderPass, extent);
     }
 
     void RenderContext::recreate() {

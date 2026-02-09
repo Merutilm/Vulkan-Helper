@@ -19,7 +19,7 @@ namespace merutilm::vkh {
 
         WindowContextHandler &operator=(const WindowContextHandler &) = delete;
 
-        WindowContextHandler(WindowContextHandler &&) noexcept = default;
+        WindowContextHandler(WindowContextHandler &&) = delete;
 
         WindowContextHandler &operator=(WindowContextHandler &&) = delete;
 

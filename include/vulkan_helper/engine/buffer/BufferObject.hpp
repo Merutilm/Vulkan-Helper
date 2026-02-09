@@ -32,7 +32,7 @@ namespace merutilm::vkh {
 
         BufferObject &operator=(const BufferObject &) = delete;
 
-        BufferObject(BufferObject &&) noexcept = default;
+        BufferObject(BufferObject &&) = delete;
 
         BufferObject &operator=(BufferObject &&) noexcept = delete;
 

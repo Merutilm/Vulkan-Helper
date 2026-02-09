@@ -19,7 +19,7 @@ namespace merutilm::vkh {
 
         CoreHandler &operator=(const CoreHandler &) = delete;
 
-        CoreHandler(CoreHandler &&) noexcept = default;
+        CoreHandler(CoreHandler &&) = delete;
 
         CoreHandler &operator=(CoreHandler &&) noexcept = delete;
     };

@@ -23,11 +23,16 @@ namespace merutilm::vkh {
         return surfaceCapabilities;
     }
 
-    HWND PhysicalDeviceLoader::createDummyWindow() {
-        const WNDCLASSEXW wcex = {
+    void PhysicalDeviceLoader::init() {
+
+        uint32_t physicalDeviceCount = 0;
+        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, nullptr);
+        std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
+        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, physicalDevices.data());
+        const WNDCLASSEX wcex = {
             .cbSize = sizeof(WNDCLASSEX),
             .style = CS_OWNDC,
-            .lpfnWndProc = DefWindowProcW,
+            .lpfnWndProc = DefWindowProc,
             .cbClsExtra = 0,
             .cbWndExtra = 0,
             .hInstance = GetModuleHandle(nullptr),
@@ -38,11 +43,9 @@ namespace merutilm::vkh {
             .lpszClassName = config::DUMMY_WINDOW_CLASS,
             .hIconSm = nullptr
         };
-        RegisterClassExW(&wcex);
-        return CreateWindowExW(0, config::DUMMY_WINDOW_CLASS, L"", 0, 0, 0, 100, 100, nullptr, nullptr, nullptr, nullptr);
-    }
+        RegisterClassEx(&wcex);
+        const HWND dummyWindow = CreateWindowEx(0, config::DUMMY_WINDOW_CLASS, L"", 0, 0, 0, 100, 100, nullptr, nullptr, nullptr, nullptr);
 
-    VkSurfaceKHR PhysicalDeviceLoader::createDummySurface(const HWND dummyWindow) const {
         VkSurfaceKHR surface = VK_NULL_HANDLE;
 
         const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {
@@ -54,18 +57,6 @@ namespace merutilm::vkh {
         };
 
         allocator::invoke(vkCreateWin32SurfaceKHR, instance.getInstanceHandle(), &surfaceCreateInfo, nullptr, &surface);
-
-        return surface;
-    }
-
-    void PhysicalDeviceLoader::init() {
-
-        uint32_t physicalDeviceCount = 0;
-        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, nullptr);
-        std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
-        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, physicalDevices.data());
-        const HWND dummyWindow = createDummyWindow();
-        const VkSurfaceKHR surface = createDummySurface(dummyWindow);
 
         for (const auto pd: physicalDevices) {
             if (PhysicalDeviceUtils::isDeviceSuitable(pd, surface)) {

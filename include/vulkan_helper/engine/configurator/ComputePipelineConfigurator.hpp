@@ -23,7 +23,7 @@ namespace merutilm::vkh {
 
         ComputePipelineConfigurator &operator=(const ComputePipelineConfigurator &) = delete;
 
-        ComputePipelineConfigurator(ComputePipelineConfigurator &&) noexcept = default;
+        ComputePipelineConfigurator(ComputePipelineConfigurator &&) = delete;
 
         ComputePipelineConfigurator &operator=(ComputePipelineConfigurator &&) = delete;
 

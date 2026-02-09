@@ -22,7 +22,7 @@ namespace merutilm::vkh {
 
         DescriptorSetLayout &operator=(const DescriptorSetLayout &) = delete;
 
-        DescriptorSetLayout(DescriptorSetLayout &&) noexcept = default;
+        DescriptorSetLayout(DescriptorSetLayout &&) = delete;
 
         DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
 

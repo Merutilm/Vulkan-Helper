@@ -11,6 +11,7 @@ add_subdirectory(pipeline)
 add_subdirectory(repo)
 add_subdirectory(sampler)
 add_subdirectory(sync)
+add_subdirectory(window)
 
 
 add_library(engine OBJECT

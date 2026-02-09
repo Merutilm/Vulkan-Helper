@@ -24,7 +24,7 @@ namespace merutilm::vkh {
 
         Core &operator=(const Core &) = delete;
 
-        Core(Core &&) noexcept = default;
+        Core(Core &&) = delete;
 
         Core &operator=(Core &&) = delete;
 

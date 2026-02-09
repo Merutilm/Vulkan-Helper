@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         SharedImageContext &operator=(const SharedImageContext &) = delete;
 
-        SharedImageContext(SharedImageContext &&) noexcept = default;
+        SharedImageContext(SharedImageContext &&) = delete;
 
         SharedImageContext &operator=(SharedImageContext &&) = delete;
 

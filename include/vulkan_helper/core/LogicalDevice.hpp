@@ -25,7 +25,7 @@ namespace merutilm::vkh {
 
         LogicalDevice &operator=(const LogicalDevice &) = delete;
 
-        LogicalDevice(LogicalDevice &&) noexcept = default;
+        LogicalDevice(LogicalDevice &&) = delete;
 
         LogicalDevice &operator=(LogicalDevice &&) = delete;
 

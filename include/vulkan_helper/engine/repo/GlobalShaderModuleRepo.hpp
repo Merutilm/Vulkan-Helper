@@ -9,7 +9,7 @@
 #include "Repository.hpp"
 
 namespace merutilm::vkh {
-    struct GlobalShaderModuleRepo final : Repository<std::string, const std::string &, ShaderModule, ShaderModule &,
+    struct GlobalShaderModuleRepo final : Repository<std::string, const std::string &, std::unique_ptr<ShaderModule>, ShaderModule &,
                 StringHasher, std::equal_to<> > {
         using Repository::Repository;
 

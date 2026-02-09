@@ -17,7 +17,7 @@ namespace merutilm::vkh {
 
         Uniform &operator=(const Uniform &) = delete;
 
-        Uniform(Uniform &&) noexcept = default;
+        Uniform(Uniform &&) = delete;
 
         Uniform &operator=(Uniform &&) = delete;
 

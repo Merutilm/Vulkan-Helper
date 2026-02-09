@@ -24,7 +24,7 @@ namespace merutilm::vkh {
 
         CombinedImageSampler &operator=(const CombinedImageSampler &) = delete;
 
-        CombinedImageSampler(CombinedImageSampler &&) noexcept = default;
+        CombinedImageSampler(CombinedImageSampler &&) = delete;
 
         CombinedImageSampler &operator=(CombinedImageSampler &&) = delete;
 

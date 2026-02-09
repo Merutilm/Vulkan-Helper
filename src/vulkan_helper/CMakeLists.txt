@@ -3,7 +3,6 @@ add_subdirectory(dependency)
 add_subdirectory(core)
 add_subdirectory(engine)
 add_subdirectory(util)
-add_subdirectory(window)
 
 
 add_library(vulkan_helper STATIC
@@ -23,15 +22,15 @@ add_library(vulkan_helper STATIC
         $<TARGET_OBJECTS:engine_repo>
         $<TARGET_OBJECTS:engine_sampler>
         $<TARGET_OBJECTS:engine_sync>
-        $<TARGET_OBJECTS:window>
+        $<TARGET_OBJECTS:engine_window>
 )
 
 if(WIN32)
-    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:window_win>)
+    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_win>)
 elseif (APPLE)
-    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:window_mac>)
+    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_mac>)
 elseif (UNIX)
-    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:window_linux>)
+    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_linux>)
 else()
     message(STATUS "failed to find OS")
 endif ()

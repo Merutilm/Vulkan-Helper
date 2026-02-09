@@ -28,7 +28,7 @@ namespace merutilm::vkh {
 
         RenderContextConfigurator &operator=(const RenderContextConfigurator &) = delete;
 
-        RenderContextConfigurator(RenderContextConfigurator &&) noexcept = default;
+        RenderContextConfigurator(RenderContextConfigurator &&) = delete;
 
         RenderContextConfigurator &operator=(RenderContextConfigurator &&) = delete;
 

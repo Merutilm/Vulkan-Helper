@@ -1,12 +1,12 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/util/SwapchainUtils.hpp>
 #include <vulkan_helper/engine/graphics/Renderer.hpp>
+#include <vulkan_helper/util/SwapchainUtils.hpp>
+#include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
 
 namespace merutilm::vkh {
-    Renderer::Renderer(Engine & engine, const uint32_t windowContextIndex): engine(engine),
-        wc(engine.getWindowContext(windowContextIndex)) {
+    Renderer::Renderer(Engine & engine, WindowContext &wc): EngineHandler(engine), wc(wc){
     }
 
     Renderer::~Renderer() = default;
@@ -15,24 +15,24 @@ namespace merutilm::vkh {
         return frameIndex;
     }
 
-    void Renderer::finishPipelineInitialization() {
-        for (auto &sp: configurators) {
-            sp.pipelineInitialized();
+    void Renderer::finishPipelineInitialization() const {
+        for (const auto &sp: configurators) {
+            sp->pipelineInitialized();
         }
     }
 
     void Renderer::execute() {
-        SwapchainUtils::renderFrame(wc, &frameIndex, [this](const uint32_t swapchainImageIndex) {
+        SwapchainUtils::tryRenderFrame(wc, &frameIndex, [this](const uint32_t swapchainImageIndex) {
             if (frameIndex == 0) {
                 for (auto &rc: wc.getRenderContexts()) {
-                    rc.getConfigurator()->allFrameInitialized();
+                    rc->getConfigurator()->allFrameInitialized();
                 }
             }
             DescriptorUpdateQueue queue = DescriptorUpdater::createQueue();
             const VkDevice device = wc.core.getLogicalDevice().getLogicalDeviceHandle();
 
-            for (auto &configurator: configurators) {
-                configurator.updateQueue(queue, frameIndex);
+            for (const auto &configurator: configurators) {
+                configurator->updateQueue(queue, frameIndex);
             }
 
             DescriptorUpdater::write(device, queue);

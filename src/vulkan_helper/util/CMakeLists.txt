@@ -4,7 +4,6 @@ add_library(util OBJECT
         BufferImageUtils.cpp
         Debugger.cpp
         DescriptorUpdater.cpp
-        GraphicsContextWindowProc.cpp
         PhysicalDeviceUtils.cpp
         SwapchainUtils.cpp
 )

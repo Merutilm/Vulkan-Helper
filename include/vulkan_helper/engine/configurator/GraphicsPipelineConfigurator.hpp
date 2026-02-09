@@ -26,7 +26,7 @@ namespace merutilm::vkh {
 
         GraphicsPipelineConfigurator(const GraphicsPipelineConfigurator &) = delete;
 
-        GraphicsPipelineConfigurator(GraphicsPipelineConfigurator &&) noexcept = default;
+        GraphicsPipelineConfigurator(GraphicsPipelineConfigurator &&) = delete;
 
         GraphicsPipelineConfigurator &operator=(const GraphicsPipelineConfigurator &) = delete;
 

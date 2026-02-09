@@ -23,7 +23,7 @@ namespace merutilm::vkh {
 
         PipelineLayout &operator=(const PipelineLayout &) = delete;
 
-        PipelineLayout(PipelineLayout &&) noexcept = default;
+        PipelineLayout(PipelineLayout &&) = delete;
 
         PipelineLayout &operator=(PipelineLayout &&) = delete;
 

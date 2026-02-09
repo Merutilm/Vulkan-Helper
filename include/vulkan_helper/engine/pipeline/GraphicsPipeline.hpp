@@ -30,7 +30,7 @@ namespace merutilm::vkh {
 
         GraphicsPipeline &operator=(const GraphicsPipeline &) = delete;
 
-        GraphicsPipeline(GraphicsPipeline &&) noexcept = default;
+        GraphicsPipeline(GraphicsPipeline &&) = delete;
 
         GraphicsPipeline &operator=(GraphicsPipeline &&) = delete;
 

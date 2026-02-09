@@ -20,7 +20,7 @@ namespace merutilm::vkh {
 
         Sampler &operator=(const Sampler &other) = delete;
 
-        Sampler(Sampler &&other) noexcept = default;
+        Sampler(Sampler &&other) = delete;
 
         Sampler &operator=(Sampler &&other) = delete;
 

@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         ScopedCommandBufferExecutor &operator=(const ScopedCommandBufferExecutor &) = delete;
 
-        ScopedCommandBufferExecutor(ScopedCommandBufferExecutor &&) noexcept = default;
+        ScopedCommandBufferExecutor(ScopedCommandBufferExecutor &&) = delete;
 
         ScopedCommandBufferExecutor &operator=(ScopedCommandBufferExecutor &&) = delete;
 

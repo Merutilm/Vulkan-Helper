@@ -8,7 +8,7 @@
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
 namespace merutilm::vkh {
-    WindowContext::WindowContext(Core &core, const uint32_t index, GraphicsContextWindow &&window) :
+    WindowContext::WindowContext(Core &core, const uint32_t index, std::unique_ptr<PlatformWindowBase> &&window) :
         CoreHandler(core), attachmentIndex(index), window(std::move(window)) {
         WindowContext::init();
     }
@@ -17,7 +17,7 @@ namespace merutilm::vkh {
 
     void WindowContext::init() {
 
-        surface.emplace(core.getInstance(), *window);
+        surface.emplace(core.getInstance(), window.get());
         if (!PhysicalDeviceUtils::isDeviceSuitable(core.getPhysicalDevice().getPhysicalDeviceHandle(),
                                                    surface->getSurfaceHandle())) {
             throw exception_invalid_args("Invalid window provided");

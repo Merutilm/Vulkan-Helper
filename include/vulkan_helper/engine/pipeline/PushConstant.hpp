@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         PushConstant &operator=(const PushConstant &) = delete;
 
-        PushConstant(PushConstant &&) noexcept = default;
+        PushConstant(PushConstant &&) = delete;
 
         PushConstant &operator=(PushConstant &&) = delete;
 

@@ -24,7 +24,7 @@ namespace merutilm::vkh {
 
         ShaderModule &operator=(const ShaderModule &) = delete;
 
-        ShaderModule(ShaderModule &&) noexcept = default;
+        ShaderModule(ShaderModule &&) = delete;
 
         ShaderModule &operator=(ShaderModule &&) = delete;
 

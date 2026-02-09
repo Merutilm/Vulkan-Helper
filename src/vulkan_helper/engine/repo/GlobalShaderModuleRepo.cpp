@@ -9,9 +9,9 @@ namespace merutilm::vkh {
     ShaderModule & GlobalShaderModuleRepo::pick(const std::string &filename) {
         auto it = repository.find(filename);
         if (it == repository.end()) {
-            auto [newIt, _] = repository.try_emplace(filename, ShaderModule(core, filename));
+            auto [newIt, _] = repository.try_emplace(filename, std::make_unique<ShaderModule>(core, filename));
             it = newIt;
         }
-        return it->second;
+        return *it->second;
     }
 }

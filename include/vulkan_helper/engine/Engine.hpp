@@ -12,7 +12,7 @@ namespace merutilm::vkh {
     class Engine final : public Handler {
         Core core;
         Repositories globalRepositories;
-        std::vector<std::optional<WindowContext>> windowContexts = {};
+        std::vector<std::unique_ptr<WindowContext>> windowContexts = {};
 
     public:
         explicit Engine();
@@ -23,19 +23,19 @@ namespace merutilm::vkh {
 
         Engine &operator=(const Engine &) = delete;
 
-        Engine(Engine &&) noexcept = default;
+        Engine(Engine &&) = delete;
 
         Engine &operator=(Engine &&) = delete;
 
         [[nodiscard]] bool isValidWindowContext(uint32_t windowAttachmentIndex) const;
 
-        [[nodiscard]] WindowContext & attachWindowContext(HWND hwnd, uint32_t windowAttachmentIndexExpected);
+        [[nodiscard]] WindowContext & attachWindowContext(WindowInitializerSettings &&wic, uint32_t windowAttachmentIndexExpected);
 
-        [[nodiscard]] WindowContext detachWindowContext(uint32_t windowAttachmentIndex);
+        std::unique_ptr<WindowContext> detachWindowContext(uint32_t windowAttachmentIndex);
 
         [[nodiscard]] Core & getCore() { return core; }
 
-        [[nodiscard]] WindowContext & getWindowContext(const uint32_t windowContextIndex)  {
+        [[nodiscard]] WindowContext & getWindowContext(const uint32_t windowContextIndex) const {
             return *windowContexts.at(windowContextIndex);
         }
 

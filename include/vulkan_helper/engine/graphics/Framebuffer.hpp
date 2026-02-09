@@ -21,7 +21,7 @@ namespace merutilm::vkh {
 
         Framebuffer &operator=(const Framebuffer &) = delete;
 
-        Framebuffer(Framebuffer &&) noexcept = default;
+        Framebuffer(Framebuffer &&) = delete;
 
         Framebuffer &operator=(Framebuffer &&) = delete;
 

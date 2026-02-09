@@ -7,7 +7,6 @@
 #include <vulkan_helper/handle/Handler.hpp>
 #include "Instance.hpp"
 #include "QueueFamilyIndices.hpp"
-#include "Surface.hpp"
 
 namespace merutilm::vkh {
     class PhysicalDeviceLoader final : public Handler {
@@ -31,7 +30,7 @@ namespace merutilm::vkh {
 
         PhysicalDeviceLoader &operator=(const PhysicalDeviceLoader &) = delete;
 
-        PhysicalDeviceLoader(PhysicalDeviceLoader &&) noexcept = default;
+        PhysicalDeviceLoader(PhysicalDeviceLoader &&) = delete;
 
         PhysicalDeviceLoader &operator=(PhysicalDeviceLoader &&) = delete;
 
@@ -51,16 +50,12 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkSurfaceCapabilitiesKHR populateSurfaceCapabilities(VkSurfaceKHR surface) const;
 
-        static HWND createDummyWindow();
-
 
         [[nodiscard]] const QueueFamilyIndices &getQueueFamilyIndices() const { return queueFamilyIndices; }
 
-        uint32_t getMaxFramesInFlight() const {return maxFramesInFlight;}
+        [[nodiscard]] uint32_t getMaxFramesInFlight() const {return maxFramesInFlight;}
 
     private:
-
-        VkSurfaceKHR createDummySurface(HWND dummyWindow) const;
 
         void init() override;
 

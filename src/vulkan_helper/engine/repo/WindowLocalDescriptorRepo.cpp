@@ -11,9 +11,9 @@ namespace merutilm::vkh {
             auto descManager = descTemplateInfo.descriptorGenerator(core);
             auto &layout = layoutRepo.pick(descManager[0].layoutBuilder);
 
-            auto [newIt, _] = repository.try_emplace(descTemplateInfo.id, Descriptor(core, layout, std::move(descManager)));
+            auto [newIt, _] = repository.try_emplace(descTemplateInfo.id, std::make_unique<Descriptor>(core, layout, std::move(descManager)));
             it = newIt;
         }
-        return it->second;
+        return *it->second;
     }
 }

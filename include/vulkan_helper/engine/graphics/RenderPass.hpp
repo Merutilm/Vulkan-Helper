@@ -26,7 +26,7 @@ namespace merutilm::vkh {
 
         RenderPass &operator=(const RenderPass &) = delete;
 
-        RenderPass(RenderPass &&) noexcept = default;
+        RenderPass(RenderPass &&) = delete;
 
         RenderPass &operator=(RenderPass &&) = delete;
 

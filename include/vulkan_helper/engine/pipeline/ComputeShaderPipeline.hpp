@@ -19,7 +19,7 @@ namespace merutilm::vkh {
 
         ComputeShaderPipeline &operator=(const ComputeShaderPipeline &) = delete;
 
-        ComputeShaderPipeline(ComputeShaderPipeline &&) noexcept = default;
+        ComputeShaderPipeline(ComputeShaderPipeline &&) = delete;
 
         ComputeShaderPipeline &operator=(ComputeShaderPipeline &&) = delete;
 

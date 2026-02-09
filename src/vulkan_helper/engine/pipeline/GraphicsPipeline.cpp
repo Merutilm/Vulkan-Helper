@@ -19,8 +19,10 @@ namespace merutilm::vkh {
                                       DescIndexPicker &&descIndices) const {
         const auto sets = enumerateDescriptorSets(frameIndex, std::move(descIndices));
         vkCmdBindPipeline(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
-        vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, getLayout().getLayoutHandle(), 0,
-                                static_cast<uint32_t>(sets.size()), sets.data(), 0, nullptr);
+        if (sets.size() > 0) {
+            vkCmdBindDescriptorSets(cbh, VK_PIPELINE_BIND_POINT_GRAPHICS, getLayout().getLayoutHandle(), 0,
+                                    static_cast<uint32_t>(sets.size()), sets.data(), 0, nullptr);
+        }
     }
 
 

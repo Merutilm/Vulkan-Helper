@@ -4,24 +4,24 @@
 
 #pragma once
 #include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
-#include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
+
+#include "vulkan_helper/handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {
-    struct Renderer : Handler {
-        Engine & engine;
-        WindowContext & wc;
+    struct Renderer : EngineHandler {
 
+        WindowContext & wc;
         uint32_t frameIndex = 0;
         bool pipelineInitialized = false;
-        std::vector<PipelineConfigurator> configurators = {};
+        std::vector<std::unique_ptr<PipelineConfigurator>> configurators = {};
 
-        explicit Renderer(Engine & engine, uint32_t windowContextIndex);
+        explicit Renderer(Engine & engine, WindowContext &wc);
 
         ~Renderer() override;
 
         Renderer(const Renderer &windowContext) = delete;
 
-        Renderer(Renderer &&) noexcept = default;
+        Renderer(Renderer &&) = delete;
 
         Renderer &operator=(Renderer &&) = delete;
 
@@ -30,7 +30,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] uint32_t getFrameIndex() const;
 
-        void finishPipelineInitialization();
+        void finishPipelineInitialization() const;
 
         void execute();
 

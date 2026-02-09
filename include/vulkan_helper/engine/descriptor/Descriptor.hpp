@@ -33,7 +33,7 @@ namespace merutilm::vkh {
 
         Descriptor &operator=(const Descriptor &) = delete;
 
-        Descriptor(Descriptor &&) noexcept = default;
+        Descriptor(Descriptor &&) = delete;
 
         Descriptor &operator=(Descriptor &&) = delete;
 
@@ -52,7 +52,7 @@ namespace merutilm::vkh {
         [[nodiscard]] uint32_t getElementCount() const {
             uint32_t count = 0;
             for (auto &variant: data[0]) {
-                if (std::holds_alternative<T>(variant))
+                if (std::holds_alternative<std::unique_ptr<T>>(variant))
                     ++count;
             }
             return count;

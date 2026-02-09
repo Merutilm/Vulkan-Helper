@@ -16,7 +16,7 @@ namespace merutilm::vkh {
 
         ShaderStorage operator=(const ShaderStorage &) = delete;
 
-        ShaderStorage(ShaderStorage &&) noexcept = default;
+        ShaderStorage(ShaderStorage &&) = delete;
 
         ShaderStorage operator=(ShaderStorage &&) = delete;
 

@@ -23,7 +23,7 @@ namespace merutilm::vkh {
 
         Pipeline &operator=(const Pipeline &) = delete;
 
-        Pipeline(Pipeline &&) noexcept = default;
+        Pipeline(Pipeline &&) = delete;
 
         Pipeline &operator=(Pipeline &&) = delete;
 

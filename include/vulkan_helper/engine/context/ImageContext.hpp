@@ -3,9 +3,9 @@
 //
 
 #pragma once
-#include <vulkan_helper/core/Swapchain.hpp>
-#include <vulkan_helper/util/BufferImageUtils.hpp>
+#include <vulkan_helper/engine/window/Swapchain.hpp>
 #include <vulkan_helper/engine/wrapped/ImageInitInfo.hpp>
+#include <vulkan_helper/util/BufferImageUtils.hpp>
 
 namespace merutilm::vkh {
     struct ImageContext;

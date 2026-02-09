@@ -17,7 +17,7 @@ namespace merutilm::vkh {
 
         IndexBuffer &operator=(const IndexBuffer &) = delete;
 
-        IndexBuffer(IndexBuffer &&) noexcept = default;
+        IndexBuffer(IndexBuffer &&) = delete;
 
         IndexBuffer &operator=(IndexBuffer &&) = delete;
 

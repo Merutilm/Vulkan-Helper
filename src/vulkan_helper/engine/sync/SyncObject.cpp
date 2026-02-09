@@ -20,8 +20,8 @@ namespace merutilm::vkh {
         fences.reserve(maxFramesInFlight);
         semaphores.reserve(maxFramesInFlight);
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            fences.emplace_back(core);
-            semaphores.emplace_back(core);
+            fences.emplace_back(std::make_unique<Fence>(core));
+            semaphores.emplace_back(std::make_unique<Semaphore>(core));
         }
     }
 

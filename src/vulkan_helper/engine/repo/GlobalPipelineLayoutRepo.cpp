@@ -9,10 +9,10 @@ namespace merutilm::vkh {
         auto it = repository.find(builder);
         if (it == repository.end()) {
             auto [newIt, _] = repository.try_emplace(
-                builder, PipelineLayout(core, std::move(layoutManager)));
+                builder, std::make_unique<PipelineLayout>(core, std::move(layoutManager)));
             it = newIt;
         }
 
-        return it->second;
+        return *it->second;
     }
 }

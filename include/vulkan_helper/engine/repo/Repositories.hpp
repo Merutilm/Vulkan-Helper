@@ -11,7 +11,7 @@
 namespace merutilm::vkh {
     class Repositories {
 
-        std::vector<RepositoryBase> repositories = {};
+        std::vector<std::unique_ptr<RepositoryBase>> repositories = {};
 
     public:
 
@@ -21,7 +21,7 @@ namespace merutilm::vkh {
         template<typename RepoType> requires std::is_base_of_v<RepositoryBase, RepoType>
         RepoType *getRepository() {
             for (auto &repository : repositories) {
-                RepoType * repo = dynamic_cast<RepoType *>(&repository);
+                RepoType * repo = dynamic_cast<RepoType *>(repository.get());
                 if (repo != nullptr) {
                     return repo;
                 }
@@ -34,7 +34,7 @@ namespace merutilm::vkh {
             if (getRepository<RepoType>() != nullptr) {
                 throw exception_invalid_args("Repository already exists");
             }
-            repositories.push_back(RepoType(core));
+            repositories.emplace_back(std::make_unique<RepoType>(core));
         }
 
         void clear() {

@@ -27,7 +27,7 @@ namespace merutilm::vkh {
 
         HostDataObject &operator=(const HostDataObject &) = delete;
 
-        HostDataObject(HostDataObject &&) noexcept = default;
+        HostDataObject(HostDataObject &&) = delete;
 
         HostDataObject &operator=(HostDataObject &&) = delete;
 
