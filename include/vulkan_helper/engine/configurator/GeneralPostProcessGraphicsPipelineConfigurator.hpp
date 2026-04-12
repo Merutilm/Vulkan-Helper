@@ -10,15 +10,14 @@
 
 namespace merutilm::mvk {
     class GeneralPostProcessGraphicsPipelineConfigurator : public GraphicsPipelineConfigurator {
-        inline static bool initializedVertexIndex = false;
-        inline static std::optional<VertexBuffer> vertexBufferPP;
-        inline static std::optional<IndexBuffer> indexBufferPP;
         static constexpr auto VERTEX_MODULE_PATH = "vk_post_process.vert";
+        VertexBuffer & vertexBufferStaticRef;
+        IndexBuffer & indexBufferStaticRef;
 
     public:
 
-        explicit GeneralPostProcessGraphicsPipelineConfigurator(Engine & engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex, const uint32_t primarySubpassIndex, const std::string &fragName) : GraphicsPipelineConfigurator(
-            engine, windowContextIndex, renderContextIndex, primarySubpassIndex, VERTEX_MODULE_PATH, fragName) {
+        explicit GeneralPostProcessGraphicsPipelineConfigurator(Engine & engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex, const uint32_t primarySubpassIndex, const std::string &fragName, VertexBuffer &vertexBufferStaticRef, IndexBuffer &indexBufferStaticRef) : GraphicsPipelineConfigurator(
+            engine, windowContextIndex, renderContextIndex, primarySubpassIndex, VERTEX_MODULE_PATH, fragName) , vertexBufferStaticRef(vertexBufferStaticRef), indexBufferStaticRef(indexBufferStaticRef){
         }
         ~GeneralPostProcessGraphicsPipelineConfigurator() override = default;
 
@@ -35,16 +34,13 @@ namespace merutilm::mvk {
 
         void cmdRender(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices) override;
 
-        static void cleanup() {
-            vertexBufferPP = std::nullopt;
-            indexBufferPP = std::nullopt;
-            initializedVertexIndex = false;
-        }
+        static void createPPBuffer(WindowContext &wc, std::unique_ptr<VertexBuffer> &vertexBufferPP,
+                                   std::unique_ptr<IndexBuffer> &indexBufferPP);
 
     protected:
-        [[nodiscard]] VertexBuffer & getVertexBuffer() override { return *vertexBufferPP; }
+        [[nodiscard]] VertexBuffer & getVertexBuffer() override { return vertexBufferStaticRef; }
 
-        [[nodiscard]] IndexBuffer & getIndexBuffer() override { return *indexBufferPP; }
+        [[nodiscard]] IndexBuffer & getIndexBuffer() override { return indexBufferStaticRef; }
 
         void configureVertexBuffer(HostDataObjectManager & som) override;
 

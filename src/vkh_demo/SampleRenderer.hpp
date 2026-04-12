@@ -12,7 +12,7 @@ namespace merutilm::mvk_demo {
 
         GPCSample * sample = nullptr;
 
-        explicit SampleRenderer(mvk::Engine &engine, mvk::WindowContext &wc) : Renderer(engine, wc) {
+        explicit SampleRenderer(mvk::Engine &engine, mvk::WindowContext &wc, mvk::VertexBuffer &vertexBufferPP, mvk::IndexBuffer &indexBufferPP) : Renderer(engine, wc, vertexBufferPP, indexBufferPP) {
             SampleRenderer::init();
         }
 

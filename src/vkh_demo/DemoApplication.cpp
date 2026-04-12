@@ -14,10 +14,17 @@ namespace merutilm::mvk_demo {
     DemoApplication::DemoApplication() { DemoApplication::init(); }
 
     void DemoApplication::init() {
+        Application::init();
         createWindow();
         addListeners();
         createContexts();
         createRenderers();
+    }
+
+    void DemoApplication::cleanup() {
+        Application::cleanup();
+        indexBufferPP = nullptr;
+        vertexBufferPP = nullptr;
     }
 
     void DemoApplication::createWindow() { wc = &engine.attachWindowContext(mvk::WindowInitializerSettings{}, 0); }
@@ -54,13 +61,16 @@ namespace merutilm::mvk_demo {
 
         wc->getWindow()->eventSystem.applicationLifecycle.onQuit.addListener([this] {
             wc->core.getLogicalDevice().waitDeviceIdle();
-            mvk::GeneralPostProcessGraphicsPipelineConfigurator::cleanup();
         });
     }
-    void DemoApplication::createRenderers() { renderer.emplace(engine, *wc); }
+    void DemoApplication::createRenderers() {
+        mvk::GeneralPostProcessGraphicsPipelineConfigurator::createPPBuffer(*wc, vertexBufferPP, indexBufferPP);
+        renderer.emplace(engine, *wc, *vertexBufferPP, *indexBufferPP);
+    }
 
     void DemoApplication::update() { renderer->execute(); }
 
     void DemoApplication::start() const { wc->getWindow()->start(); }
+
 
 } // namespace merutilm

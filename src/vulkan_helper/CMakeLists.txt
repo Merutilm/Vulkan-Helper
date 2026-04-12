@@ -28,6 +28,12 @@ add_library(vulkan_helper SHARED
 
 target_link_directories(vulkan_helper PRIVATE ${CMAKE_SOURCE_DIR}/lib)
 
+target_compile_options(vulkan_helper PRIVATE
+        #Debug options
+        $<$<CONFIG:Debug>:-O0>
+        #Release options
+        $<$<CONFIG:Release>:-O3 -funroll-loops -march=native>
+)
 
 if (WIN32)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_win>)
@@ -44,9 +50,12 @@ endif ()
 
 find_package(Vulkan REQUIRED)
 
+
+
 target_link_libraries(vulkan_helper PUBLIC
         # Vulkan
         Vulkan::Vulkan
         # Dependency
         vkh_dependency
 )
+

@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
 
 namespace merutilm::mvk {
-    Renderer::Renderer(Engine & engine, WindowContext &wc): EngineHandler(engine), wc(wc){
+    Renderer::Renderer(Engine & engine, WindowContext &wc, VertexBuffer &vertexBufferPP, IndexBuffer &indexBufferPP): EngineHandler(engine), wc(wc), vertexBufferPP(vertexBufferPP), indexBufferPP(indexBufferPP){
     }
 
     Renderer::~Renderer() = default;

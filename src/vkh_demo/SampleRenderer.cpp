@@ -11,7 +11,7 @@ namespace merutilm::mvk_demo {
 
     void SampleRenderer::init() {
         sample = mvk::PipelineConfigurator::create<GPCSample>(configurators, engine, 0, SampleRCC::CONTEXT_INDEX,
-                                                     SampleRCC::SUBPASS_INDEX);
+                                                     SampleRCC::SUBPASS_INDEX, vertexBufferPP, indexBufferPP);
     }
 
     void SampleRenderer::cleanup() {

@@ -5,17 +5,22 @@
 #pragma once
 #include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
 
+#include "vulkan_helper/engine/buffer/IndexBuffer.hpp"
+#include "vulkan_helper/engine/buffer/VertexBuffer.hpp"
 #include "vulkan_helper/handle/EngineHandler.hpp"
 
 namespace merutilm::mvk {
     struct Renderer : EngineHandler {
 
         WindowContext & wc;
+        VertexBuffer & vertexBufferPP;
+        IndexBuffer & indexBufferPP;
+
         uint32_t frameIndex = 0;
         bool pipelineInitialized = false;
         std::vector<std::unique_ptr<PipelineConfigurator>> configurators = {};
 
-        explicit Renderer(Engine & engine, WindowContext &wc);
+        explicit Renderer(Engine & engine, WindowContext &wc, VertexBuffer &vertexBufferPP, IndexBuffer &indexBufferPP);
 
         ~Renderer() override;
 

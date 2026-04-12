@@ -19,6 +19,7 @@ namespace merutilm::mvk {
     }
 
     void Application::cleanup() {
+
     }
 
 } // namespace merutilm::mvk

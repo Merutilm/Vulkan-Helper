@@ -10,9 +10,9 @@ namespace merutilm::mvk_demo {
 
     public:
         GPCSample(mvk::Engine &engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex,
-                  const uint32_t primarySubpassIndex) :
+                  const uint32_t primarySubpassIndex, mvk::VertexBuffer &vertexBufferStaticRef, mvk::IndexBuffer &indexBufferStaticRef) :
             GeneralPostProcessGraphicsPipelineConfigurator(engine, windowContextIndex, renderContextIndex,
-                                                           primarySubpassIndex, "template-1.frag") {}
+                                                           primarySubpassIndex, "template-1.frag", vertexBufferStaticRef, indexBufferStaticRef) {}
 
         void updateQueue(mvk::DescriptorUpdateQueue &queue, uint32_t frameIndex) override;
         void pipelineInitialized() override;

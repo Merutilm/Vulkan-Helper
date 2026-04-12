@@ -16,6 +16,8 @@ namespace merutilm::mvk_demo {
 
         void init() override;
 
+        void cleanup() override;
+
         void createWindow();
 
         void addListeners();

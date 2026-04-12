@@ -19,19 +19,14 @@ namespace merutilm::mvk {
 
 
     void GeneralPostProcessGraphicsPipelineConfigurator::configureVertexBuffer(HostDataObjectManager &som) {
-        som.addArray(0, std::vector{
-                                Vertex::generate({1, 1, 0}, {1, 1, 1}, {1, 1}),
-                                Vertex::generate({1, -1, 0}, {1, 1, 1}, {1, 0}),
-                                Vertex::generate({-1, -1, 0}, {1, 1, 1}, {0, 0}),
-                                Vertex::generate({-1, 1, 0}, {1, 1, 1}, {0, 1}),
-                        });
     }
 
     void GeneralPostProcessGraphicsPipelineConfigurator::configureIndexBuffer(HostDataObjectManager &som) {
-        som.addArray(0, std::vector<uint32_t>{0, 1, 2, 2, 3, 0});
     }
 
     void GeneralPostProcessGraphicsPipelineConfigurator::configure() {
+
+
         PipelineLayoutManager pipelineLayoutManager{};
 
         std::vector<Descriptor *> descriptors = {};
@@ -52,27 +47,30 @@ namespace merutilm::mvk {
         pipelineManager.attachShader(&vertexShader);
         pipelineManager.attachShader(&fragmentShader);
 
+        pipeline = std::make_unique<GraphicsPipeline>(wc, pipelineLayout, vertexBufferStaticRef, indexBufferStaticRef,
+            renderContextIndex, primarySubpassIndex,
+            std::move(pipelineManager));
 
-        if (!initializedVertexIndex) {
-            HostDataObjectManager vertManager;
-            HostDataObjectManager indexManager;
+    }
 
-            configureVertexBuffer(vertManager);
-            configureIndexBuffer(indexManager);
 
-            vertexBufferPP.emplace(wc.core, std::move(vertManager), BufferLock::LOCK_ONLY, false);
-            indexBufferPP.emplace(wc.core, std::move(indexManager), BufferLock::LOCK_ONLY, false);
-            vertexBufferPP->update();
-            indexBufferPP->update();
-            vertexBufferPP->lock(wc.getCommandPool());
-            indexBufferPP->lock(wc.getCommandPool());
-            initializedVertexIndex = true;
-        }
+    void GeneralPostProcessGraphicsPipelineConfigurator::createPPBuffer(WindowContext &wc, std::unique_ptr<VertexBuffer> & vertexBufferPP, std::unique_ptr<IndexBuffer> & indexBufferPP) {
+        HostDataObjectManager vertManager;
+        HostDataObjectManager indexManager;
 
-        if (initializedVertexIndex) {
-            pipeline = std::make_unique<GraphicsPipeline>(wc, pipelineLayout, getVertexBuffer(), getIndexBuffer(),
-                                                         renderContextIndex, primarySubpassIndex,
-                                                         std::move(pipelineManager));
-        }
+        vertManager.addArray(0, std::vector{
+                    Vertex::generate({1, 1, 0}, {1, 1, 1}, {1, 1}),
+                    Vertex::generate({1, -1, 0}, {1, 1, 1}, {1, 0}),
+                    Vertex::generate({-1, -1, 0}, {1, 1, 1}, {0, 0}),
+                    Vertex::generate({-1, 1, 0}, {1, 1, 1}, {0, 1}),
+            });
+        indexManager.addArray(0, std::vector<uint32_t>{0, 1, 2, 2, 3, 0});
+
+        vertexBufferPP = std::make_unique<VertexBuffer>(wc.core, std::move(vertManager), BufferLock::LOCK_ONLY, false);
+        indexBufferPP = std::make_unique<IndexBuffer>(wc.core, std::move(indexManager), BufferLock::LOCK_ONLY, false);
+        vertexBufferPP->update();
+        indexBufferPP->update();
+        vertexBufferPP->lock(wc.getCommandPool());
+        indexBufferPP->lock(wc.getCommandPool());
     }
 } // namespace merutilm::mvk

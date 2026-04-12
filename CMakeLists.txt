@@ -30,15 +30,8 @@ target_compile_options(VulkanHelper PRIVATE
         $<$<CONFIG:Release>:-Ofast -funroll-loops -march=native>
 )
 
-find_package(Vulkan REQUIRED)
-
 target_link_libraries(VulkanHelper PRIVATE
         vulkan_helper
-)
-
-target_compile_definitions(VulkanHelper
-        PRIVATE
-        VK_USE_PLATFORM_WIN32_KHR
 )
 
 add_custom_target(compileShaders ALL COMMAND powershell -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/compile.ps1")

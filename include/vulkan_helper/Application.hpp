@@ -3,7 +3,8 @@
 //
 
 #pragma once
-#include "engine/configurator/PipelineConfigurator.hpp"
+#include "engine/buffer/IndexBuffer.hpp"
+#include "engine/buffer/VertexBuffer.hpp"
 #include "handle/EngineHandler.hpp"
 namespace merutilm::mvk {
 
@@ -11,6 +12,8 @@ namespace merutilm::mvk {
     struct Application : Handler {
 
         Engine engine{};
+        std::unique_ptr<VertexBuffer> vertexBufferPP;
+        std::unique_ptr<IndexBuffer> indexBufferPP;
 
         explicit Application();
 
@@ -24,7 +27,7 @@ namespace merutilm::mvk {
 
         Application &operator=(Application &&) = delete;
 
-    private:
+    protected:
         void init() override;
 
         void cleanup() override;

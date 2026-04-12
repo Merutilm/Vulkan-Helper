@@ -48,5 +48,4 @@
 #include <vulkan/vulkan_win32.h>
 #endif
 
-
 #include <vulkan_helper/base/exception.hpp>
