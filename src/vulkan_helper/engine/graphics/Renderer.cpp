@@ -25,6 +25,7 @@ namespace merutilm::mvk {
         SwapchainUtils::tryRenderFrame(wc, &frameIndex, [this](const uint32_t swapchainImageIndex) {
             if (frameIndex == 0) {
                 for (auto &rc: wc.getRenderContexts()) {
+                    //first frame ended
                     rc->getConfigurator()->allFrameInitialized();
                 }
             }

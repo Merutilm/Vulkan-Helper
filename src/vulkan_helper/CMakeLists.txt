@@ -5,7 +5,7 @@ add_subdirectory(engine)
 add_subdirectory(util)
 
 
-add_library(vulkan_helper STATIC
+add_library(vulkan_helper SHARED
         Application.cpp
         $<TARGET_OBJECTS:core>
         $<TARGET_OBJECTS:util>
@@ -25,17 +25,28 @@ add_library(vulkan_helper STATIC
         $<TARGET_OBJECTS:engine_window>
 )
 
+
+target_link_directories(vulkan_helper PRIVATE ${CMAKE_SOURCE_DIR}/lib)
+
+
 if (WIN32)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_win>)
+    target_compile_definitions(vulkan_helper PUBLIC VK_USE_PLATFORM_WIN32_KHR)
 elseif (APPLE)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_mac>)
+    target_compile_definitions(vulkan_helper PUBLIC VK_USE_PLATFORM_MACOS_MVK)
 elseif (UNIX)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_linux>)
+    target_compile_definitions(vulkan_helper PUBLIC VK_USE_PLATFORM_WAYLAND_KHR)
 else ()
     message(STATUS "failed to find OS")
 endif ()
 
+find_package(Vulkan REQUIRED)
 
 target_link_libraries(vulkan_helper PUBLIC
+        # Vulkan
+        Vulkan::Vulkan
+        # Dependency
         vkh_dependency
 )

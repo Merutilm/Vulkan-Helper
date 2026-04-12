@@ -15,7 +15,6 @@ add_subdirectory(src/vulkan_helper)
 add_executable(VulkanHelper
         src/vkh_demo/main.cpp
         src/vkh_demo/DemoApplication.cpp
-        include/vulkan_helper/engine/window/win/Menubar.hpp
         src/vkh_demo/SampleRCC.cpp
         src/vkh_demo/SampleRCC.hpp
         src/vkh_demo/GPCSample.cpp
@@ -41,15 +40,6 @@ target_compile_definitions(VulkanHelper
         PRIVATE
         VK_USE_PLATFORM_WIN32_KHR
 )
-
-
-target_link_directories(VulkanHelper PRIVATE ${CMAKE_SOURCE_DIR}/lib)
-
-target_link_libraries(VulkanHelper PRIVATE
-        # Vulkan
-        Vulkan::Vulkan
-)
-
 
 add_custom_target(compileShaders ALL COMMAND powershell -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/compile.ps1")
 add_dependencies(VulkanHelper compileShaders)
