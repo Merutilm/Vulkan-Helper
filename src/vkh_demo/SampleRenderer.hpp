@@ -6,13 +6,13 @@
 #include "vulkan_helper/engine/graphics/Renderer.hpp"
 #include "GPCSample.hpp"
 
-namespace merutilm {
+namespace merutilm::mvk_demo {
 
-    struct SampleRenderer final : vkh::Renderer {
+    struct SampleRenderer final : mvk::Renderer {
 
         GPCSample * sample = nullptr;
 
-        explicit SampleRenderer(vkh::Engine &engine, vkh::WindowContext &wc) : Renderer(engine, wc) {
+        explicit SampleRenderer(mvk::Engine &engine, mvk::WindowContext &wc) : Renderer(engine, wc) {
             SampleRenderer::init();
         }
 

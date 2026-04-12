@@ -7,7 +7,7 @@
 #include <vulkan_helper/handle/WindowContextHandler.hpp>
 #include "Pipeline.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class ComputeShaderPipeline final : public Pipeline {
     public:
         explicit ComputeShaderPipeline(WindowContext & wc, PipelineLayout & pipelineLayout,

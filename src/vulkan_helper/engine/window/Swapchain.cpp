@@ -15,7 +15,7 @@
 #include <vulkan_helper/engine/window/linux/Window.hpp>
 #endif
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Swapchain::Swapchain(Core & core, Surface & surface) : CoreHandler(core), surface(surface) {
         Swapchain::init();
     }

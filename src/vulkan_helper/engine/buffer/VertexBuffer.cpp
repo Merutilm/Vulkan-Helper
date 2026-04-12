@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/manage/HostDataObjectManager.hpp>
 #include <vulkan_helper/engine/wrapped/Vertex.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     VertexBuffer::VertexBuffer(Core & core, HostDataObjectManager &&manager, const BufferLock bufferLock, bool multiframeEnabled) : BufferObject(
         core, std::move(manager), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, bufferLock, multiframeEnabled) {
         VertexBuffer::init();

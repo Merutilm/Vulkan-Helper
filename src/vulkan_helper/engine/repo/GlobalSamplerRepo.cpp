@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/repo/GlobalSamplerRepo.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Sampler & GlobalSamplerRepo::pick(const VkSamplerCreateInfo &samplerCreateInfo) {
         auto it = repository.find(samplerCreateInfo);
         if (it == repository.end()) {

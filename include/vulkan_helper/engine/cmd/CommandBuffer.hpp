@@ -7,7 +7,7 @@
 #include <vulkan_helper/handle/CoreHandler.hpp>
 #include <vulkan_helper/core/Core.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class CommandBuffer final : public CoreHandler {
         std::vector<VkCommandBuffer> commandBuffers = {};
         CommandPool & commandPool;

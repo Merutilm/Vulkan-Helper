@@ -7,7 +7,7 @@
 #include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     PhysicalDeviceLoader::PhysicalDeviceLoader(Instance & instance) : instance(instance) {
         PhysicalDeviceLoader::init();

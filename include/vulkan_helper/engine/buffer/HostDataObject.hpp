@@ -8,7 +8,7 @@
 
 #include <vulkan_helper/engine/manage/HostDataObjectManager.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct HostDataObject final {
 
         std::vector<std::byte> data;
@@ -143,4 +143,4 @@ namespace merutilm::vkh {
         resizeArray<T>(target, elementCount);
         std::fill_n(data.begin() + offsets[target], sizes[target], static_cast<std::byte>(0));
     }
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

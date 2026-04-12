@@ -5,7 +5,7 @@
 #pragma once
 #include <stdint.h>
 
-namespace merutilm::vkh::KeyInput {
+namespace merutilm::mvk::KeyInput {
 
     enum class MouseButton : uint16_t { LEFT, RIGHT, MIDDLE };
 
@@ -152,4 +152,4 @@ namespace merutilm::vkh::KeyInput {
         KEY_SCROLL_LOCK,
         KEY_PAUSE,
     };
-} // namespace merutilm::vkh::KeyInput
+} // namespace merutilm::mvk::KeyInput

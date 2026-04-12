@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct UniquePtrEquals {
 
         using is_transparent = void;

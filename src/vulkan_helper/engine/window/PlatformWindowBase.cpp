@@ -3,7 +3,7 @@
 //
 // Created by Merutilm on 2026-02-07.
 //
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     PlatformWindowBase::PlatformWindowBase(WindowInitializerSettings &&settings) : initializerSettings(std::move(settings)) { PlatformWindowBase::init(); }
     PlatformWindowBase::~PlatformWindowBase() { PlatformWindowBase::cleanup(); }
@@ -31,4 +31,4 @@ namespace merutilm::vkh {
     void PlatformWindowBase::cleanup() {
     }
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/window/PlatformMenubarBase.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     PlatformMenubarBase::PlatformMenubarBase() {
         PlatformMenubarBase::init();
     }
@@ -16,4 +16,4 @@ namespace merutilm::vkh {
     void PlatformMenubarBase::cleanup() {
 
     }
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

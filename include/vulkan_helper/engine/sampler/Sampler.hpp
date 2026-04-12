@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class Sampler final : public CoreHandler {
 
         VkSampler sampler = VK_NULL_HANDLE;

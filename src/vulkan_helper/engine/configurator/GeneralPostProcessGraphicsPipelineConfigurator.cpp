@@ -9,7 +9,7 @@
 #include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
 #include <vulkan_helper/engine/wrapped/Vertex.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     void GeneralPostProcessGraphicsPipelineConfigurator::cmdRender(const VkCommandBuffer cbh, const uint32_t frameIndex,
                                                                    DescIndexPicker &&descIndices) {
         pipeline->cmdBindAll(cbh, frameIndex, std::move(descIndices));
@@ -75,4 +75,4 @@ namespace merutilm::vkh {
                                                          std::move(pipelineManager));
         }
     }
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

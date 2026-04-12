@@ -6,7 +6,7 @@
 #include "BufferObject.hpp"
 
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class VertexBuffer final : public BufferObject {
         std::vector<VkVertexInputBindingDescription> bindingDescriptions = {};
         std::vector<VkVertexInputAttributeDescription> vertexInputAttributeDescriptions = {};

@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
 
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class RenderPassFullscreenRecorder final : public WindowContextHandler {
         const uint32_t renderContextIndex;
         const uint32_t frameIndex;

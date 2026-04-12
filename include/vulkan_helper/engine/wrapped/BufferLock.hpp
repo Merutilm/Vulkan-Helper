@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     enum class BufferLock {
         LOCK_UNLOCK,
         LOCK_ONLY,

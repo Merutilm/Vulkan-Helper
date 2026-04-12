@@ -16,7 +16,7 @@
 #include <vulkan_helper/engine/window/linux/Window.hpp>
 #endif
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Engine::Engine() {
         Engine::init();
     }

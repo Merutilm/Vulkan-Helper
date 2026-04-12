@@ -5,7 +5,7 @@
 #include <vulkan_helper/engine/sync/Fence.hpp>
 
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Fence::Fence(Core & core) : CoreHandler(core) {
         Fence::init();
     }

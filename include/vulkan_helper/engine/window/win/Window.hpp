@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/window/PlatformWindowBase.hpp>
 #include "Menubar.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     class Window final : public PlatformWindowBase {
         HWND mainWindow = nullptr;
@@ -71,5 +71,5 @@ namespace merutilm::vkh {
         VkSurfaceKHR createSurface(VkInstance instance) override;
 
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk
 #endif

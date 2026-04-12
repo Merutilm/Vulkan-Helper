@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct MouseState {
         bool isPressed;
         bool isDragging;
@@ -20,4 +20,4 @@ namespace merutilm::vkh {
             pressedY = 0;
         }
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

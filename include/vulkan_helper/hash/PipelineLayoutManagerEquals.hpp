@@ -4,7 +4,7 @@
 #pragma once
 #include <vulkan_helper/engine/manage/PipelineLayoutManager.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct PipelineLayoutManagerEquals {
 
         using is_transparent = void;

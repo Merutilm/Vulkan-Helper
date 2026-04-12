@@ -4,7 +4,7 @@
 
 #pragma once
 #include "vulkan_helper/handle/Handler.hpp"
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class PlatformMenubarBase : Handler {
 
     public:

@@ -25,19 +25,17 @@ add_library(vulkan_helper STATIC
         $<TARGET_OBJECTS:engine_window>
 )
 
-if(WIN32)
+if (WIN32)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_win>)
 elseif (APPLE)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_mac>)
 elseif (UNIX)
     target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_linux>)
-else()
+else ()
     message(STATUS "failed to find OS")
 endif ()
 
 
-
 target_link_libraries(vulkan_helper PUBLIC
         vkh_dependency
-
 )

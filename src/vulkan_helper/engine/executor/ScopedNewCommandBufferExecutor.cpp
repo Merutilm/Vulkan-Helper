@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/sync/Fence.hpp>
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     ScopedNewCommandBufferExecutor::ScopedNewCommandBufferExecutor(Core & core, CommandPool & commandPool,
                                                                    Fence * const fence) : CoreHandler(core),
         commandPool(commandPool), fence(fence) {

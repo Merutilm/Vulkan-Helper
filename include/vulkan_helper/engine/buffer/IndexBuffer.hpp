@@ -5,7 +5,7 @@
 #pragma once
 #include "BufferObject.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class IndexBuffer final : public BufferObject {
 
     public:

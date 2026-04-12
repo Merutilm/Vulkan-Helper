@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/wrapped/BufferInitInfo.hpp>
 #include <vulkan_helper/engine/wrapped/ImageInitInfo.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct BufferImageUtils {
         BufferImageUtils() = delete;
 

@@ -8,7 +8,7 @@
 #include "Instance.hpp"
 #include "PhysicalDeviceLoader.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class LogicalDevice final : public Handler {
         Instance & instance;
         PhysicalDeviceLoader & physicalDevice;

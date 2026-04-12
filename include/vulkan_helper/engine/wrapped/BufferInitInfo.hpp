@@ -7,7 +7,7 @@
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct BufferInitInfo {
         VkDeviceSize size;
         VkBufferUsageFlags usage;

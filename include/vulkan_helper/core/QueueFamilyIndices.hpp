@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsAndComputeFamily;
         std::optional<uint32_t> presentFamily;

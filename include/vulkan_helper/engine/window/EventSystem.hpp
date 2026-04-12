@@ -9,7 +9,7 @@
 #include "KeyInput.hpp"
 #include "Listener.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     struct EventSystem final {
 
@@ -75,4 +75,4 @@ namespace merutilm::vkh {
 
 
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

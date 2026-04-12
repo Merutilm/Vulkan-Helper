@@ -4,9 +4,9 @@
 
 #include "SampleRCC.hpp"
 
-namespace merutilm {
+namespace merutilm::mvk_demo {
 
-    void SampleRCC::configure(vkh::RenderPassManager &rpm) {
+    void SampleRCC::configure(mvk::RenderPassManager &rpm) {
 
         rpm.appendAttachment(PRESENT_ATTACHMENT_INDEX, {
             .flags = 0,
@@ -22,7 +22,7 @@ namespace merutilm {
 
 
         rpm.appendSubpass(SUBPASS_INDEX);
-        rpm.appendReference(PRESENT_ATTACHMENT_INDEX, vkh::RenderPassAttachmentType::COLOR, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+        rpm.appendReference(PRESENT_ATTACHMENT_INDEX, mvk::RenderPassAttachmentType::COLOR, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
         rpm.appendDependency({
             .srcSubpass = SUBPASS_INDEX,

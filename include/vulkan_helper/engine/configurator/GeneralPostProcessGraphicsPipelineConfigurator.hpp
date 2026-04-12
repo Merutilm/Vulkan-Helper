@@ -8,7 +8,7 @@
 #include "GeneralGraphicsPipelineConfigurator.hpp"
 #include "GraphicsPipelineConfigurator.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class GeneralPostProcessGraphicsPipelineConfigurator : public GraphicsPipelineConfigurator {
         inline static bool initializedVertexIndex = false;
         inline static std::optional<VertexBuffer> vertexBufferPP;

@@ -8,15 +8,15 @@
 #include "WindowInitializerSettings.hpp"
 #include "vulkan_helper/handle/Handler.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class PlatformWindowBase : Handler {
 
     protected:
         bool controlKeyPressed = false;
         bool altKeyPressed = false;
         bool shiftKeyPressed = false;
-        bool mouseHovered;
-        bool isResizing;
+        bool mouseHovered = false;
+        bool isResizing = false;
         MouseState leftMouse = {};
         MouseState middleMouse = {};
         MouseState rightMouse = {};
@@ -65,4 +65,4 @@ namespace merutilm::vkh {
 
         void cleanup() override;
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

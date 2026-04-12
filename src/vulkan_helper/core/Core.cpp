@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/core/Core.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     Core::Core() : physicalDevice(instance), logicalDevice(instance, physicalDevice) {
         Core::init();

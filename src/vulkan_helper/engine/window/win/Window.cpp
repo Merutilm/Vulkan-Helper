@@ -8,7 +8,7 @@
 
 #include "vulkan_helper/base/allocator.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Window::Window(WindowInitializerSettings &&settings) : PlatformWindowBase(std::move(settings)) { Window::init(); }
 
     Window::~Window() { Window::cleanup(); }
@@ -211,8 +211,8 @@ namespace merutilm::vkh {
                     if (!mouseState.isPressed)
                         return;
 
-                    const float dx = mouseState.pressedX - xPos;
-                    const float dy = mouseState.pressedY - yPos;
+                    const float dx = static_cast<float>(mouseState.pressedX) - xPos;
+                    const float dy = static_cast<float>(mouseState.pressedY) - yPos;
 
                     if (!mouseState.isDragging && dx * dx + dy * dy > MOUSE_DRAG_THRESHOLD) {
                         mouseDragEvent.onMouseDragStart.invoke(mouseButton, xPos, yPos);
@@ -514,5 +514,5 @@ namespace merutilm::vkh {
     void Window::cleanup() {}
 
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk
 #endif

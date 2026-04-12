@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/repo/WindowLocalDescriptorRepo.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Descriptor & WindowLocalDescriptorRepo::pick(const DescriptorTemplateInfo &descTemplateInfo,
         GlobalDescriptorSetLayoutRepo &layoutRepo) {
         auto it = repository.find(descTemplateInfo.id);

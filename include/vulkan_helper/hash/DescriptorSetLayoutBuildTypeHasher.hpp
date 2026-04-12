@@ -6,7 +6,7 @@
 #include "BoostHasher.hpp"
 #include <vulkan_helper/engine/wrapped/DescriptorSetLayoutBuildType.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct DescriptorSetLayoutBuildTypeHasher {
         using is_transparent = void;
 

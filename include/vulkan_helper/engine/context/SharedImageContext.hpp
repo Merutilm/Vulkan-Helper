@@ -6,7 +6,7 @@
 #include <vulkan_helper/base/pch.hpp>
 #include <vulkan_helper/engine/context/ImageContext.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class SharedImageContext final {
         Core & core;
         std::vector<MultiframeImageContext> multiframeContexts = {};

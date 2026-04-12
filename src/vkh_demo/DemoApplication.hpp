@@ -6,10 +6,10 @@
 #include "SampleRenderer.hpp"
 #include "vulkan_helper/Application.hpp"
 
-namespace merutilm {
-    struct DemoApplication final : vkh::Application{
+namespace merutilm::mvk_demo {
+    struct DemoApplication final : mvk::Application{
 
-        vkh::WindowContext * wc = nullptr;
+        mvk::WindowContext * wc = nullptr;
         std::optional<SampleRenderer> renderer;
 
         DemoApplication();

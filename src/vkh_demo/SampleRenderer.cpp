@@ -7,10 +7,10 @@
 #include "SampleRCC.hpp"
 #include "vulkan_helper/engine/executor/RenderPassFullscreenRecorder.hpp"
 
-namespace merutilm {
+namespace merutilm::mvk_demo {
 
     void SampleRenderer::init() {
-        sample = vkh::PipelineConfigurator::create<GPCSample>(configurators, engine, 0, SampleRCC::CONTEXT_INDEX,
+        sample = mvk::PipelineConfigurator::create<GPCSample>(configurators, engine, 0, SampleRCC::CONTEXT_INDEX,
                                                      SampleRCC::SUBPASS_INDEX);
     }
 
@@ -25,7 +25,7 @@ namespace merutilm {
     void SampleRenderer::cmdRender(uint32_t swapchainImageIndex) {
 
 
-        vkh::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass<SampleRCC>(wc, frameIndex, swapchainImageIndex, {sample}, {{}});
+        mvk::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass<SampleRCC>(wc, frameIndex, swapchainImageIndex, {sample}, {{}});
 
     }
 

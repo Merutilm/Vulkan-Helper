@@ -6,7 +6,7 @@
 
 #include <vulkan_helper/base/allocator.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Semaphore::Semaphore(Core & core) : CoreHandler(core) {
         Semaphore::init();
     }

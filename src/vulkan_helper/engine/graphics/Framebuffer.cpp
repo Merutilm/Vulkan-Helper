@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/engine/graphics/Framebuffer.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Framebuffer::Framebuffer(Core & core, RenderPass & renderPass,
                              const VkExtent2D extent) : CoreHandler(core), renderPass(renderPass), extent(extent) {
         Framebuffer::init();

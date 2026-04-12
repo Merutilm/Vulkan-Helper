@@ -5,7 +5,7 @@
 #include <vulkan_helper/engine/descriptor/Descriptor.hpp>
 
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     Descriptor::Descriptor(Core &core, DescriptorSetLayout &descriptorSetLayout, std::vector<DescriptorManager> &&manager) :
         CoreHandler(core), descriptorSetLayout(descriptorSetLayout) {
         data.resize(manager.size());
@@ -242,4 +242,4 @@ namespace merutilm::vkh {
                               descriptorPools[i], nullptr);
         }
     }
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

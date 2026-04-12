@@ -7,7 +7,7 @@
 #include <vulkan_helper/core/Core.hpp>
 #include <vulkan_helper/engine/wrapped/BufferInitInfo.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct BufferContext;
 
     using MultiframeBufferContext = std::vector<BufferContext>;

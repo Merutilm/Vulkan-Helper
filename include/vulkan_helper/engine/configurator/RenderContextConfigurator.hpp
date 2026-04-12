@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/context/ImageContext.hpp>
 #include <vulkan_helper/engine/manage/RenderPassManager.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     /**
      * RenderPass Framebuffer Configurator
      */

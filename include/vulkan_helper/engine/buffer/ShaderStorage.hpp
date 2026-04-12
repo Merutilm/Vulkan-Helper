@@ -5,7 +5,7 @@
 #pragma once
 #include "BufferObject.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class ShaderStorage final : public BufferObject {
     public:
         explicit ShaderStorage(Core & core, HostDataObjectManager &&manager, BufferLock bufferLock, bool multiframeEnabled);

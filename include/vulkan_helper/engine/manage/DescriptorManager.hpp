@@ -13,7 +13,7 @@
 #include <vulkan_helper/hash/DescriptorSetLayoutBuildTypeHasher.hpp>
 #include <vulkan_helper/hash/VectorHasher.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     using DescriptorSetLayoutBuilder = std::vector<DescriptorSetLayoutBuildType>;
     using DescriptorSetLayoutBuilderHasher =
             VectorHasher<DescriptorSetLayoutBuildType, DescriptorSetLayoutBuildTypeHasher>;
@@ -53,4 +53,4 @@ namespace merutilm::vkh {
     };
 
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

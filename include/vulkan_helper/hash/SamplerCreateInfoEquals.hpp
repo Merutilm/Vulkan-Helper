@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     struct SamplerCreateInfoEquals {
         using is_transparent = void;

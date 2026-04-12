@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/engine/pipeline/ComputeShaderPipeline.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     ComputeShaderPipeline::ComputeShaderPipeline(WindowContext &wc, PipelineLayout &pipelineLayout,
                                                  PipelineManager &&pipelineManager) :
         Pipeline(wc, pipelineLayout, std::move(pipelineManager)) {
@@ -47,4 +47,4 @@ namespace merutilm::vkh {
         }
     }
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

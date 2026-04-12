@@ -8,7 +8,7 @@
 #include <vulkan_helper/util/Debugger.hpp>
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     LogicalDevice::LogicalDevice(Instance & instance,
                                          PhysicalDeviceLoader & physicalDevice) : instance(instance),
         physicalDevice(physicalDevice) {

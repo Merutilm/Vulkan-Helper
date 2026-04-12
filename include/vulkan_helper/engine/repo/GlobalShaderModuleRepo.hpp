@@ -8,7 +8,7 @@
 #include <vulkan_helper/hash/StringHasher.hpp>
 #include "Repository.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct GlobalShaderModuleRepo final : Repository<std::string, const std::string &, std::unique_ptr<ShaderModule>, ShaderModule &,
                 StringHasher, std::equal_to<> > {
         using Repository::Repository;

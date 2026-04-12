@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     PipelineLayout & GlobalPipelineLayoutRepo::pick(PipelineLayoutManager &&layoutManager) {
         const PipelineLayoutBuilder builder = layoutManager.builders; //clone the builder
         auto it = repository.find(builder);

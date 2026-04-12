@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/buffer/VertexBuffer.hpp>
 #include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct GraphicsPipelineConfigurator : PipelineConfigurator {
         const uint32_t renderContextIndex;
         const uint32_t primarySubpassIndex;
@@ -55,4 +55,4 @@ namespace merutilm::vkh {
             vkCmdDrawIndexed(cbh, getIndexBuffer().getHostObject().getElementCount(indexVarBinding), 1, 0, 0, 0);
         }
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

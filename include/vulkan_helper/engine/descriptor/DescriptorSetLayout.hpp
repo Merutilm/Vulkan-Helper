@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/manage/DescriptorManager.hpp>
 
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class DescriptorSetLayout final : public CoreHandler {
         DescriptorSetLayoutBuilder layoutBuilder;
         VkDescriptorSetLayout layout = nullptr;

@@ -7,7 +7,7 @@
 #include <vulkan_helper/handle/Handler.hpp>
 #include <vulkan_helper/core/Core.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct CoreHandler : Handler {
         Core & core;
 

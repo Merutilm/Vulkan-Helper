@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/manage/PipelineManager.hpp>
 #include <vulkan_helper/handle/WindowContextHandler.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct Pipeline : WindowContextHandler {
         VkPipeline pipeline = nullptr;
         PipelineLayout &pipelineLayout;

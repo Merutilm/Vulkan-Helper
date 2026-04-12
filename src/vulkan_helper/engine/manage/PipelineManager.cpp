@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/manage/PipelineManager.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     PipelineManager::PipelineManager(PipelineLayout & layout): layout(layout) {
     }
 

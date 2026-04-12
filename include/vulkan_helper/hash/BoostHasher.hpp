@@ -3,7 +3,7 @@
 //
 
 #pragma once
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct BoostHasher {
         BoostHasher() = delete;
 

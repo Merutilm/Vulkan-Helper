@@ -6,8 +6,7 @@
 #include <vulkan_helper/Application.hpp>
 
 
-namespace merutilm::vkh {
-
+namespace merutilm::mvk {
 
     Application::Application() {
         Application::init();
@@ -22,4 +21,4 @@ namespace merutilm::vkh {
     void Application::cleanup() {
     }
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

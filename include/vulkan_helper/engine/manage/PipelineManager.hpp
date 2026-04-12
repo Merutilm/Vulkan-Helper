@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/pipeline/PipelineLayout.hpp>
 #include <vulkan_helper/engine/pipeline/ShaderModule.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct PipelineManager {
         PipelineLayout & layout;
         std::vector<Descriptor *> descriptors = {};

@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     template<typename... T>
     class Listener {
 
@@ -37,4 +37,4 @@ namespace merutilm::vkh {
             }
         }
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

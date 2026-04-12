@@ -3,7 +3,7 @@
 //
 
 #pragma once
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     struct RepositoryBase {
         virtual ~RepositoryBase() = default;

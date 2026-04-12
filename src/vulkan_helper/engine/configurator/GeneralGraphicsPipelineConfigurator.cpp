@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
 #include <vulkan_helper/engine/repo/Repositories.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
 
     void GeneralGraphicsPipelineConfigurator::configure() {

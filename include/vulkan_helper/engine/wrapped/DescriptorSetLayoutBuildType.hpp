@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct DescriptorSetLayoutBuildType {
         VkDescriptorType type;
         VkShaderStageFlags stage;

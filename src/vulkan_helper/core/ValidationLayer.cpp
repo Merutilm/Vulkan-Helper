@@ -6,7 +6,7 @@
 #include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/util/Debugger.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     ValidationLayer::ValidationLayer(const VkInstance instance) : instance(instance) {
         ValidationLayer::init();
     }

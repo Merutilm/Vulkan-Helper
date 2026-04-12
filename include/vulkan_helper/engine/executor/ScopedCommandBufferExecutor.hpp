@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/Engine.hpp>
 #include <vulkan_helper/handle/WindowContextHandler.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class ScopedCommandBufferExecutor final : public WindowContextHandler {
         const uint32_t frameIndex;
         const VkFence fence;

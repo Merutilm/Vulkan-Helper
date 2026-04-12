@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/wrapped/ImageInitInfo.hpp>
 #include <vulkan_helper/util/BufferImageUtils.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct ImageContext;
 
     using MultiframeImageContext = std::vector<ImageContext>;

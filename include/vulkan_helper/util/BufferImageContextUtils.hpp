@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/context/ImageContext.hpp>
 #include <vulkan_helper/util/BufferImageUtils.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     struct BufferImageContextUtils {
         static std::vector<VkImage> enumerateImages(const MultiframeImageContext &context);
 

@@ -5,7 +5,7 @@
 #include <vulkan_helper/util/SwapchainUtils.hpp>
 
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     void SwapchainUtils::changeFrameIndex(Core &core, uint32_t *frameIndex) {
         ++*frameIndex %= core.getPhysicalDevice().getMaxFramesInFlight();
@@ -40,4 +40,4 @@ namespace merutilm::vkh {
     }
 
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

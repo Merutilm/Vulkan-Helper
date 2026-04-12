@@ -4,23 +4,23 @@
 
 #pragma once
 #include "vulkan_helper/engine/configurator/GeneralPostProcessGraphicsPipelineConfigurator.hpp"
-namespace merutilm {
+namespace merutilm::mvk_demo {
 
-    class GPCSample final : public vkh::GeneralPostProcessGraphicsPipelineConfigurator {
+    class GPCSample final : public mvk::GeneralPostProcessGraphicsPipelineConfigurator {
 
     public:
-        GPCSample(vkh::Engine &engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex,
+        GPCSample(mvk::Engine &engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex,
                   const uint32_t primarySubpassIndex) :
             GeneralPostProcessGraphicsPipelineConfigurator(engine, windowContextIndex, renderContextIndex,
                                                            primarySubpassIndex, "template-1.frag") {}
 
-        void updateQueue(vkh::DescriptorUpdateQueue &queue, uint32_t frameIndex) override;
+        void updateQueue(mvk::DescriptorUpdateQueue &queue, uint32_t frameIndex) override;
         void pipelineInitialized() override;
         void renderContextRefreshed() override;
 
     protected:
-        void configurePushConstant(vkh::PipelineLayoutManager &pipelineLayoutManager) override;
-        void configureDescriptors(std::vector<vkh::Descriptor *> &descriptors) override;
+        void configurePushConstant(mvk::PipelineLayoutManager &pipelineLayoutManager) override;
+        void configureDescriptors(std::vector<mvk::Descriptor *> &descriptors) override;
     };
 
 } // namespace merutilm

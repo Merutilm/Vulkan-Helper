@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/descriptor/DescriptorSetLayout.hpp>
 #include <vulkan_helper/base/exception.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     DescriptorSetLayout::DescriptorSetLayout(Core & core, const DescriptorSetLayoutBuilder &layoutBuilder) : CoreHandler(core), layoutBuilder(layoutBuilder) {
         DescriptorSetLayout::init();
     }

@@ -7,7 +7,7 @@
 #include <vulkan_helper/base/pch.hpp>
 #include "vulkan_helper/engine/window/PlatformMenubarBase.hpp"
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class Menubar final : PlatformMenubarBase {
         HMENU handle;
 
@@ -22,5 +22,5 @@ namespace merutilm::vkh {
         void init() override;
         void cleanup() override;
     };
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk
 #endif

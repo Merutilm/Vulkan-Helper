@@ -4,7 +4,7 @@
 
 #ifdef WIN32
 #include <vulkan_helper/engine/window/win/Menubar.hpp>
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     Menubar::Menubar(const HMENU handle) : handle(handle) {
         Menubar::init();
@@ -18,5 +18,5 @@ namespace merutilm::vkh {
     void Menubar::cleanup() {
 
     }
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk
 #endif

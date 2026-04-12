@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/context/ImageContext.hpp>
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class CombinedImageSampler final : public CoreHandler {
         std::variant<MultiframeImageContext, ImageContext> imageContext = {};
         Sampler& sampler;

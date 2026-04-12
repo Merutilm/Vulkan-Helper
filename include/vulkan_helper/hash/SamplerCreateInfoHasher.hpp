@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/hash/BoostHasher.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     struct SamplerCreateInfoHasher {
         using is_transparent = void;

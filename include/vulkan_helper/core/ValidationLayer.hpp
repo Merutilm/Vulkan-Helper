@@ -7,7 +7,7 @@
 #include <vulkan_helper/base/pch.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class ValidationLayer final : public Handler {
         VkInstance instance = nullptr;
         VkDebugUtilsMessengerEXT debugMessenger = nullptr;

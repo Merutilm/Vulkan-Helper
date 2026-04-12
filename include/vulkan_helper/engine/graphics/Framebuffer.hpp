@@ -6,7 +6,7 @@
 #include "RenderPass.hpp"
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     class Framebuffer final : public CoreHandler {
         std::vector<VkFramebuffer> framebuffer = {};
         RenderPass & renderPass;

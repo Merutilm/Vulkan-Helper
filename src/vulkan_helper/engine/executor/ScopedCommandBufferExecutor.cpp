@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     ScopedCommandBufferExecutor::ScopedCommandBufferExecutor(
         WindowContext & wc, const uint32_t frameIndex, const VkFence fence, const VkSemaphore imageAvailable,
         const VkSemaphore renderFinished) : WindowContextHandler(wc),

@@ -3,7 +3,7 @@
 //
 
 #include <vulkan_helper/engine/manage/PipelineLayoutManager.hpp>
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     
     PipelineLayoutManager::PipelineLayoutManager() = default;
 

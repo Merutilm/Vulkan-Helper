@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/context/BufferContext.hpp>
 #include <vulkan_helper/util/BufferImageUtils.hpp>
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     BufferContext BufferContext::createContext(Core & core, const BufferInitInfo &bufferInitInfo) {
         BufferContext result = {};
         BufferImageUtils::initBuffer(core, bufferInitInfo, &result.buffer, &result.bufferMemory);

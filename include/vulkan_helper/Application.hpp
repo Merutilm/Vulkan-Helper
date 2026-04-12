@@ -5,7 +5,7 @@
 #pragma once
 #include "engine/configurator/PipelineConfigurator.hpp"
 #include "handle/EngineHandler.hpp"
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
 
     struct Application : Handler {
@@ -31,4 +31,4 @@ namespace merutilm::vkh {
     };
 
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk

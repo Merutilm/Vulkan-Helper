@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 #include <vulkan_helper/engine/repo/GlobalDescriptorSetLayoutRepo.hpp>
-namespace merutilm::vkh {
+namespace merutilm::mvk {
     inline DescriptorSetLayout & GlobalDescriptorSetLayoutRepo::pick(const DescriptorSetLayoutBuilder &layoutBuilder) {
         auto it = repository.find(layoutBuilder);
         if (it == repository.end()) {

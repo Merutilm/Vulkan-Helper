@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/graphics/RenderPass.hpp>
 #include <vulkan_helper/engine/configurator/RenderContextConfigurator.hpp>
 
-namespace merutilm::vkh {
+namespace merutilm::mvk {
 
     class RenderContext final {
         Core &core;
@@ -43,4 +43,4 @@ namespace merutilm::vkh {
     };
 
 
-} // namespace merutilm::vkh
+} // namespace merutilm::mvk
