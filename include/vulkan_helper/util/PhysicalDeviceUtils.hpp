@@ -6,7 +6,7 @@
 #include <vulkan_helper/core/QueueFamilyIndices.hpp>
 #include <vulkan_helper/hash/StringHasher.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct PhysicalDeviceUtils {
 
         inline static const std::vector<const char *> PHYSICAL_DEVICE_EXTENSIONS = {

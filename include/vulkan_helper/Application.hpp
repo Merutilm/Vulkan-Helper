@@ -3,17 +3,15 @@
 //
 
 #pragma once
-#include "engine/buffer/IndexBuffer.hpp"
-#include "engine/buffer/VertexBuffer.hpp"
+#include "engine/SharedResource.hpp"
 #include "handle/EngineHandler.hpp"
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
 
     struct Application : Handler {
 
-        Engine engine{};
-        std::unique_ptr<VertexBuffer> vertexBufferPP;
-        std::unique_ptr<IndexBuffer> indexBufferPP;
+        std::optional<Engine> engine;
+        std::optional<SharedResource> sharedResource;
 
         explicit Application();
 
@@ -34,4 +32,4 @@ namespace merutilm::mvk {
     };
 
 
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

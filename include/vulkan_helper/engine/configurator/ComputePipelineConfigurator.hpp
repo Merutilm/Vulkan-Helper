@@ -5,7 +5,7 @@
 #pragma once
 #include "PipelineConfigurator.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class ComputePipelineConfigurator : public PipelineConfigurator {
         ShaderModule &computeShader;
         VkExtent2D extent = {};
@@ -40,4 +40,4 @@ namespace merutilm::mvk {
                           (height + WORK_GROUP_SIZE - 1) / WORK_GROUP_SIZE, 1);
         }
     };
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

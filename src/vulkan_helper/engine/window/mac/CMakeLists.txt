@@ -1,5 +1,5 @@
 add_library(engine_window_mac OBJECT
-        Window.cpp
+        NativeWindow.cpp
 )
 
 target_link_libraries(engine_window_mac PRIVATE

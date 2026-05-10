@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class ShaderModule final : public CoreHandler {
 
         static constexpr auto SHADER_PATH_PREFIX = "../shaders/";

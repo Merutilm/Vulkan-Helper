@@ -11,7 +11,7 @@
 #include <vulkan_helper/engine/manage/HostDataObjectManager.hpp>
 #include <vulkan_helper/engine/wrapped/BufferLock.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class BufferObject : public CoreHandler {
         HostDataObject hostDataObject;
         VkBufferUsageFlags bufferUsage;

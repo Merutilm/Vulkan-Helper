@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/engine/pipeline/PipelineLayout.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     PipelineLayout::PipelineLayout(Core &core, PipelineLayoutManager &&pipelineLayoutManager) :
         CoreHandler(core), builders(std::move(pipelineLayoutManager.builders)),
         descriptorSetLayoutCount(std::move(pipelineLayoutManager.descriptorSetLayoutCount)) {
@@ -77,4 +77,4 @@ namespace merutilm::mvk {
     void PipelineLayout::cleanup() {
         allocator::invoke(vkDestroyPipelineLayout, core.getLogicalDevice().getLogicalDeviceHandle(), layout, nullptr);
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

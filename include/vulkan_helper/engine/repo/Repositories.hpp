@@ -8,7 +8,7 @@
 #include "Repository.hpp"
 #include "GlobalShaderModuleRepo.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Repositories {
 
         std::vector<std::unique_ptr<RepositoryBase>> repositories = {};

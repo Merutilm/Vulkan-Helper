@@ -7,7 +7,7 @@
 
 #include <vulkan_helper/engine/context/RenderContext.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     RenderPassFullscreenRecorder::RenderPassFullscreenRecorder(WindowContext & wc,
                                                                const uint32_t renderContextIndex,
                                                                const uint32_t frameIndex,

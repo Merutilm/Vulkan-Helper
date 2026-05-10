@@ -9,7 +9,7 @@
 #include "PlatformWindowBase.hpp"
 
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Surface final : public Handler {
 
         Instance & instance;

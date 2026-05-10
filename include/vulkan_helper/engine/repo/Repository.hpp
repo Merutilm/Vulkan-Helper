@@ -6,7 +6,7 @@
 #include <vulkan_helper/core/Core.hpp>
 #include "RepositoryBase.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     template<typename Key, typename KeyInput, typename Type, typename Return, typename KeyHasher, typename KeyPredicate, typename... Args>
     struct Repository : RepositoryBase{

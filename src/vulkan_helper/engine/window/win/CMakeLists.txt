@@ -1,6 +1,8 @@
 add_library(engine_window_win OBJECT
-        Window.cpp
-        Menubar.cpp
+        NativeWindow.cpp
+        NativeMenu.cpp
+        NativeMenuItem.cpp
+        NativeCheckboxMenuItem.cpp
 )
 
 target_link_libraries(engine_window_win PRIVATE

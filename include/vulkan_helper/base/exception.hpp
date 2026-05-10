@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct exception : std::exception {
         std::string message;
         explicit exception(const std::string & message) : message(message) {

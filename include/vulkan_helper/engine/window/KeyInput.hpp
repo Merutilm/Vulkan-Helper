@@ -5,11 +5,27 @@
 #pragma once
 #include <stdint.h>
 
-namespace merutilm::mvk::KeyInput {
+namespace merutilm::vkh::KeyInput {
+    enum class MouseButton : uint8_t { LEFT, RIGHT, MIDDLE };
 
-    enum class MouseButton : uint16_t { LEFT, RIGHT, MIDDLE };
+    enum class Modifier : uint8_t {
+        KEY_LEFT_SHIFT = 1,
+        KEY_RIGHT_SHIFT = 2,
+        KEY_LEFT_CONTROL = 4,
+        KEY_RIGHT_CONTROL = 8,
+        KEY_LEFT_ALT = 16,
+        KEY_RIGHT_ALT = 32,
+        KEY_LEFT_SUPER = 64,
+        KEY_RIGHT_SUPER = 128,
 
-    enum class Modifier : uint16_t { CONTROL, SHIFT, ALT };
+    };
+
+    inline Modifier operator|(Modifier a, Modifier b) {
+        return static_cast<Modifier>(
+            static_cast<uint8_t>(a) |
+            static_cast<uint8_t>(b)
+        );
+    }
 
     enum class KeyCategory : uint16_t{
 
@@ -152,4 +168,4 @@ namespace merutilm::mvk::KeyInput {
         KEY_SCROLL_LOCK,
         KEY_PAUSE,
     };
-} // namespace merutilm::mvk::KeyInput
+} // namespace merutilm::vkh::KeyInput

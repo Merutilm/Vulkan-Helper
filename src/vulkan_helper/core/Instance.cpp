@@ -7,7 +7,7 @@
 #include <vulkan_helper/base/exception.hpp>
 #include <vulkan_helper/util/Debugger.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     Instance::Instance() {
         Instance::init();

@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-04.
 //
 #include <vulkan_helper/engine/context/RenderContext.hpp>
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
 
     RenderContext::RenderContext(Core &core, std::function<VkExtent2D()> &&extentGetter, std::unique_ptr<RenderContextConfigurator> &&renderContextConfigurator) :

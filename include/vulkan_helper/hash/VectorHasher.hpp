@@ -7,7 +7,7 @@
 
 #include <vulkan_helper/hash/BoostHasher.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     template<typename T, typename Hasher = std::hash<T>>
     struct VectorHasher {

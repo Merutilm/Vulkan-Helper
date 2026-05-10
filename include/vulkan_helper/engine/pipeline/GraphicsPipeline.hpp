@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/buffer/IndexBuffer.hpp>
 #include "Pipeline.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
  
     class GraphicsPipeline final : public Pipeline {
 

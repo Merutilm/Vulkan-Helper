@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/descriptor/DescriptorSetLayout.hpp>
 #include <vulkan_helper/engine/pipeline/PushConstant.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     using PipelineLayoutBuildType = std::variant<DescriptorSetLayout *, PushConstant *>;
     using PipelineLayoutBuilder = std::vector<PipelineLayoutBuildType>;

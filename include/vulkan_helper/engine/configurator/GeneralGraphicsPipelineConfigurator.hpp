@@ -10,7 +10,7 @@
 #include "GraphicsPipelineConfigurator.hpp"
 
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class GeneralGraphicsPipelineConfigurator : public GraphicsPipelineConfigurator {
         std::optional<VertexBuffer> vertexBuffer;
         std::optional<IndexBuffer> indexBuffer;
@@ -38,4 +38,4 @@ namespace merutilm::mvk {
 
         [[nodiscard]] IndexBuffer &getIndexBuffer() override { return *indexBuffer; }
     };
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

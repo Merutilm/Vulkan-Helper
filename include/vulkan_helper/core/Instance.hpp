@@ -7,7 +7,7 @@
 #include "ValidationLayer.hpp"
 #include <vulkan_helper/handle/Handler.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Instance final : public Handler {
         VkInstance instance = nullptr;
         std::unique_ptr<ValidationLayer> validationLayer;

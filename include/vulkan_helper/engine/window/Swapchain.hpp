@@ -8,7 +8,7 @@
 #include "Surface.hpp"
 
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Swapchain final : public CoreHandler {
 
         Surface & surface;

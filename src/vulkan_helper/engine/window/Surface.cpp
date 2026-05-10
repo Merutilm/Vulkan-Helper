@@ -7,7 +7,7 @@
 #include <vulkan/vulkan_core.h>
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     Surface::Surface(Instance & instance, PlatformWindowBase * window) : instance(instance), window(window) {
         Surface::init();
     }

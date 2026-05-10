@@ -9,7 +9,7 @@
 #include <vulkan_helper/hash/SamplerCreateInfoHasher.hpp>
 #include "Repository.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     struct GlobalSamplerRepo final : Repository<VkSamplerCreateInfo, const VkSamplerCreateInfo &, std::unique_ptr<Sampler>, Sampler &, SamplerCreateInfoHasher, SamplerCreateInfoEquals>{
 

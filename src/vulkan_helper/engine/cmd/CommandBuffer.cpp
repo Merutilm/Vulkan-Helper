@@ -6,7 +6,7 @@
 
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     CommandBuffer::CommandBuffer(Core & core, CommandPool & commandPool) : CoreHandler(core), commandPool(commandPool) {
         CommandBuffer::init();
     }

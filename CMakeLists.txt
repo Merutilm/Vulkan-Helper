@@ -21,6 +21,12 @@ add_executable(VulkanHelper
         src/vkh_demo/GPCSample.hpp
         src/vkh_demo/SampleRenderer.cpp
         src/vkh_demo/SampleRenderer.hpp
+        include/vulkan_helper/engine/window/win/NativeMenu.hpp
+        include/vulkan_helper/engine/window/PlatformMenuBase.hpp
+        include/vulkan_helper/engine/window/Keybinding.hpp
+        include/vulkan_helper/engine/window/win/NativeMenuItem.hpp
+        include/vulkan_helper/engine/window/win/NativeMenuID.hpp
+        include/vulkan_helper/engine/SharedResource.hpp
 )
 
 target_compile_options(VulkanHelper PRIVATE

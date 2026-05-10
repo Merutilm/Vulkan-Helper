@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan/vulkan.h>
 
-namespace config {
+namespace merutilm::vkh::config {
 #ifdef NDEBUG
     static constexpr bool ENABLE_VALIDATION = false;
 #else

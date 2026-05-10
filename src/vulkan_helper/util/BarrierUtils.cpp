@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 #include <vulkan_helper/util/BarrierUtils.hpp>
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     void BarrierUtils::cmdMemoryBarrier(const VkCommandBuffer commandBuffer,
         const VkAccessFlags srcAccessMask, const VkAccessFlags dstAccessMask, const VkPipelineStageFlags srcStageMask,
         const VkPipelineStageFlags dstStageMask) {

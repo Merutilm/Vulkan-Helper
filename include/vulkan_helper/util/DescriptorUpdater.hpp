@@ -6,7 +6,7 @@
 
 #include <vulkan_helper/engine/context/DescriptorUpdateContext.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct DescriptorUpdater {
         DescriptorUpdater() = delete;
 

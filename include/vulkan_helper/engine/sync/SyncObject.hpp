@@ -7,7 +7,7 @@
 #include "Semaphore.hpp"
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class SyncObject final : public CoreHandler {
         std::vector<std::unique_ptr<Fence>> fences = {};
         std::vector<std::unique_ptr<Semaphore>> semaphores = {};

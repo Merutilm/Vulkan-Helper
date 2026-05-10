@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 #include <vulkan_helper/engine/context/ImageContext.hpp>
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     ImageContext ImageContext::createContext(Core & core, const ImageInitInfo &imageInitInfo) {
         ImageContext result = {};
         BufferImageUtils::initImage(core, imageInitInfo, &result.image, &result.imageMemory,

@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/engine/sync/SyncObject.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     SyncObject::SyncObject(Core & core) : CoreHandler(core) {
         SyncObject::init();
     }

@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct DescriptorUpdateContext {
         VkWriteDescriptorSet writeSet;
         VkDescriptorBufferInfo bufferInfo;

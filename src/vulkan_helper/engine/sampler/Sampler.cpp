@@ -6,7 +6,7 @@
 
 #include <vulkan_helper/base/allocator.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     Sampler::Sampler(Core & core, const VkSamplerCreateInfo &samplerInfo) : CoreHandler(core), samplerInfo(samplerInfo) {
         Sampler::init();
     }

@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/manage/DescriptorManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     DescriptorManager::DescriptorManager() = default;
 
     DescriptorManager::~DescriptorManager() = default;

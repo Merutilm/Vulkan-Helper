@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/engine/pipeline/GraphicsPipeline.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     GraphicsPipeline::GraphicsPipeline(WindowContext &wc, PipelineLayout &pipelineLayout, VertexBuffer &vertexBuffer,
                                        IndexBuffer &indexBuffer, const uint32_t renderContextIndex,
                                        const uint32_t primarySubpassIndex, PipelineManager &&pipelineManager) :
@@ -166,4 +166,4 @@ namespace merutilm::mvk {
             throw exception_init("Failed to create graphics pipeline!");
         }
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

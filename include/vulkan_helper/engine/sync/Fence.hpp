@@ -7,7 +7,7 @@
 #include <vulkan_helper/core/Core.hpp>
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Fence final : public CoreHandler {
 
         VkFence fence = VK_NULL_HANDLE;

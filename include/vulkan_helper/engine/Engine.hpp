@@ -8,7 +8,7 @@
 #include <vulkan_helper/engine/context/WindowContext.hpp>
 #include <vulkan_helper/core/Core.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Engine final : public Handler {
         Core core;
         Repositories globalRepositories;

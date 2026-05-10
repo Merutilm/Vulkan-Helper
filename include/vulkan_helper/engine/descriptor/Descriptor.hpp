@@ -9,7 +9,7 @@
 #include <vulkan_helper/engine/manage/DescriptorManager.hpp>
 
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     /**
      * The Index Picker of Descriptor.
      * In Update, Empty picker means all descriptors.
@@ -92,4 +92,4 @@ namespace merutilm::mvk {
     };
 
 
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

@@ -5,10 +5,14 @@
 #pragma once
 #include "EventSystem.hpp"
 #include "MouseState.hpp"
+#include "PlatformCheckboxMenuItemBase.hpp"
+#include "PlatformMenuBase.hpp"
+#include "PlatformMenuItemBase.hpp"
 #include "WindowInitializerSettings.hpp"
 #include "vulkan_helper/handle/Handler.hpp"
 
-namespace merutilm::mvk {
+
+namespace merutilm::vkh {
     class PlatformWindowBase : Handler {
 
     protected:
@@ -31,38 +35,42 @@ namespace merutilm::mvk {
     public:
         EventSystem eventSystem = {};
         WindowInitializerSettings initializerSettings;
+        std::unique_ptr<PlatformMenuBase> menubar = nullptr;
 
         explicit PlatformWindowBase(WindowInitializerSettings &&settings);
-
         ~PlatformWindowBase() override;
         PlatformWindowBase(const PlatformWindowBase &) = delete;
         PlatformWindowBase &operator=(const PlatformWindowBase &) = delete;
         PlatformWindowBase(PlatformWindowBase &&) = delete;
         PlatformWindowBase &operator=(PlatformWindowBase &&) = delete;
 
-        void init() override;
+
+        KeyInput::Key findEquivalentKey(uint32_t nativeKey);
 
         virtual void start();
 
-        virtual VkExtent2D calculateClientSizeFromMainWindow() const = 0;
-
         virtual VkSurfaceKHR createSurface(VkInstance instance) = 0;
-
-        virtual KeyInput::Key findEquivalentKey(uint32_t nativeKey);
 
         virtual void generateKeyMapper() = 0;
 
         virtual bool canRenderable() = 0;
 
-        bool isKeyPressed(KeyInput::Key key) const;
+        [[nodiscard]] virtual VkExtent2D calculateClientSizeFromMainWindow() const = 0;
 
-        bool isControlKeyPressed() const { return controlKeyPressed; }
-        bool isAltKeyPressed() const { return altKeyPressed; }
-        bool isShiftKeyPressed() const { return shiftKeyPressed; }
-        const MouseState &getLeftMouseState() const { return leftMouse; }
-        const MouseState &getMiddleMouseState() const { return middleMouse; }
-        const MouseState &getRightMouseState() const { return rightMouse; }
+        [[nodiscard]] bool isKeyPressed(KeyInput::Key key) const;
+        [[nodiscard]] bool isControlKeyPressed() const { return controlKeyPressed; }
+        [[nodiscard]] bool isAltKeyPressed() const { return altKeyPressed; }
+        [[nodiscard]] bool isShiftKeyPressed() const { return shiftKeyPressed; }
+        [[nodiscard]] const MouseState &getLeftMouseState() const { return leftMouse; }
+        [[nodiscard]] const MouseState &getMiddleMouseState() const { return middleMouse; }
+        [[nodiscard]] const MouseState &getRightMouseState() const { return rightMouse; }
+
+        virtual PlatformMenuBase &addMenu(PlatformMenuBase &menu, std::wstring name);
+        virtual PlatformMenuItemBase &addMenuItem(PlatformMenuBase &menu, std::wstring name);
+        virtual PlatformCheckboxMenuItemBase &addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name, bool defaultFlag);
+
+        void init() override;
 
         void cleanup() override;
     };
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

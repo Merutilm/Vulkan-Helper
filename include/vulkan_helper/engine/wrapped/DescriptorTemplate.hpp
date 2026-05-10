@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/wrapped/DescriptorTemplateInfo.hpp>
 #include <vulkan_helper/engine/manage/DescriptorManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct DescriptorTemplate;
 
     template<typename T>

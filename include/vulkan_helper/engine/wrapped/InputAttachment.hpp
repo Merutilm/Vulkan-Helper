@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/engine/context/ImageContext.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct InputAttachment {
         MultiframeImageContext ctx;
     };

@@ -9,7 +9,7 @@
 #include <fstream>
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     ShaderModule::ShaderModule(Core &core, const std::string &filename) :
         CoreHandler(core), shaderStage(getShaderStage(filename)), filename(SHADER_PATH_PREFIX + filename + ".spv") {
         ShaderModule::init();
@@ -59,4 +59,4 @@ namespace merutilm::mvk {
         allocator::invoke(vkDestroyShaderModule, core.getLogicalDevice().getLogicalDeviceHandle(), shaderModule,
                           nullptr);
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

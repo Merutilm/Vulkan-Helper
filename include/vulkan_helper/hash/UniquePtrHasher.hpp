@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     struct UniquePtrHasher {
         using is_transparent = void;

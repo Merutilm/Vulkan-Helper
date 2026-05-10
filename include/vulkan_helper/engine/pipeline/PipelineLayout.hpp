@@ -7,7 +7,7 @@
 #include <vulkan_helper/handle/CoreHandler.hpp>
 #include <vulkan_helper/engine/manage/PipelineLayoutManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class PipelineLayout final : public CoreHandler {
 
         VkPipelineLayout layout = nullptr;

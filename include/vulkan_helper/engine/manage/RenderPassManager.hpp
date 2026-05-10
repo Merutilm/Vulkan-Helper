@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/wrapped/RenderPassAttachment.hpp>
 #include <vulkan_helper/engine/wrapped/RenderPassAttachmentType.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct RenderPassManager {
         std::vector<RenderPassAttachment> attachments = {};
         std::vector<std::vector<uint32_t> > preserveIndices = {};

@@ -5,7 +5,7 @@
 #include <vulkan_helper/util/SwapchainUtils.hpp>
 #include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     Renderer::Renderer(Engine & engine, WindowContext &wc, VertexBuffer &vertexBufferPP, IndexBuffer &indexBufferPP): EngineHandler(engine), wc(wc), vertexBufferPP(vertexBufferPP), indexBufferPP(indexBufferPP){
     }
 

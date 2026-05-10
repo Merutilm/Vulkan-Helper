@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     template<typename... T>
     class Listener {
 
@@ -19,12 +19,12 @@ namespace merutilm::mvk {
     public:
         template<typename F>
             requires std::is_invocable_v<F, T...>
-        CallbackHandle addListener(F &&listener) {
+        CallbackHandle add(F &&listener) {
             listenerToAdd.emplace_back(handle, std::forward<F>(listener));
             return handle++;
         }
 
-        void removeListener(CallbackHandle callbackHandle) { listenerToRemove.emplace(callbackHandle); }
+        void remove(CallbackHandle callbackHandle) { listenerToRemove.emplace(callbackHandle); }
 
         void invoke(T... args) {
             std::erase_if(callbacks, [this](auto &callback) { return listenerToRemove.contains(callback.first); });
@@ -37,4 +37,4 @@ namespace merutilm::mvk {
             }
         }
     };
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

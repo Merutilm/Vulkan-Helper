@@ -8,14 +8,14 @@
 #include <vulkan_helper/util/BufferImageUtils.hpp>
 
 #ifdef _WIN32
-#include <vulkan_helper/engine/window/win/Window.hpp>
+#include <vulkan_helper/engine/window/win/NativeWindow.hpp>
 #elif __APPLE__
-#include <vulkan_helper/engine/window/mac/Window.hpp>
+#include <vulkan_helper/engine/window/mac/NativeWindow.hpp>
 #elif __linux__
-#include <vulkan_helper/engine/window/linux/Window.hpp>
+#include <vulkan_helper/engine/window/linux/NativeWindow.hpp>
 #endif
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     Swapchain::Swapchain(Core & core, Surface & surface) : CoreHandler(core), surface(surface) {
         Swapchain::init();
     }
@@ -48,7 +48,7 @@ namespace merutilm::mvk {
         }
 
 #ifdef _WIN32
-        const HWND window = dynamic_cast<Window *>(surface.getTargetWindow())->getRenderWindow();
+        const HWND window = dynamic_cast<NativeWindow *>(surface.getTargetWindow())->getRenderWindow();
         RECT rect;
         GetClientRect(window, &rect);
         const VkExtent2D extent = {

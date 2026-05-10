@@ -9,14 +9,14 @@
 #include <vulkan_helper/engine/repo/GlobalSamplerRepo.hpp>
 
 #ifdef _WIN32
-#include <vulkan_helper/engine/window/win/Window.hpp>
+#include <vulkan_helper/engine/window/win/NativeWindow.hpp>
 #elif __APPLE__
-#include <vulkan_helper/engine/window/mac/Window.hpp>
+#include <vulkan_helper/engine/window/mac/NativeWindow.hpp>
 #elif __linux__
-#include <vulkan_helper/engine/window/linux/Window.hpp>
+#include <vulkan_helper/engine/window/linux/NativeWindow.hpp>
 #endif
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     Engine::Engine() {
         Engine::init();
     }
@@ -38,7 +38,7 @@ namespace merutilm::mvk {
             throw exception_invalid_args(std::format("given window context {} is already using", windowAttachmentIndexExpected));
         }
 
-        auto window = std::make_unique<Window>(std::move(wic));
+        auto window = std::make_unique<NativeWindow>(std::move(wic));
 
         windowContexts[windowAttachmentIndexExpected] = std::make_unique<WindowContext>(core, windowAttachmentIndexExpected, std::move(window));
         return *windowContexts[windowAttachmentIndexExpected];

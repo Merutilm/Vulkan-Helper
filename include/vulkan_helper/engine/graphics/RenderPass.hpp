@@ -7,7 +7,7 @@
 #include <vulkan_helper/handle/CoreHandler.hpp>
 #include <vulkan_helper/engine/manage/RenderPassManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class RenderPass final : public CoreHandler {
         const std::vector<RenderPassAttachment> attachments;
         const std::vector<std::vector<uint32_t> > preserveIndices;

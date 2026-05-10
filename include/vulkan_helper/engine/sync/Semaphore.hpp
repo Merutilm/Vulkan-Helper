@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/handle/CoreHandler.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class Semaphore final : public CoreHandler {
         VkSemaphore imageAvailable = VK_NULL_HANDLE;
         VkSemaphore renderFinished = VK_NULL_HANDLE;

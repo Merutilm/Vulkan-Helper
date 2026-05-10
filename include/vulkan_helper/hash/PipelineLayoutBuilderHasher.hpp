@@ -11,7 +11,7 @@
 #include "VectorHasher.hpp"
 
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     struct PipelineLayoutBuilderHasher{
         using is_transparent = void;

@@ -8,8 +8,9 @@
 
 #include "KeyInput.hpp"
 #include "Listener.hpp"
+#include "PlatformMenuBase.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     struct EventSystem final {
 
@@ -63,6 +64,10 @@ namespace merutilm::mvk {
             Listener<const std::vector<std::string> &> onFileDrop;
         };
 
+        struct MenuEvents {
+            Listener<PlatformMenuBase *> onMenuOpen;
+        };
+
         MouseEvents mouse;
         MouseWheelEvents mouseWheel;
         MouseDragEvents mouseDrag;
@@ -75,4 +80,4 @@ namespace merutilm::mvk {
 
 
     };
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

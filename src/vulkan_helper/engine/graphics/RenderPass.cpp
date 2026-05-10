@@ -6,7 +6,7 @@
 #include <vulkan_helper/base/exception.hpp>
 #include <vulkan_helper/engine/manage/RenderPassManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     RenderPass::RenderPass(Core &core, RenderPassManager &&manager) :
         CoreHandler(core), attachments(std::move(manager.attachments)),
         preserveIndices(std::move(manager.preserveIndices)),
@@ -72,4 +72,4 @@ namespace merutilm::mvk {
     void RenderPass::cleanup() {
         allocator::invoke(vkDestroyRenderPass, core.getLogicalDevice().getLogicalDeviceHandle(), renderPass, nullptr);
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/repo/WindowLocalDescriptorRepo.hpp>
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     WindowContext::WindowContext(Core &core, const uint32_t index, std::unique_ptr<PlatformWindowBase> &&window) :
         CoreHandler(core), attachmentIndex(index), window(std::move(window)) {
         WindowContext::init();
@@ -47,4 +47,4 @@ namespace merutilm::mvk {
         surface.reset();
         window.reset();
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

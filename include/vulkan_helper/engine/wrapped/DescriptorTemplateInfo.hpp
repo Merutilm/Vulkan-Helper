@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/engine/manage/DescriptorManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct DescriptorTemplateInfo {
         uint32_t id;
         std::function<std::vector<DescriptorManager>(Core &)> descriptorGenerator;

@@ -9,7 +9,7 @@
 #include "vulkan_helper/engine/buffer/VertexBuffer.hpp"
 #include "vulkan_helper/handle/EngineHandler.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct Renderer : EngineHandler {
 
         WindowContext & wc;

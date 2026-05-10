@@ -5,7 +5,7 @@
 #include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/engine/repo/GlobalShaderModuleRepo.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     ShaderModule & GlobalShaderModuleRepo::pick(const std::string &filename) {
         auto it = repository.find(filename);
         if (it == repository.end()) {

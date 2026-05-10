@@ -3,7 +3,7 @@
 //
 
 #include <vulkan_helper/util/Debugger.hpp>
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     VkDebugUtilsMessengerCreateInfoEXT Debugger::populateDebugMessengerCreateInfo() {
         return {
             .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,

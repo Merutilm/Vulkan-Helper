@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/context/SharedImageContext.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     SharedImageContext::SharedImageContext(Core & core): core(core) {
     }
 

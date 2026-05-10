@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/Engine.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct WindowContextHandler : Handler {
         WindowContext & wc;
 

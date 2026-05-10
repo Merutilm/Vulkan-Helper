@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/context/WindowContext.hpp>
 
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct SwapchainUtils {
         SwapchainUtils() = delete;
 
@@ -34,4 +34,4 @@ namespace merutilm::mvk {
         end(wc, *frameIndex, swapchainImageIndex);
     }
 
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

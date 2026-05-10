@@ -5,7 +5,7 @@
 #pragma once
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct HostDataObjectManager final {
         std::vector<std::byte> data = {};
         std::vector<uint32_t> elements = {};

@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/manage/RenderPassManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     RenderPassManager::RenderPassManager() = default;
 
     RenderPassManager::~RenderPassManager() = default;

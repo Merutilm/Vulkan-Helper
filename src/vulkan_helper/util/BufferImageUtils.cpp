@@ -3,7 +3,7 @@
 //
 
 #include <vulkan_helper/util/BufferImageUtils.hpp>
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     void BufferImageUtils::initImage(Core & core, const ImageInitInfo &iii, VkImage*image,
         VkDeviceMemory*imageMemory, VkImageView*imageView, VkImageView*mipmappedImageView, VkDeviceSize *capacity) {
         initImage(core.getLogicalDevice().getLogicalDeviceHandle(),

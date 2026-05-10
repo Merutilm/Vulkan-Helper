@@ -8,7 +8,7 @@
 #include "Instance.hpp"
 #include "QueueFamilyIndices.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class PhysicalDeviceLoader final : public Handler {
 
         Instance & instance;

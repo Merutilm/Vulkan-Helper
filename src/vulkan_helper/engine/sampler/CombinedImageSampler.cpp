@@ -6,7 +6,7 @@
 
 #include <vulkan_helper/util/BufferImageContextUtils.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     CombinedImageSampler::CombinedImageSampler(Core & core, Sampler & sampler,
                                                        const bool multiframeEnabled) : CoreHandler(core),
         sampler(sampler), multiframeEnabled(multiframeEnabled) {

@@ -1,8 +1,10 @@
 add_library(engine_window OBJECT
         PlatformWindowBase.cpp
-        PlatformMenubarBase.cpp
         Surface.cpp
         Swapchain.cpp
+        PlatformMenuBase.cpp
+        PlatformMenuItemBase.cpp
+        PlatformCheckboxMenuItemBase.cpp
 )
 
 add_subdirectory(win)

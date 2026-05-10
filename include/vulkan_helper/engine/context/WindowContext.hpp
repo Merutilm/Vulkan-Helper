@@ -12,7 +12,7 @@
 #include <vulkan_helper/engine/sync/SyncObject.hpp>
 #include "RenderContext.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class WindowContext final : public CoreHandler {
         const uint32_t attachmentIndex;
         std::unique_ptr<PlatformWindowBase> window;
@@ -90,4 +90,4 @@ namespace merutilm::mvk {
         void cleanup() override;
     };
 
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

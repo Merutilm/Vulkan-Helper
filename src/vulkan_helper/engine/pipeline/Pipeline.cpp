@@ -3,7 +3,7 @@
 //
 #include "vulkan_helper/engine/pipeline/Pipeline.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     Pipeline::Pipeline(WindowContext &wc, PipelineLayout &pipelineLayout, PipelineManager &&pipelineManager) :
         WindowContextHandler(wc), pipelineLayout(pipelineLayout), descriptors(std::move(pipelineManager.descriptors)),
         shaderModules(std::move(pipelineManager.shaderModules)) {}
@@ -29,4 +29,4 @@ namespace merutilm::mvk {
     void Pipeline::cleanup() {
         allocator::invoke(vkDestroyPipeline, wc.core.getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

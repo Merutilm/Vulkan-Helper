@@ -4,7 +4,7 @@
 
 #include <vulkan_helper/core/Core.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     Core::Core() : physicalDevice(instance), logicalDevice(instance, physicalDevice) {
         Core::init();
@@ -16,7 +16,7 @@ namespace merutilm::mvk {
 
     float Core::getTime() const {
         using namespace std::chrono;
-        const time_point<system_clock> currentTime = high_resolution_clock::now();
+        const time_point<high_resolution_clock> currentTime = high_resolution_clock::now();
         return std::chrono::duration_cast<duration<float> >(currentTime - startTime).count();
     }
 

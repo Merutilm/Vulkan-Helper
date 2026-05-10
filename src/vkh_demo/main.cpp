@@ -48,7 +48,7 @@ int main() {
     counter(path, &lines);
     counter(path2, &lines);
     std::cout << "Lines : " << lines << std::endl;
-    const auto application = merutilm::mvk_demo::DemoApplication();
+    const auto application = merutilm::vkh_demo::DemoApplication();
     application.start();
 
     return 0;

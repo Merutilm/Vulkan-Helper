@@ -16,6 +16,7 @@ add_subdirectory(window)
 
 add_library(engine OBJECT
         Engine.cpp
+        SharedResource.cpp
 )
 
 target_link_libraries(engine PRIVATE

@@ -6,7 +6,7 @@
 #include <vulkan_helper/engine/configurator/ComputePipelineConfigurator.hpp>
 #include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
 
 

@@ -4,8 +4,8 @@
 
 #include "GPCSample.hpp"
 
-namespace merutilm::mvk_demo {
-    void GPCSample::updateQueue(mvk::DescriptorUpdateQueue &queue, uint32_t frameIndex) {
+namespace merutilm::vkh_demo {
+    void GPCSample::updateQueue(vkh::DescriptorUpdateQueue &queue, uint32_t frameIndex) {
 
     }
     void GPCSample::pipelineInitialized() {
@@ -14,10 +14,10 @@ namespace merutilm::mvk_demo {
     void GPCSample::renderContextRefreshed() {
 
     }
-    void GPCSample::configurePushConstant(mvk::PipelineLayoutManager &pipelineLayoutManager) {
+    void GPCSample::configurePushConstant(vkh::PipelineLayoutManager &pipelineLayoutManager) {
 
     }
-    void GPCSample::configureDescriptors(std::vector<mvk::Descriptor *> &descriptors) {
+    void GPCSample::configureDescriptors(std::vector<vkh::Descriptor *> &descriptors) {
 
     }
 } // namespace merutilm

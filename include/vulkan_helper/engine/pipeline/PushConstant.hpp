@@ -7,7 +7,7 @@
 #include <vulkan_helper/engine/buffer/HostDataObject.hpp>
 #include <vulkan_helper/engine/manage/HostDataObjectManager.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class PushConstant final {
         HostDataObject hostDataObject;
         VkShaderStageFlags useStage;

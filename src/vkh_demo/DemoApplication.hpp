@@ -6,10 +6,10 @@
 #include "SampleRenderer.hpp"
 #include "vulkan_helper/Application.hpp"
 
-namespace merutilm::mvk_demo {
-    struct DemoApplication final : mvk::Application{
+namespace merutilm::vkh_demo {
+    struct DemoApplication final : vkh::Application{
 
-        mvk::WindowContext * wc = nullptr;
+        vkh::WindowContext * wc = nullptr;
         std::optional<SampleRenderer> renderer;
 
         DemoApplication();
@@ -19,6 +19,7 @@ namespace merutilm::mvk_demo {
         void cleanup() override;
 
         void createWindow();
+        void initMenu();
 
         void addListeners();
         void createContexts() const;

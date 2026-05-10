@@ -5,7 +5,7 @@
 #pragma once
 #include <mutex>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
 
     template<typename VkAlloc, typename... Args>

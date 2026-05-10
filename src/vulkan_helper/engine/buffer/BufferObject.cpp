@@ -9,7 +9,7 @@
 #include <vulkan_helper/util/BarrierUtils.hpp>
 #include <vulkan_helper/util/BufferImageUtils.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
 
     BufferObject::BufferObject(Core &core, HostDataObjectManager &&dataManager, const VkBufferUsageFlags bufferUsage,
@@ -268,4 +268,4 @@ namespace merutilm::mvk {
             BufferContext::destroyContext(core, getBufferContext());
         }
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

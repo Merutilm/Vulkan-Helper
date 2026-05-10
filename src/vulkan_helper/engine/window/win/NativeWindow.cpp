@@ -2,29 +2,36 @@
 // Created by Merutilm on 2026-02-07.
 //
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <vulkan_helper/base/logger.hpp>
-#include <vulkan_helper/engine/window/win/Window.hpp>
+#include <vulkan_helper/engine/window/win/NativeWindow.hpp>
 
 #include "vulkan_helper/base/allocator.hpp"
+#include "vulkan_helper/engine/window/win/NativeCheckboxMenuItem.hpp"
+#include "vulkan_helper/engine/window/win/NativeMenu.hpp"
+#include "vulkan_helper/engine/window/win/NativeMenuItem.hpp"
 
-namespace merutilm::mvk {
-    Window::Window(WindowInitializerSettings &&settings) : PlatformWindowBase(std::move(settings)) { Window::init(); }
+namespace merutilm::vkh {
+    NativeWindow::NativeWindow(WindowInitializerSettings &&settings) : PlatformWindowBase(std::move(settings)) {
+        NativeWindow::init();
+    }
 
-    Window::~Window() { Window::cleanup(); }
+    NativeWindow::~NativeWindow() { NativeWindow::cleanup(); }
 
 
-    void Window::initWindow() {
-        const HMENU hMenubar = initializerSettings.useMenubar ? initMenu() : nullptr;
+    void NativeWindow::initWindow() {
+        initMenu();
         generateKeyMapper();
-        createMainWindow(hMenubar);
+        createMainWindow();
         createRenderWindow();
-        setClientSize(initializerSettings.width, initializerSettings.height);
+        setRenderWindowSizeWithClientAdjustment(initializerSettings.widthInfo.first,
+                                                initializerSettings.heightInfo.first);
         prepareWindow();
     }
-    LRESULT Window::MainWindowProc(const HWND hWnd, const UINT message, const WPARAM wParam, const LPARAM lParam) {
+    LRESULT NativeWindow::MainWindowProc(const HWND hWnd, const UINT message, const WPARAM wParam,
+                                         const LPARAM lParam) {
 
-        const auto windowPtr = reinterpret_cast<Window *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+        const auto windowPtr = reinterpret_cast<NativeWindow *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
         if (windowPtr == nullptr) {
             return DefWindowProc(hWnd, message, wParam, lParam);
@@ -34,10 +41,43 @@ namespace merutilm::mvk {
 
 
         switch (message) {
+            case WM_INITMENUPOPUP: {
+                const auto popup = reinterpret_cast<HMENU>(wParam);
+                const int count = GetMenuItemCount(popup);
+                for (int i = 0; i < count; ++i) {
+                    // synchronize current settings
+                    MENUITEMINFO info = {};
+                    info.cbSize = sizeof(MENUITEMINFO);
+                    info.fMask = MIIM_ID;
 
+                    if (GetMenuItemInfo(popup, i, TRUE, &info)) {
+                        const UINT id = info.wID;
+                        const auto nm = window.NATIVE_MENU_MAP.find(id);
+                        if (nm != window.NATIVE_MENU_MAP.end()) {
+                            if (const auto item = dynamic_cast<const NativeCheckboxMenuItem *>(nm->second)) {
+                                CheckMenuItem(popup, id, MF_BYCOMMAND | (item->checked ? MF_CHECKED : MF_UNCHECKED));
+                            }
+                        }
+                    }
+                }
+                return 0;
+            }
+            case WM_COMMAND: {
+                const HMENU menu = GetMenu(window.getMainWindow());
+                const int menuID = LOWORD(wParam);
+                auto nm = window.NATIVE_MENU_MAP.at(menuID);
+                if (const auto checkbox = dynamic_cast<NativeCheckboxMenuItem *>(nm)) {
+                    checkbox->checked = !checkbox->checked;
+                    checkbox->onClick.invoke(checkbox->checked);
+                    CheckMenuItem(menu, menuID, checkbox->checked ? MF_CHECKED : MF_UNCHECKED);
+                } else if (const auto item = dynamic_cast<NativeMenuItem *>(nm)) {
+                    item->onClick.invoke();
+                }
+                return 0;
+            }
             case WM_KEYDOWN:
             case WM_SYSKEYDOWN: {
-                if (lParam & (1 << 30)) // is not first input
+                if (lParam & 1 << 30) // is not first input
                     return 0;
 
 
@@ -107,9 +147,9 @@ namespace merutilm::mvk {
 
                 if (wParam == SIZE_MINIMIZED) {
                     window.eventSystem.window.onMinimize.invoke();
-                } else if (wParam == SIZE_MAXIMIZED){
+                } else if (wParam == SIZE_MAXIMIZED) {
                     window.eventSystem.window.onMaximize.invoke();
-                }else {
+                } else {
                     window.eventSystem.window.onRestore.invoke();
                 }
                 return 0;
@@ -146,8 +186,9 @@ namespace merutilm::mvk {
         }
     }
 
-    LRESULT Window::RenderWindowProc(const HWND hWnd, const UINT message, const WPARAM wParam, const LPARAM lParam) {
-        const auto windowPtr = reinterpret_cast<Window *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    LRESULT NativeWindow::RenderWindowProc(const HWND hWnd, const UINT message, const WPARAM wParam,
+                                           const LPARAM lParam) {
+        const auto windowPtr = reinterpret_cast<NativeWindow *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
         if (windowPtr == nullptr) {
             return DefWindowProc(hWnd, message, wParam, lParam);
@@ -156,14 +197,23 @@ namespace merutilm::mvk {
         auto &window = *windowPtr;
 
         switch (message) {
+            case WM_GETMINMAXINFO: {
+                const auto info = reinterpret_cast<LPMINMAXINFO>(lParam);
+                info->ptMinTrackSize.x = window.initializerSettings.widthInfo.min;
+                info->ptMinTrackSize.y = window.initializerSettings.heightInfo.min;
+                info->ptMaxTrackSize.x = window.initializerSettings.widthInfo.max;
+                info->ptMaxTrackSize.y = window.initializerSettings.heightInfo.max;
+                return 0;
+            }
             case WM_MOUSELEAVE: {
+
                 window.eventSystem.mouse.onMouseExit.invoke();
                 window.mouseHovered = false;
                 return 0;
             }
             case WM_LBUTTONDOWN: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
                 window.leftMouse.isPressed = true;
                 window.leftMouse.pressedX = xPos;
                 window.leftMouse.pressedY = yPos;
@@ -171,8 +221,8 @@ namespace merutilm::mvk {
                 return 0;
             }
             case WM_MBUTTONDOWN: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
                 window.middleMouse.isPressed = true;
                 window.middleMouse.pressedX = xPos;
                 window.middleMouse.pressedY = yPos;
@@ -180,8 +230,8 @@ namespace merutilm::mvk {
                 return 0;
             }
             case WM_RBUTTONDOWN: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
                 window.rightMouse.isPressed = true;
                 window.rightMouse.pressedX = xPos;
                 window.rightMouse.pressedY = yPos;
@@ -189,8 +239,8 @@ namespace merutilm::mvk {
                 return 0;
             }
             case WM_MOUSEMOVE: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
 
                 if (!window.mouseHovered) {
                     TRACKMOUSEEVENT tme{};
@@ -230,8 +280,8 @@ namespace merutilm::mvk {
             }
 
             case WM_LBUTTONUP: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
                 if (window.leftMouse.isDragging)
                     window.eventSystem.mouseDrag.onMouseDragEnd.invoke(KeyInput::MouseButton::LEFT, xPos, yPos);
                 window.eventSystem.mouse.onMouseUp.invoke(KeyInput::MouseButton::LEFT, xPos, yPos);
@@ -240,8 +290,8 @@ namespace merutilm::mvk {
             }
 
             case WM_MBUTTONUP: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
                 if (window.middleMouse.isDragging)
                     window.eventSystem.mouseDrag.onMouseDragEnd.invoke(KeyInput::MouseButton::MIDDLE, xPos, yPos);
                 window.eventSystem.mouse.onMouseUp.invoke(KeyInput::MouseButton::MIDDLE, xPos, yPos);
@@ -250,8 +300,8 @@ namespace merutilm::mvk {
             }
 
             case WM_RBUTTONUP: {
-                const int xPos = GET_X_LPARAM(lParam);
-                const int yPos = GET_Y_LPARAM(lParam);
+                const auto xPos = GET_X_LPARAM(lParam);
+                const auto yPos = GET_Y_LPARAM(lParam);
                 if (window.rightMouse.isDragging)
                     window.eventSystem.mouseDrag.onMouseDragEnd.invoke(KeyInput::MouseButton::RIGHT, xPos, yPos);
                 window.eventSystem.mouse.onMouseUp.invoke(KeyInput::MouseButton::RIGHT, xPos, yPos);
@@ -263,7 +313,7 @@ namespace merutilm::mvk {
                 return DefWindowProc(hWnd, message, wParam, lParam);
         }
     }
-    std::string Window::ws2s(const std::wstring &str) {
+    std::string NativeWindow::ws2s(const std::wstring_view str) {
         if (str.empty())
             return {};
         const int sizeRequired =
@@ -273,7 +323,7 @@ namespace merutilm::mvk {
                             nullptr);
         return result;
     }
-    std::wstring Window::s2ws(const std::string &str) {
+    std::wstring NativeWindow::s2ws(const std::string_view str) {
         if (str.empty())
             return {};
         const int sizeRequired = MultiByteToWideChar(CP_UTF8, 0, str.data(), static_cast<int>(str.size()), nullptr, 0);
@@ -283,7 +333,7 @@ namespace merutilm::mvk {
     }
 
 
-    void Window::generateKeyMapper() {
+    void NativeWindow::generateKeyMapper() {
         using namespace KeyInput;
 
         for (int i = VK_F1; i <= VK_F24; ++i) {
@@ -355,12 +405,9 @@ namespace merutilm::mvk {
     }
 
 
-    HMENU Window::initMenu() {
-        const HMENU hMenubar = CreateMenu();
-        menubar.emplace(hMenubar);
-        return hMenubar;
-    }
-    void Window::setClientSize(const int width, const int height) const {
+    void NativeWindow::initMenu() { menubar = std::make_unique<NativeMenu>(L"", nullptr); }
+
+    void NativeWindow::setRenderWindowSizeWithClientAdjustment(const int width, const int height) const {
         const RECT rect = {0, 0, width, height};
         RECT adjusted = rect;
         const auto &[top, left, bottom, right] = initializerSettings.paddings;
@@ -371,12 +418,12 @@ namespace merutilm::mvk {
         setRenderWindowSize(static_cast<uint32_t>(width), static_cast<uint32_t>(height));
     }
 
-    void Window::setRenderWindowSize(const uint32_t width, const uint32_t height) const {
+    void NativeWindow::setRenderWindowSize(const uint32_t width, const uint32_t height) const {
         const auto &paddings = initializerSettings.paddings;
         SetWindowPos(renderWindow, nullptr, paddings.left, paddings.top, width, height, SWP_NOZORDER);
     }
 
-    VkExtent2D Window::calculateClientSizeFromMainWindow() const {
+    VkExtent2D NativeWindow::calculateClientSizeFromMainWindow() const {
         RECT rect;
         const auto &[top, left, bottom, right] = initializerSettings.paddings;
         GetClientRect(mainWindow, &rect);
@@ -391,21 +438,19 @@ namespace merutilm::mvk {
         return {width, height};
     }
 
-    void Window::resolveWindowResizeEnd() const {
+    void NativeWindow::resolveWindowResizeEnd() const {
         auto [width, height] = calculateClientSizeFromMainWindow();
         setRenderWindowSize(width, height);
     }
 
-    void Window::prepareWindow() const {
-        ShowWindow(mainWindow, SW_SHOW);
-        UpdateWindow(mainWindow);
+    void NativeWindow::prepareWindow() const {
         SetWindowLongPtr(mainWindow, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
         SetWindowLongPtr(renderWindow, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
-    void Window::createMainWindow(const HMENU hMenubar) {
+    void NativeWindow::createMainWindow() {
 
-        const auto name = s2ws(initializerSettings.name);
-        const auto icon = s2ws(initializerSettings.icon);
+        const auto &name = initializerSettings.name;
+        const auto &icon = initializerSettings.icon;
 
         const WNDCLASSEX wcex = {
                 .cbSize = sizeof(WNDCLASSEX),
@@ -421,20 +466,21 @@ namespace merutilm::mvk {
         };
 
         if (!RegisterClassEx(&wcex))
-            throw exception_init("Failed to register class : Main Window");
+            throw exception_init("Failed to register class : Main NativeWindow");
 
         const DWORD style = initializerSettings.resizable ? WS_OVERLAPPEDWINDOW
                                                           : WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 
+        const HMENU menu = menubar ? dynamic_cast<NativeMenu *>(menubar.get())->getHandle() : nullptr;
         mainWindow = CreateWindowEx(0, MAIN_CLASS_NAME, name.data(), style, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-                                    CW_USEDEFAULT, nullptr, hMenubar, nullptr, nullptr);
+                                    CW_USEDEFAULT, nullptr, menu, nullptr, nullptr);
 
 
         if (!mainWindow) {
             throw exception_init("Failed to create window!\n");
         }
     }
-    void Window::createRenderWindow() {
+    void NativeWindow::createRenderWindow() {
         const WNDCLASSEX wcex = {
                 .cbSize = sizeof(WNDCLASSEX),
                 .style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW,
@@ -447,7 +493,7 @@ namespace merutilm::mvk {
                 .lpszClassName = RENDER_CLASS_NAME,
         };
         if (!RegisterClassEx(&wcex))
-            throw exception_init("Failed to register class : Render Window");
+            throw exception_init("Failed to register class : Render NativeWindow");
 
         renderWindow = CreateWindowEx(0, RENDER_CLASS_NAME, RENDER_CLASS_NAME, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS,
                                       CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, mainWindow, nullptr,
@@ -460,14 +506,14 @@ namespace merutilm::mvk {
 
         DragAcceptFiles(renderWindow, initializerSettings.filedrop);
     }
-    bool Window::canRenderable() {
+    bool NativeWindow::canRenderable() {
         RECT rect;
         GetClientRect(renderWindow, &rect);
         return !isResizing && IsWindow(renderWindow) && IsWindowVisible(renderWindow) && !IsIconic(renderWindow) &&
                rect.bottom - rect.top > 0 && rect.right - rect.left > 0;
     }
 
-    VkSurfaceKHR Window::createSurface(VkInstance instance) {
+    VkSurfaceKHR NativeWindow::createSurface(VkInstance instance) {
         VkSurfaceKHR surface = VK_NULL_HANDLE;
 
         const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
@@ -480,13 +526,36 @@ namespace merutilm::mvk {
         }
         return surface;
     }
-    void Window::init() {
+
+    PlatformMenuBase &NativeWindow::addMenu(PlatformMenuBase &menu, std::wstring name) {
+        return PlatformWindowBase::addMenu(menu, std::move(name));
+    }
+
+    PlatformMenuItemBase &NativeWindow::addMenuItem(PlatformMenuBase &menu, std::wstring name) {
+        auto &m = static_cast<NativeMenuItem &>(PlatformWindowBase::addMenuItem(menu, std::move(name)));
+        NATIVE_MENU_MAP[m.id] = &m;
+        return m;
+    }
+
+    PlatformCheckboxMenuItemBase &NativeWindow::addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name,
+                                                                    bool defaultFlag) {
+        auto &m = static_cast<NativeCheckboxMenuItem &>(PlatformWindowBase::addCheckboxMenuItem(menu, std::move(name), defaultFlag));
+        NATIVE_MENU_MAP[m.id] = &m;
+        return m;
+    }
+
+    void NativeWindow::init() {
         SetProcessDPIAware();
         initWindow();
     }
 
-    void Window::start() {
+    void NativeWindow::start() {
         PlatformWindowBase::start();
+
+        DrawMenuBar(mainWindow);
+        ShowWindow(mainWindow, SW_SHOW);
+        UpdateWindow(mainWindow);
+
         MSG message;
         using namespace std::chrono;
         auto started = high_resolution_clock::now();
@@ -511,8 +580,8 @@ namespace merutilm::mvk {
     }
 
 
-    void Window::cleanup() {}
+    void NativeWindow::cleanup() {}
 
 
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh
 #endif

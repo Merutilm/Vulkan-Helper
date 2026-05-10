@@ -4,7 +4,7 @@
 #pragma once
 #include <vulkan_helper/base/vkh_base.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     struct Debugger {
         explicit Debugger() = delete;
 

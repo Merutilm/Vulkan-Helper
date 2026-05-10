@@ -9,49 +9,61 @@
 #include "vulkan_helper/util/SwapchainUtils.hpp"
 
 
-namespace merutilm::mvk_demo {
+namespace merutilm::vkh_demo {
 
     DemoApplication::DemoApplication() { DemoApplication::init(); }
 
     void DemoApplication::init() {
         Application::init();
         createWindow();
+        initMenu();
         addListeners();
         createContexts();
         createRenderers();
     }
 
-    void DemoApplication::cleanup() {
-        Application::cleanup();
-        indexBufferPP = nullptr;
-        vertexBufferPP = nullptr;
+    void DemoApplication::cleanup() { Application::cleanup(); }
+
+    void DemoApplication::createWindow() {
+        wc = &engine->attachWindowContext(vkh::WindowInitializerSettings{.useMenubar = true}, 0);
     }
 
-    void DemoApplication::createWindow() { wc = &engine.attachWindowContext(mvk::WindowInitializerSettings{}, 0); }
+    void DemoApplication::initMenu() {
+        vkh::PlatformWindowBase &wb = *wc->getWindow();
+        auto &menu = wb.addMenu(*wb.menubar, L"File");
+        wb.addMenuItem(menu, L"d1");
+        wb.addMenuItem(menu, L"d2");
+        wb.addMenuItem(menu, L"d3");
+        auto &sub = wb.addMenu(menu, L"d4");
+        wb.addMenuItem(sub, L"d41");
+        wb.addCheckboxMenuItem(sub, L"d42", false);
+
+        auto &cb = wb.addCheckboxMenuItem(menu, L"d5", true);
+        cb.onClick.add([](const bool v) { std::cout << v << std::endl; });
+    }
 
     void DemoApplication::addListeners() {
-        wc->getWindow()->eventSystem.mouse.onMouseEnter.addListener([] { std::cout << "Mouse entered" << std::endl; });
-        wc->getWindow()->eventSystem.mouse.onMouseExit.addListener([] { std::cout << "Mouse exited" << std::endl; });
-        wc->getWindow()->eventSystem.mouseDrag.onMouseDrag.addListener(
-                [](mvk::KeyInput::MouseButton, int x, int y) { mvk::logger::log("mouse drag={}, {}", x, y); });
-        wc->getWindow()->eventSystem.mouse.onMouseDown.addListener(
-                [](mvk::KeyInput::MouseButton, int x, int y) { mvk::logger::log("mouse down={}, {}", x, y); });
-        wc->getWindow()->eventSystem.mouse.onMouseUp.addListener(
-                [](mvk::KeyInput::MouseButton, int x, int y) { mvk::logger::log("mouse up={}, {}", x, y); });
-        wc->getWindow()->eventSystem.keyboard.onKeyDown.addListener(
-                [](mvk::KeyInput::Key key) { mvk::logger::log("key={0}", static_cast<int>(key)); });
+        wc->getWindow()->eventSystem.mouse.onMouseEnter.add([] { std::cout << "Mouse entered" << std::endl; });
+        wc->getWindow()->eventSystem.mouse.onMouseExit.add([] { std::cout << "Mouse exited" << std::endl; });
+        wc->getWindow()->eventSystem.mouseDrag.onMouseDrag.add(
+                [](vkh::KeyInput::MouseButton, int x, int y) { vkh::logger::log("mouse drag={}, {}", x, y); });
+        wc->getWindow()->eventSystem.mouse.onMouseDown.add(
+                [](vkh::KeyInput::MouseButton, int x, int y) { vkh::logger::log("mouse down={}, {}", x, y); });
+        wc->getWindow()->eventSystem.mouse.onMouseUp.add(
+                [](vkh::KeyInput::MouseButton, int x, int y) { vkh::logger::log("mouse up={}, {}", x, y); });
+        wc->getWindow()->eventSystem.keyboard.onKeyDown.add(
+                [](vkh::KeyInput::Key key) { vkh::logger::log("key={0}", static_cast<int>(key)); });
 
-        wc->getWindow()->eventSystem.applicationLifecycle.onUpdate.addListener([this] { update(); });
-
+        wc->getWindow()->eventSystem.applicationLifecycle.onUpdate.add([this] { update(); });
     }
 
     void DemoApplication::createContexts() const {
 
         wc->attachRenderContext<SampleRCC>(
                 [this] { return wc->getSwapchain().populateSwapchainExtent(); },
-                [this] { return mvk::ImageContext::fromSwapchain(wc->core, wc->getSwapchain()); });
+                [this] { return vkh::ImageContext::fromSwapchain(wc->core, wc->getSwapchain()); });
 
-        wc->getWindow()->eventSystem.resize.onResizeEnd.addListener([this](int, int) {
+        wc->getWindow()->eventSystem.resize.onResizeEnd.add([this](int, int) {
             if (wc->getWindow()->canRenderable()) {
                 wc->core.getLogicalDevice().waitDeviceIdle();
                 wc->getSwapchain().recreate();
@@ -59,13 +71,12 @@ namespace merutilm::mvk_demo {
             }
         });
 
-        wc->getWindow()->eventSystem.applicationLifecycle.onQuit.addListener([this] {
-            wc->core.getLogicalDevice().waitDeviceIdle();
-        });
+        wc->getWindow()->eventSystem.applicationLifecycle.onQuit.add(
+                [this] { wc->core.getLogicalDevice().waitDeviceIdle(); });
     }
     void DemoApplication::createRenderers() {
-        mvk::GeneralPostProcessGraphicsPipelineConfigurator::createPPBuffer(*wc, vertexBufferPP, indexBufferPP);
-        renderer.emplace(engine, *wc, *vertexBufferPP, *indexBufferPP);
+        sharedResource.emplace(*wc);
+        renderer.emplace(*engine, *wc, *sharedResource->vertexBufferPP, *sharedResource->indexBufferPP);
     }
 
     void DemoApplication::update() { renderer->execute(); }
@@ -73,4 +84,4 @@ namespace merutilm::mvk_demo {
     void DemoApplication::start() const { wc->getWindow()->start(); }
 
 
-} // namespace merutilm
+} // namespace merutilm::vkh_demo

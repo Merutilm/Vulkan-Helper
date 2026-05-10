@@ -6,7 +6,7 @@
 #include <vulkan_helper/util/BufferImageContextUtils.hpp>
 #include <vulkan_helper/util/BarrierUtils.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     std::vector<VkImage> BufferImageContextUtils::enumerateImages(const MultiframeImageContext &context) {
         std::vector<VkImage> images(context.size());
         std::ranges::transform(context, images.begin(), [](const ImageContext &image) { return image.image; });

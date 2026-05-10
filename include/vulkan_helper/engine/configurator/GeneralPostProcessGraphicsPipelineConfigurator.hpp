@@ -8,7 +8,7 @@
 #include "GeneralGraphicsPipelineConfigurator.hpp"
 #include "GraphicsPipelineConfigurator.hpp"
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     class GeneralPostProcessGraphicsPipelineConfigurator : public GraphicsPipelineConfigurator {
         static constexpr auto VERTEX_MODULE_PATH = "vk_post_process.vert";
         VertexBuffer & vertexBufferStaticRef;
@@ -33,9 +33,6 @@ namespace merutilm::mvk {
         void configure() override;
 
         void cmdRender(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices) override;
-
-        static void createPPBuffer(WindowContext &wc, std::unique_ptr<VertexBuffer> &vertexBufferPP,
-                                   std::unique_ptr<IndexBuffer> &indexBufferPP);
 
     protected:
         [[nodiscard]] VertexBuffer & getVertexBuffer() override { return vertexBufferStaticRef; }

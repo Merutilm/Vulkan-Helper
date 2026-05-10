@@ -5,7 +5,7 @@
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
 #include "vulkan_helper/base/allocator.hpp"
-namespace merutilm::mvk {
+namespace merutilm::vkh {
     bool PhysicalDeviceUtils::isDeviceSuitable(const VkPhysicalDevice physicalDevice, const VkSurfaceKHR surface) {
         VkPhysicalDeviceProperties properties;
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
@@ -104,4 +104,4 @@ namespace merutilm::mvk {
 
         return result;
     }
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

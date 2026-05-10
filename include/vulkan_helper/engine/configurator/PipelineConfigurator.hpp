@@ -10,7 +10,7 @@
 #include <vulkan_helper/engine/wrapped/DescriptorTemplate.hpp>
 #include <vulkan_helper/util/DescriptorUpdater.hpp>
 
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     struct PipelineConfigurator;
 
@@ -140,4 +140,4 @@ namespace merutilm::mvk {
     };
 
 
-} // namespace merutilm::mvk
+} // namespace merutilm::vkh

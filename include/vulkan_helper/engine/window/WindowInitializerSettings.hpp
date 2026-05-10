@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-06.
 //
 #pragma once
-namespace merutilm::mvk {
+namespace merutilm::vkh {
 
     struct WindowInitializerSettings {
 
@@ -13,11 +13,18 @@ namespace merutilm::mvk {
             int right = 0;
         };
 
+        struct Range {
+            int min = 0;
+            int max = INT_MAX;
+            int first = 300;
+        };
+
         float framerate = 60;
-        const char * name = "VulkanHelperApplication";
-        const char * icon = "";
-        int width = 300;
-        int height = 300;
+        const std::wstring name = L"VulkanHelperApplication";
+        const std::wstring icon;
+
+        Range widthInfo;
+        Range heightInfo;
         bool useMenubar = false;
         bool resizable = true;
         bool filedrop = false;
