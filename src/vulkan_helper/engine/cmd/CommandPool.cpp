@@ -24,13 +24,13 @@ namespace merutilm::vkh {
             .queueFamilyIndex = core.getPhysicalDevice().getQueueFamilyIndices().graphicsAndComputeFamily.
             value(),
         };
-        if (allocator::invoke(vkCreateCommandPool,core.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, &commandPool)
+        if (vkCreateCommandPool(core.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, &commandPool)
             != VK_SUCCESS) {
             throw exception_init("Failed to create command pool!");
         }
     }
 
     void CommandPool::cleanup() {
-        allocator::invoke(vkDestroyCommandPool, core.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
+        vkDestroyCommandPool(core.getLogicalDevice().getLogicalDeviceHandle(), commandPool, nullptr);
     }
 }

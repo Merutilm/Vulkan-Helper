@@ -30,8 +30,7 @@ namespace merutilm::vkh {
             .pQueuePriorities = &queuePriority,
 
         };
-
-        if (const VkDeviceCreateInfo createInfo = {
+        const VkDeviceCreateInfo createInfo = {
             .sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
             .pNext = nullptr,
             .flags = 0,
@@ -42,7 +41,9 @@ namespace merutilm::vkh {
             .enabledExtensionCount = static_cast<uint32_t>(PhysicalDeviceUtils::PHYSICAL_DEVICE_EXTENSIONS.size()),
             .ppEnabledExtensionNames = PhysicalDeviceUtils::PHYSICAL_DEVICE_EXTENSIONS.data(),
             .pEnabledFeatures = &physicalDevice.getPhysicalDeviceFeatures()
-        }; allocator::invoke(vkCreateDevice, physicalDevice.getPhysicalDeviceHandle(), &createInfo, nullptr, &logicalDevice) !=
+        };
+
+        if (vkCreateDevice(physicalDevice.getPhysicalDeviceHandle(), &createInfo, nullptr, &logicalDevice) !=
            VK_SUCCESS) {
             throw exception_init("failed to create logical device!");
         }
@@ -53,6 +54,8 @@ namespace merutilm::vkh {
 
 
     void LogicalDevice::cleanup() {
-        allocator::invoke(vkDestroyDevice, logicalDevice, nullptr);
+        std::scoped_lock lock(mutex);
+        vkDeviceWaitIdle(logicalDevice);
+        vkDestroyDevice(logicalDevice, nullptr);
     }
 }

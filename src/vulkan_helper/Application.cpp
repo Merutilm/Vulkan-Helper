@@ -20,6 +20,7 @@ namespace merutilm::vkh {
     }
 
     void Application::cleanup() {
+        sharedResource.reset();
         engine.reset();
     }
 

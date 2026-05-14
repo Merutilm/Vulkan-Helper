@@ -8,7 +8,7 @@
 
 namespace merutilm::vkh {
 
-    NativeCheckboxMenuItem::NativeCheckboxMenuItem(std::wstring name, const PlatformMenuBase *parent, const bool defaultFlag) : PlatformCheckboxMenuItemBase(std::move(name), parent, defaultFlag){
+    NativeCheckboxMenuItem::NativeCheckboxMenuItem(std::wstring name, const PlatformMenuBase *parent) : PlatformCheckboxMenuItemBase(std::move(name), parent){
         NativeCheckboxMenuItem::init();
     }
     NativeCheckboxMenuItem::~NativeCheckboxMenuItem() {

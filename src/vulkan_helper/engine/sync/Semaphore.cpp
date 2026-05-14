@@ -4,8 +4,6 @@
 
 #include <vulkan_helper/engine/sync/Semaphore.hpp>
 
-#include <vulkan_helper/base/allocator.hpp>
-
 namespace merutilm::vkh {
     Semaphore::Semaphore(Core & core) : CoreHandler(core) {
         Semaphore::init();
@@ -26,15 +24,15 @@ namespace merutilm::vkh {
         };
 
 
-        if (allocator::invoke(vkCreateSemaphore, device, &semaphoreInfo, nullptr, &imageAvailable) != VK_SUCCESS ||
-            allocator::invoke(vkCreateSemaphore, device, &semaphoreInfo, nullptr, &renderFinished) != VK_SUCCESS) {
+        if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailable) != VK_SUCCESS ||
+            vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinished) != VK_SUCCESS) {
             throw exception_init("Failed to create sync objects!");
         }
     }
 
     void Semaphore::cleanup() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-        allocator::invoke(vkDestroySemaphore, device, imageAvailable, nullptr);
-        allocator::invoke(vkDestroySemaphore, device, renderFinished, nullptr);
+        vkDestroySemaphore(device, imageAvailable, nullptr);
+        vkDestroySemaphore(device, renderFinished, nullptr);
     }
 }

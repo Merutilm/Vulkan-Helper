@@ -26,7 +26,7 @@ namespace merutilm::vkh {
                 .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
                 .commandBufferCount = 1
             };
-            allocator::invoke(vkAllocateCommandBuffers, core.getLogicalDevice().getLogicalDeviceHandle(), &allocInfo,
+            vkAllocateCommandBuffers(core.getLogicalDevice().getLogicalDeviceHandle(), &allocInfo,
                                      &commandBuffer) != VK_SUCCESS) {
             throw exception_init("Failed to allocate command buffers!");
         }
@@ -63,6 +63,6 @@ namespace merutilm::vkh {
         } else {
             fence->wait();
         }
-        allocator::invoke(vkFreeCommandBuffers, device, commandPool.getCommandPoolHandle(), 1, &commandBuffer);
+        vkFreeCommandBuffers(device, commandPool.getCommandPoolHandle(), 1, &commandBuffer);
     }
 }

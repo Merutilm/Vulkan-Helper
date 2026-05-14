@@ -71,14 +71,14 @@ namespace merutilm::vkh {
     void BufferContext::destroyContext(Core & core, const MultiframeBufferContext &bufCtx) {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         for (const auto &[buffer, bufferMemory, bufferSize, mappedMemory]: bufCtx) {
-            allocator::invoke(vkDestroyBuffer, device, buffer, nullptr);
-            allocator::invoke(vkFreeMemory, device, bufferMemory, nullptr);
+            vkDestroyBuffer(device, buffer, nullptr);
+            vkFreeMemory(device, bufferMemory, nullptr);
         }
     }
 
     void BufferContext::destroyContext(Core & core, const BufferContext &bufCtx) {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-        allocator::invoke(vkDestroyBuffer, device, bufCtx.buffer, nullptr);
-        allocator::invoke(vkFreeMemory, device, bufCtx.bufferMemory, nullptr);
+        vkDestroyBuffer(device, bufCtx.buffer, nullptr);
+        vkFreeMemory(device, bufCtx.bufferMemory, nullptr);
     }
 }

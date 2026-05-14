@@ -2,10 +2,13 @@
 // Created by Merutilm on 2025-07-09.
 //
 
+#include <memory>
 #include <vulkan_helper/core/PhysicalDeviceLoader.hpp>
 
 #include <vulkan_helper/base/vkh_base.hpp>
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
+
+#include "vulkan_helper/engine/window/PlatformWindowBase.hpp"
 
 namespace merutilm::vkh {
 
@@ -25,10 +28,13 @@ namespace merutilm::vkh {
 
     void PhysicalDeviceLoader::init() {
 
-        uint32_t physicalDeviceCount = 0;
-        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, nullptr);
-        std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
-        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, physicalDevices.data());
+
+
+        VkSurfaceKHR surface = VK_NULL_HANDLE;
+
+#ifdef _WIN32
+
+        static constexpr auto dummyClassName = L"VKH_DUMMY";
         const WNDCLASSEX wcex = {
             .cbSize = sizeof(WNDCLASSEX),
             .style = CS_OWNDC,
@@ -40,13 +46,11 @@ namespace merutilm::vkh {
             .hCursor = nullptr,
             .hbrBackground = nullptr,
             .lpszMenuName = nullptr,
-            .lpszClassName = config::DUMMY_WINDOW_CLASS,
+            .lpszClassName = dummyClassName,
             .hIconSm = nullptr
         };
         RegisterClassEx(&wcex);
-        const HWND dummyWindow = CreateWindowEx(0, config::DUMMY_WINDOW_CLASS, L"", 0, 0, 0, 100, 100, nullptr, nullptr, nullptr, nullptr);
-
-        VkSurfaceKHR surface = VK_NULL_HANDLE;
+        const HWND dummyWindow = CreateWindowEx(0, dummyClassName, L"", 0, 0, 0, 100, 100, nullptr, nullptr, nullptr, nullptr);
 
         const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {
             .sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
@@ -56,8 +60,30 @@ namespace merutilm::vkh {
             .hwnd = dummyWindow,
         };
 
-        allocator::invoke(vkCreateWin32SurfaceKHR, instance.getInstanceHandle(), &surfaceCreateInfo, nullptr, &surface);
+        vkCreateWin32SurfaceKHR(instance.getInstanceHandle(), &surfaceCreateInfo, nullptr, &surface);
 
+        initToSuitablePhysicalDevice(surface);
+        vkDestroySurfaceKHR(instance.getInstanceHandle(), surface, nullptr);
+        UnregisterClassW(config::DUMMY_WINDOW_CLASS, nullptr);
+
+#elif __APPLE__
+
+#elif __linux__
+
+#else
+#endif
+
+        if (physicalDevice == nullptr) {
+            throw exception_init("No suitable physical device found");
+        }
+    }
+
+
+    void PhysicalDeviceLoader::initToSuitablePhysicalDevice(const VkSurfaceKHR surface) {
+        uint32_t physicalDeviceCount = 0;
+        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, nullptr);
+        std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
+        vkEnumeratePhysicalDevices(instance.getInstanceHandle(), &physicalDeviceCount, physicalDevices.data());
         for (const auto pd: physicalDevices) {
             if (PhysicalDeviceUtils::isDeviceSuitable(pd, surface)) {
                 physicalDevice = pd;
@@ -73,16 +99,7 @@ namespace merutilm::vkh {
                 break;
             }
         }
-
-        allocator::invoke(vkDestroySurfaceKHR, instance.getInstanceHandle(), surface, nullptr);
-        DestroyWindow(dummyWindow);
-        UnregisterClassW(config::DUMMY_WINDOW_CLASS, nullptr);
-
-        if (physicalDevice == nullptr) {
-            throw exception_init("No suitable physical device found");
-        }
     }
-
 
 
     void PhysicalDeviceLoader::cleanup() {

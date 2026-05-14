@@ -34,11 +34,7 @@ namespace merutilm::vkh {
             std::iota(bindings.begin(), bindings.end(), 0);
         }
 
-        auto bm = std::move(bindings);
-        std::ranges::unique(bm);
-        std::ranges::sort(bm);
-
-        updateIndices(updateQueue, frameIndex, std::move(descIndices), bm);
+        updateIndices(updateQueue, frameIndex, std::move(descIndices), std::move(bindings));
     }
 
     void Descriptor::updateIndices(DescriptorUpdateQueue &updateQueue, const uint32_t frameIndex,
@@ -205,7 +201,7 @@ namespace merutilm::vkh {
         descriptorPools.resize(maxFramesInFlight);
 
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            if (allocator::invoke(vkCreateDescriptorPool, core.getLogicalDevice().getLogicalDeviceHandle(),
+            if (vkCreateDescriptorPool(core.getLogicalDevice().getLogicalDeviceHandle(),
                                   &descriptorPoolInfo, nullptr, &descriptorPools[i]) != VK_SUCCESS) {
                 throw exception_init("Failed to create descriptor pool!");
             }
@@ -224,7 +220,7 @@ namespace merutilm::vkh {
                          .descriptorPool = descriptorPools[i],
                          .descriptorSetCount = descriptorCount,
                          .pSetLayouts = layouts.data()};
-                allocator::invoke(vkAllocateDescriptorSets, core.getLogicalDevice().getLogicalDeviceHandle(),
+                vkAllocateDescriptorSets(core.getLogicalDevice().getLogicalDeviceHandle(),
                                   &descriptorSetAllocateInfo, descriptorSets[i].data()) != VK_SUCCESS) {
                 throw exception_init("Failed to allocate descriptor sets!");
             }
@@ -238,7 +234,7 @@ namespace merutilm::vkh {
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
 
         for (int i = 0; i < maxFramesInFlight; ++i) {
-            allocator::invoke(vkDestroyDescriptorPool, core.getLogicalDevice().getLogicalDeviceHandle(),
+            vkDestroyDescriptorPool(core.getLogicalDevice().getLogicalDeviceHandle(),
                               descriptorPools[i], nullptr);
         }
     }

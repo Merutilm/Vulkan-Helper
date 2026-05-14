@@ -49,7 +49,7 @@ namespace merutilm::vkh {
             .ppEnabledExtensionNames = extensions.data(),
         };
 
-        if (allocator::invoke(vkCreateInstance, &instanceCreateInfo, nullptr, &instance)) {
+        if (vkCreateInstance(&instanceCreateInfo, nullptr, &instance)) {
             throw exception_init("Failed to create instance!");
         }
 
@@ -57,6 +57,6 @@ namespace merutilm::vkh {
 
     void Instance::cleanup() {
         validationLayer = nullptr;
-        allocator::invoke(vkDestroyInstance, instance, nullptr);
+        vkDestroyInstance(instance, nullptr);
     }
 }

@@ -41,8 +41,8 @@ namespace merutilm::vkh {
         const auto &ref = menu.items.emplace_back(std::move(nm));
         return static_cast<PlatformMenuItemBase &>(*ref);
     }
-    PlatformCheckboxMenuItemBase &PlatformWindowBase::addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name, bool defaultFlag) {
-        auto nm = std::make_unique<NativeCheckboxMenuItem>(std::move(name), &menu, defaultFlag);
+    PlatformCheckboxMenuItemBase &PlatformWindowBase::addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name) {
+        auto nm = std::make_unique<NativeCheckboxMenuItem>(std::move(name), &menu);
         const auto &ref = menu.items.emplace_back(std::move(nm));
         return static_cast<PlatformCheckboxMenuItemBase &>(*ref);
     }

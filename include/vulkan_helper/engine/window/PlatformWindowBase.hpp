@@ -55,6 +55,14 @@ namespace merutilm::vkh {
 
         virtual bool canRenderable() = 0;
 
+        virtual void getRenderWindowExtent(uint16_t *x, uint16_t *y) const = 0;
+
+        virtual void getMousePosition(int *x, int *y) = 0;
+
+        virtual void setRenderWindowSizeWithClientAdjustment(int width, int height) const = 0;
+
+        virtual void setRenderWindowSize(uint32_t width, uint32_t height) const = 0;
+
         [[nodiscard]] virtual VkExtent2D calculateClientSizeFromMainWindow() const = 0;
 
         [[nodiscard]] bool isKeyPressed(KeyInput::Key key) const;
@@ -67,7 +75,22 @@ namespace merutilm::vkh {
 
         virtual PlatformMenuBase &addMenu(PlatformMenuBase &menu, std::wstring name);
         virtual PlatformMenuItemBase &addMenuItem(PlatformMenuBase &menu, std::wstring name);
-        virtual PlatformCheckboxMenuItemBase &addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name, bool defaultFlag);
+        virtual PlatformCheckboxMenuItemBase &addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name);
+
+
+        template<typename F> requires std::is_invocable_r_v<void, F>
+        PlatformMenuItemBase &addMenuItemWithListener(PlatformMenuBase &menu, std::wstring name, F&& func) {
+            auto &item = addMenuItem(menu, std::move(name));
+            item.getOnClickListener().add(std::forward<F>(func));
+            return item;
+        }
+        template<typename FGetter, typename F> requires std::is_invocable_r_v<void, F, bool>
+        PlatformCheckboxMenuItemBase &addCheckboxMenuItemWithListener(PlatformMenuBase &menu, std::wstring name, FGetter&& getterFunc, F&& func) {
+            auto &item = addCheckboxMenuItem(menu, std::move(name));
+            item.setCheckboxStateGetter(getterFunc);
+            item.getOnClickListener().add(std::forward<F>(func));
+            return item;
+        }
 
         void init() override;
 

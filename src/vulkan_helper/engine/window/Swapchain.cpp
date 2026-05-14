@@ -97,7 +97,7 @@ namespace merutilm::vkh {
             .presentMode = VK_PRESENT_MODE_MAILBOX_KHR,
             .clipped = VK_TRUE,
             .oldSwapchain = old
-        }; allocator::invoke(vkCreateSwapchainKHR, core.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, target) !=
+        }; vkCreateSwapchainKHR(core.getLogicalDevice().getLogicalDeviceHandle(), &createInfo, nullptr, target) !=
            VK_SUCCESS) {
             throw exception_init("Failed to create swapchain!");
         }
@@ -119,13 +119,13 @@ namespace merutilm::vkh {
 
     void Swapchain::cleanup() {
         destroyImageViews();
-        allocator::invoke(vkDestroySwapchainKHR, core.getLogicalDevice().getLogicalDeviceHandle(), swapchain, nullptr);
+        vkDestroySwapchainKHR(core.getLogicalDevice().getLogicalDeviceHandle(), swapchain, nullptr);
     }
 
     void Swapchain::destroyImageViews() const {
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            allocator::invoke(vkDestroyImageView, core.getLogicalDevice().getLogicalDeviceHandle(), swapchainImageViews[i], nullptr);
+            vkDestroyImageView(core.getLogicalDevice().getLogicalDeviceHandle(), swapchainImageViews[i], nullptr);
         }
     }
 }

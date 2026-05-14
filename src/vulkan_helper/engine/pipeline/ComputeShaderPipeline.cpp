@@ -41,7 +41,7 @@ namespace merutilm::vkh {
                 .basePipelineHandle = nullptr,
                 .basePipelineIndex = -1};
 
-        if (allocator::invoke(vkCreateComputePipelines, wc.core.getLogicalDevice().getLogicalDeviceHandle(), nullptr, 1,
+        if (vkCreateComputePipelines(wc.core.getLogicalDevice().getLogicalDeviceHandle(), nullptr, 1,
                               &info, nullptr, &pipeline) != VK_SUCCESS) {
             throw exception_init("Failed to create compute pipeline!");
         }

@@ -25,12 +25,12 @@ namespace merutilm::vkh {
 
     void ImageContext::destroyContext(Core & core, const ImageContext &imgCtx) {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-        allocator::invoke(vkDestroyImageView, device, imgCtx.imageView, nullptr);
+        vkDestroyImageView(device, imgCtx.imageView, nullptr);
         if (imgCtx.mipmappedImageView != imgCtx.imageView) {
-            allocator::invoke(vkDestroyImageView, device, imgCtx.mipmappedImageView, nullptr);
+            vkDestroyImageView(device, imgCtx.mipmappedImageView, nullptr);
         }
-        allocator::invoke(vkDestroyImage, device, imgCtx.image, nullptr);
-        allocator::invoke(vkFreeMemory, device, imgCtx.imageMemory, nullptr);
+        vkDestroyImage(device, imgCtx.image, nullptr);
+        vkFreeMemory(device, imgCtx.imageMemory, nullptr);
     }
 
     void ImageContext::destroyContext(Core & core, const MultiframeImageContext &imgCtx) {

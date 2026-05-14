@@ -36,17 +36,13 @@ namespace merutilm::vkh_demo {
         wb.addMenuItem(menu, L"d3");
         auto &sub = wb.addMenu(menu, L"d4");
         wb.addMenuItem(sub, L"d41");
-        wb.addCheckboxMenuItem(sub, L"d42", false);
-
-        auto &cb = wb.addCheckboxMenuItem(menu, L"d5", true);
-        cb.onClick.add([](const bool v) { std::cout << v << std::endl; });
     }
 
     void DemoApplication::addListeners() {
         wc->getWindow()->eventSystem.mouse.onMouseEnter.add([] { std::cout << "Mouse entered" << std::endl; });
         wc->getWindow()->eventSystem.mouse.onMouseExit.add([] { std::cout << "Mouse exited" << std::endl; });
         wc->getWindow()->eventSystem.mouseDrag.onMouseDrag.add(
-                [](vkh::KeyInput::MouseButton, int x, int y) { vkh::logger::log("mouse drag={}, {}", x, y); });
+                [](vkh::KeyInput::MouseButton, int x, int y, int , int ) { vkh::logger::log("mouse drag={}, {}", x, y); });
         wc->getWindow()->eventSystem.mouse.onMouseDown.add(
                 [](vkh::KeyInput::MouseButton, int x, int y) { vkh::logger::log("mouse down={}, {}", x, y); });
         wc->getWindow()->eventSystem.mouse.onMouseUp.add(

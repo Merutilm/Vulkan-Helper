@@ -15,11 +15,11 @@ namespace merutilm::vkh {
         CommandBuffer::cleanup();
     }
 
-
     void CommandBuffer::init() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         commandBuffers.resize(maxFramesInFlight);
+
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             VkCommandBufferAllocateInfo allocInfo = {
                 .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
@@ -28,7 +28,7 @@ namespace merutilm::vkh {
                 .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
                 .commandBufferCount = 1
             };
-            if (allocator::invoke(vkAllocateCommandBuffers,device, &allocInfo, &commandBuffers[i]) != VK_SUCCESS) {
+            if (vkAllocateCommandBuffers(device, &allocInfo, &commandBuffers[i]) != VK_SUCCESS) {
                 throw exception_init("Failed to allocate command buffers!");
             }
         }
@@ -38,7 +38,7 @@ namespace merutilm::vkh {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
         const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
-            allocator::invoke(vkFreeCommandBuffers, device, commandPool.getCommandPoolHandle(), 1, &commandBuffers[i]);
+            vkFreeCommandBuffers(device, commandPool.getCommandPoolHandle(), 1, &commandBuffers[i]);
         }
     }
 

@@ -17,7 +17,7 @@ namespace merutilm::vkh {
         createImage(device, iii, mipLevels, image);
         allocateImageMemory(device, memProperties, iii, *image,
                             imageMemory, capacity);
-        allocator::invoke(vkBindImageMemory, device, *image, *imageMemory, 0);
+        vkBindImageMemory(device, *image, *imageMemory, 0);
         createImageView(device, *image, iii.imageViewType, iii.imageFormat, imageView);
         if (mipLevels == 1) {
             *mipmappedImageView = *imageView;
@@ -45,7 +45,7 @@ namespace merutilm::vkh {
             .pQueueFamilyIndices = nullptr,
             .initialLayout = iii.initialLayout,
         };
-        if (allocator::invoke(vkCreateImage, device, &imageInfo, nullptr, image)) {
+        if (vkCreateImage(device, &imageInfo, nullptr, image)) {
             throw exception_init("Failed to create image!");
         }
     }
@@ -62,7 +62,7 @@ namespace merutilm::vkh {
             .memoryTypeIndex = findMemoryTypeIndex(memProperties, memRequirements.memoryTypeBits, iii.properties),
         };
         *capacity = memRequirements.size;
-        if (allocator::invoke(vkAllocateMemory, device, &allocInfo, nullptr,
+        if (vkAllocateMemory(device, &allocInfo, nullptr,
                               imageMemory)) {
             throw exception_init("Failed to allocate memory!");
                               }
@@ -91,7 +91,7 @@ namespace merutilm::vkh {
                 .layerCount = 1
             }
         };
-        if (allocator::invoke(vkCreateImageView, device, &viewInfo, nullptr, writeImageView)) {
+        if (vkCreateImageView(device, &viewInfo, nullptr, writeImageView)) {
             throw exception_init("Failed to create image view!");
         }
     }
@@ -120,7 +120,7 @@ namespace merutilm::vkh {
                 .layerCount = 1
             }
         };
-        if (allocator::invoke(vkCreateImageView, device, &viewInfo, nullptr, mipmappedImageView)) {
+        if (vkCreateImageView(device, &viewInfo, nullptr, mipmappedImageView)) {
             throw exception_init("Failed to create image view!");
         }
     }
@@ -148,7 +148,7 @@ namespace merutilm::vkh {
         createBuffer(device, bii.size, bii.usage, buffer);
         allocateBufferMemory(device, memProperties, bii.properties, *buffer,
                              bufferMemory);
-        allocator::invoke(vkBindBufferMemory, device, *buffer, *bufferMemory, 0);
+        vkBindBufferMemory(device, *buffer, *bufferMemory, 0);
     }
 
     void BufferImageUtils::createBuffer(const VkDevice device, const VkDeviceSize size,
@@ -163,7 +163,7 @@ namespace merutilm::vkh {
             .queueFamilyIndexCount = 0,
             .pQueueFamilyIndices = nullptr
         };
-        if (allocator::invoke(vkCreateBuffer, device, &bufferInfo, nullptr, buffer) !=
+        if (vkCreateBuffer(device, &bufferInfo, nullptr, buffer) !=
             VK_SUCCESS) {
             throw exception_init("Failed to create buffer!");
             }
@@ -181,7 +181,7 @@ namespace merutilm::vkh {
             .memoryTypeIndex = findMemoryTypeIndex(memProperties, memRequirements.memoryTypeBits,
                                                    properties)
         };
-        if (allocator::invoke(vkAllocateMemory, device, &allocInfo, nullptr,
+        if (vkAllocateMemory(device, &allocInfo, nullptr,
                               bufferMemory) != VK_SUCCESS) {
             throw exception_init("failed to allocate memory!");
                               }

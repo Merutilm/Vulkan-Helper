@@ -1,3 +1,5 @@
 cmake-build-debug
 cmake-build-release
 *.ps1
+.idea
+.clang-format

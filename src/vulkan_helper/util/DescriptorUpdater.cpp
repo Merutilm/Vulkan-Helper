@@ -3,7 +3,6 @@
 //
 
 #include <vulkan_helper/util/DescriptorUpdater.hpp>
-#include <vulkan_helper/base/allocator.hpp>
 
 namespace merutilm::vkh {
     DescriptorUpdateQueue DescriptorUpdater::createQueue() {
@@ -17,7 +16,7 @@ namespace merutilm::vkh {
             return context.writeSet;
         });
 
-        allocator::invoke(vkUpdateDescriptorSets, device,
+        vkUpdateDescriptorSets(device,
                           static_cast<uint32_t>(writeDescriptorSets.size()),
                           writeDescriptorSets.data(), 0, nullptr);
     }

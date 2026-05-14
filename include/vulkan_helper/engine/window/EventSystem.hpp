@@ -19,7 +19,7 @@ namespace merutilm::vkh {
             Listener<> onMouseExit;
             Listener<KeyInput::MouseButton, int, int> onMouseDown;
             Listener<KeyInput::MouseButton, int, int> onMouseUp;
-            Listener<int, int> onMouseMove;
+            Listener<int, int, int, int> onMouseMove;
         };
 
         struct MouseWheelEvents {
@@ -28,7 +28,7 @@ namespace merutilm::vkh {
 
         struct MouseDragEvents {
             Listener<KeyInput::MouseButton, int, int> onMouseDragStart;
-            Listener<KeyInput::MouseButton, int, int> onMouseDrag;
+            Listener<KeyInput::MouseButton, int, int, int, int> onMouseDrag;
             Listener<KeyInput::MouseButton, int, int> onMouseDragEnd;
         };
 

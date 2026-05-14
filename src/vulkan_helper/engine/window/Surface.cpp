@@ -5,7 +5,6 @@
 #include <vulkan_helper/engine/window/Surface.hpp>
 
 #include <vulkan/vulkan_core.h>
-#include <vulkan_helper/base/vkh_base.hpp>
 
 namespace merutilm::vkh {
     Surface::Surface(Instance & instance, PlatformWindowBase * window) : instance(instance), window(window) {
@@ -21,6 +20,6 @@ namespace merutilm::vkh {
     }
 
     void Surface::cleanup() {
-        allocator::invoke(vkDestroySurfaceKHR, instance.getInstanceHandle(), surface, nullptr);
+        vkDestroySurfaceKHR(instance.getInstanceHandle(), surface, nullptr);
     }
 }

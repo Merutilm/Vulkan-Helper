@@ -21,7 +21,7 @@ namespace merutilm::vkh {
         wc.getSyncObject().getFence(frameIndex).waitAndReset();
 
         uint32_t swapchainImageIndex = 0;
-        allocator::invoke(vkAcquireNextImageKHR, device, swapchainHandle, UINT64_MAX, imageAvailableSemaphore, nullptr,
+        vkAcquireNextImageKHR(device, swapchainHandle, UINT64_MAX, imageAvailableSemaphore, nullptr,
                           &swapchainImageIndex);
         return swapchainImageIndex;
     }

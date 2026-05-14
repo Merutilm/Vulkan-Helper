@@ -6,7 +6,6 @@
 #include <vulkan_helper/base/logger.hpp>
 #include <vulkan_helper/engine/window/win/NativeWindow.hpp>
 
-#include "vulkan_helper/base/allocator.hpp"
 #include "vulkan_helper/engine/window/win/NativeCheckboxMenuItem.hpp"
 #include "vulkan_helper/engine/window/win/NativeMenu.hpp"
 #include "vulkan_helper/engine/window/win/NativeMenuItem.hpp"
@@ -39,7 +38,6 @@ namespace merutilm::vkh {
 
         auto &window = *windowPtr;
 
-
         switch (message) {
             case WM_INITMENUPOPUP: {
                 const auto popup = reinterpret_cast<HMENU>(wParam);
@@ -52,9 +50,10 @@ namespace merutilm::vkh {
 
                     if (GetMenuItemInfo(popup, i, TRUE, &info)) {
                         const UINT id = info.wID;
-                        const auto nm = window.NATIVE_MENU_MAP.find(id);
-                        if (nm != window.NATIVE_MENU_MAP.end()) {
-                            if (const auto item = dynamic_cast<const NativeCheckboxMenuItem *>(nm->second)) {
+                        const auto nm = window.nativeMenuMap.find(id);
+                        if (nm != window.nativeMenuMap.end()) {
+                            if (const auto item = dynamic_cast<NativeCheckboxMenuItem *>(nm->second)) {
+                                item->refreshChecked();
                                 CheckMenuItem(popup, id, MF_BYCOMMAND | (item->checked ? MF_CHECKED : MF_UNCHECKED));
                             }
                         }
@@ -65,7 +64,7 @@ namespace merutilm::vkh {
             case WM_COMMAND: {
                 const HMENU menu = GetMenu(window.getMainWindow());
                 const int menuID = LOWORD(wParam);
-                auto nm = window.NATIVE_MENU_MAP.at(menuID);
+                auto nm = window.nativeMenuMap.at(menuID);
                 if (const auto checkbox = dynamic_cast<NativeCheckboxMenuItem *>(nm)) {
                     checkbox->checked = !checkbox->checked;
                     checkbox->onClick.invoke(checkbox->checked);
@@ -136,35 +135,39 @@ namespace merutilm::vkh {
             case WM_SIZE: {
                 const auto [width, height] = window.calculateClientSizeFromMainWindow();
 
-                if (wParam != SIZE_MAXIMIZED && wParam != SIZE_MINIMIZED && wParam != SIZE_RESTORED) {
+                if (!window.isResizing) {
+                    window.isResizing = true;
+                    window.eventSystem.resize.onResizeBegin.invoke();
+                }
+
+                if (wParam == SIZE_MAXIMIZED || wParam == SIZE_MINIMIZED || wParam == SIZE_RESTORED) {
+                    window.setRenderWindowSize(width, height);
+                    window.isResizing = false;
+                    window.eventSystem.resize.onResizeEnd.invoke(width, height);
+
+                    if (wParam == SIZE_MINIMIZED) {
+                        window.eventSystem.window.onMinimize.invoke();
+                    } else if (wParam == SIZE_MAXIMIZED) {
+                        window.eventSystem.window.onMaximize.invoke();
+                    } else {
+                        window.eventSystem.window.onRestore.invoke();
+                    }
+                }else {
                     window.eventSystem.resize.onResizing.invoke(width, height);
-                    return 0;
                 }
 
-                window.setRenderWindowSize(width, height);
-                window.isResizing = false;
-                window.eventSystem.resize.onResizeEnd.invoke(width, height);
 
-                if (wParam == SIZE_MINIMIZED) {
-                    window.eventSystem.window.onMinimize.invoke();
-                } else if (wParam == SIZE_MAXIMIZED) {
-                    window.eventSystem.window.onMaximize.invoke();
-                } else {
-                    window.eventSystem.window.onRestore.invoke();
-                }
                 return 0;
             }
 
-            case WM_ENTERSIZEMOVE: {
-                window.isResizing = true;
-                window.eventSystem.resize.onResizeBegin.invoke();
-                return 0;
-            }
             case WM_EXITSIZEMOVE: {
-                const auto [width, height] = window.calculateClientSizeFromMainWindow();
-                window.setRenderWindowSize(width, height);
-                window.isResizing = false;
-                window.eventSystem.resize.onResizeEnd.invoke(width, height);
+                if (window.isResizing) {
+                    const auto [width, height] = window.calculateClientSizeFromMainWindow();
+                    window.isResizing = false;
+                    window.setRenderWindowSize(width, height);
+                    window.eventSystem.resize.onResizeEnd.invoke(width, height);
+                }
+
                 return 0;
             }
             case WM_DROPFILES: {
@@ -195,6 +198,15 @@ namespace merutilm::vkh {
         }
 
         auto &window = *windowPtr;
+        static int lastX = INT_MAX;
+        static int lastY = INT_MAX;
+
+        auto handleMouseUp = [&](const KeyInput::MouseButton btn, MouseState &mouse, int x, int y) {
+            if (mouse.isDragging)
+                window.eventSystem.mouseDrag.onMouseDragEnd.invoke(btn, x, y);
+            window.eventSystem.mouse.onMouseUp.invoke(btn, x, y);
+            mouse.reset();
+        };
 
         switch (message) {
             case WM_GETMINMAXINFO: {
@@ -209,6 +221,17 @@ namespace merutilm::vkh {
 
                 window.eventSystem.mouse.onMouseExit.invoke();
                 window.mouseHovered = false;
+
+                if (window.leftMouse.isPressed) {
+                    handleMouseUp(KeyInput::MouseButton::LEFT, window.leftMouse, lastX, lastY);
+                }
+                if (window.middleMouse.isPressed) {
+                    handleMouseUp(KeyInput::MouseButton::MIDDLE, window.middleMouse, lastX, lastY);
+                }
+                if (window.rightMouse.isPressed) {
+                    handleMouseUp(KeyInput::MouseButton::RIGHT, window.rightMouse, lastX, lastY);
+                }
+
                 return 0;
             }
             case WM_LBUTTONDOWN: {
@@ -241,6 +264,8 @@ namespace merutilm::vkh {
             case WM_MOUSEMOVE: {
                 const auto xPos = GET_X_LPARAM(lParam);
                 const auto yPos = GET_Y_LPARAM(lParam);
+                const int dx = lastX == INT32_MAX ? 0 : xPos - lastX;
+                const int dy = lastY == INT32_MAX ? 0 : yPos - lastY;
 
                 if (!window.mouseHovered) {
                     TRACKMOUSEEVENT tme{};
@@ -252,7 +277,10 @@ namespace merutilm::vkh {
                     window.mouseHovered = true;
                 }
 
-                window.eventSystem.mouse.onMouseMove.invoke(xPos, yPos);
+                lastX = xPos;
+                lastY = yPos;
+
+                window.eventSystem.mouse.onMouseMove.invoke(xPos, yPos, dx, dy);
 
                 auto &mouseDragEvent = window.eventSystem.mouseDrag;
 
@@ -269,7 +297,7 @@ namespace merutilm::vkh {
                         mouseState.isDragging = true;
                     }
                     if (mouseState.isDragging)
-                        mouseDragEvent.onMouseDrag.invoke(mouseButton, xPos, yPos);
+                        mouseDragEvent.onMouseDrag.invoke(mouseButton, xPos, yPos, dx, dy);
                 };
 
                 dragFunc(window.leftMouse, KeyInput::MouseButton::LEFT);
@@ -280,32 +308,15 @@ namespace merutilm::vkh {
             }
 
             case WM_LBUTTONUP: {
-                const auto xPos = GET_X_LPARAM(lParam);
-                const auto yPos = GET_Y_LPARAM(lParam);
-                if (window.leftMouse.isDragging)
-                    window.eventSystem.mouseDrag.onMouseDragEnd.invoke(KeyInput::MouseButton::LEFT, xPos, yPos);
-                window.eventSystem.mouse.onMouseUp.invoke(KeyInput::MouseButton::LEFT, xPos, yPos);
-                window.leftMouse.reset();
+                handleMouseUp(KeyInput::MouseButton::LEFT, window.leftMouse, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
                 return 0;
             }
-
             case WM_MBUTTONUP: {
-                const auto xPos = GET_X_LPARAM(lParam);
-                const auto yPos = GET_Y_LPARAM(lParam);
-                if (window.middleMouse.isDragging)
-                    window.eventSystem.mouseDrag.onMouseDragEnd.invoke(KeyInput::MouseButton::MIDDLE, xPos, yPos);
-                window.eventSystem.mouse.onMouseUp.invoke(KeyInput::MouseButton::MIDDLE, xPos, yPos);
-                window.middleMouse.reset();
+                handleMouseUp(KeyInput::MouseButton::MIDDLE, window.middleMouse, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
                 return 0;
             }
-
             case WM_RBUTTONUP: {
-                const auto xPos = GET_X_LPARAM(lParam);
-                const auto yPos = GET_Y_LPARAM(lParam);
-                if (window.rightMouse.isDragging)
-                    window.eventSystem.mouseDrag.onMouseDragEnd.invoke(KeyInput::MouseButton::RIGHT, xPos, yPos);
-                window.eventSystem.mouse.onMouseUp.invoke(KeyInput::MouseButton::RIGHT, xPos, yPos);
-                window.rightMouse.reset();
+                handleMouseUp(KeyInput::MouseButton::RIGHT, window.rightMouse, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
                 return 0;
             }
 
@@ -464,12 +475,10 @@ namespace merutilm::vkh {
                 .lpszMenuName = nullptr,
                 .lpszClassName = MAIN_CLASS_NAME,
         };
-
-        if (!RegisterClassEx(&wcex))
-            throw exception_init("Failed to register class : Main NativeWindow");
+        RegisterClassEx(&wcex);
 
         const DWORD style = initializerSettings.resizable ? WS_OVERLAPPEDWINDOW
-                                                          : WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+                                                          : WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
 
         const HMENU menu = menubar ? dynamic_cast<NativeMenu *>(menubar.get())->getHandle() : nullptr;
         mainWindow = CreateWindowEx(0, MAIN_CLASS_NAME, name.data(), style, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -481,6 +490,8 @@ namespace merutilm::vkh {
         }
     }
     void NativeWindow::createRenderWindow() {
+
+
         const WNDCLASSEX wcex = {
                 .cbSize = sizeof(WNDCLASSEX),
                 .style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW,
@@ -492,8 +503,7 @@ namespace merutilm::vkh {
                 .lpszMenuName = nullptr,
                 .lpszClassName = RENDER_CLASS_NAME,
         };
-        if (!RegisterClassEx(&wcex))
-            throw exception_init("Failed to register class : Render NativeWindow");
+        RegisterClassEx(&wcex);
 
         renderWindow = CreateWindowEx(0, RENDER_CLASS_NAME, RENDER_CLASS_NAME, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS,
                                       CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, mainWindow, nullptr,
@@ -512,6 +522,21 @@ namespace merutilm::vkh {
         return !isResizing && IsWindow(renderWindow) && IsWindowVisible(renderWindow) && !IsIconic(renderWindow) &&
                rect.bottom - rect.top > 0 && rect.right - rect.left > 0;
     }
+    void NativeWindow::getRenderWindowExtent(uint16_t *x, uint16_t *y) const {
+        RECT rect;
+        GetClientRect(getRenderWindow(), &rect);
+        if (x) *x = static_cast<uint16_t>(rect.right - rect.left);
+        if (y) *y = static_cast<uint16_t>(rect.bottom - rect.top);
+    }
+
+    void NativeWindow::getMousePosition(int *x, int *y) {
+        POINT cursor;
+        GetCursorPos(&cursor);
+        ScreenToClient(getRenderWindow(), &cursor);
+        *x = cursor.x;
+        *y = cursor.y;
+    }
+
 
     VkSurfaceKHR NativeWindow::createSurface(VkInstance instance) {
         VkSurfaceKHR surface = VK_NULL_HANDLE;
@@ -521,7 +546,7 @@ namespace merutilm::vkh {
                                                                .flags = 0,
                                                                .hinstance = GetModuleHandle(nullptr),
                                                                .hwnd = renderWindow};
-        if (allocator::invoke(vkCreateWin32SurfaceKHR, instance, &surfaceCreateInfo, nullptr, &surface) != VK_SUCCESS) {
+        if (vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surface) != VK_SUCCESS) {
             throw exception_init("failed to create window surface!");
         }
         return surface;
@@ -533,14 +558,13 @@ namespace merutilm::vkh {
 
     PlatformMenuItemBase &NativeWindow::addMenuItem(PlatformMenuBase &menu, std::wstring name) {
         auto &m = static_cast<NativeMenuItem &>(PlatformWindowBase::addMenuItem(menu, std::move(name)));
-        NATIVE_MENU_MAP[m.id] = &m;
+        nativeMenuMap[m.id] = &m;
         return m;
     }
 
-    PlatformCheckboxMenuItemBase &NativeWindow::addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name,
-                                                                    bool defaultFlag) {
-        auto &m = static_cast<NativeCheckboxMenuItem &>(PlatformWindowBase::addCheckboxMenuItem(menu, std::move(name), defaultFlag));
-        NATIVE_MENU_MAP[m.id] = &m;
+    PlatformCheckboxMenuItemBase &NativeWindow::addCheckboxMenuItem(PlatformMenuBase &menu, std::wstring name) {
+        auto &m = static_cast<NativeCheckboxMenuItem &>(PlatformWindowBase::addCheckboxMenuItem(menu, std::move(name)));
+        nativeMenuMap[m.id] = &m;
         return m;
     }
 

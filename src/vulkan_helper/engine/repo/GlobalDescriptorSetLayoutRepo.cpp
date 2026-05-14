@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/repo/GlobalDescriptorSetLayoutRepo.hpp>
 namespace merutilm::vkh {
-    inline DescriptorSetLayout & GlobalDescriptorSetLayoutRepo::pick(const DescriptorSetLayoutBuilder &layoutBuilder) {
+    DescriptorSetLayout & GlobalDescriptorSetLayoutRepo::pick(const DescriptorSetLayoutBuilder &layoutBuilder) {
         auto it = repository.find(layoutBuilder);
         if (it == repository.end()) {
             auto[newIt, _] = repository.try_emplace(layoutBuilder, std::make_unique<DescriptorSetLayout>(core, layoutBuilder));

@@ -74,7 +74,7 @@ namespace merutilm::vkh {
             if (bindingIndex >= data[descIndex].size()) {
                 throw exception_invalid_args("binding out of range");
             }
-            return std::get<T>(data[descIndex][bindingIndex]);
+            return *std::get<std::unique_ptr<T>>(data[descIndex][bindingIndex]);
         }
 
         [[nodiscard]] DescriptorSetLayout &getLayout() const { return descriptorSetLayout; }

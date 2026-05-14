@@ -24,13 +24,14 @@ namespace merutilm::vkh {
         };
 
 
-        if (allocator::invoke(vkCreateFence, device, &fenceInfo, nullptr, &fence) != VK_SUCCESS) {
+        if (vkCreateFence(device, &fenceInfo, nullptr, &fence) != VK_SUCCESS) {
             throw exception_init("Failed to create fence!");
         }
     }
 
     void Fence::cleanup() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-        allocator::invoke(vkDestroyFence, device, fence, nullptr);
+        vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX);
+        vkDestroyFence(device, fence, nullptr);
     }
 }

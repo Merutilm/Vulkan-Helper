@@ -27,6 +27,6 @@ namespace merutilm::vkh {
     }
 
     void Pipeline::cleanup() {
-        allocator::invoke(vkDestroyPipeline, wc.core.getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
+        vkDestroyPipeline(wc.core.getLogicalDevice().getLogicalDeviceHandle(), pipeline, nullptr);
     }
 } // namespace merutilm::vkh

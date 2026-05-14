@@ -58,6 +58,7 @@ namespace merutilm::vkh {
     private:
 
         void init() override;
+        void initToSuitablePhysicalDevice(VkSurfaceKHR surface);
 
         void cleanup() override;
     };

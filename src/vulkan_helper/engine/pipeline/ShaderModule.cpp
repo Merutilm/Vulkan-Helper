@@ -49,14 +49,14 @@ namespace merutilm::vkh {
                 .codeSize = code.size(),
                 .pCode = reinterpret_cast<uint32_t *>(code.data()),
         };
-        if (allocator::invoke(vkCreateShaderModule, core.getLogicalDevice().getLogicalDeviceHandle(), &info, nullptr,
+        if (vkCreateShaderModule(core.getLogicalDevice().getLogicalDeviceHandle(), &info, nullptr,
                               &shaderModule) != VK_SUCCESS) {
             throw exception_init("Failed to create shader module!");
         }
     }
 
     void ShaderModule::cleanup() {
-        allocator::invoke(vkDestroyShaderModule, core.getLogicalDevice().getLogicalDeviceHandle(), shaderModule,
+       vkDestroyShaderModule(core.getLogicalDevice().getLogicalDeviceHandle(), shaderModule,
                           nullptr);
     }
 } // namespace merutilm::vkh

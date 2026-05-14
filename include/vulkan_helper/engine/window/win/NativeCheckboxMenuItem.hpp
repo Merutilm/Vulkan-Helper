@@ -11,7 +11,7 @@ namespace merutilm::vkh {
         HMENU menu;
         UINT id;
 
-        explicit NativeCheckboxMenuItem(std::wstring name, const PlatformMenuBase* parent, bool defaultFlag);
+        explicit NativeCheckboxMenuItem(std::wstring name, const PlatformMenuBase* parent);
         ~NativeCheckboxMenuItem() override;
         NativeCheckboxMenuItem(const NativeCheckboxMenuItem&) = delete;
         NativeCheckboxMenuItem& operator=(const NativeCheckboxMenuItem&) = delete;

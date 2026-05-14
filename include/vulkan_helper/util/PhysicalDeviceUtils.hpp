@@ -22,6 +22,5 @@ namespace merutilm::vkh {
 
         static bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice);
 
-        static VkSurfaceKHR createDummySurface(VkInstance instance);
     };
 }

@@ -26,6 +26,10 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkCommandBuffer getCommandBufferHandle(const uint32_t frameIndex) const { return commandBuffers[frameIndex]; }
 
+        [[nodiscard]] CommandPool &getCommandPool() const {
+            return commandPool;
+        }
+
     private:
         void init() override;
 

@@ -3,21 +3,22 @@
 //
 
 #pragma once
-#include <vulkan_helper/base/allocator.hpp>
 #include <vulkan_helper/handle/Handler.hpp>
 #include "Instance.hpp"
 #include "PhysicalDeviceLoader.hpp"
 
 namespace merutilm::vkh {
     class LogicalDevice final : public Handler {
-        Instance & instance;
-        PhysicalDeviceLoader & physicalDevice;
+        Instance &instance;
+        PhysicalDeviceLoader &physicalDevice;
         VkDevice logicalDevice = nullptr;
         VkQueue graphicsQueue = nullptr;
         VkQueue presentQueue = nullptr;
 
+        std::mutex mutex;
+
     public:
-        explicit LogicalDevice(Instance & instance, PhysicalDeviceLoader & physicalDevice);
+        explicit LogicalDevice(Instance &instance, PhysicalDeviceLoader &physicalDevice);
 
         ~LogicalDevice() override;
 
@@ -36,19 +37,22 @@ namespace merutilm::vkh {
         [[nodiscard]] VkQueue getPresentQueue() const { return presentQueue; }
 
         void queueSubmit(const uint32_t submitCount, const VkSubmitInfo *pSubmits, const VkFence fence) {
-            if (allocator::invoke(vkQueueSubmit, graphicsQueue, submitCount, pSubmits, fence) != VK_SUCCESS) {
+            std::scoped_lock lock(mutex);
+            if (vkQueueSubmit(graphicsQueue, submitCount, pSubmits, fence) != VK_SUCCESS) {
                 throw exception_invalid_state("Failed to submit queue!");
             }
         }
 
         void queuePresent(const VkPresentInfoKHR *presentInfo) {
-            if (allocator::invoke(vkQueuePresentKHR,presentQueue, presentInfo) != VK_SUCCESS) {
+            std::scoped_lock lock(mutex);
+            if (vkQueuePresentKHR(presentQueue, presentInfo) != VK_SUCCESS) {
                 throw exception_invalid_state("Failed to present queue!");
             }
         }
 
         void waitDeviceIdle() {
-            allocator::invoke(vkDeviceWaitIdle, logicalDevice);
+            std::scoped_lock lock(mutex);
+            vkDeviceWaitIdle(logicalDevice);
         }
 
     private:
@@ -58,4 +62,4 @@ namespace merutilm::vkh {
     };
 
 
-}
+} // namespace merutilm::vkh

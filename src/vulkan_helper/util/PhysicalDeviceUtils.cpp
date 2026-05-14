@@ -4,7 +4,6 @@
 
 #include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
 
-#include "vulkan_helper/base/allocator.hpp"
 namespace merutilm::vkh {
     bool PhysicalDeviceUtils::isDeviceSuitable(const VkPhysicalDevice physicalDevice, const VkSurfaceKHR surface) {
         VkPhysicalDeviceProperties properties;
@@ -56,52 +55,5 @@ namespace merutilm::vkh {
             required.erase(extensionName);
         }
         return required.empty();
-    }
-
-    VkSurfaceKHR PhysicalDeviceUtils::createDummySurface(VkInstance instance) {
-        VkSurfaceKHR result = VK_NULL_HANDLE;
-#ifdef _WIN32
-        static constexpr auto dummyClassName = L"VKH_DUMMY";
-        uint32_t physicalDeviceCount = 0;
-        vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, nullptr);
-        std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
-        vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, physicalDevices.data());
-        const WNDCLASSEX wcex = {
-            .cbSize = sizeof(WNDCLASSEX),
-            .style = CS_OWNDC,
-            .lpfnWndProc = DefWindowProc,
-            .cbClsExtra = 0,
-            .cbWndExtra = 0,
-            .hInstance = GetModuleHandle(nullptr),
-            .hIcon = nullptr,
-            .hCursor = nullptr,
-            .hbrBackground = nullptr,
-            .lpszMenuName = nullptr,
-            .lpszClassName = dummyClassName,
-            .hIconSm = nullptr
-        };
-        RegisterClassEx(&wcex);
-        const HWND dummyWindow = CreateWindowEx(0, dummyClassName, L"", 0, 0, 0, 100, 100, nullptr, nullptr, nullptr, nullptr);
-
-
-        const VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {
-            .sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR,
-            .pNext = nullptr,
-            .flags = 0,
-            .hinstance = nullptr,
-            .hwnd = dummyWindow,
-        };
-
-        allocator::invoke(vkCreateWin32SurfaceKHR, instance, &surfaceCreateInfo, nullptr, &result);
-
-#elif __APPLE__
-
-#elif __linux__
-
-#else
-
-#endif
-
-        return result;
     }
 } // namespace merutilm::vkh

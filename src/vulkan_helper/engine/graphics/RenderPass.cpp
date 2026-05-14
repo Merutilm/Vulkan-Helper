@@ -63,13 +63,13 @@ namespace merutilm::vkh {
                 .dependencyCount = static_cast<uint32_t>(dependencies.size()),
                 .pDependencies = dependencies.data(),
         };
-        if (allocator::invoke(vkCreateRenderPass, core.getLogicalDevice().getLogicalDeviceHandle(), &renderPassInfo,
+        if (vkCreateRenderPass(core.getLogicalDevice().getLogicalDeviceHandle(), &renderPassInfo,
                               nullptr, &renderPass) != VK_SUCCESS) {
             throw exception_init("Failed to create render pass!");
         }
     }
 
     void RenderPass::cleanup() {
-        allocator::invoke(vkDestroyRenderPass, core.getLogicalDevice().getLogicalDeviceHandle(), renderPass, nullptr);
+        vkDestroyRenderPass(core.getLogicalDevice().getLogicalDeviceHandle(), renderPass, nullptr);
     }
 } // namespace merutilm::vkh

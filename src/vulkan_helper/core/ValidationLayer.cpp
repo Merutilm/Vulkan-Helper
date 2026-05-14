@@ -36,7 +36,7 @@ namespace merutilm::vkh {
     void ValidationLayer::setupDebugMessenger() {
 
         if (const VkDebugUtilsMessengerCreateInfoEXT createInfo = Debugger::populateDebugMessengerCreateInfo();
-            allocator::invoke(createDebugUtilsMessengerEXT, instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+            createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
             throw exception_init("Failed to create debug messenger");
         }
     }
@@ -67,6 +67,6 @@ namespace merutilm::vkh {
     }
 
     void ValidationLayer::cleanup() {
-        allocator::invoke(destroyDebugUtilsMessengerEXT, instance, debugMessenger, nullptr);
+        destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     }
 }

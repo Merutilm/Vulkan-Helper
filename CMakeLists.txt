@@ -33,7 +33,7 @@ target_compile_options(VulkanHelper PRIVATE
         #Debug options
         $<$<CONFIG:Debug>:-O0>
         #Release options
-        $<$<CONFIG:Release>:-Ofast -funroll-loops -march=native>
+        $<$<CONFIG:Release>:-O3 -ffast-math -funroll-loops -march=native>
 )
 
 target_link_libraries(VulkanHelper PRIVATE

@@ -11,16 +11,27 @@
 namespace merutilm::vkh {
     struct PlatformCheckboxMenuItemBase : PlatformMenuBase {
         std::vector<Keybinding> keybindings;
+        std::function<bool()> checkboxStateGetter;
         Listener<bool> onClick;
         bool checked = false;
 
-        explicit PlatformCheckboxMenuItemBase(std::wstring name, const PlatformMenuBase * parent, bool defaultFlag);
+        explicit PlatformCheckboxMenuItemBase(std::wstring name, const PlatformMenuBase * parent);
         ~PlatformCheckboxMenuItemBase() override;
         PlatformCheckboxMenuItemBase(const PlatformCheckboxMenuItemBase &) = delete;
         PlatformCheckboxMenuItemBase &operator=(const PlatformCheckboxMenuItemBase &) = delete;
         PlatformCheckboxMenuItemBase(PlatformCheckboxMenuItemBase &&other) = delete;
         PlatformCheckboxMenuItemBase &operator=(PlatformCheckboxMenuItemBase &&other) = delete;
         void addKeybinding(Keybinding &&keybinding);
+
+        template<typename F> requires std::is_invocable_r_v<bool, F>
+        void setCheckboxStateGetter(F && func) {
+            checkboxStateGetter = func;
+        }
+
+        void refreshChecked() {
+            checked = checkboxStateGetter();
+        }
+
         Listener<bool> &getOnClickListener();
 
 
