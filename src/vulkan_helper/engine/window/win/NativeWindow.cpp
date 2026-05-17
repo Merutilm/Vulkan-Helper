@@ -264,8 +264,8 @@ namespace merutilm::vkh {
             case WM_MOUSEMOVE: {
                 const auto xPos = GET_X_LPARAM(lParam);
                 const auto yPos = GET_Y_LPARAM(lParam);
-                const int dx = lastX == INT32_MAX ? 0 : xPos - lastX;
-                const int dy = lastY == INT32_MAX ? 0 : yPos - lastY;
+                const int dx = xPos - lastX;
+                const int dy = yPos - lastY;
 
                 if (!window.mouseHovered) {
                     TRACKMOUSEEVENT tme{};
@@ -280,19 +280,19 @@ namespace merutilm::vkh {
                 lastX = xPos;
                 lastY = yPos;
 
-                window.eventSystem.mouse.onMouseMove.invoke(xPos, yPos, dx, dy);
+                window.eventSystem.mouse.onMouseMove.invoke(xPos, yPos);
 
                 auto &mouseDragEvent = window.eventSystem.mouseDrag;
 
-                auto dragFunc = [xPos, yPos, &mouseDragEvent](MouseState &mouseState,
+                auto dragFunc = [xPos, yPos, dx, dy, &mouseDragEvent](MouseState &mouseState,
                                                               const KeyInput::MouseButton mouseButton) {
                     if (!mouseState.isPressed)
                         return;
 
-                    const float dx = static_cast<float>(mouseState.pressedX) - xPos;
-                    const float dy = static_cast<float>(mouseState.pressedY) - yPos;
+                    const int accX = mouseState.pressedX - xPos;
+                    const int accY = mouseState.pressedY - yPos;
 
-                    if (!mouseState.isDragging && dx * dx + dy * dy > MOUSE_DRAG_THRESHOLD) {
+                    if (!mouseState.isDragging && accX * accX + accY * accY > MOUSE_DRAG_THRESHOLD) {
                         mouseDragEvent.onMouseDragStart.invoke(mouseButton, xPos, yPos);
                         mouseState.isDragging = true;
                     }
