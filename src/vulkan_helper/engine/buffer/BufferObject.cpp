@@ -4,6 +4,7 @@
 
 #include <vulkan_helper/engine/buffer/BufferObject.hpp>
 
+#include <cstring>
 #include <vulkan_helper/base/logger.hpp>
 #include <vulkan_helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
 #include <vulkan_helper/util/BarrierUtils.hpp>
@@ -129,7 +130,7 @@ namespace merutilm::vkh {
             MultiframeBufferContext lockedBuffer = BufferContext::createMultiframeContext(core, info);
             // NEW COMMAND BUFFER
             {
-                const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+                const uint32_t maxFramesInFlight = core.getPhysicalDeviceLoader().getMaxFramesInFlight();
                 BufferContext::unmapMemory(core, getBufferContextMF());
                 const auto cex = ScopedNewCommandBufferExecutor(core, commandPool);
 
@@ -214,7 +215,7 @@ namespace merutilm::vkh {
 
             MultiframeBufferContext unlockedBuffer = BufferContext::createMultiframeContext(core, info);
             {
-                const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+                const uint32_t maxFramesInFlight = core.getPhysicalDeviceLoader().getMaxFramesInFlight();
                 const auto cex = ScopedNewCommandBufferExecutor(core, commandPool);
                 for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
                     BarrierUtils::cmdBufferMemoryBarrier(

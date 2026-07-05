@@ -16,6 +16,7 @@ namespace merutilm::vkh {
         VkSwapchainKHR oldSwapchain = nullptr;
         std::vector<VkImage> swapchainImages = {};
         std::vector<VkImageView> swapchainImageViews = {};
+        VkExtent2D swapchainExtent = {};
 
     public:
         explicit Swapchain(Core & core, Surface & surface);
@@ -38,14 +39,19 @@ namespace merutilm::vkh {
 
         [[nodiscard]] std::span<const VkImageView> getSwapchainImageViews() const { return swapchainImageViews; }
 
-        [[nodiscard]] VkExtent2D populateSwapchainExtent() const;
 
-    private:
+        [[nodiscard]] VkExtent2D getSwapchainExtent() const {
+            return swapchainExtent;
+        }
+
+        void updateSwapchainExtent();
+
         void init() override;
 
-        void createSwapchain(VkSwapchainKHR *target, VkSwapchainKHR old) const;
+        void createSwapchain(VkSwapchainKHR *target, VkSwapchainKHR old);
 
         void setupSwapchainImages();
+
 
         void cleanup() override;
 

@@ -74,7 +74,7 @@ namespace merutilm::vkh {
             requires std::is_invocable_r_v<void, F, DescriptorUpdateQueue &, uint32_t>
         void writeDescriptorMF(F &&func) const {
             auto queue = DescriptorUpdater::createQueue();
-            for (uint32_t i = 0; i < wc.core.getPhysicalDevice().getMaxFramesInFlight(); ++i) {
+            for (uint32_t i = 0; i < wc.core.getPhysicalDeviceLoader().getMaxFramesInFlight(); ++i) {
                 func(queue, i);
             }
             DescriptorUpdater::write(wc.core.getLogicalDevice().getLogicalDeviceHandle(), queue);
@@ -83,7 +83,7 @@ namespace merutilm::vkh {
         template<typename F>
             requires std::is_invocable_r_v<void, F, uint32_t>
         void updateBufferMF(F &&func) const {
-            for (uint32_t i = 0; i < wc.core.getPhysicalDevice().getMaxFramesInFlight(); ++i) {
+            for (uint32_t i = 0; i < wc.core.getPhysicalDeviceLoader().getMaxFramesInFlight(); ++i) {
                 func(i);
             }
         }
@@ -129,9 +129,9 @@ namespace merutilm::vkh {
 
         virtual void renderContextRefreshed() = 0;
 
-    protected:
         virtual void configure() = 0;
 
+    protected:
         virtual void configurePushConstant(PipelineLayoutManager &pipelineLayoutManager) = 0;
 
         virtual void configureDescriptors(std::vector<Descriptor *> &descriptors) = 0;

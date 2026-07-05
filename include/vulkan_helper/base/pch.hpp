@@ -39,13 +39,6 @@
 #include <filesystem>
 
 
-#ifdef _WIN32
-#define UNICODE
-#define _UNICODE
-#include <windows.h>
-#include <windowsx.h>
-#include <commctrl.h>
-#include <vulkan/vulkan_win32.h>
-#endif
-
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 #include <vulkan_helper/base/exception.hpp>

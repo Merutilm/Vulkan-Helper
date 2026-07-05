@@ -59,7 +59,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkRenderPass getRenderPassHandle() const { return renderPass; }
 
-    private:
+    protected:
         void init() override;
 
         void cleanup() override;

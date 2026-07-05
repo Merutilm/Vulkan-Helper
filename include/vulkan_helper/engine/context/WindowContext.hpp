@@ -15,7 +15,7 @@
 namespace merutilm::vkh {
     class WindowContext final : public CoreHandler {
         const uint32_t attachmentIndex;
-        std::unique_ptr<PlatformWindowBase> window;
+        std::unique_ptr<PlatformWindow> window;
         std::optional<Surface> surface;
         std::optional<Swapchain> swapchain;
         std::optional<Repositories> windowLocalRepositories;
@@ -26,7 +26,7 @@ namespace merutilm::vkh {
         std::vector<std::unique_ptr<RenderContext>> renderContexts = {};
 
     public:
-        explicit WindowContext(Core &core, uint32_t index, std::unique_ptr<PlatformWindowBase> &&window);
+        explicit WindowContext(Core &core, uint32_t index, std::unique_ptr<PlatformWindow> &&window);
 
         ~WindowContext() override;
 
@@ -61,7 +61,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] uint32_t getAttachmentIndex() const { return attachmentIndex; }
 
-        [[nodiscard]] PlatformWindowBase *getWindow() const { return window.get(); }
+        [[nodiscard]] PlatformWindow *getWindow() const { return window.get(); }
 
         [[nodiscard]] Surface &getSurface() { return *surface; }
 
@@ -83,11 +83,15 @@ namespace merutilm::vkh {
             return *renderContexts[renderContextIndex];
         }
 
+
+    protected:
         void init() override;
 
-        void configureRepositories();
-
         void cleanup() override;
+
+    private:
+
+        void configureRepositories();
     };
 
 } // namespace merutilm::vkh

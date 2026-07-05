@@ -16,12 +16,18 @@ namespace merutilm::vkh {
 
 
     void Application::init() {
+        glfwInit();
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        if (!glfwVulkanSupported()) {
+            throw exception_init("Vulkan is not supported!");
+        }
         engine.emplace();
     }
 
     void Application::cleanup() {
         sharedResource.reset();
         engine.reset();
+        glfwTerminate();
     }
 
 } // namespace merutilm::vkh

@@ -23,12 +23,13 @@ namespace merutilm::vkh {
         SharedResource(SharedResource &&) = delete;
         SharedResource &operator=(SharedResource &&) = delete;
 
-    private:
+    protected:
         void init() override;
 
-        void createPPBuffer();
-
         void cleanup() override;
+
+    private:
+        void createPPBuffer();
     };
 
 } // namespace merutilm::vkh

@@ -27,14 +27,18 @@ namespace merutilm::vkh {
         static void log_err(std::format_string<Args...> message, Args &&... args) {
             log_err_silent(message, std::forward<Args>(args)...);
             auto fmt = std::format(message, std::forward<Args>(args)...);
+#ifdef _WIN32
             MessageBox(nullptr, fmt.data(), "Error", MB_ICONERROR | MB_OK);
+#endif
         }
 
         template<typename... Args>
         static void w_log_err(std::wformat_string<Args...> message, Args &&... args) {
             w_log_err_silent(message, std::forward<Args>(args)...);
             auto fmt = std::format(message, std::forward<Args>(args)...);
-            MessageBoxW(nullptr, fmt.data(), L"Error", MB_ICONERROR | MB_OK);
+#ifdef _WIN32
+            MessageBox(nullptr, fmt.data(), "Error", MB_ICONERROR | MB_OK);
+#endif
         }
 
         template<typename... Args>
@@ -55,15 +59,19 @@ namespace merutilm::vkh {
             const auto t = std::chrono::system_clock::now();
             const auto time = std::chrono::system_clock::to_time_t(t);
             std::tm tm = {};
+#ifdef _WIN32
             localtime_s(&tm, &time);
+#elif __linux__
+            localtime_r(&time, &tm);
+#endif
             return tm;
         }
 
-        static std::__iom_t10<char> current_put_time(const std::tm * const tm) {
+        static std::_Put_time<char> current_put_time(const std::tm * const tm) {
             return std::put_time(tm, "%Y/%m/%d, %H:%M:%S");
         }
 
-        static std::__iom_t10<wchar_t> w_current_put_time(const std::tm * const tm) {
+        static std::_Put_time<wchar_t> w_current_put_time(const std::tm * const tm) {
             return std::put_time(tm, L"%Y/%m/%d, %H:%M:%S");
         }
     };

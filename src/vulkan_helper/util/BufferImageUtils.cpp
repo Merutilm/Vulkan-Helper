@@ -7,7 +7,7 @@ namespace merutilm::vkh {
     void BufferImageUtils::initImage(Core & core, const ImageInitInfo &iii, VkImage*image,
         VkDeviceMemory*imageMemory, VkImageView*imageView, VkImageView*mipmappedImageView, VkDeviceSize *capacity) {
         initImage(core.getLogicalDevice().getLogicalDeviceHandle(),
-                  core.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), iii, image, imageMemory, imageView, mipmappedImageView, capacity);
+                  core.getPhysicalDeviceLoader().getPhysicalDeviceMemoryProperties(), iii, image, imageMemory, imageView, mipmappedImageView, capacity);
     }
 
     void BufferImageUtils::initImage(const VkDevice device,
@@ -139,7 +139,7 @@ namespace merutilm::vkh {
     void BufferImageUtils::initBuffer(Core & core, const BufferInitInfo &bii, VkBuffer*buffer,
         VkDeviceMemory*bufferMemory) {
         initBuffer(core.getLogicalDevice().getLogicalDeviceHandle(),
-                   core.getPhysicalDevice().getPhysicalDeviceMemoryProperties(), bii, buffer, bufferMemory);
+                   core.getPhysicalDeviceLoader().getPhysicalDeviceMemoryProperties(), bii, buffer, bufferMemory);
     }
 
     void BufferImageUtils::initBuffer(const VkDevice device,

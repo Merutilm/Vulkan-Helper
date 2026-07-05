@@ -10,7 +10,7 @@ namespace merutilm::vkh_demo {
 
         rpm.appendAttachment(PRESENT_ATTACHMENT_INDEX, {
             .flags = 0,
-            .format = VK_FORMAT_R8G8B8A8_UNORM,
+            .format = core.getPhysicalDeviceLoader().getPrimarySurfaceFormat(),
             .samples = VK_SAMPLE_COUNT_1_BIT,
             .loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR,
             .storeOp = VK_ATTACHMENT_STORE_OP_STORE,

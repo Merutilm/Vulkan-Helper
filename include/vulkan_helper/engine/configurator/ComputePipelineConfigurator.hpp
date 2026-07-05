@@ -29,11 +29,11 @@ namespace merutilm::vkh {
 
         void cmdRender(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices) override;
 
-        void setExtent(const VkExtent2D &extent) { this->extent = extent; }
+        void setExtent(const VkExtent2D &newExtent) { this->extent = newExtent; }
 
         void configure() override;
 
-    protected:
+    private:
         void cmdDispatch(const VkCommandBuffer cbh) const {
             const auto [width, height] = extent;
             vkCmdDispatch(cbh, (width + WORK_GROUP_SIZE - 1) / WORK_GROUP_SIZE,

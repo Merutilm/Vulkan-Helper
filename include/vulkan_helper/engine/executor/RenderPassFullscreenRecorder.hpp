@@ -49,7 +49,7 @@ namespace merutilm::vkh {
 
         void execute(uint32_t frameIndex, std::span<PipelineConfigurator * const> shaderPrograms, std::vector<DescIndexPicker> &&descIndices) const;
 
-    private:
+    protected:
         void init() override;
 
         void cleanup() override;

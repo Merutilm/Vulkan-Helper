@@ -29,10 +29,11 @@ namespace merutilm::vkh {
 
         GeneralPostProcessGraphicsPipelineConfigurator &operator=(GeneralPostProcessGraphicsPipelineConfigurator &&) = delete;
 
+        void cmdRender(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices) override;
 
         void configure() override;
 
-        void cmdRender(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices) override;
+
 
     protected:
         [[nodiscard]] VertexBuffer & getVertexBuffer() override { return vertexBufferStaticRef; }

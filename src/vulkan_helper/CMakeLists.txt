@@ -1,9 +1,10 @@
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 add_subdirectory(dependency)
 add_subdirectory(core)
 add_subdirectory(engine)
 add_subdirectory(util)
-
 
 add_library(vulkan_helper SHARED
         Application.cpp
@@ -35,21 +36,8 @@ target_compile_options(vulkan_helper PRIVATE
         $<$<CONFIG:Release>:-O3 -funroll-loops -march=native>
 )
 
-if (WIN32)
-    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_win>)
-    target_compile_definitions(vulkan_helper PUBLIC VK_USE_PLATFORM_WIN32_KHR)
-elseif (APPLE)
-    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_mac>)
-    target_compile_definitions(vulkan_helper PUBLIC VK_USE_PLATFORM_MACOS_MVK)
-elseif (UNIX)
-    target_sources(vulkan_helper PUBLIC $<TARGET_OBJECTS:engine_window_linux>)
-    target_compile_definitions(vulkan_helper PUBLIC VK_USE_PLATFORM_WAYLAND_KHR)
-else ()
-    message(STATUS "failed to find OS")
-endif ()
-
 find_package(Vulkan REQUIRED)
-
+find_package(glfw3 REQUIRED)
 
 
 target_link_libraries(vulkan_helper PUBLIC
@@ -57,5 +45,7 @@ target_link_libraries(vulkan_helper PUBLIC
         Vulkan::Vulkan
         # Dependency
         vkh_dependency
+        # glfw3
+        glfw
 )
 

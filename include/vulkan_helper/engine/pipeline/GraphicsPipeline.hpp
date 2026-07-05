@@ -40,7 +40,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] IndexBuffer & getIndexBuffer() const { return indexBuffer; }
 
-    private:
+    protected:
         void init() override;
     };
 

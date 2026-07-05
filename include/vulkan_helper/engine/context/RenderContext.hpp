@@ -38,8 +38,6 @@ namespace merutilm::vkh {
 
         [[nodiscard]] Framebuffer *getFramebuffer() { return &*framebuffer; }
 
-
-
     };
 
 

@@ -34,6 +34,7 @@ namespace merutilm::vkh {
 
         void configure() override;
 
+    protected:
         [[nodiscard]] VertexBuffer &getVertexBuffer() override { return *vertexBuffer; }
 
         [[nodiscard]] IndexBuffer &getIndexBuffer() override { return *indexBuffer; }

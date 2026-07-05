@@ -14,9 +14,6 @@ namespace merutilm::vkh_demo {
 
         DemoApplication();
 
-        void init() override;
-
-        void cleanup() override;
 
         void createWindow();
         void initMenu();
@@ -27,6 +24,10 @@ namespace merutilm::vkh_demo {
         void update();
 
         void start() const;
+
+        void init() override;
+
+        void cleanup() override;
 
     };
 }

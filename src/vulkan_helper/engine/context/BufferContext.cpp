@@ -2,6 +2,8 @@
 // Created by Merutilm on 2026-02-03.
 //
 #include <vulkan_helper/engine/context/BufferContext.hpp>
+
+#include <cstring>
 #include <vulkan_helper/util/BufferImageUtils.hpp>
 namespace merutilm::vkh {
     BufferContext BufferContext::createContext(Core & core, const BufferInitInfo &bufferInitInfo) {
@@ -12,7 +14,7 @@ namespace merutilm::vkh {
     }
 
     MultiframeBufferContext BufferContext::createMultiframeContext(Core & core, const BufferInitInfo &bufferInitInfo) {
-        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDeviceLoader().getMaxFramesInFlight();
         std::vector<BufferContext> result(maxFramesInFlight);
 
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {

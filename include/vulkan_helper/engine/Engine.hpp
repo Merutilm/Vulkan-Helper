@@ -45,12 +45,13 @@ namespace merutilm::vkh {
 
         [[nodiscard]] uint32_t getWindowContextCount() const { return windowContexts.size(); }
 
-    private:
+    protected:
         void init() override;
 
-        void configureRepositories();
-
         void cleanup() override;
+
+    private:
+        void configureRepositories();
     };
 
 

@@ -15,7 +15,7 @@ namespace merutilm::vkh {
     }
 
     void Framebuffer::init() {
-        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDeviceLoader().getMaxFramesInFlight();
         const auto [width, height] = extent;
         framebuffer.resize(maxFramesInFlight);
         auto & attachments = renderPass.getAttachments();
@@ -50,7 +50,7 @@ namespace merutilm::vkh {
 
     void Framebuffer::cleanup() {
         const VkDevice device = core.getLogicalDevice().getLogicalDeviceHandle();
-        const uint32_t maxFramesInFlight = core.getPhysicalDevice().getMaxFramesInFlight();
+        const uint32_t maxFramesInFlight = core.getPhysicalDeviceLoader().getMaxFramesInFlight();
         for (uint32_t i = 0; i < maxFramesInFlight; ++i) {
             vkDestroyFramebuffer(device, framebuffer[i], nullptr);
         }

@@ -25,6 +25,8 @@ namespace merutilm::vkh {
 
         void cmdBindAll(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices = {}) const override;
 
+
+    protected:
         void init() override;
     };
 

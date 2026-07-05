@@ -21,11 +21,8 @@ add_executable(VulkanHelper
         src/vkh_demo/GPCSample.hpp
         src/vkh_demo/SampleRenderer.cpp
         src/vkh_demo/SampleRenderer.hpp
-        include/vulkan_helper/engine/window/win/NativeMenu.hpp
         include/vulkan_helper/engine/window/PlatformMenuBase.hpp
         include/vulkan_helper/engine/window/Keybinding.hpp
-        include/vulkan_helper/engine/window/win/NativeMenuItem.hpp
-        include/vulkan_helper/engine/window/win/NativeMenuID.hpp
         include/vulkan_helper/engine/SharedResource.hpp
 )
 
@@ -40,5 +37,10 @@ target_link_libraries(VulkanHelper PRIVATE
         vulkan_helper
 )
 
-add_custom_target(compileShaders ALL COMMAND powershell -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/compile.ps1")
+if(WIN32)
+    add_custom_target(compileShaders ALL COMMAND powershell -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/compile.ps1")
+elseif(UNIX)
+    add_custom_target(compileShaders ALL COMMAND /bin/bash "${CMAKE_CURRENT_SOURCE_DIR}/compile.sh")
+endif()
+
 add_dependencies(VulkanHelper compileShaders)

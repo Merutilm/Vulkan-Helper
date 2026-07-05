@@ -25,7 +25,6 @@ namespace merutilm::vkh {
 
         Application &operator=(Application &&) = delete;
 
-    protected:
         void init() override;
 
         void cleanup() override;

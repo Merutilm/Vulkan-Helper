@@ -39,7 +39,7 @@ namespace merutilm::vkh {
 
         void execute();
 
-    private:
+    protected:
         virtual void beforeCmdRender() = 0;
 
         virtual void cmdRender(uint32_t swapchainImageIndex) = 0;
