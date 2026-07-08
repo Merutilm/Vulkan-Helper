@@ -7,79 +7,96 @@
 #include "SampleRCC.hpp"
 #include "vulkan_helper/util/SwapchainUtils.hpp"
 
+#ifdef VKH_USE_IMGUI
+#include "imgui_impl_vulkan.h"
+#endif
 
 namespace merutilm::vkh_demo {
 
-    DemoApplication::DemoApplication() { DemoApplication::init(); }
+    DemoApplication::DemoApplication(const vkh::WindowInitializerSettings &rootWindowInitializerSettings) : Application(rootWindowInitializerSettings) {
+        DemoApplication::init();
+    }
+
+    DemoApplication::~DemoApplication() {
+        DemoApplication::cleanup();
+    }
 
     void DemoApplication::init() {
-        Application::init();
-        createWindow();
-        initMenu();
-        addListeners();
-        createContexts();
-        createRenderers();
+        //noop
     }
 
-    void DemoApplication::cleanup() { Application::cleanup(); }
-
-    void DemoApplication::createWindow() {
-        wc = &engine->attachWindowContext(vkh::WindowInitializerSettings{.useMenubar = true}, 0);
+    void DemoApplication::createRenderers() {
+#ifdef VKH_USE_IMGUI
+        renderer.emplace(*engine, *rootWindowContext, [this]{ renderImGui();});
+        createImGuiContext(renderer->rc);
+#else
+        renderer.emplace(*engine, *rootWindowContext);
+#endif
     }
 
-    void DemoApplication::initMenu() {
-        vkh::PlatformWindow &wb = *wc->getWindow();
-        // auto &menu = wb.addMenu(*wb.menubar, "File");
-        // wb.addMenuItem(menu, "d1");
-        // wb.addMenuItem(menu, "d2");
-        // wb.addMenuItem(menu, "d3");
-        // auto &sub = wb.addMenu(menu, "d4");
-        // wb.addMenuItem(sub, "d41");
+    void DemoApplication::cleanup() {
+        renderer.reset();
+    }
+
+#ifdef VKH_USE_IMGUI
+    void DemoApplication::renderImGui() {
+        static float f = 0.0f;
+        static int counter = 0;
+        static bool a = false;
+        static bool b = false;
+        static std::array<float, 3> col = {0, 0, 0};
+        ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
+
+        ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
+        ImGui::Checkbox("Demo Window", &a); // Edit bools storing our window open/close state
+        ImGui::Checkbox("Another Window", &b);
+
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+        ImGui::ColorEdit3("clear color", col.data()); // Edit 3 floats representing a color
+
+        if (ImGui::Button(
+                    "Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
+            counter++;
+        ImGui::SameLine();
+        ImGui::Text("counter = %d", counter);
+
+        ImGui::End();
+    }
+#endif
+    void DemoApplication::refreshSharedImgContexts(const VkExtent2D extent) {
+        rootWindowContext->getSharedImageContext().cleanupContexts();
+
+
     }
 
     void DemoApplication::addListeners() {
-        wc->getWindow()->eventSystem.mouse.onMouseEnter.add([] { std::cout << "Mouse entered" << std::endl; });
-        wc->getWindow()->eventSystem.mouse.onMouseExit.add([] { std::cout << "Mouse exited" << std::endl; });
-        wc->getWindow()->eventSystem.mouseDrag.onMouseDrag.add(
-                [](int, int x, int y, int , int ) { vkh::logger::log("mouse drag={}, {}", x, y); });
-        wc->getWindow()->eventSystem.mouse.onMouseDown.add(
+        Application::addListeners();
+        rootWindowContext->getWindow()->eventSystem.mouse.onMouseEnter.add(
+                [] { std::cout << "Mouse entered" << std::endl; });
+        rootWindowContext->getWindow()->eventSystem.mouse.onMouseExit.add(
+                [] { std::cout << "Mouse exited" << std::endl; });
+        rootWindowContext->getWindow()->eventSystem.mouseDrag.onMouseDrag.add(
+                [](int, int x, int y, int, int) {
+                    vkh::logger::log("mouse drag={}, {}", x, y);
+                });
+
+        rootWindowContext->getWindow()->eventSystem.mouseWheel.onMouseScroll.add(
+                [](int y) {
+                    vkh::logger::log("mouse scroll={}", y);
+                });
+        rootWindowContext->getWindow()->eventSystem.mouse.onMouseDown.add(
                 [](int, int x, int y) { vkh::logger::log("mouse down={}, {}", x, y); });
-        wc->getWindow()->eventSystem.mouse.onMouseUp.add(
+        rootWindowContext->getWindow()->eventSystem.mouse.onMouseUp.add(
                 [](int, int x, int y) { vkh::logger::log("mouse up={}, {}", x, y); });
-        wc->getWindow()->eventSystem.keyboard.onKeyDown.add(
+        rootWindowContext->getWindow()->eventSystem.keyboard.onKeyDown.add(
                 [](int key) { vkh::logger::log("key={0}", key); });
 
-        wc->getWindow()->eventSystem.applicationLifecycle.onUpdate.add([this] { update(); });
     }
 
-    void DemoApplication::createContexts() const {
-
-        wc->attachRenderContext<SampleRCC>(
-                [this] { return wc->getSwapchain().getSwapchainExtent(); },
-                [this] { return vkh::ImageContext::fromSwapchain(wc->core, wc->getSwapchain()); });
-
-        wc->getWindow()->eventSystem.resize.onResize.add([this] {
-            if (wc->getWindow()->lastExtentUpdate()) {
-                wc->core.getLogicalDevice().waitDeviceIdle();
-                wc->getSwapchain().recreate();
-                wc->getRenderContext(SampleRCC::CONTEXT_INDEX).recreate();
-            }
-        });
-
-        wc->getWindow()->eventSystem.applicationLifecycle.onQuit.add(
-                [this] { wc->core.getLogicalDevice().waitDeviceIdle(); });
-    }
-    void DemoApplication::createRenderers() {
-        sharedResource.emplace(*wc);
-        renderer.emplace(*engine, *wc, *sharedResource->vertexBufferPP, *sharedResource->indexBufferPP);
-    }
 
     void DemoApplication::update() {
-
         renderer->execute();
     }
-
-    void DemoApplication::start() const { wc->getWindow()->start(); }
 
 
 } // namespace merutilm::vkh_demo

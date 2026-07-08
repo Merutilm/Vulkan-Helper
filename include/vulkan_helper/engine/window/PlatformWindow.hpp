@@ -16,8 +16,6 @@ namespace merutilm::vkh {
     class PlatformWindow : Handler {
 
         GLFWwindow *window = nullptr;
-        VkExtent2D currentExtent;
-        bool lastExtentUpdateSuccess;
 
     protected:
         bool mouseHovered = false;
@@ -45,17 +43,15 @@ namespace merutilm::vkh {
 
         GLFWwindow *getWindow() const { return window; }
 
-        bool lastExtentUpdate() const;
-
-        void updateWindowExtent();
-
-        VkExtent2D getCurrentExtent() const { return currentExtent; }
+        VkExtent2D calcCurrentExtent() const;
 
         VkSurfaceKHR createSurface(VkInstance instance) const;
 
         static PlatformMenuBase &addMenu(PlatformMenuBase &menu, std::string name);
         static PlatformMenuItemBase &addMenuItem(PlatformMenuBase &menu, std::string name);
         static PlatformCheckboxMenuItemBase &addCheckboxMenuItem(PlatformMenuBase &menu, std::string name);
+
+        bool canRenderNow() const;
 
 
         template<typename F>
@@ -95,7 +91,7 @@ namespace merutilm::vkh {
 
         static void processWindowFocus(GLFWwindow *window, int focused);
 
-    private:
+    protected:
         void init() override;
 
         void cleanup() override;

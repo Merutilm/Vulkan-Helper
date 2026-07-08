@@ -5,6 +5,9 @@
 #include <vulkan_helper/base/logger.hpp>
 #include <vulkan_helper/engine/window/PlatformWindow.hpp>
 
+#ifdef VKH_USE_IMGUI
+#include "imgui.h"
+#endif
 
 namespace merutilm::vkh {
 
@@ -20,16 +23,14 @@ namespace merutilm::vkh {
         auto started = high_resolution_clock::now();
         while (!glfwWindowShouldClose(window)) {
 
-            updateWindowExtent();
             glfwPollEvents();
-
 
             auto now = high_resolution_clock::now();
             const auto elapsed = duration_cast<milliseconds>(now - started);
 
 
             if (static_cast<float>(elapsed.count()) > 1000 / initializerSettings.framerate) {
-                if (lastExtentUpdate()) {
+                if (canRenderNow()) {
                     started = now;
                     eventSystem.applicationLifecycle.onUpdate.invoke();
                 }
@@ -38,6 +39,13 @@ namespace merutilm::vkh {
         eventSystem.applicationLifecycle.onQuit.invoke();
     }
 
+
+    VkExtent2D PlatformWindow::calcCurrentExtent() const {
+        int w;
+        int h;
+        glfwGetWindowSize(window, &w, &h);
+        return {static_cast<uint32_t>(w), static_cast<uint32_t>(h)};
+    }
 
     VkSurfaceKHR PlatformWindow::createSurface(const VkInstance instance) const {
         VkSurfaceKHR surface;
@@ -64,19 +72,20 @@ namespace merutilm::vkh {
         return static_cast<PlatformCheckboxMenuItemBase &>(*ref);
     }
 
-    void PlatformWindow::updateWindowExtent() {
-        int x;
-        int y;
-        glfwGetWindowSize(window, &x, &y);
-        currentExtent = {static_cast<uint32_t>(x), static_cast<uint32_t>(y)};
-        lastExtentUpdateSuccess = !glfwGetWindowAttrib(window, GLFW_ICONIFIED) &&
-                                  glfwGetWindowAttrib(window, GLFW_VISIBLE) && x > 0 && y > 0;
+    bool PlatformWindow::canRenderNow() const {
+        auto [width, height] = calcCurrentExtent();
+
+        return !glfwGetWindowAttrib(window, GLFW_ICONIFIED) && glfwGetWindowAttrib(window, GLFW_VISIBLE) && width > 0 &&
+               height > 0;
     }
-    bool PlatformWindow::lastExtentUpdate() const { return lastExtentUpdateSuccess; }
 
     bool PlatformWindow::isKeyPressed(const int key) const { return pressedKeys.contains(key); }
 
     void PlatformWindow::processKeyInput(GLFWwindow *window, const int key, int scancode, const int action, int mods) {
+
+#ifdef VKH_USE_IMGUI
+        if (ImGui::GetIO().WantCaptureKeyboard) return;
+#endif
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
         if (action == GLFW_PRESS) {
             pwb->eventSystem.keyboard.onKeyDown.invoke(key);
@@ -88,6 +97,10 @@ namespace merutilm::vkh {
     }
 
     void PlatformWindow::processMouseEnter(GLFWwindow *window, const int entered) {
+#ifdef VKH_USE_IMGUI
+        if (ImGui::GetIO().WantCaptureMouse)
+            return;
+#endif
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
         if (entered == GLFW_TRUE) {
             pwb->mouseHovered = true;
@@ -99,6 +112,11 @@ namespace merutilm::vkh {
     }
 
     void PlatformWindow::processMousePos(GLFWwindow *window, double xpos, double ypos) {
+#ifdef VKH_USE_IMGUI
+        if (ImGui::GetIO().WantCaptureMouse)
+            return;
+#endif
+
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
         const int ix = static_cast<int>(xpos);
         const int iy = static_cast<int>(ypos);
@@ -124,6 +142,10 @@ namespace merutilm::vkh {
     }
 
     void PlatformWindow::processMouseButton(GLFWwindow *window, int button, int action, int mods) {
+#ifdef VKH_USE_IMGUI
+        if (ImGui::GetIO().WantCaptureMouse) return;
+#endif
+
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
         double x;
         double y;
@@ -147,13 +169,17 @@ namespace merutilm::vkh {
     }
 
     void PlatformWindow::processScroll(GLFWwindow *window, double xoffset, double yoffset) {
+#ifdef VKH_USE_IMGUI
+        if (ImGui::GetIO().WantCaptureMouse) return;
+#endif
+
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
         pwb->eventSystem.mouseWheel.onMouseScroll.invoke(static_cast<float>(yoffset));
     }
 
     void PlatformWindow::processWindowSize(GLFWwindow *window, int width, int height) {
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
-        pwb->eventSystem.resize.onResize.invoke();
+        pwb->eventSystem.resize.onResize.invoke(width, height);
     }
 
     void PlatformWindow::processWindowMaximize(GLFWwindow *window, int maximized) {
@@ -175,6 +201,7 @@ namespace merutilm::vkh {
     }
 
     void PlatformWindow::processDropCallback(GLFWwindow *window, const int pathCount, const char *paths[]) {
+
         const auto pwb = static_cast<PlatformWindow *>(glfwGetWindowUserPointer(window));
         std::vector<std::string> pathString;
         for (int i = 0; i < pathCount; i++) {

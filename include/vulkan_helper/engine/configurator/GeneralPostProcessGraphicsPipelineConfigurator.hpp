@@ -11,13 +11,11 @@
 namespace merutilm::vkh {
     class GeneralPostProcessGraphicsPipelineConfigurator : public GraphicsPipelineConfigurator {
         static constexpr auto VERTEX_MODULE_PATH = "vk_post_process.vert";
-        VertexBuffer & vertexBufferStaticRef;
-        IndexBuffer & indexBufferStaticRef;
 
     public:
 
-        explicit GeneralPostProcessGraphicsPipelineConfigurator(Engine & engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex, const uint32_t primarySubpassIndex, const std::string &fragName, VertexBuffer &vertexBufferStaticRef, IndexBuffer &indexBufferStaticRef) : GraphicsPipelineConfigurator(
-            engine, windowContextIndex, renderContextIndex, primarySubpassIndex, VERTEX_MODULE_PATH, fragName) , vertexBufferStaticRef(vertexBufferStaticRef), indexBufferStaticRef(indexBufferStaticRef){
+        explicit GeneralPostProcessGraphicsPipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal, const std::string &fragName) : GraphicsPipelineConfigurator(
+            core, shared, global, windowLocal, VERTEX_MODULE_PATH, fragName){
         }
         ~GeneralPostProcessGraphicsPipelineConfigurator() override = default;
 
@@ -31,14 +29,14 @@ namespace merutilm::vkh {
 
         void cmdRender(VkCommandBuffer cbh, uint32_t frameIndex, DescIndexPicker &&descIndices) override;
 
-        void configure() override;
+        void configure(RenderPass *rp, uint32_t subpass) override;
 
 
 
     protected:
-        [[nodiscard]] VertexBuffer & getVertexBuffer() override { return vertexBufferStaticRef; }
+        [[nodiscard]] VertexBuffer & getVertexBuffer() override { return *shared.vertexBufferIdentity; }
 
-        [[nodiscard]] IndexBuffer & getIndexBuffer() override { return indexBufferStaticRef; }
+        [[nodiscard]] IndexBuffer & getIndexBuffer() override { return *shared.indexBufferIdentity; }
 
         void configureVertexBuffer(HostDataObjectManager & som) override;
 

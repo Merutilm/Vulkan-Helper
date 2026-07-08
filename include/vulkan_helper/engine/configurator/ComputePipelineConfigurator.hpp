@@ -12,9 +12,9 @@ namespace merutilm::vkh {
         static constexpr uint32_t WORK_GROUP_SIZE = 16;
 
     public:
-        explicit ComputePipelineConfigurator(Engine &engine, const uint32_t windowContextIndex,
+        explicit ComputePipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal,
                                              const std::string &compName) :
-            PipelineConfigurator(engine, windowContextIndex),
+            PipelineConfigurator(core, shared, global, windowLocal),
             computeShader(pickFromGlobalRepository<GlobalShaderModuleRepo, ShaderModule &>(compName)) {}
 
         ~ComputePipelineConfigurator() override = default;
@@ -31,7 +31,7 @@ namespace merutilm::vkh {
 
         void setExtent(const VkExtent2D &newExtent) { this->extent = newExtent; }
 
-        void configure() override;
+        void configure(RenderPass *rp, uint32_t subpass) override;
 
     private:
         void cmdDispatch(const VkCommandBuffer cbh) const {

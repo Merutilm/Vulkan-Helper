@@ -10,7 +10,7 @@
 namespace merutilm::vkh {
     class ComputeShaderPipeline final : public Pipeline {
     public:
-        explicit ComputeShaderPipeline(WindowContext & wc, PipelineLayout & pipelineLayout,
+        explicit ComputeShaderPipeline(Core &core, PipelineLayout & pipelineLayout,
                                            PipelineManager &&pipelineManager);
 
         ~ComputeShaderPipeline() override;

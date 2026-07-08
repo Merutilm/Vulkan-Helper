@@ -11,16 +11,16 @@ namespace merutilm::vkh {
  
     class GraphicsPipeline final : public Pipeline {
 
-        const uint32_t renderContextIndex;
+        RenderPass &rp;
         const uint32_t primarySubpassIndex;
         VertexBuffer & vertexBuffer;
         IndexBuffer & indexBuffer;
 
     public:
-        explicit GraphicsPipeline(WindowContext & wc, PipelineLayout & pipelineLayout,
+        explicit GraphicsPipeline(Core &core, PipelineLayout & pipelineLayout,
                           VertexBuffer & vertexBuffer,
                           IndexBuffer & indexBuffer,
-                          uint32_t renderContextIndex,
+                          RenderPass &rp,
                           uint32_t primarySubpassIndex,
                           PipelineManager &&pipelineManager);
 

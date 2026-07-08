@@ -42,7 +42,7 @@ namespace merutilm::vkh {
         };
 
         struct ResizeEvents {
-            Listener<> onResize;
+            Listener<int, int> onResize;
         };
 
         struct WindowEvents {

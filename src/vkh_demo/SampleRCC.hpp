@@ -3,20 +3,19 @@
 //
 
 #pragma once
-#include <vulkan_helper/engine/configurator/RenderContextConfigurator.hpp>
+#include <vulkan_helper/engine/graphics/RenderPassGraphGenerator.hpp>
 
 namespace merutilm::vkh_demo {
-    struct SampleRCC final : vkh::RenderContextConfigurator {
-        static constexpr uint32_t CONTEXT_INDEX = 0;
+    struct SampleRCC final : vkh::RenderPassGraphGenerator {
         static constexpr uint32_t SUBPASS_INDEX = 0;
-        static constexpr uint32_t PRESENT_ATTACHMENT_INDEX = 0;
+        static constexpr uint32_t COLOR_ATTACHMENT_INDEX = 0;
 
         template<typename F> requires std::is_invocable_r_v<vkh::MultiframeImageContext, F>
-        SampleRCC(vkh::Core &core, vkh::SharedImageContext &sharedImageContext, const F &swapchainImageContextGetter) : RenderContextConfigurator(
-            core, sharedImageContext, swapchainImageContextGetter) {}
+        SampleRCC(vkh::Engine &engine, vkh::WindowContext &wc, F &&swapchainImageContextGetter) : RenderPassGraphGenerator(
+            engine, wc, std::forward<F>(swapchainImageContextGetter)) {}
 
 
-
-        void configure(vkh::RenderPassManager &rpm) override;
+    protected:
+        void configure() override;
     };
 }

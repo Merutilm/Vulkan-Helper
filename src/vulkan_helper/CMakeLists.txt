@@ -1,5 +1,8 @@
-
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Options
+option(USE_IMGUI "Enable Dear ImGui" ON)
+
 
 add_subdirectory(dependency)
 add_subdirectory(core)
@@ -18,6 +21,7 @@ add_library(vulkan_helper SHARED
         $<TARGET_OBJECTS:engine_descriptor>
         $<TARGET_OBJECTS:engine_executor>
         $<TARGET_OBJECTS:engine_graphics>
+        $<TARGET_OBJECTS:engine_internal>
         $<TARGET_OBJECTS:engine_manage>
         $<TARGET_OBJECTS:engine_pipeline>
         $<TARGET_OBJECTS:engine_repo>
@@ -25,6 +29,7 @@ add_library(vulkan_helper SHARED
         $<TARGET_OBJECTS:engine_sync>
         $<TARGET_OBJECTS:engine_window>
 )
+
 
 
 target_link_directories(vulkan_helper PRIVATE ${CMAKE_SOURCE_DIR}/lib)
@@ -36,16 +41,8 @@ target_compile_options(vulkan_helper PRIVATE
         $<$<CONFIG:Release>:-O3 -funroll-loops -march=native>
 )
 
-find_package(Vulkan REQUIRED)
-find_package(glfw3 REQUIRED)
-
-
 target_link_libraries(vulkan_helper PUBLIC
-        # Vulkan
-        Vulkan::Vulkan
         # Dependency
         vkh_dependency
-        # glfw3
-        glfw
 )
 

@@ -9,10 +9,8 @@ namespace merutilm::vkh_demo {
     class GPCSample final : public vkh::GeneralPostProcessGraphicsPipelineConfigurator {
 
     public:
-        GPCSample(vkh::Engine &engine, const uint32_t windowContextIndex, const uint32_t renderContextIndex,
-                  const uint32_t primarySubpassIndex, vkh::VertexBuffer &vertexBufferStaticRef, vkh::IndexBuffer &indexBufferStaticRef) :
-            GeneralPostProcessGraphicsPipelineConfigurator(engine, windowContextIndex, renderContextIndex,
-                                                           primarySubpassIndex, "template-1.frag", vertexBufferStaticRef, indexBufferStaticRef) {}
+        GPCSample(vkh::Core &core, vkh::SharedResource &shared, vkh::Repositories &global, vkh::Repositories &windowLocal) :
+            GeneralPostProcessGraphicsPipelineConfigurator(core, shared, global, windowLocal, "template-1.frag") {}
 
         void updateQueue(vkh::DescriptorUpdateQueue &queue, uint32_t frameIndex) override;
         void pipelineInitialized() override;

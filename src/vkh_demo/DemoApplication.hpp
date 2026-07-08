@@ -9,25 +9,29 @@
 namespace merutilm::vkh_demo {
     struct DemoApplication final : vkh::Application{
 
-        vkh::WindowContext * wc = nullptr;
         std::optional<SampleRenderer> renderer;
 
-        DemoApplication();
+
+        explicit DemoApplication(const vkh::WindowInitializerSettings& rootWindowInitializerSettings);
+
+        ~DemoApplication() override;
+
+        void refreshSharedImgContexts(VkExtent2D extent) override;
+
+        void createRenderers() override;
+
+        void addListeners() override;
+
+        void update() override;
 
 
-        void createWindow();
-        void initMenu();
-
-        void addListeners();
-        void createContexts() const;
-        void createRenderers();
-        void update();
-
-        void start() const;
-
+    protected:
         void init() override;
 
         void cleanup() override;
 
+#ifdef VKH_USE_IMGUI
+        void renderImGui() override;
+#endif
     };
 }

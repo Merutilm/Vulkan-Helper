@@ -3,7 +3,11 @@
 //
 
 #pragma once
-#include "engine/SharedResource.hpp"
+
+#ifdef VKH_USE_IMGUI
+#include "engine/internal/RendererImGui.hpp"
+#endif
+
 #include "handle/EngineHandler.hpp"
 namespace merutilm::vkh {
 
@@ -11,9 +15,12 @@ namespace merutilm::vkh {
     struct Application : Handler {
 
         std::optional<Engine> engine;
-        std::optional<SharedResource> sharedResource;
+        WindowContext *rootWindowContext;
+        WindowInitializerSettings rootWindowInitializerSettings;
 
-        explicit Application();
+        static constexpr int WC_ROOT = 0;
+
+        explicit Application(const WindowInitializerSettings &rootWindowInitializerSettings);
 
         ~Application() override;
 
@@ -25,9 +32,48 @@ namespace merutilm::vkh {
 
         Application &operator=(Application &&) = delete;
 
+
+        template<typename App> requires std::is_base_of_v<Application, App>
+        static void start(const WindowInitializerSettings &wic) {
+            VkExtent2D extent = {static_cast<uint32_t>(wic.widthInfo.first), static_cast<uint32_t>(wic.heightInfo.first)};
+            App app(wic);
+            app.refreshSharedImgContexts(extent);
+            app.createRenderers();
+            app.addListeners();
+            app.start();
+        }
+
+
+        virtual void refreshSharedImgContexts(VkExtent2D extent) = 0;
+
+        virtual void createRenderers() = 0;
+
+        virtual void addListeners();
+
+        virtual void update() = 0;
+
+        void start() const {
+            rootWindowContext->getWindow()->start();
+        }
+
+    protected:
         void init() override;
 
         void cleanup() override;
+
+#ifdef VKH_USE_IMGUI
+        virtual void renderImGui() = 0;
+
+        void createImGuiContext(RenderContext *rc);
+#endif
+    private:
+
+        void configureRootRenderContexts();
+
+#ifdef VKH_USE_IMGUI
+        static void imguiVkResultConsumer(VkResult result);
+#endif
+
     };
 
 

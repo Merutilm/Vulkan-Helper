@@ -6,27 +6,38 @@
 
 #include "SampleRCC.hpp"
 #include "vulkan_helper/engine/executor/RenderPassFullscreenRecorder.hpp"
+#include "vulkan_helper/util/BarrierUtils.hpp"
 
 namespace merutilm::vkh_demo {
 
     void SampleRenderer::init() {
-        sample = vkh::PipelineConfigurator::create<GPCSample>(configurators, engine, 0, SampleRCC::CONTEXT_INDEX,
-                                                     SampleRCC::SUBPASS_INDEX, vertexBufferPP, indexBufferPP);
+
+        rc = wc.attachRenderContext<SampleRCC>(engine, [this] { return wc.getSwapchain().getSwapchainExtent(); },
+                [this] { return vkh::ImageContext::fromSwapchain(wc.core, wc.getSwapchain()); });
+
     }
 
     void SampleRenderer::cleanup() {
-
+        // noop
     }
-
     void SampleRenderer::beforeCmdRender() {
-
+#ifdef VKH_USE_IMGUI
+        RendererImGui::beforeCmdRender();
+#endif
     }
 
-    void SampleRenderer::cmdRender(uint32_t swapchainImageIndex) {
 
+    void SampleRenderer::cmdRender(const uint32_t swapchainImageIndex) {
+        vkh::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass(wc, *rc, frameIndex, swapchainImageIndex,
+                                                                              {sample}, {{}});
 
-        vkh::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass<SampleRCC>(wc, frameIndex, swapchainImageIndex, {sample}, {{}});
+#ifdef VKH_USE_IMGUI
+        vkh::BarrierUtils::cmdOverlaySwapchain(
+                wc.getCommandBuffer().getCommandBufferHandle(frameIndex),
+                wc.getSwapchain().getSwapchainImages()[swapchainImageIndex]);
 
+        RendererImGui::cmdRender(swapchainImageIndex);
+#endif
     }
 
-}
+} // namespace merutilm::vkh_demo

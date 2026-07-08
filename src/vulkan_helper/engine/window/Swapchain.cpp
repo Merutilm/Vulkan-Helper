@@ -17,40 +17,40 @@ namespace merutilm::vkh {
     }
 
 
-    void Swapchain::recreate() {
+    void Swapchain::recreate(const VkExtent2D extent) {
         destroyImageViews();
         oldSwapchain = swapchain;
-        createSwapchain(&swapchain, oldSwapchain);
+        createSwapchain(&swapchain, oldSwapchain, extent);
         vkDestroySwapchainKHR(core.getLogicalDevice().getLogicalDeviceHandle(), oldSwapchain, nullptr);
         setupSwapchainImages();
     }
 
 
     void Swapchain::init() {
-        createSwapchain(&swapchain, nullptr);
+        createSwapchain(&swapchain, nullptr, surface.getTargetWindow()->calcCurrentExtent());
         setupSwapchainImages();
     }
 
 
-    void Swapchain::updateSwapchainExtent() {
+    void Swapchain::updateSwapchainExtent(const VkExtent2D extent) {
         const auto capabilities =
                 core.getPhysicalDeviceLoader().populateSurfaceCapabilities(surface.getSurfaceHandle());
 
         if (capabilities.currentExtent.width == UINT32_MAX) {
-            swapchainExtent = surface.getTargetWindow()->getCurrentExtent();
+            swapchainExtent = extent;
         }else {
             swapchainExtent = capabilities.currentExtent;
         }
     }
 
 
-    void Swapchain::createSwapchain(VkSwapchainKHR *target, const VkSwapchainKHR old) {
+    void Swapchain::createSwapchain(VkSwapchainKHR *target, const VkSwapchainKHR old, const VkExtent2D extent) {
         const uint32_t maxFramesInFlight = core.getPhysicalDeviceLoader().getMaxFramesInFlight();
         const auto &[graphicsFamily, presentFamily] = core.getPhysicalDeviceLoader().getQueueFamilyIndices();
         std::array queueFamilyIndices = {graphicsFamily.value(), presentFamily.value()};
 
         const VkSurfaceCapabilitiesKHR capabilities = core.getPhysicalDeviceLoader().populateSurfaceCapabilities(surface.getSurfaceHandle());
-        updateSwapchainExtent();
+        updateSwapchainExtent(extent);
 
         if (const VkSwapchainCreateInfoKHR createInfo = {
             .sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,

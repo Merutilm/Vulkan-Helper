@@ -3,3 +3,4 @@ cmake-build-release
 *.ps1
 .idea
 .clang-format
+extern

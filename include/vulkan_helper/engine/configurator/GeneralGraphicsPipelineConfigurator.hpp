@@ -6,7 +6,6 @@
 #include <vulkan_helper/base/pch.hpp>
 #include <vulkan_helper/engine/buffer/IndexBuffer.hpp>
 #include <vulkan_helper/engine/buffer/VertexBuffer.hpp>
-#include <vulkan_helper/handle/WindowContextHandler.hpp>
 #include "GraphicsPipelineConfigurator.hpp"
 
 
@@ -16,10 +15,9 @@ namespace merutilm::vkh {
         std::optional<IndexBuffer> indexBuffer;
 
     public:
-        explicit GeneralGraphicsPipelineConfigurator(Engine &engine, const uint32_t windowContextIndex,
-                                                     const uint32_t renderContextIndex, const uint32_t subpassIndex,
+        explicit GeneralGraphicsPipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal,
                                                      const std::string &vertName, const std::string &fragName) :
-            GraphicsPipelineConfigurator(engine, windowContextIndex, renderContextIndex, subpassIndex, vertName,
+            GraphicsPipelineConfigurator(core, shared, global, windowLocal,  vertName,
                                          fragName) {}
 
         ~GeneralGraphicsPipelineConfigurator() override = default;
@@ -32,7 +30,7 @@ namespace merutilm::vkh {
 
         GeneralGraphicsPipelineConfigurator &operator=(GeneralGraphicsPipelineConfigurator &&) = delete;
 
-        void configure() override;
+        void configure(RenderPass *rp, uint32_t subpass) override;
 
     protected:
         [[nodiscard]] VertexBuffer &getVertexBuffer() override { return *vertexBuffer; }

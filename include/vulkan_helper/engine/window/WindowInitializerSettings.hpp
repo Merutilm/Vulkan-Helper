@@ -18,7 +18,6 @@ namespace merutilm::vkh {
 
         Range widthInfo;
         Range heightInfo;
-        bool useMenubar = false;
         bool resizable = true;
         bool filedrop = false;
 

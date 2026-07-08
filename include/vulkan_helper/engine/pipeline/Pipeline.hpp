@@ -8,13 +8,13 @@
 #include <vulkan_helper/handle/WindowContextHandler.hpp>
 
 namespace merutilm::vkh {
-    struct Pipeline : WindowContextHandler {
+    struct Pipeline : CoreHandler {
         VkPipeline pipeline = nullptr;
         PipelineLayout &pipelineLayout;
         const std::vector<Descriptor *> descriptors;
         const std::vector<ShaderModule *> shaderModules;
 
-        explicit Pipeline(WindowContext &wc, PipelineLayout &pipelineLayout,
+        explicit Pipeline(Core &core, PipelineLayout &pipelineLayout,
                                   PipelineManager &&pipelineManager);
 
         ~Pipeline() override;

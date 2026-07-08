@@ -9,7 +9,7 @@
 
 namespace merutilm::vkh {
     class RenderPass final : public CoreHandler {
-        const std::vector<RenderPassAttachment> attachments;
+        const std::vector<std::unique_ptr<RenderPassAttachment>> attachments;
         const std::vector<std::vector<uint32_t> > preserveIndices;
         const std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference> > >
         attachmentReferences;
@@ -18,7 +18,7 @@ namespace merutilm::vkh {
         VkRenderPass renderPass = VK_NULL_HANDLE;
 
     public:
-        explicit RenderPass(Core & core, RenderPassManager &&manager);
+        explicit RenderPass(Core & core, std::unique_ptr<RenderPassManager> &&manager);
 
         ~RenderPass() override;
 
@@ -31,18 +31,9 @@ namespace merutilm::vkh {
         RenderPass &operator=(RenderPass &&) = delete;
 
 
-        [[nodiscard]] uint32_t getPreserveIndicesCount(const uint32_t subpassIndex) const {
-            return static_cast<uint32_t>(preserveIndices[subpassIndex].size());
-        };
-
-        [[nodiscard]] const uint32_t *getPreserveIndices(const uint32_t subpassIndex) const {
-            return preserveIndices[subpassIndex].data();
-        }
-
-        [[nodiscard]] const std::vector<RenderPassAttachment> &getAttachments() const {
+        [[nodiscard]] const std::vector<std::unique_ptr<RenderPassAttachment>> &getAttachments() const {
             return attachments;
         }
-
 
         [[nodiscard]] uint32_t getSubpassCount() const { return subpassCount; }
 
