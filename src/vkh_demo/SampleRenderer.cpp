@@ -12,7 +12,7 @@ namespace merutilm::vkh_demo {
 
     void SampleRenderer::init() {
 
-        rc = wc.attachRenderContext<SampleRCC>(engine, [this] { return wc.getSwapchain().getSwapchainExtent(); },
+        rc = engine.attachRenderContext<SampleRCC>(wc, [this] { return wc.getSwapchain().getSwapchainExtent(); },
                 [this] { return vkh::ImageContext::fromSwapchain(wc.core, wc.getSwapchain()); });
 
     }
@@ -28,8 +28,7 @@ namespace merutilm::vkh_demo {
 
 
     void SampleRenderer::cmdRender(const uint32_t swapchainImageIndex) {
-        vkh::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass(wc, *rc, frameIndex, swapchainImageIndex,
-                                                                              {sample}, {{}});
+        vkh::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass(wc, *rc, frameIndex, swapchainImageIndex);
 
 #ifdef VKH_USE_IMGUI
         vkh::BarrierUtils::cmdOverlaySwapchain(

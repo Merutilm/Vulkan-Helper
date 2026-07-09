@@ -5,6 +5,7 @@
 #pragma once
 #include <vulkan_helper/engine/buffer/VertexBuffer.hpp>
 #include <vulkan_helper/engine/buffer/IndexBuffer.hpp>
+#include <vulkan_helper/engine/graphics/RenderPass.hpp>
 #include "Pipeline.hpp"
 
 namespace merutilm::vkh {

@@ -14,7 +14,7 @@ namespace merutilm::vkh {
 
 
     void RendererImGui::init() {
-        rc = wc.attachRenderContext<RCCImGui>(
+        rc = engine.attachRenderContext<RCCImGui>(wc,
               [this] { return wc.getSwapchain().getSwapchainExtent(); },
               [this] { return ImageContext::fromSwapchain(wc.core, wc.getSwapchain()); });
 

@@ -4,21 +4,21 @@
 
 #pragma once
 #include <vulkan_helper/base/pch.hpp>
-#include <vulkan_helper/handle/CoreHandler.hpp>
 #include <vulkan_helper/engine/manage/RenderPassManager.hpp>
+#include <vulkan_helper/handle/CoreHandler.hpp>
 
 namespace merutilm::vkh {
     class RenderPass final : public CoreHandler {
-        const std::vector<std::unique_ptr<RenderPassAttachment>> attachments;
-        const std::vector<std::vector<uint32_t> > preserveIndices;
-        const std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference> > >
-        attachmentReferences;
-        const std::vector<VkSubpassDependency> subpassDependencies;
+        const std::vector<std::unique_ptr<RenderPassAttachment>> &attachments;
+        const std::vector<std::vector<uint32_t>> &preserveIndices;
+        const std::vector<std::unordered_map<RenderPassAttachmentType, std::vector<VkAttachmentReference>>>
+                &attachmentReferences;
+        const std::vector<VkSubpassDependency> &subpassDependencies;
         const uint32_t subpassCount;
         VkRenderPass renderPass = VK_NULL_HANDLE;
 
     public:
-        explicit RenderPass(Core & core, std::unique_ptr<RenderPassManager> &&manager);
+        explicit RenderPass(Core &core, RenderPassManager &manager);
 
         ~RenderPass() override;
 
@@ -38,8 +38,8 @@ namespace merutilm::vkh {
         [[nodiscard]] uint32_t getSubpassCount() const { return subpassCount; }
 
 
-        [[nodiscard]] const std::vector<VkAttachmentReference> &getAttachmentReferences(
-            const uint32_t subpassIndex, const RenderPassAttachmentType attachmentType) const {
+        [[nodiscard]] const std::vector<VkAttachmentReference> &
+        getAttachmentReferences(const uint32_t subpassIndex, const RenderPassAttachmentType attachmentType) const {
             return attachmentReferences[subpassIndex].at(attachmentType);
         }
 
@@ -57,4 +57,4 @@ namespace merutilm::vkh {
     };
 
 
-}
+} // namespace merutilm::vkh

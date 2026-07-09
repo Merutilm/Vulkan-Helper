@@ -8,25 +8,30 @@
 
 namespace merutilm::vkh_demo {
 
-    void SampleRCC::configure() {
-
-        auto &v = appendAttachment({.flags = 0,
-                                        .format = engine.getCore().getPhysicalDeviceLoader().getPrimarySurfaceFormat(),
-                                        .samples = VK_SAMPLE_COUNT_1_BIT,
-                                        .loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR,
-                                        .storeOp = VK_ATTACHMENT_STORE_OP_STORE,
-                                        .stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE,
-                                        .stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE,
-                                        .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+    void SampleRCC::configureAttachments() {
+        swapchainImageAttachment =
+                &appendAttachment({.flags = 0,
+                                   .format = engine.getCore().getPhysicalDeviceLoader().getPrimarySurfaceFormat(),
+                                   .samples = VK_SAMPLE_COUNT_1_BIT,
+                                   .loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR,
+                                   .storeOp = VK_ATTACHMENT_STORE_OP_STORE,
+                                   .stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+                                   .stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE,
+                                   .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
 #ifdef VKH_USE_IMGUI
-                                        .finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+                                   .finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
 #else
-                                        .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+                                   .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
 #endif
-                                       },
-                                       swapchainImageContextGetter());
+                                  },
+                                  swapchainImageContextGetter());
+    }
+    void SampleRCC::configurePipelines() {
 
-        linkPipeline<GPCSample>({}, {&v, vkh::RenderPassAttachmentType::COLOR, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, 0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL});
-
+        linkPipeline<GPCSample>({},
+                                {swapchainImageAttachment, vkh::RenderPassAttachmentType::COLOR,
+                                 VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, 0,
+                                 VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL},
+                                [] { return vkh::DescIndexPicker{}; });
     }
 } // namespace merutilm::vkh_demo

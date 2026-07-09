@@ -9,25 +9,29 @@ namespace merutilm::vkh {
 
 
     class RenderPass;
+    class GraphicsPipelineNode;
+    class PipelineConfigurator;
 
     struct RenderPassGraphGeneratorBase {
-        std::unique_ptr<RenderPassManager> rpm;
+        RenderPassManager rpm;
+        std::vector<std::unique_ptr<GraphicsPipelineNode>> pipelines{};
+        std::vector<std::unique_ptr<PipelineConfigurator>> pipelineConfigurators{};
+        uint32_t createdSubpassesCount = 0;
 
-        RenderPassGraphGeneratorBase() : rpm(std::make_unique<RenderPassManager>()) {}
-        virtual ~RenderPassGraphGeneratorBase() = default;
+        RenderPassGraphGeneratorBase();
 
+        virtual ~RenderPassGraphGeneratorBase();
 
-        std::unique_ptr<RenderPassManager> regenerate() {
-            rpm = std::make_unique<RenderPassManager>();
-            configure();
-            generate();
-            return std::move(rpm);
-        }
+        void regenerate();
 
         virtual void createPipelines(RenderPass *rp) const = 0;
 
+        void configureAll();
+
     protected:
-        virtual void configure() = 0;
+        virtual void configureAttachments() = 0;
+
+        virtual void configurePipelines() = 0;
 
         virtual void generate() = 0;
 

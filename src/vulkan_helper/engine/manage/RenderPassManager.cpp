@@ -44,6 +44,6 @@ namespace merutilm::vkh {
     }
 
     uint32_t RenderPassManager::subpassIndexToIndex(const uint32_t subpassIndex) const {
-        return subpassIndex == UINT32_MAX ? subpassCount : subpassIndex;
+        return subpassIndex == UINT32_MAX ? subpassCount - 1 : subpassIndex;
     }
 } // namespace merutilm::vkh

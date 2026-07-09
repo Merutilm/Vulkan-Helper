@@ -7,8 +7,8 @@
 
 namespace merutilm::vkh_demo {
     struct SampleRCC final : vkh::RenderPassGraphGenerator {
-        static constexpr uint32_t SUBPASS_INDEX = 0;
-        static constexpr uint32_t COLOR_ATTACHMENT_INDEX = 0;
+
+        vkh::RenderPassAttachment * swapchainImageAttachment = nullptr;
 
         template<typename F> requires std::is_invocable_r_v<vkh::MultiframeImageContext, F>
         SampleRCC(vkh::Engine &engine, vkh::WindowContext &wc, F &&swapchainImageContextGetter) : RenderPassGraphGenerator(
@@ -16,6 +16,8 @@ namespace merutilm::vkh_demo {
 
 
     protected:
-        void configure() override;
+        void configureAttachments() override;
+
+        void configurePipelines() override;
     };
 }

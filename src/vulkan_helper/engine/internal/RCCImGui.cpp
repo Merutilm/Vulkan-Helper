@@ -7,11 +7,10 @@
 
 namespace merutilm::vkh {
 
-    void RCCImGui::configure() {
 
 
-        auto &attachment =
-                rpm->appendAttachment({.flags = 0,
+    void RCCImGui::configureAttachments() {
+        swapchainImageAttachment = &rpm.appendAttachment({.flags = 0,
                                        .format = engine.getCore().getPhysicalDeviceLoader().getPrimarySurfaceFormat(),
                                        .samples = VK_SAMPLE_COUNT_1_BIT,
                                        .loadOp = VK_ATTACHMENT_LOAD_OP_LOAD,
@@ -21,24 +20,20 @@ namespace merutilm::vkh {
                                        .initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
                                        .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR},
                                       swapchainImageContextGetter());
+    }
+
+    void RCCImGui::configurePipelines() {
 
 
-        rpm->appendReference({
-                .targetAttachment = &attachment,
+        rpm.appendSubpass();
+        rpm.appendReference({
+                .targetAttachment = swapchainImageAttachment,
                 .attachmentType = RenderPassAttachmentType::COLOR,
                 .pipelineStageFlags = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
                 .accessFlags = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
                 .dependencyFlags = 0,
                 .layoutToUse = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
         });
-
-        rpm->appendDependency({.srcSubpass = SUBPASS_INDEX,
-                               .dstSubpass = VK_SUBPASS_EXTERNAL,
-                               .srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-                               .dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-                               .srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-                               .dstAccessMask = 0,
-                               .dependencyFlags = 0});
     }
 
 

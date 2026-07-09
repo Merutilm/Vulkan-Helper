@@ -5,7 +5,6 @@
 #pragma once
 #include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
 
-#include "vulkan_helper/engine/buffer/IndexBuffer.hpp"
 #include "vulkan_helper/handle/EngineHandler.hpp"
 
 namespace merutilm::vkh {

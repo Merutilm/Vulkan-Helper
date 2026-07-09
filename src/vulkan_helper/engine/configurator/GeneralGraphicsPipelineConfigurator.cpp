@@ -40,7 +40,7 @@ namespace merutilm::vkh {
         vertexBuffer.emplace(core, std::move(vertManager), BufferLock::LOCK_UNLOCK, true);
         indexBuffer.emplace(core, std::move(indexManager), BufferLock::LOCK_UNLOCK, true);
 
-        pipeline = std::make_unique<GraphicsPipeline>(core, pipelineLayout, *vertexBuffer, *indexBuffer, rp, primarySubpassIndex,
+        pipeline = std::make_unique<GraphicsPipeline>(core, pipelineLayout, *vertexBuffer, *indexBuffer, *rp, subpass,
                                               std::move(pipelineManager));
     }
 

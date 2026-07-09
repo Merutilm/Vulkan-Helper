@@ -44,7 +44,7 @@ namespace merutilm::vkh {
 
         void appendDependency(const VkSubpassDependency &subpassDependency);
 
-        uint32_t subpassIndexToIndex(uint32_t subpassIndex) const;
+        [[nodiscard]] uint32_t subpassIndexToIndex(uint32_t subpassIndex) const;
     };
 
 }

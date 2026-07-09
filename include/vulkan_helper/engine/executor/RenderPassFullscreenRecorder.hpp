@@ -4,8 +4,7 @@
 
 #pragma once
 #include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
-
-#include "vulkan_helper/engine/configurator/GraphicsPipelineConfigurator.hpp"
+#include "vulkan_helper/handle/WindowContextHandler.hpp"
 
 
 namespace merutilm::vkh {
@@ -29,18 +28,18 @@ namespace merutilm::vkh {
         RenderPassFullscreenRecorder &operator=(RenderPassFullscreenRecorder &&) = delete;
 
 
-        static void cmdFullscreenRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, const uint32_t swapchainImageIndex, std::vector<GraphicsPipelineConfigurator *> &&configurators, std::vector<DescIndexPicker> && descIndices) {
+        static void cmdFullscreenRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, const uint32_t swapchainImageIndex) {
             const auto renderPassRecorder = RenderPassFullscreenRecorder(
                 wc, rc, frameIndex, swapchainImageIndex);
-            renderPassRecorder.execute(frameIndex, std::move(configurators), std::move(descIndices));
+            renderPassRecorder.execute(frameIndex);
         }
 
-        static void cmdFullscreenPresentOnlyRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, const uint32_t swapchainImageIndex, std::vector<GraphicsPipelineConfigurator *> &&configurators, std::vector<DescIndexPicker> && descIndices) {
-            cmdFullscreenRenderPass(wc, rc, frameIndex, swapchainImageIndex, std::move(configurators), std::move(descIndices));
+        static void cmdFullscreenPresentOnlyRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, const uint32_t swapchainImageIndex) {
+            cmdFullscreenRenderPass(wc, rc, frameIndex, swapchainImageIndex);
         }
 
-        static void cmdFullscreenInternalRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, std::vector<GraphicsPipelineConfigurator *> &&configurators, std::vector<DescIndexPicker> && descIndices) {
-            cmdFullscreenRenderPass(wc, rc, frameIndex, UINT32_MAX,  std::move(configurators), std::move(descIndices));
+        static void cmdFullscreenInternalRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex) {
+            cmdFullscreenRenderPass(wc, rc, frameIndex, UINT32_MAX);
         }
 
 
@@ -53,8 +52,7 @@ namespace merutilm::vkh {
     private:
         void cmdMatchViewportAndScissor() const;
 
-        void execute(uint32_t frameIndex, std::vector<GraphicsPipelineConfigurator *> &&configurators,
-                     std::vector<DescIndexPicker> &&descIndices) const;
+        void execute(uint32_t frameIndex) const;
 
     };
 }

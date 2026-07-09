@@ -9,7 +9,8 @@ namespace merutilm::vkh {
         core(core), extentGetter(std::move(extentGetter)) {
         const VkExtent2D extent = this->extentGetter();
         this->renderPassGraphGenerator = std::move(renderPassGraphGenerator);
-        this->renderPass.emplace(core, this->renderPassGraphGenerator->regenerate());
+        this->renderPassGraphGenerator->configureAll();
+        this->renderPass.emplace(core, this->renderPassGraphGenerator->rpm);
         this->renderPassGraphGenerator->createPipelines(&*this->renderPass);
         this->framebuffer.emplace(core, *renderPass, extent);
     }
@@ -17,7 +18,8 @@ namespace merutilm::vkh {
     void RenderContext::recreate() {
         framebuffer.reset();
         renderPass.reset();
-        renderPass.emplace(core, renderPassGraphGenerator->regenerate());
+        renderPassGraphGenerator->regenerate();
+        renderPass.emplace(core, renderPassGraphGenerator->rpm);
         framebuffer.emplace(core, *renderPass, extentGetter());
     }
 

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <vulkan_helper/engine/manage/PipelineManager.hpp>
-#include <vulkan_helper/handle/WindowContextHandler.hpp>
+#include <vulkan_helper/handle/CoreHandler.hpp>
 
 namespace merutilm::vkh {
     struct Pipeline : CoreHandler {

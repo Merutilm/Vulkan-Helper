@@ -3,20 +3,20 @@
 //
 
 
+#include <utility>
 #include <vulkan_helper/Application.hpp>
 
 #ifdef VKH_USE_IMGUI
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_vulkan.h"
-#include "imgui_internal.h"
 #endif
 #include "vulkan_helper/engine/internal/RCCImGui.hpp"
 
 
 namespace merutilm::vkh {
 
-    Application::Application(const WindowInitializerSettings &rootWindowInitializerSettings) : rootWindowInitializerSettings(rootWindowInitializerSettings){
+    Application::Application(WindowInitializerSettings rootWindowInitializerSettings) : rootWindowInitializerSettings(std::move(rootWindowInitializerSettings)){
         Application::init();
     }
 
@@ -83,7 +83,7 @@ namespace merutilm::vkh {
             .PipelineCache = VK_NULL_HANDLE,
             .PipelineInfoMain = {
                 .RenderPass = rc->getRenderPass()->getRenderPassHandle(),
-                .Subpass = RCCImGui::SUBPASS_INDEX,
+                .Subpass = 0,
                 .MSAASamples = VK_SAMPLE_COUNT_1_BIT,
                 .ExtraDynamicStates = {},
                 .PipelineRenderingCreateInfo = {}

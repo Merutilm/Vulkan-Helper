@@ -9,6 +9,7 @@
 #include <vulkan_helper/engine/repo/WindowLocalDescriptorRepo.hpp>
 #include <vulkan_helper/engine/wrapped/DescriptorTemplate.hpp>
 #include <vulkan_helper/util/DescriptorUpdater.hpp>
+#include <vulkan_helper/engine/SharedResource.hpp>
 
 namespace merutilm::vkh {
 

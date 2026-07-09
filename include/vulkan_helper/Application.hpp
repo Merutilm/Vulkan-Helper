@@ -14,13 +14,13 @@ namespace merutilm::vkh {
 
     struct Application : Handler {
 
-        std::optional<Engine> engine;
-        WindowContext *rootWindowContext;
+        std::optional<Engine> engine = std::nullopt;
+        WindowContext *rootWindowContext = nullptr;
         WindowInitializerSettings rootWindowInitializerSettings;
 
         static constexpr int WC_ROOT = 0;
 
-        explicit Application(const WindowInitializerSettings &rootWindowInitializerSettings);
+        explicit Application(WindowInitializerSettings rootWindowInitializerSettings);
 
         ~Application() override;
 

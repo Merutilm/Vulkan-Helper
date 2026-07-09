@@ -47,7 +47,7 @@ namespace merutilm::vkh {
         pipelineManager.attachShader(&fragmentShader);
 
         pipeline = std::make_unique<GraphicsPipeline>(core, pipelineLayout, *shared.vertexBufferIdentity, *shared.indexBufferIdentity,
-            rp, primarySubpassIndex,
+            *rp, subpass,
             std::move(pipelineManager));
 
     }

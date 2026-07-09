@@ -8,6 +8,7 @@
 #include <vulkan_helper/engine/context/RenderContext.hpp>
 
 #include "vulkan_helper/engine/configurator/GraphicsPipelineConfigurator.hpp"
+#include "vulkan_helper/engine/pipeline/GraphicsPipelineNode.hpp"
 
 namespace merutilm::vkh {
     RenderPassFullscreenRecorder::RenderPassFullscreenRecorder(WindowContext &wc, RenderContext &rc,
@@ -20,19 +21,18 @@ namespace merutilm::vkh {
 
     RenderPassFullscreenRecorder::~RenderPassFullscreenRecorder() { RenderPassFullscreenRecorder::cleanup(); }
 
-    void RenderPassFullscreenRecorder::execute(const uint32_t frameIndex,
-                                               std::vector<GraphicsPipelineConfigurator *> &&configurators,
-                                               std::vector<DescIndexPicker> &&descIndices) const {
-#ifndef NDEBUG
-        safe_array::check_size_equal(configurators.size(), descIndices.size(),
-                                     "Execution of the Render Pass Fullscreen Recorder - Pipeline length");
-#endif
+    void RenderPassFullscreenRecorder::execute(const uint32_t frameIndex) const {
+
         const auto cbh = wc.getCommandBuffer().getCommandBufferHandle(frameIndex);
-        for (int i = 0; i < configurators.size(); ++i) {
-            configurators[i]->cmdRender(cbh, frameIndex, std::move(descIndices[i]));
-            if (i < configurators.size() - 1) {
+        uint32_t prevSubpass = 0;
+        for (auto &gpn : rc.getGenerator()->pipelines) {
+            const uint32_t currentSubpass = gpn->getSubpass();
+            if (currentSubpass - prevSubpass >= 2) throw exception_invalid_state("empty subpass");
+            if (currentSubpass > prevSubpass) {
                 vkCmdNextSubpass(cbh, VK_SUBPASS_CONTENTS_INLINE);
             }
+            gpn->getPipelineConfigurator().cmdRender(cbh, frameIndex, gpn->genPicker());
+            prevSubpass = currentSubpass;
         }
     }
 

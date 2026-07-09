@@ -15,8 +15,6 @@
 
 namespace merutilm::vkh {
 
-    class Engine;
-
     class WindowContext final : public CoreHandler {
         const uint32_t attachmentIndex;
         CommandPool &commandPool;
@@ -42,17 +40,6 @@ namespace merutilm::vkh {
 
         WindowContext operator=(WindowContext &&) = delete;
 
-        template<typename T, typename ExtentImgGetter, typename SwapchainImgGetter>
-            requires(std::is_base_of_v<RenderPassGraphGeneratorBase, T> &&
-                     std::is_invocable_r_v<VkExtent2D, ExtentImgGetter> &&
-                     std::is_invocable_r_v<MultiframeImageContext, SwapchainImgGetter>)
-        RenderContext *attachRenderContext(Engine &engine, ExtentImgGetter &&extentGetter,
-                                 SwapchainImgGetter &&swapchainImageGetter) {
-            return this->renderContexts.emplace_back(std::make_unique<RenderContext>(
-                    core, std::forward<ExtentImgGetter>(extentGetter),
-                    std::make_unique<T>(engine, *this,
-                                        std::forward<SwapchainImgGetter>(swapchainImageGetter)))).get();
-        }
 
         [[nodiscard]] uint32_t getAttachmentIndex() const { return attachmentIndex; }
 
@@ -69,6 +56,7 @@ namespace merutilm::vkh {
         [[nodiscard]] SyncObject &getSyncObject() { return *syncObject; }
 
         [[nodiscard]] SharedImageContext &getSharedImageContext() { return *sharedImageContext; }
+        [[nodiscard]] std::vector<std::unique_ptr<RenderContext>> &getRenderContexts() { return renderContexts; }
 
         [[nodiscard]] std::span<const std::unique_ptr<RenderContext>> getRenderContexts() const { return renderContexts; }
 

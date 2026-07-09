@@ -7,7 +7,6 @@
 
 #include <vulkan_helper/engine/context/WindowContext.hpp>
 #include <vulkan_helper/core/Core.hpp>
-
 #include "SharedResource.hpp"
 
 namespace merutilm::vkh {
@@ -36,6 +35,20 @@ namespace merutilm::vkh {
         [[nodiscard]] WindowContext & attachWindowContext(WindowInitializerSettings &&wic, uint32_t windowAttachmentIndexExpected);
 
         std::unique_ptr<WindowContext> detachWindowContext(uint32_t windowAttachmentIndex);
+
+        template<typename T, typename ExtentImgGetter, typename SwapchainImgGetter>
+            requires(std::is_base_of_v<RenderPassGraphGeneratorBase, T> &&
+                     std::is_invocable_r_v<VkExtent2D, ExtentImgGetter> &&
+                     std::is_invocable_r_v<MultiframeImageContext, SwapchainImgGetter>)
+        RenderContext *attachRenderContext(WindowContext &wc, ExtentImgGetter &&extentGetter,
+                                 SwapchainImgGetter &&swapchainImageGetter) {
+            return wc.getRenderContexts().emplace_back(std::make_unique<RenderContext>(
+                    core, std::forward<ExtentImgGetter>(extentGetter),
+                    std::make_unique<T>(*this, wc,
+                                        std::forward<SwapchainImgGetter>(swapchainImageGetter)))).get();
+        }
+
+
 
         [[nodiscard]] Core & getCore() { return core; }
 
