@@ -219,9 +219,27 @@ namespace merutilm::vkh {
         }
     }
 
+    void PlatformWindow::setIcon() const {
+        if (initializerSettings.icon.empty()) return;
+
+        int width, height, channels;
+        if (unsigned char *pixels = stbi_load(initializerSettings.icon.data(), &width, &height, &channels, 4))
+        {
+            GLFWimage image;
+            image.width = width;
+            image.height = height;
+            image.pixels = pixels;
+            glfwSetWindowIcon(window, 1, &image);
+            stbi_image_free(pixels);
+        }
+
+    }
+
     void PlatformWindow::init() {
         window = glfwCreateWindow(initializerSettings.widthInfo.first, initializerSettings.heightInfo.first,
                                   initializerSettings.name.c_str(), nullptr, nullptr);
+
+
         glfwSetWindowUserPointer(window, this);
         glfwSetKeyCallback(window, processKeyInput);
         glfwSetCursorEnterCallback(window, processMouseEnter);
@@ -233,6 +251,7 @@ namespace merutilm::vkh {
         glfwSetWindowIconifyCallback(window, processWindowMinimize);
         glfwSetDropCallback(window, processDropCallback);
         glfwSetWindowFocusCallback(window, processWindowFocus);
+        setIcon();
     }
 
 

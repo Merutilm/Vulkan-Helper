@@ -1,47 +1,46 @@
 #!/bin/bash
 
 set +e
+cd "$(dirname "$0")" || exit
 
-cd "$(dirname "$0")"
-
-dir="shaders"
+dirIn="shdsrc"
+dirOut="shaders"
 ext=".spv"
 
 echo "-- Shader Compilation"
 
-start_time=$(date +%s.%N)
+start=$(date +%s.%N)
+
+mkdir -p "$dirOut"
 
 # Remove previous .spv files
-find "$dir" -type f -name "*$ext" -delete
+find "$dirOut" -type f -delete
 
-# Collect shader files (excluding .spv)
-mapfile -t files < <(find "$dir" -maxdepth 1 -type f ! -name "*$ext" | sort)
-
-len=${#files[@]}
 success=0
 fail=0
 
-# Compile shaders
-for ((count=0; count<len; count++)); do
-    target="${files[$count]}"
-    compiled="${target}${ext}"
+mapfile -t files < <(find "$dirIn" -maxdepth 1 -type f | sort)
+len=${#files[@]}
 
-    printf "\033[36m# [%d/%d] Compiling %s...\033[0m\n" "$((count+1))" "$len" "$(basename "$target")"
+for ((i=0; i<len; i++)); do
+    target="${files[$i]}"
+    name=$(basename "$target")
+    compiled="$dirOut/$name$ext"
+
+    printf "\033[36m# [%d/%d] Compiling %s...\033[0m\n" "$((i+1))" "$len" "$name"
 
     if glslc "$target" -o "$compiled"; then
         ((success++))
     else
-        printf "\033[31m-- Failed to compile %s!\033[0m\n" "$(basename "$target")"
+        printf "\033[31m-- Failed to compile %s!\033[0m\n" "$name"
         ((fail++))
     fi
 done
 
-end_time=$(date +%s.%N)
-elapsed=$(awk "BEGIN {printf \"%.2f\", $end_time - $start_time}")
+end=$(date +%s.%N)
+elapsed=$(awk "BEGIN {printf \"%.2f\", $end - $start}")
 
 printf -- "-- Shader Compilation Done (%ss), " "$elapsed"
-printf "\033[36mSuccess %d\033[0m" "$success"
-printf " | "
-printf "\033[31mFail %d\033[0m" "$fail"
-printf " | "
+printf "\033[36mSuccess %d\033[0m | " "$success"
+printf "\033[31mFail %d\033[0m | " "$fail"
 printf "Total %d\n" "$len"

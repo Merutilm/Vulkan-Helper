@@ -91,6 +91,8 @@ namespace merutilm::vkh {
 
         static void processWindowFocus(GLFWwindow *window, int focused);
 
+        void setIcon() const;
+
     protected:
         void init() override;
 
