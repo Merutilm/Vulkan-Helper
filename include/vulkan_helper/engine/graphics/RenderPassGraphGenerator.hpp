@@ -36,7 +36,7 @@ namespace merutilm::vkh {
     protected:
         template<typename Tp, typename Func>
             requires std::is_base_of_v<GraphicsPipelineConfigurator, Tp> && std::is_invocable_r_v<DescIndexPicker, Func>
-        GraphicsPipelineNode *linkPipeline(std::vector<GraphicsPipelineNode *> &&depends,
+        GraphicsPipelineNode *linkPipeline(Tp ** result, std::vector<GraphicsPipelineNode *> &&depends,
                                            RenderPassAttachmentReference &&reference, Func &&descIndexPickerFunc);
 
         void generate() override;
@@ -58,7 +58,7 @@ namespace merutilm::vkh {
 
     template<typename Tp, typename Func>
         requires std::is_base_of_v<GraphicsPipelineConfigurator, Tp> && std::is_invocable_r_v<DescIndexPicker, Func>
-    GraphicsPipelineNode *RenderPassGraphGenerator::linkPipeline(std::vector<GraphicsPipelineNode *> &&depends,
+    GraphicsPipelineNode *RenderPassGraphGenerator::linkPipeline(Tp ** result, std::vector<GraphicsPipelineNode *> &&depends,
                                                                  RenderPassAttachmentReference &&reference, Func &&descIndexPickerFunc) {
         uint32_t subpassIndex = 0;
 
@@ -75,12 +75,14 @@ namespace merutilm::vkh {
             rpm.appendSubpass();
             ++createdSubpassesCount;
         }
-        auto ptr = dynamic_cast<GraphicsPipelineConfigurator *>(
+        auto ptr = dynamic_cast<Tp *>(
                 pipelineConfigurators
                         .emplace_back(std::make_unique<Tp>(engine.getCore(), engine.getSharedResource(),
                                                            engine.getGlobalRepositories(),
                                                            wc.getWindowLocalRepositories()))
                         .get());
+
+        if (result) *result = ptr;
 
         return pipelines
                 .emplace_back(std::make_unique<GraphicsPipelineNode>(std::move(depends), ptr, std::move(reference),
