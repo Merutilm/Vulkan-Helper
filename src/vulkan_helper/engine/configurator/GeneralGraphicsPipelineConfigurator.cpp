@@ -21,7 +21,7 @@ namespace merutilm::vkh {
         }
 
         configurePushConstant(pipelineLayoutManager);
-        PipelineLayout & pipelineLayout = global.getRepository<GlobalPipelineLayoutRepo>()->pick(
+        PipelineLayout & pipelineLayout = engine.getGlobalRepositories().getRepository<GlobalPipelineLayoutRepo>()->pick(
             std::move(pipelineLayoutManager));
 
 
@@ -37,10 +37,10 @@ namespace merutilm::vkh {
         configureVertexBuffer(vertManager);
         configureIndexBuffer(indexManager);
 
-        vertexBuffer.emplace(core, std::move(vertManager), BufferLock::LOCK_UNLOCK, true);
-        indexBuffer.emplace(core, std::move(indexManager), BufferLock::LOCK_UNLOCK, true);
+        vertexBuffer.emplace(wc.core, std::move(vertManager), BufferLock::LOCK_UNLOCK, true);
+        indexBuffer.emplace(wc.core, std::move(indexManager), BufferLock::LOCK_UNLOCK, true);
 
-        pipeline = std::make_unique<GraphicsPipeline>(core, pipelineLayout, *vertexBuffer, *indexBuffer, *rp, subpass,
+        pipeline = std::make_unique<GraphicsPipeline>(wc.core, pipelineLayout, *vertexBuffer, *indexBuffer, *rp, subpass,
                                               std::move(pipelineManager));
     }
 

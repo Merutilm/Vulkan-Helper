@@ -1,18 +1,20 @@
 //
-// Created by Merutilm on 7/8/26.
+// Created by Merutilm on 7/9/26.
 //
 
 #pragma once
-#include "RenderPassAttachment.hpp"
 #include "RenderPassAttachmentType.hpp"
-#include "vulkan_helper/util/BufferImageContextUtils.hpp"
+#include "vulkan_helper/base/pch.hpp"
+
 namespace merutilm::vkh {
+
     struct RenderPassAttachmentReference {
-        const RenderPassAttachment * targetAttachment;
         const RenderPassAttachmentType attachmentType;
-        const VkPipelineStageFlags pipelineStageFlags;
-        const VkAccessFlags accessFlags;
-        const VkDependencyFlags dependencyFlags;
         const VkImageLayout layoutToUse;
+
+
+        static RenderPassAttachmentReference none() {return {};}
     };
-} // namespace merutilm::vkh
+
+
+}

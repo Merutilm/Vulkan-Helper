@@ -181,7 +181,7 @@ namespace merutilm::vkh {
 
     void BufferObject::unlock(CommandPool &commandPool, Fence *const fence) {
         if (!locked) {
-            logger::w_log_err_silent(L"Double-call of BufferObject::unlock()");
+            logger::log_err_silent("Double-call of BufferObject::unlock()");
             return;
         }
         VkBufferUsageFlags lockFlags = 0;
@@ -193,7 +193,7 @@ namespace merutilm::vkh {
                 break;
             case LOCK_ONLY:
             case ALWAYS_MUTABLE: {
-                logger::w_log_err_silent(L"Unlock is not allowed : BufferLock is not LOCK_UNLOCK");
+                logger::log_err_silent("Unlock is not allowed : BufferLock is not LOCK_UNLOCK");
                 return;
             }
         }

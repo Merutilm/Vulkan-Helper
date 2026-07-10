@@ -36,8 +36,8 @@ namespace merutilm::vkh {
     protected:
         template<typename Tp, typename Func>
             requires std::is_base_of_v<GraphicsPipelineConfigurator, Tp> && std::is_invocable_r_v<DescIndexPicker, Func>
-        GraphicsPipelineNode *linkPipeline(Tp ** result, std::vector<GraphicsPipelineNode *> &&depends,
-                                           RenderPassAttachmentReference &&reference, Func &&descIndexPickerFunc);
+        GraphicsPipelineNode *registerPipeline(Tp ** result, std::vector<GraphicsPipelineNode *> &&depends,
+                                           RenderPassAttachmentReferenceDetail &&reference, Func &&descIndexPickerFunc);
 
         void generate() override;
 
@@ -58,8 +58,8 @@ namespace merutilm::vkh {
 
     template<typename Tp, typename Func>
         requires std::is_base_of_v<GraphicsPipelineConfigurator, Tp> && std::is_invocable_r_v<DescIndexPicker, Func>
-    GraphicsPipelineNode *RenderPassGraphGenerator::linkPipeline(Tp ** result, std::vector<GraphicsPipelineNode *> &&depends,
-                                                                 RenderPassAttachmentReference &&reference, Func &&descIndexPickerFunc) {
+    GraphicsPipelineNode *RenderPassGraphGenerator::registerPipeline(Tp ** result, std::vector<GraphicsPipelineNode *> &&depends,
+                                                                 RenderPassAttachmentReferenceDetail &&reference, Func &&descIndexPickerFunc) {
         uint32_t subpassIndex = 0;
 
         if (depends.empty()) {
@@ -77,9 +77,7 @@ namespace merutilm::vkh {
         }
         auto ptr = dynamic_cast<Tp *>(
                 pipelineConfigurators
-                        .emplace_back(std::make_unique<Tp>(engine.getCore(), engine.getSharedResource(),
-                                                           engine.getGlobalRepositories(),
-                                                           wc.getWindowLocalRepositories()))
+                        .emplace_back(std::make_unique<Tp>(engine, wc))
                         .get());
 
         if (result) *result = ptr;

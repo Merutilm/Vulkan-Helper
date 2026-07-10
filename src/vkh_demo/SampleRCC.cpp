@@ -28,10 +28,11 @@ namespace merutilm::vkh_demo {
     }
     void SampleRCC::configurePipelines() {
 
-        linkPipeline<GPCSample>({},
-                                {swapchainImageAttachment, vkh::RenderPassAttachmentType::COLOR,
-                                 VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, 0,
-                                 VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL},
+        registerPipeline<GPCSample>(nullptr, {},
+                                {swapchainImageAttachment,
+                                 vkh::RenderPassAttachmentReference{vkh::RenderPassAttachmentType::COLOR,
+                                                                    VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL},
+                                 vkh::SubpassDependency::none(), vkh::RenderPassAttachmentReference::none()},
                                 [] { return vkh::DescIndexPicker{}; });
     }
 } // namespace merutilm::vkh_demo

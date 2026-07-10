@@ -22,9 +22,9 @@ namespace merutilm::vkh::ExecutableUtils {
     inline std::filesystem::path getExecutablePath() {
 #ifdef _WIN32
 
-        std::wstring buffer(MAX_PATH, L'\0');
+        std::string buffer(MAX_PATH, '\0');
 
-        DWORD len = GetModuleFileNameW(nullptr, buffer.data(), static_cast<DWORD>(buffer.size()));
+        DWORD len = GetModuleFileName(nullptr, buffer.data(), static_cast<DWORD>(buffer.size()));
 
         if (len == 0)
             throw exception_init("failed to load executable path");

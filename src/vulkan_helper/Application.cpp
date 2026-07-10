@@ -43,7 +43,6 @@ namespace merutilm::vkh {
 
         rootWindowContext->getWindow()->eventSystem.resize.onResize.add([this](const int w, const int h) {
             if (w > 0 && h > 0) {
-                static int a = 0;
                 const VkExtent2D extent = {static_cast<uint32_t>(w), static_cast<uint32_t>(h)};
                 rootWindowContext->core.getLogicalDevice().waitDeviceIdle();
                 rootWindowContext->getSwapchain().recreate(extent);

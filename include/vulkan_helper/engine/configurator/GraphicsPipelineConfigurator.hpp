@@ -13,9 +13,9 @@ namespace merutilm::vkh {
         ShaderModule &vertexShader;
         ShaderModule &fragmentShader;
 
-        explicit GraphicsPipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal,
+        explicit GraphicsPipelineConfigurator(Engine &engine, WindowContext &wc,
                                               const std::string &vertName, const std::string &fragName) :
-            PipelineConfigurator(core, shared, global, windowLocal),
+            PipelineConfigurator(engine, wc),
             vertexShader(pickFromGlobalRepository<GlobalShaderModuleRepo, ShaderModule &>(vertName)),
             fragmentShader(pickFromGlobalRepository<GlobalShaderModuleRepo, ShaderModule &>(fragName)) {}
 

@@ -10,6 +10,8 @@ namespace merutilm::vkh_demo {
 
         vkh::RenderPassAttachment * swapchainImageAttachment = nullptr;
 
+
+
         template<typename F> requires std::is_invocable_r_v<vkh::MultiframeImageContext, F>
         SampleRCC(vkh::Engine &engine, vkh::WindowContext &wc, F &&swapchainImageContextGetter) : RenderPassGraphGenerator(
             engine, wc, std::forward<F>(swapchainImageContextGetter)) {}

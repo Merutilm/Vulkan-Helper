@@ -36,7 +36,7 @@ namespace merutilm::vkh {
         }
 
         configurePushConstant(pipelineLayoutManager);
-        PipelineLayout &pipelineLayout = global.getRepository<GlobalPipelineLayoutRepo>()->pick(
+        PipelineLayout &pipelineLayout = engine.getGlobalRepositories().getRepository<GlobalPipelineLayoutRepo>()->pick(
                 std::move(pipelineLayoutManager));
 
 
@@ -46,7 +46,7 @@ namespace merutilm::vkh {
         pipelineManager.attachShader(&vertexShader);
         pipelineManager.attachShader(&fragmentShader);
 
-        pipeline = std::make_unique<GraphicsPipeline>(core, pipelineLayout, *shared.vertexBufferIdentity, *shared.indexBufferIdentity,
+        pipeline = std::make_unique<GraphicsPipeline>(wc.core, pipelineLayout, *engine.getSharedResource().vertexBufferIdentity, *engine.getSharedResource().indexBufferIdentity,
             *rp, subpass,
             std::move(pipelineManager));
 

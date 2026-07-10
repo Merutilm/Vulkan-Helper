@@ -14,8 +14,8 @@ namespace merutilm::vkh {
 
     public:
 
-        explicit GeneralPostProcessGraphicsPipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal, const std::string &fragName) : GraphicsPipelineConfigurator(
-            core, shared, global, windowLocal, VERTEX_MODULE_PATH, fragName){
+        explicit GeneralPostProcessGraphicsPipelineConfigurator(Engine &engine, WindowContext &wc, const std::string &fragName) : GraphicsPipelineConfigurator(
+            engine, wc, VERTEX_MODULE_PATH, fragName){
         }
         ~GeneralPostProcessGraphicsPipelineConfigurator() override = default;
 
@@ -34,9 +34,9 @@ namespace merutilm::vkh {
 
 
     protected:
-        [[nodiscard]] VertexBuffer & getVertexBuffer() override { return *shared.vertexBufferIdentity; }
+        [[nodiscard]] VertexBuffer & getVertexBuffer() override { return *engine.getSharedResource().vertexBufferIdentity; }
 
-        [[nodiscard]] IndexBuffer & getIndexBuffer() override { return *shared.indexBufferIdentity; }
+        [[nodiscard]] IndexBuffer & getIndexBuffer() override { return *engine.getSharedResource().indexBufferIdentity; }
 
         void configureVertexBuffer(HostDataObjectManager & som) override;
 

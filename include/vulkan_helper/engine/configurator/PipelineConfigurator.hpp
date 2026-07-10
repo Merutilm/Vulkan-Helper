@@ -9,21 +9,23 @@
 #include <vulkan_helper/engine/repo/WindowLocalDescriptorRepo.hpp>
 #include <vulkan_helper/engine/wrapped/DescriptorTemplate.hpp>
 #include <vulkan_helper/util/DescriptorUpdater.hpp>
-#include <vulkan_helper/engine/SharedResource.hpp>
+
+#include "vulkan_helper/engine/Engine.hpp"
 
 namespace merutilm::vkh {
 
 
     struct PipelineConfigurator {
-        Core &core;
-        SharedResource &shared;
-        Repositories &global;
-        Repositories &windowLocal;
+        // Derived classes are usually using
+        Engine &engine;
+        WindowContext &wc;
+
+
         std::unique_ptr<Pipeline> pipeline = nullptr;
         std::vector<std::unique_ptr<Descriptor>> uniqueDescriptors = {};
 
-        explicit PipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal) :
-            core(core), shared(shared), global(global), windowLocal(windowLocal) {}
+        explicit PipelineConfigurator(Engine &engine, WindowContext &wc) :
+            engine(engine), wc(wc) {}
 
         virtual ~PipelineConfigurator() = default;
 
@@ -46,7 +48,7 @@ namespace merutilm::vkh {
 
         template<typename RepoType, typename Return, typename Key>
         [[nodiscard]] Return pickFromGlobalRepository(Key &&key) const {
-            return global.getRepository<RepoType>()->pick(std::forward<Key>(key));
+            return engine.getGlobalRepositories().getRepository<RepoType>()->pick(std::forward<Key>(key));
         }
 
 
@@ -55,32 +57,32 @@ namespace merutilm::vkh {
         void writeDescriptor(F &&func) const {
             auto queue = DescriptorUpdater::createQueue();
             func(queue);
-            DescriptorUpdater::write(core.getLogicalDevice().getLogicalDeviceHandle(), queue);
+            DescriptorUpdater::write(wc.core.getLogicalDevice().getLogicalDeviceHandle(), queue);
         }
 
         template<typename F>
             requires std::is_invocable_r_v<void, F, DescriptorUpdateQueue &, uint32_t>
         void writeDescriptorMF(F &&func) const {
             auto queue = DescriptorUpdater::createQueue();
-            for (uint32_t i = 0; i < core.getPhysicalDeviceLoader().getMaxFramesInFlight(); ++i) {
+            for (uint32_t i = 0; i < wc.core.getPhysicalDeviceLoader().getMaxFramesInFlight(); ++i) {
                 func(queue, i);
             }
-            DescriptorUpdater::write(core.getLogicalDevice().getLogicalDeviceHandle(), queue);
+            DescriptorUpdater::write(wc.core.getLogicalDevice().getLogicalDeviceHandle(), queue);
         }
 
         template<typename F>
             requires std::is_invocable_r_v<void, F, uint32_t>
         void updateBufferMF(F &&func) const {
-            for (uint32_t i = 0; i < core.getPhysicalDeviceLoader().getMaxFramesInFlight(); ++i) {
+            for (uint32_t i = 0; i < wc.core.getPhysicalDeviceLoader().getMaxFramesInFlight(); ++i) {
                 func(i);
             }
         }
 
         template<DescTemplateHasID D>
         void appendDescriptor(const uint32_t setExpected, std::vector<Descriptor *> &descriptors) {
-            auto &layoutRepo = *global.getRepository<GlobalDescriptorSetLayoutRepo>();
+            auto &layoutRepo = *engine.getGlobalRepositories().getRepository<GlobalDescriptorSetLayoutRepo>();
             WindowLocalDescriptorRepo &repo =
-                    *windowLocal.getRepository<WindowLocalDescriptorRepo>();
+                    *wc.getWindowLocalRepositories().getRepository<WindowLocalDescriptorRepo>();
 
             safe_array::check_index_equal(setExpected, static_cast<uint32_t>(descriptors.size()),
                                           "Descriptor Add");
@@ -103,8 +105,8 @@ namespace merutilm::vkh {
 
             safe_array::check_index_equal(setExpected, static_cast<uint32_t>(descriptors.size()),
                                           "Unique Descriptor Add");
-            auto &layoutRepo = *global.getRepository<GlobalDescriptorSetLayoutRepo>();
-            auto desc = std::make_unique<Descriptor>(core, layoutRepo.pick(manager[0].layoutBuilder), std::move(manager));
+            auto &layoutRepo = *engine.getGlobalRepositories().getRepository<GlobalDescriptorSetLayoutRepo>();
+            auto desc = std::make_unique<Descriptor>(wc.core, layoutRepo.pick(manager[0].layoutBuilder), std::move(manager));
             uniqueDescriptors.push_back(std::move(desc));
             descriptors.push_back(uniqueDescriptors.back().get());
         }

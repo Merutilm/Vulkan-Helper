@@ -3,7 +3,7 @@
 //
 #include <vulkan_helper/engine/manage/RenderPassManager.hpp>
 
-#include "vulkan_helper/engine/wrapped/RenderPassAttachmentReference.hpp"
+#include "vulkan_helper/engine/wrapped/RenderPassAttachmentReferenceDetail.hpp"
 
 namespace merutilm::vkh {
     RenderPassManager::RenderPassManager() = default;
@@ -26,11 +26,11 @@ namespace merutilm::vkh {
         ++subpassCount;
     }
 
-    void RenderPassManager::appendReference(const RenderPassAttachmentReference &attachmentReference, const uint32_t subpassIndex) {
+    void RenderPassManager::appendReference(const RenderPassAttachment * targetAttachment, const RenderPassAttachmentReference &attachmentReference, const uint32_t subpassIndex) {
         using enum RenderPassAttachmentType;
         auto &ref = this->attachmentReferences[subpassIndexToIndex(subpassIndex)][attachmentReference.attachmentType];
         ref.emplace_back(VkAttachmentReference{
-            .attachment = attachmentReference.targetAttachment->attachmentIndex,
+            .attachment = targetAttachment->attachmentIndex,
             .layout = attachmentReference.layoutToUse,
         });
     }

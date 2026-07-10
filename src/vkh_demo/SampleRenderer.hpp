@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include "GPCSample.hpp"
 #include "vulkan_helper/engine/graphics/Renderer.hpp"
 
 #ifdef VKH_USE_IMGUI

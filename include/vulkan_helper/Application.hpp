@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifdef VKH_USE_IMGUI
-#include "engine/internal/RendererImGui.hpp"
-#endif
 
 #include "handle/EngineHandler.hpp"
 namespace merutilm::vkh {

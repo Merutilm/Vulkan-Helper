@@ -38,6 +38,12 @@
 #include <iostream>
 #include <filesystem>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+#ifdef __linux__
+#include <gtk/gtk.h>
+#endif
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>

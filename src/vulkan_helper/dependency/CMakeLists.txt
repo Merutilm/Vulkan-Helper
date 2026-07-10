@@ -40,6 +40,16 @@ if (USE_IMGUI)
     )
 endif ()
 
+if(UNIX AND NOT APPLE)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+
+    target_include_directories(vkh_dependency PUBLIC ${GTK3_INCLUDE_DIRS})
+    target_link_directories(vkh_dependency PUBLIC ${GTK3_LIBRARY_DIRS})
+    target_link_libraries(vkh_dependency PUBLIC ${GTK3_LIBRARIES})
+    target_compile_options(vkh_dependency PUBLIC ${GTK3_CFLAGS_OTHER})
+endif()
+
 
 target_link_libraries(vkh_dependency PUBLIC
         # Vulkan

@@ -16,28 +16,24 @@ namespace merutilm::vkh {
                     std::flush;
         }
 
-        template<typename... Args>
-        static void w_log_err_silent(std::wformat_string<Args...> message, Args &&... args) {
-            const std::tm tm = get_tm();
-            std::wcerr << w_current_put_time(&tm) << " | " << std::format(message, std::forward<Args>(args)...) << "\n" <<
-                    std::flush;
-        }
 
         template<typename... Args>
         static void log_err(std::format_string<Args...> message, Args &&... args) {
             log_err_silent(message, std::forward<Args>(args)...);
-            auto fmt = std::format(message, std::forward<Args>(args)...);
+            std::string fmt = std::format(message, std::forward<Args>(args)...);
 #ifdef _WIN32
             MessageBox(nullptr, fmt.data(), "Error", MB_ICONERROR | MB_OK);
 #endif
-        }
+#ifdef __linux__
+            gtk_init_check(nullptr, nullptr);
+            GtkWidget *dialog = gtk_message_dialog_new(nullptr, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", fmt.data());
+            gtk_window_set_title(GTK_WINDOW(dialog), "Error");
+            gtk_widget_show_all(dialog);
+            gtk_dialog_run(GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
 
-        template<typename... Args>
-        static void w_log_err(std::wformat_string<Args...> message, Args &&... args) {
-            w_log_err_silent(message, std::forward<Args>(args)...);
-            auto fmt = std::format(message, std::forward<Args>(args)...);
-#ifdef _WIN32
-            MessageBox(nullptr, fmt.data(), "Error", MB_ICONERROR | MB_OK);
+            while (gtk_events_pending())
+                gtk_main_iteration();
 #endif
         }
 
@@ -45,13 +41,6 @@ namespace merutilm::vkh {
         static void log(std::format_string<Args...> message, Args &&... args) {
             const std::tm tm = get_tm();
             std::cout << current_put_time(&tm) << " | " << std::format(message, std::forward<Args>(args)...) << "\n" <<
-                    std::flush;
-        }
-
-        template<typename... Args>
-        static void w_log(std::wformat_string<Args...> message, Args &&... args) {
-            const std::tm tm = get_tm();
-            std::wcout << w_current_put_time(&tm) << " | " << std::format(message, std::forward<Args>(args)...) << "\n" <<
                     std::flush;
         }
 
@@ -69,10 +58,6 @@ namespace merutilm::vkh {
 
         static std::_Put_time<char> current_put_time(const std::tm * const tm) {
             return std::put_time(tm, "%Y/%m/%d, %H:%M:%S");
-        }
-
-        static std::_Put_time<wchar_t> w_current_put_time(const std::tm * const tm) {
-            return std::put_time(tm, L"%Y/%m/%d, %H:%M:%S");
         }
     };
 }

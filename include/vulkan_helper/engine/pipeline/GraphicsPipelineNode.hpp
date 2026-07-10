@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "vulkan_helper/engine/configurator/GraphicsPipelineConfigurator.hpp"
-#include "vulkan_helper/engine/wrapped/RenderPassAttachmentReference.hpp"
+#include "vulkan_helper/engine/wrapped/RenderPassAttachmentReferenceDetail.hpp"
 
 namespace merutilm::vkh {
 
@@ -17,14 +17,14 @@ namespace merutilm::vkh {
         std::vector<GraphicsPipelineNode *> depends = {};
         std::vector<GraphicsPipelineNode *> next = {};
         GraphicsPipelineConfigurator * configurator = nullptr;
-        RenderPassAttachmentReference attachmentReference;
+        RenderPassAttachmentReferenceDetail attachmentReference;
         std::function<DescIndexPicker()> descIndexPickerFunc;
         uint32_t subpass;
 
     public:
 
         template<typename Func> requires std::is_invocable_r_v<DescIndexPicker, Func>
-        explicit GraphicsPipelineNode(std::vector<GraphicsPipelineNode *> &&depends, GraphicsPipelineConfigurator *configurator, RenderPassAttachmentReference &&attachmentReference, const uint32_t subpass, Func &&descIndexPickerFunc) :
+        explicit GraphicsPipelineNode(std::vector<GraphicsPipelineNode *> &&depends, GraphicsPipelineConfigurator *configurator, RenderPassAttachmentReferenceDetail &&attachmentReference, const uint32_t subpass, Func &&descIndexPickerFunc) :
             depends(std::move(depends)), configurator(configurator), attachmentReference(std::move(attachmentReference)), subpass(subpass), descIndexPickerFunc(std::forward<Func>(descIndexPickerFunc)) {
             for (const auto depend: this->depends) {
                 depend->next.emplace_back(this);
@@ -38,17 +38,17 @@ namespace merutilm::vkh {
         GraphicsPipelineNode &operator=(GraphicsPipelineNode &&) = delete;
 
 
-        const std::vector<GraphicsPipelineNode *> &getDepends() const { return this->depends; }
+        [[nodiscard]] const std::vector<GraphicsPipelineNode *> &getDepends() const { return this->depends; }
 
-        const std::vector<GraphicsPipelineNode *> &getNext() const { return this->next; }
+        [[nodiscard]] const std::vector<GraphicsPipelineNode *> &getNext() const { return this->next; }
 
-        const RenderPassAttachmentReference &getAttachmentReference() const { return this->attachmentReference; }
+        [[nodiscard]] const RenderPassAttachmentReferenceDetail &getAttachmentReference() const { return this->attachmentReference; }
 
-        GraphicsPipelineConfigurator &getPipelineConfigurator() const { return *this->configurator; }
+        [[nodiscard]] GraphicsPipelineConfigurator &getPipelineConfigurator() const { return *this->configurator; }
 
-        DescIndexPicker genPicker() const { return this->descIndexPickerFunc(); }
+        [[nodiscard]] DescIndexPicker genPicker() const { return this->descIndexPickerFunc(); }
 
-        uint32_t getSubpass() const { return this->subpass; }
+        [[nodiscard]] uint32_t getSubpass() const { return this->subpass; }
 
         void synchronizeNext() const;
     };

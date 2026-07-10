@@ -89,9 +89,9 @@ namespace merutilm::vkh {
             std::unordered_map<uint32_t, std::unordered_map<uint32_t, VkSubpassDependency>> &generatedDependencies,
             const GraphicsPipelineNode *node) {
 
-        rpm.appendReference(node->getAttachmentReference(), node->getSubpass());
-
         const uint32_t currentSubpass = node->getSubpass();
+        rpm.appendReference(node->getAttachmentReference().targetAttachment, node->getAttachmentReference().srcReferenceInfo, currentSubpass);
+
         const RenderPassAttachment *attachment = node->getAttachmentReference().targetAttachment;
 
         std::unordered_set<uint32_t> &usedSubpass =
@@ -103,15 +103,16 @@ namespace merutilm::vkh {
 
         for (const auto depend: depends) {
             const uint32_t dependSubpass = depend->getSubpass();
+            rpm.appendReference(depend->getAttachmentReference().targetAttachment, depend->getAttachmentReference().dstReferenceInfo, currentSubpass);
 
             VkSubpassDependency &dep = generatedDependencies[dependSubpass][currentSubpass];
             dep.srcSubpass = dependSubpass;
             dep.dstSubpass = currentSubpass;
-            dep.srcStageMask |= depend->getAttachmentReference().pipelineStageFlags;
-            dep.dstStageMask |= node->getAttachmentReference().pipelineStageFlags;
-            dep.srcAccessMask |= depend->getAttachmentReference().accessFlags;
-            dep.dstAccessMask |= node->getAttachmentReference().accessFlags;
-            dep.dependencyFlags |= node->getAttachmentReference().dependencyFlags;
+            dep.srcStageMask |= depend->getAttachmentReference().dependency.srcPipelineStageFlags;
+            dep.dstStageMask |= depend->getAttachmentReference().dependency.dstPipelineStageFlags;
+            dep.srcAccessMask |= depend->getAttachmentReference().dependency.srcAccessFlags;
+            dep.dstAccessMask |= depend->getAttachmentReference().dependency.dstAccessFlags;
+            dep.dependencyFlags |= depend->getAttachmentReference().dependency.dependencyFlags;
         }
     }
 } // namespace merutilm::vkh

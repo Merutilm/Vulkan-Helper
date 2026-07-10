@@ -12,9 +12,9 @@ namespace merutilm::vkh {
         static constexpr uint32_t WORK_GROUP_SIZE = 16;
 
     public:
-        explicit ComputePipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal,
+        explicit ComputePipelineConfigurator(Engine &engine, WindowContext &wc,
                                              const std::string &compName) :
-            PipelineConfigurator(core, shared, global, windowLocal),
+            PipelineConfigurator(engine, wc),
             computeShader(pickFromGlobalRepository<GlobalShaderModuleRepo, ShaderModule &>(compName)) {}
 
         ~ComputePipelineConfigurator() override = default;

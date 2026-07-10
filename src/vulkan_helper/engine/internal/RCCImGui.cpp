@@ -26,12 +26,8 @@ namespace merutilm::vkh {
 
 
         rpm.appendSubpass();
-        rpm.appendReference({
-                .targetAttachment = swapchainImageAttachment,
+        rpm.appendReference(swapchainImageAttachment, {
                 .attachmentType = RenderPassAttachmentType::COLOR,
-                .pipelineStageFlags = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-                .accessFlags = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-                .dependencyFlags = 0,
                 .layoutToUse = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL,
         });
     }

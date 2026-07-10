@@ -10,7 +10,7 @@ namespace merutilm::vkh {
 
     class RenderPass;
     class GraphicsPipelineNode;
-    class PipelineConfigurator;
+    struct PipelineConfigurator;
 
     struct RenderPassGraphGeneratorBase {
         RenderPassManager rpm;

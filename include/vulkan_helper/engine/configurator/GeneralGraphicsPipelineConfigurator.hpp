@@ -15,9 +15,9 @@ namespace merutilm::vkh {
         std::optional<IndexBuffer> indexBuffer;
 
     public:
-        explicit GeneralGraphicsPipelineConfigurator(Core &core, SharedResource &shared, Repositories &global, Repositories &windowLocal,
+        explicit GeneralGraphicsPipelineConfigurator(Engine &engine, WindowContext &wc,
                                                      const std::string &vertName, const std::string &fragName) :
-            GraphicsPipelineConfigurator(core, shared, global, windowLocal,  vertName,
+            GraphicsPipelineConfigurator(engine, wc,  vertName,
                                          fragName) {}
 
         ~GeneralGraphicsPipelineConfigurator() override = default;
