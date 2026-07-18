@@ -33,7 +33,7 @@ namespace merutilm::vkh {
 
         void finishPipelineInitialization() const;
 
-        void execute();
+        void render();
 
     protected:
         virtual void beforeCmdRender() = 0;

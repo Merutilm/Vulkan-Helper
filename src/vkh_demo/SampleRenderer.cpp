@@ -7,14 +7,16 @@
 #include "SampleRCC.hpp"
 #include "vulkan_helper/engine/executor/RenderPassFullscreenRecorder.hpp"
 #include "vulkan_helper/util/BarrierUtils.hpp"
+#include "vulkan_helper/util/RenderContextUtils.hpp"
 
 namespace merutilm::vkh_demo {
 
     void SampleRenderer::init() {
 
-        rc = engine.attachRenderContext<SampleRCC>(wc, [this] { return wc.getSwapchain().getSwapchainExtent(); },
+        rc = vkh::RenderContextUtils::attachRenderContext<SampleRCC>(nullptr, configurators, engine, wc, [this] { return wc.getSwapchain().getSwapchainExtent(); },
                 [this] { return vkh::ImageContext::fromSwapchain(wc.core, wc.getSwapchain()); });
 
+        finishPipelineInitialization();
     }
 
     void SampleRenderer::cleanup() {
@@ -28,7 +30,7 @@ namespace merutilm::vkh_demo {
 
 
     void SampleRenderer::cmdRender(const uint32_t swapchainImageIndex) {
-        vkh::RenderPassFullscreenRecorder::cmdFullscreenPresentOnlyRenderPass(wc, *rc, frameIndex, swapchainImageIndex);
+        vkh::RenderPassFullscreenRecorder::cmdFullscreenForSwapchainRenderPass(wc, *rc, frameIndex, swapchainImageIndex);
 
 #ifdef VKH_USE_IMGUI
         vkh::BarrierUtils::cmdOverlaySwapchain(

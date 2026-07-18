@@ -16,7 +16,8 @@
 
 namespace merutilm::vkh {
 
-    Application::Application(WindowInitializerSettings rootWindowInitializerSettings) : rootWindowInitializerSettings(std::move(rootWindowInitializerSettings)){
+    Application::Application(WindowInitializerSettings rootWindowInitializerSettings) :
+        rootWindowInitializerSettings(std::move(rootWindowInitializerSettings)) {
         Application::init();
     }
 
@@ -30,10 +31,10 @@ namespace merutilm::vkh {
             throw exception_init("Vulkan is not supported!");
         }
         engine.emplace();
-        configureRootRenderContexts();
+        configureRootWindowContext();
     }
 
-    void Application::configureRootRenderContexts() {
+    void Application::configureRootWindowContext() {
         rootWindowContext = &engine->attachWindowContext(std::move(rootWindowInitializerSettings), 0);
     }
 
@@ -42,18 +43,18 @@ namespace merutilm::vkh {
         rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onUpdate.add([this] { update(); });
 
         rootWindowContext->getWindow()->eventSystem.resize.onResize.add([this](const int w, const int h) {
-            if (w > 0 && h > 0) {
-                const VkExtent2D extent = {static_cast<uint32_t>(w), static_cast<uint32_t>(h)};
-                rootWindowContext->core.getLogicalDevice().waitDeviceIdle();
-                rootWindowContext->getSwapchain().recreate(extent);
-                refreshSharedImgContexts(rootWindowContext->getSwapchain().getSwapchainExtent());
-                for (auto &rc: rootWindowContext->getRenderContexts())
-                    rc->recreate();
-            }
+            const auto extent = VkExtent2D(w, h);
+            onResize(extent);
         });
 
-        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onQuit.add(
-                [this] { rootWindowContext->core.getLogicalDevice().waitDeviceIdle(); });
+        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onStart.add([this] {
+            onStart();
+        });
+
+        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onQuit.add([this] {
+            rootWindowContext->core.getLogicalDevice().waitDeviceIdle();
+            onQuit();
+        });
     }
 
 
@@ -61,45 +62,55 @@ namespace merutilm::vkh {
     void Application::createImGuiContext(RenderContext *rc) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        ImGuiIO &io = ImGui::GetIO();
+        (void) io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForVulkan(rootWindowContext->getWindow()->getWindow(), true);
         ImGui_ImplVulkan_InitInfo init_info = {
-            .ApiVersion = VK_API_VERSION_1_0,
-            .Instance = engine->getCore().getInstance().getInstanceHandle(),
-            .PhysicalDevice = engine->getCore().getPhysicalDeviceLoader().getPhysicalDeviceHandle(),
-            .Device = engine->getCore().getLogicalDevice().getLogicalDeviceHandle(),
-            .QueueFamily = *engine->getCore().getPhysicalDeviceLoader().getQueueFamilyIndices().graphicsAndComputeFamily,
-            .Queue = engine->getCore().getLogicalDevice().getGraphicsQueue(),
-            .DescriptorPool = VK_NULL_HANDLE,
-            .DescriptorPoolSize = 1024,
-            .MinImageCount = engine->getCore().getPhysicalDeviceLoader().getMaxFramesInFlight(),
-            .ImageCount = engine->getCore().getPhysicalDeviceLoader().getMaxFramesInFlight(),
-            .PipelineCache = VK_NULL_HANDLE,
-            .PipelineInfoMain = {
-                .RenderPass = rc->getRenderPass()->getRenderPassHandle(),
-                .Subpass = 0,
-                .MSAASamples = VK_SAMPLE_COUNT_1_BIT,
-                .ExtraDynamicStates = {},
-                .PipelineRenderingCreateInfo = {}
-            },
-            .UseDynamicRendering = {},
-            .Allocator = {},
-            .CheckVkResultFn = imguiVkResultConsumer,
-            .MinAllocationSize = 0,
-            .CustomShaderVertCreateInfo = {},
-            .CustomShaderFragCreateInfo = {}
-        };
+                .ApiVersion = VK_API_VERSION_1_0,
+                .Instance = engine->getCore().getInstance().getInstanceHandle(),
+                .PhysicalDevice = engine->getCore().getPhysicalDeviceLoader().getPhysicalDeviceHandle(),
+                .Device = engine->getCore().getLogicalDevice().getLogicalDeviceHandle(),
+                .QueueFamily =
+                        *engine->getCore().getPhysicalDeviceLoader().getQueueFamilyIndices().graphicsAndComputeFamily,
+                .Queue = engine->getCore().getLogicalDevice().getGraphicsQueue(),
+                .DescriptorPool = VK_NULL_HANDLE,
+                .DescriptorPoolSize = 1024,
+                .MinImageCount = engine->getCore().getPhysicalDeviceLoader().getMaxFramesInFlight(),
+                .ImageCount = engine->getCore().getPhysicalDeviceLoader().getMaxFramesInFlight(),
+                .PipelineCache = VK_NULL_HANDLE,
+                .PipelineInfoMain = {.RenderPass = rc->getRenderPass()->getRenderPassHandle(),
+                                     .Subpass = 0,
+                                     .MSAASamples = VK_SAMPLE_COUNT_1_BIT,
+                                     .ExtraDynamicStates = {},
+                                     .PipelineRenderingCreateInfo = {}},
+                .UseDynamicRendering = {},
+                .Allocator = {},
+                .CheckVkResultFn = imguiVkResultConsumer,
+                .MinAllocationSize = 0,
+                .CustomShaderVertCreateInfo = {},
+                .CustomShaderFragCreateInfo = {}};
         ImGui_ImplVulkan_Init(&init_info);
-
     }
     void Application::imguiVkResultConsumer(const VkResult result) {
         if (result != VK_SUCCESS) {
             throw exception_invalid_state("Failed to render imgui context!");
+        }
+    }
+
+    void Application::onResize(const VkExtent2D newExtent) {
+        if (newExtent.width > 0 && newExtent.height > 0) {
+            rootWindowContext->core.getLogicalDevice().waitDeviceIdle();
+            rootWindowContext->getSwapchain().recreate(newExtent);
+            refreshSharedImgContexts(rootWindowContext->getSwapchain().getSwapchainExtent());
+            for (const auto &rc: rootWindowContext->getRenderContexts())
+                rc->recreate();
+
+            callRenderContextRefreshed();
         }
     }
 
@@ -112,6 +123,7 @@ namespace merutilm::vkh {
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 #endif
+        renderers.clear();
         engine->detachWindowContext(WC_ROOT);
         rootWindowContext = nullptr;
         engine.reset();

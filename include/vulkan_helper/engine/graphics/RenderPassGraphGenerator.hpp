@@ -76,7 +76,7 @@ namespace merutilm::vkh {
             ++createdSubpassesCount;
         }
         auto ptr = dynamic_cast<Tp *>(
-                pipelineConfigurators
+                pipelineConfiguratorsCache
                         .emplace_back(std::make_unique<Tp>(engine, wc))
                         .get());
 

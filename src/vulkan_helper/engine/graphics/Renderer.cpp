@@ -21,7 +21,7 @@ namespace merutilm::vkh {
         }
     }
 
-    void Renderer::execute() {
+    void Renderer::render() {
         SwapchainUtils::tryRenderFrame(wc, &frameIndex, [this](const uint32_t swapchainImageIndex) {
             DescriptorUpdateQueue queue = DescriptorUpdater::createQueue();
             const VkDevice device = wc.core.getLogicalDevice().getLogicalDeviceHandle();

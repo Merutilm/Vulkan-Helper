@@ -4,6 +4,7 @@
 
 #include <vulkan_helper/engine/graphics/RenderPassGraphGeneratorBase.hpp>
 #include <vulkan_helper/engine/pipeline/GraphicsPipelineNode.hpp>
+#include <vulkan_helper/engine/configurator/PipelineConfigurator.hpp>
 
 namespace merutilm::vkh {
 
@@ -21,6 +22,9 @@ namespace merutilm::vkh {
         configureAttachments();
         configurePipelines();
         generate();
+    }
+    std::vector<std::unique_ptr<PipelineConfigurator>> RenderPassGraphGeneratorBase::takePipelineConfigurators() {
+        return std::exchange(pipelineConfiguratorsCache, {});
     }
 
 } // namespace merutilm::vkh

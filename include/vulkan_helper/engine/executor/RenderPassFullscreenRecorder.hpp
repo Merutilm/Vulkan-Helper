@@ -34,7 +34,7 @@ namespace merutilm::vkh {
             renderPassRecorder.execute(frameIndex);
         }
 
-        static void cmdFullscreenPresentOnlyRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, const uint32_t swapchainImageIndex) {
+        static void cmdFullscreenForSwapchainRenderPass(WindowContext & wc, RenderContext &rc, const uint32_t frameIndex, const uint32_t swapchainImageIndex) {
             cmdFullscreenRenderPass(wc, rc, frameIndex, swapchainImageIndex);
         }
 

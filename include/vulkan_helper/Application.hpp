@@ -5,6 +5,7 @@
 #pragma once
 
 
+#include "engine/graphics/Renderer.hpp"
 #include "handle/EngineHandler.hpp"
 namespace merutilm::vkh {
 
@@ -14,6 +15,8 @@ namespace merutilm::vkh {
         std::optional<Engine> engine = std::nullopt;
         WindowContext *rootWindowContext = nullptr;
         WindowInitializerSettings rootWindowInitializerSettings;
+        std::vector<std::unique_ptr<Renderer>> renderers;
+
 
         static constexpr int WC_ROOT = 0;
 
@@ -35,25 +38,43 @@ namespace merutilm::vkh {
             VkExtent2D extent = {static_cast<uint32_t>(wic.widthInfo.first), static_cast<uint32_t>(wic.heightInfo.first)};
             App app(wic);
             app.refreshSharedImgContexts(extent);
-            app.createRenderers();
+            app.registerRenderers();
+            app.callRenderContextRefreshed();
             app.addListeners();
             app.start();
         }
 
 
+        template<typename Rdr, typename... Args>
+            requires std::is_constructible_v<Rdr, Args...>
+        Rdr *registerRenderer(Args &&...args) {
+            return dynamic_cast<Rdr *>(renderers.emplace_back(std::make_unique<Rdr>(std::forward<Args>(args)...)).get());
+        }
+
         virtual void refreshSharedImgContexts(VkExtent2D extent) = 0;
 
-        virtual void createRenderers() = 0;
+        virtual void registerRenderers() = 0;
+
 
         virtual void addListeners();
 
         virtual void update() = 0;
 
         void start() const {
+
             rootWindowContext->getWindow()->start();
         }
 
+
+        virtual void onStart() = 0;
+
+        virtual void onResize(VkExtent2D newExtent);
+
+        virtual void onQuit() = 0;
+
     protected:
+
+
         void init() override;
 
         void cleanup() override;
@@ -65,7 +86,15 @@ namespace merutilm::vkh {
 #endif
     private:
 
-        void configureRootRenderContexts();
+        void callRenderContextRefreshed() const {
+            for (const auto &renderer: renderers) {
+                for (const auto &pc: renderer->configurators) {
+                    pc->renderContextRefreshed();
+                }
+            }
+        }
+
+        void configureRootWindowContext();
 
 #ifdef VKH_USE_IMGUI
         static void imguiVkResultConsumer(VkResult result);

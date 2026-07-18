@@ -25,7 +25,7 @@ namespace merutilm::vkh {
 
         const auto cbh = wc.getCommandBuffer().getCommandBufferHandle(frameIndex);
         uint32_t prevSubpass = 0;
-        for (auto &gpn : rc.getGenerator()->pipelines) {
+        for (const auto &gpn : rc.getGenerator()->pipelines) {
             const uint32_t currentSubpass = gpn->getSubpass();
             if (currentSubpass - prevSubpass >= 2) throw exception_invalid_state("empty subpass");
             if (currentSubpass > prevSubpass) {

@@ -13,30 +13,16 @@
 
 namespace merutilm::vkh_demo {
 
-    DemoApplication::DemoApplication(const vkh::WindowInitializerSettings &rootWindowInitializerSettings) : Application(rootWindowInitializerSettings) {
-        DemoApplication::init();
-    }
 
-    DemoApplication::~DemoApplication() {
-        DemoApplication::cleanup();
-    }
-
-    void DemoApplication::init() {
-        //noop
-    }
-
-    void DemoApplication::createRenderers() {
+    void DemoApplication::registerRenderers() {
 #ifdef VKH_USE_IMGUI
-        renderer.emplace(*engine, *rootWindowContext, [this]{ renderImGui();});
-        createImGuiContext(renderer->rc);
+        renderer = registerRenderer<SampleRenderer>(*engine, *rootWindowContext, [this]{ renderImGui();});
+        createImGuiContext(renderer->imguiRenderContext);
 #else
-        renderer.emplace(*engine, *rootWindowContext);
+        renderer = registerRenderer<SampleRenderer>(*engine, *rootWindowContext);
 #endif
     }
 
-    void DemoApplication::cleanup() {
-        renderer.reset();
-    }
 
 #ifdef VKH_USE_IMGUI
     void DemoApplication::renderImGui() {
@@ -62,6 +48,14 @@ namespace merutilm::vkh_demo {
 
         ImGui::End();
     }
+
+    void DemoApplication::onStart() {
+        //noop
+    }
+    void DemoApplication::onQuit() {
+        //noop
+    }
+
 #endif
     void DemoApplication::refreshSharedImgContexts(const VkExtent2D extent) {
         rootWindowContext->getSharedImageContext().cleanupContexts();
@@ -95,7 +89,7 @@ namespace merutilm::vkh_demo {
 
 
     void DemoApplication::update() {
-        renderer->execute();
+        renderer->render();
     }
 
 

@@ -7,7 +7,7 @@
 #include "vulkan_helper/engine/graphics/Renderer.hpp"
 namespace merutilm::vkh {
     struct RendererImGui : Renderer {
-        RenderContext *rc = nullptr;
+        RenderContext *imguiRenderContext = nullptr;
         std::function<void()> renderFunc;
 
         template<typename F>

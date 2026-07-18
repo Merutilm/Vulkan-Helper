@@ -13,7 +13,6 @@ namespace merutilm::vkh {
     class Engine final : public Handler {
         Core core;
         Repositories globalRepositories;
-        std::unique_ptr<CommandPool> commandPool;
         std::unique_ptr<SharedResource> sharedResource;
         std::vector<std::unique_ptr<WindowContext>> windowContexts = {};
 
@@ -36,19 +35,6 @@ namespace merutilm::vkh {
 
         std::unique_ptr<WindowContext> detachWindowContext(uint32_t windowAttachmentIndex);
 
-        template<typename T, typename ExtentImgGetter, typename SwapchainImgGetter>
-            requires(std::is_base_of_v<RenderPassGraphGeneratorBase, T> &&
-                     std::is_invocable_r_v<VkExtent2D, ExtentImgGetter> &&
-                     std::is_invocable_r_v<MultiframeImageContext, SwapchainImgGetter>)
-        RenderContext *attachRenderContext(WindowContext &wc, ExtentImgGetter &&extentGetter,
-                                 SwapchainImgGetter &&swapchainImageGetter) {
-            return wc.getRenderContexts().emplace_back(std::make_unique<RenderContext>(
-                    core, std::forward<ExtentImgGetter>(extentGetter),
-                    std::make_unique<T>(*this, wc,
-                                        std::forward<SwapchainImgGetter>(swapchainImageGetter)))).get();
-        }
-
-
 
         [[nodiscard]] Core & getCore() { return core; }
 
@@ -58,10 +44,6 @@ namespace merutilm::vkh {
 
         [[nodiscard]] Repositories & getGlobalRepositories()  {
             return globalRepositories;
-        }
-
-        [[nodiscard]] CommandPool & getCommandPool() const {
-            return *commandPool;
         }
 
         [[nodiscard]] SharedResource & getSharedResource() const {

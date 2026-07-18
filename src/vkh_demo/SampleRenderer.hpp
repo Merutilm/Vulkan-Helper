@@ -16,6 +16,7 @@ using SampleRendererBase = merutilm::vkh::Renderer;
 namespace merutilm::vkh_demo {
 
     struct SampleRenderer final : SampleRendererBase {
+
         vkh::RenderContext *rc = nullptr;
 
 #ifdef VKH_USE_IMGUI
@@ -24,6 +25,7 @@ namespace merutilm::vkh_demo {
             SampleRenderer::init();
         }
 #else
+
         explicit SampleRenderer(vkh::Engine &engine, vkh::WindowContext &wc) : Renderer(engine, wc) {
             SampleRenderer::init();
         }

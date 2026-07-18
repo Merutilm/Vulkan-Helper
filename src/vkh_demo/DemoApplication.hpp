@@ -9,16 +9,16 @@
 namespace merutilm::vkh_demo {
     struct DemoApplication final : vkh::Application{
 
-        std::optional<SampleRenderer> renderer;
+        SampleRenderer * renderer;
 
 
-        explicit DemoApplication(const vkh::WindowInitializerSettings& rootWindowInitializerSettings);
+        using Application::Application;
 
-        ~DemoApplication() override;
+        ~DemoApplication() override = default;
 
         void refreshSharedImgContexts(VkExtent2D extent) override;
 
-        void createRenderers() override;
+        void registerRenderers() override;
 
         void addListeners() override;
 
@@ -26,12 +26,11 @@ namespace merutilm::vkh_demo {
 
 
     protected:
-        void init() override;
-
-        void cleanup() override;
 
 #ifdef VKH_USE_IMGUI
         void renderImGui() override;
+        void onStart() override;
+        void onQuit() override;
 #endif
     };
 }
