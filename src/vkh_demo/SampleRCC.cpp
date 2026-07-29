@@ -32,7 +32,7 @@ namespace merutilm::vkh_demo {
                                 {swapchainImageAttachment,
                                  vkh::RenderPassAttachmentReference{vkh::RenderPassAttachmentType::COLOR,
                                                                     VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL},
-                                 vkh::SubpassDependency::none(), vkh::RenderPassAttachmentReference::none()},
+                                 std::nullopt, std::nullopt},
                                 [] { return vkh::DescIndexPicker{}; });
     }
 } // namespace merutilm::vkh_demo
