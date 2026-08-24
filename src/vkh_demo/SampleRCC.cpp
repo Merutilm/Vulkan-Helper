@@ -10,7 +10,7 @@ namespace merutilm::vkh_demo {
 
     void SampleRCC::configureAttachments() {
         swapchainImageAttachment =
-                &appendAttachment({.flags = 0,
+                &appendAttachment(VkAttachmentDescription{.flags = 0,
                                    .format = engine.getCore().getPhysicalDeviceLoader().getPrimarySurfaceFormat(),
                                    .samples = VK_SAMPLE_COUNT_1_BIT,
                                    .loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR,
@@ -24,7 +24,7 @@ namespace merutilm::vkh_demo {
                                    .finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
 #endif
                                   },
-                                  swapchainImageContextGetter());
+                                  swapchainImageContextGetter(), VkClearValue{.color={0, 0, 0, 1}});
     }
     void SampleRCC::configurePipelines() {
 
