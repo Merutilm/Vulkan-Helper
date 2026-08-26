@@ -16,7 +16,7 @@ namespace merutilm::vkh_demo {
 
     void DemoApplication::registerRenderers() {
 #ifdef VKH_USE_IMGUI
-        renderer = registerRenderer<SampleRenderer>(*engine, *rootWindowContext, [this]{ renderImGui();});
+        renderer = registerRenderer<SampleRenderer>(*engine, *rootWindowContext, [this] { renderImGui(); });
         createImGuiContext(renderer->imguiRenderContext);
 #else
         renderer = registerRenderer<SampleRenderer>(*engine, *rootWindowContext);
@@ -50,47 +50,42 @@ namespace merutilm::vkh_demo {
     }
 
     void DemoApplication::onStart() {
-        //noop
+        // noop
     }
     void DemoApplication::onQuit() {
-        //noop
+        // noop
     }
 
 #endif
     void DemoApplication::refreshSharedImgContexts(const VkExtent2D extent) {
         rootWindowContext->getSharedImageContext().cleanupContexts();
-
-
     }
 
     void DemoApplication::addListeners() {
-        Application::addListeners();
+        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onStart.add([this] { onStart(); });
+        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onUpdate.add([this] { update(); });
+        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onQuit.add([this] { onQuit(); });
+        rootWindowContext->getWindow()->eventSystem.resize.onResize.add(
+                [this](const uint32_t w, const uint32_t h) { recreateContexts(VkExtent2D{w, h}); });
         rootWindowContext->getWindow()->eventSystem.mouse.onMouseEnter.add(
                 [] { std::cout << "Mouse entered" << std::endl; });
         rootWindowContext->getWindow()->eventSystem.mouse.onMouseExit.add(
                 [] { std::cout << "Mouse exited" << std::endl; });
         rootWindowContext->getWindow()->eventSystem.mouseDrag.onMouseDrag.add(
-                [](int, int x, int y, int, int) {
-                    vkh::logger::log("mouse drag={}, {}", x, y);
-                });
+                [](int, int x, int y, int, int) { vkh::logger::log("mouse drag={}, {}", x, y); });
 
         rootWindowContext->getWindow()->eventSystem.mouseWheel.onMouseScroll.add(
-                [](int y) {
-                    vkh::logger::log("mouse scroll={}", y);
-                });
+                [](int y) { vkh::logger::log("mouse scroll={}", y); });
         rootWindowContext->getWindow()->eventSystem.mouse.onMouseDown.add(
                 [](int, int x, int y) { vkh::logger::log("mouse down={}, {}", x, y); });
         rootWindowContext->getWindow()->eventSystem.mouse.onMouseUp.add(
                 [](int, int x, int y) { vkh::logger::log("mouse up={}, {}", x, y); });
         rootWindowContext->getWindow()->eventSystem.keyboard.onKeyDown.add(
                 [](int key) { vkh::logger::log("key={0}", key); });
-
     }
 
 
-    void DemoApplication::update() {
-        renderer->render();
-    }
+    void DemoApplication::update() { renderer->render(); }
 
 
 } // namespace merutilm::vkh_demo

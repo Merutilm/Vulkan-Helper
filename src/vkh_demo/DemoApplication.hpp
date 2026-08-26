@@ -22,15 +22,15 @@ namespace merutilm::vkh_demo {
 
         void addListeners() override;
 
-        void update() override;
+        void update();
 
 
     protected:
 
 #ifdef VKH_USE_IMGUI
         void renderImGui() override;
-        void onStart() override;
-        void onQuit() override;
+        void onStart();
+        void onQuit();
 #endif
     };
 }
