@@ -53,7 +53,7 @@ namespace merutilm::vkh_demo {
         // noop
     }
     void DemoApplication::onQuit() {
-        // noop
+
     }
 
 #endif
@@ -64,7 +64,10 @@ namespace merutilm::vkh_demo {
     void DemoApplication::addListeners() {
         rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onStart.add([this] { onStart(); });
         rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onUpdate.add([this] { update(); });
-        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onQuit.add([this] { onQuit(); });
+        rootWindowContext->getWindow()->eventSystem.applicationLifecycle.onQuit.add([this] {
+            rootWindowContext->core.getLogicalDevice().waitDeviceIdle();
+            onQuit();
+        });
         rootWindowContext->getWindow()->eventSystem.resize.onResize.add(
                 [this](const uint32_t w, const uint32_t h) { recreateContexts(VkExtent2D{w, h}); });
         rootWindowContext->getWindow()->eventSystem.mouse.onMouseEnter.add(

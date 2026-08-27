@@ -34,7 +34,7 @@ namespace merutilm::vkh_demo {
 
 #ifdef VKH_USE_IMGUI
         vkh::BarrierUtils::cmdOverlaySwapchain(
-                wc.getCommandBuffer().getCommandBufferHandle(frameIndex),
+                wc.getCommandBufferGroup().getCommandBufferHandle(frameIndex),
                 wc.getSwapchain().getSwapchainImages()[swapchainImageIndex]);
 
         RendererImGui::cmdRender(swapchainImageIndex);
