@@ -25,6 +25,7 @@ add_executable(VulkanHelper
         include/vulkan_helper/engine/window/Keybinding.hpp
         include/vulkan_helper/engine/SharedResource.hpp
         include/vulkan_helper/engine/wrapped/Subpassdependency.hpp
+        include/vulkan_helper/engine/executor/ScopedPipelineBarrierRecorder.hpp
 )
 
 target_compile_options(VulkanHelper PRIVATE
