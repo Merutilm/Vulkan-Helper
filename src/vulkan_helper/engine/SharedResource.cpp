@@ -42,8 +42,14 @@ namespace merutilm::vkh {
         vertexBufferIdentity->localize(temp);
         indexBufferIdentity->localize(temp);
 
+        dummyBuffer = BufferContext::createContext(
+                core, {.size = 1,
+                       .usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+                       .properties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT});
+
     }
     void SharedResource::cleanup() {
+        BufferContext::destroyContext(core, dummyBuffer);
         indexBufferIdentity = nullptr;
         vertexBufferIdentity = nullptr;
     }
