@@ -100,7 +100,7 @@ namespace merutilm::vkh {
                                     VkDescriptorBufferInfo{
                                             .buffer = ssbo.context.buffer,
                                             .offset = 0,
-                                            .range = ssbo.context.allocationSize},
+                                            .range = ssbo.context.bufferSize},
                     });
                     updateQueue.back().writeSet = {
                         .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
