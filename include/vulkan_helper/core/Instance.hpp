@@ -30,7 +30,7 @@ namespace merutilm::vkh {
 
         [[nodiscard]] VkInstance getInstanceHandle() const { return instance; }
 
-        [[nodiscard]] const ApplicationCreateInfo &getEngineCreateInfo() const { return engineCreateInfo; }
+        [[nodiscard]] const ApplicationCreateInfo &getApplicationCreateInfo() const { return engineCreateInfo; }
 
     protected:
         void init() override;

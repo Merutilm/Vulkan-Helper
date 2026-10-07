@@ -54,7 +54,7 @@ namespace merutilm::vkh {
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForVulkan(rootWindowContext->getWindow()->getWindow(), true);
         ImGui_ImplVulkan_InitInfo init_info = {
-                .ApiVersion = engine->getCore().getInstance().getEngineCreateInfo().version,
+                .ApiVersion = engine->getCore().getInstance().getApplicationCreateInfo().version,
                 .Instance = engine->getCore().getInstance().getInstanceHandle(),
                 .PhysicalDevice = engine->getCore().getPhysicalDeviceLoader().getPhysicalDeviceHandle(),
                 .Device = engine->getCore().getLogicalDevice().getLogicalDeviceHandle(),

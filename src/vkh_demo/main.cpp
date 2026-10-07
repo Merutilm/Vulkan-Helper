@@ -5,7 +5,7 @@ int main() {
 
     vkh::Application::start<vkh_demo::DemoApplication>({
         .version = VK_API_VERSION_1_3,
-        .additionalExtensions = {}
+        .instanceExtensions = {}
     },{});
 
     return 0;

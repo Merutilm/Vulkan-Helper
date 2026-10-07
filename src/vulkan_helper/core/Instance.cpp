@@ -42,6 +42,7 @@ namespace merutilm::vkh {
 
         uint32_t count;
         const char** extension = glfwGetRequiredInstanceExtensions(&count);
+        extensions.reserve(count);
         for (uint32_t i = 0; i < count; ++i) {
             extensions.push_back(extension[i]);
         }
@@ -50,7 +51,7 @@ namespace merutilm::vkh {
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
 
-        extensions.insert(extensions.end(), engineCreateInfo.additionalExtensions.begin(), engineCreateInfo.additionalExtensions.end());
+        extensions.insert(extensions.end(), engineCreateInfo.instanceExtensions.begin(), engineCreateInfo.instanceExtensions.end());
 
 
         VkDebugUtilsMessengerCreateInfoEXT debugMessengerCreateInfo = Debugger::populateDebugMessengerCreateInfo();

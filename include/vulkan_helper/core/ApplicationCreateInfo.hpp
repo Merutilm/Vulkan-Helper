@@ -8,6 +8,7 @@
 namespace merutilm::vkh {
     struct ApplicationCreateInfo {
         uint32_t version;
-        std::vector<const char *> additionalExtensions;
+        std::vector<const char *> instanceExtensions;
+        std::vector<const char *> deviceExtensions;
     };
 }
