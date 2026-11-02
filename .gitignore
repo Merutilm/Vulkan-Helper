@@ -1,6 +1,13 @@
 cmake-build-debug
 cmake-build-release
 *.ps1
+*.sh
 .idea
 .clang-format
 extern
+bin
+vkh_demo
+lib
+lib_export
+res
+shaders
