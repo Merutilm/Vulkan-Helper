@@ -11,6 +11,8 @@ add_library(vkh_dependency OBJECT
 target_include_directories(vkh_dependency PUBLIC
         # standard include
         ${CMAKE_SOURCE_DIR}/include
+        # if there is a submodule
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../include
 
         # extern sources
         ${CMAKE_SOURCE_DIR}/extern
