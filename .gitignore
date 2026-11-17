@@ -11,3 +11,4 @@ lib
 lib_export
 res
 shaders
+/CMakeLists.txt
