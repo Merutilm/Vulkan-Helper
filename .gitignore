@@ -4,7 +4,6 @@ cmake-build-release
 *.sh
 .idea
 .clang-format
-extern
 bin
 vkh_demo
 lib

@@ -4,7 +4,7 @@ find_package(glfw3 REQUIRED)
 
 
 add_library(vkh_dependency OBJECT
-        ${CMAKE_SOURCE_DIR}/extern/stb_image.c
+        ${CMAKE_SOURCE_DIR}/extern/stb/deprecated/stb_image.c
 )
 
 
@@ -13,9 +13,8 @@ target_include_directories(vkh_dependency PUBLIC
         ${CMAKE_SOURCE_DIR}/include
         # if there is a submodule
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../include
-
-        # extern sources
-        ${CMAKE_SOURCE_DIR}/extern
+        # extern stb sources
+        ${CMAKE_SOURCE_DIR}/extern/stb
 
         # vulkan sdk directory
         ${Vulkan_INCLUDE_DIRS}
