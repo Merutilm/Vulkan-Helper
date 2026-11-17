@@ -2,12 +2,12 @@
 // Created by Merutilm on 2025-07-08.
 //
 
-#include <vulkan_helper/core/Instance.hpp>
-#include <vulkan_helper/base/config.hpp>
-#include <vulkan_helper/base/exception.hpp>
-#include <vulkan_helper/util/Debugger.hpp>
+#include <vulkan-helper/core/Instance.hpp>
+#include <vulkan-helper/base/config.hpp>
+#include <vulkan-helper/base/exception.hpp>
+#include <vulkan-helper/util/Debugger.hpp>
 
-#include "vulkan_helper/core/ApplicationCreateInfo.hpp"
+#include "vulkan-helper/core/ApplicationCreateInfo.hpp"
 
 namespace merutilm::vkh {
 

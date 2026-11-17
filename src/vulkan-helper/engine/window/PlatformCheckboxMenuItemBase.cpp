@@ -2,9 +2,9 @@
 // Created by Merutilm on 2026-05-11.
 //
 
-#include <vulkan_helper/engine/window/PlatformCheckboxMenuItemBase.hpp>
+#include <vulkan-helper/engine/window/PlatformCheckboxMenuItemBase.hpp>
 
-#include "vulkan_helper/engine/window/PlatformMenuItemBase.hpp"
+#include "vulkan-helper/engine/window/PlatformMenuItemBase.hpp"
 
 namespace merutilm::vkh {
 

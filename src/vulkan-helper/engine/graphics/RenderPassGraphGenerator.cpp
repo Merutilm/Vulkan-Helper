@@ -5,7 +5,7 @@
 
 #include <queue>
 #include <ranges>
-#include <vulkan_helper/engine/graphics/RenderPassGraphGenerator.hpp>
+#include <vulkan-helper/engine/graphics/RenderPassGraphGenerator.hpp>
 
 namespace merutilm::vkh {
 

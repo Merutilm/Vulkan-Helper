@@ -1,9 +1,9 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/util/BarrierUtils.hpp>
+#include <vulkan-helper/util/BarrierUtils.hpp>
 
-#include "vulkan_helper/engine/executor/ScopedPipelineBarrierRecorder.hpp"
+#include "vulkan-helper/engine/executor/ScopedPipelineBarrierRecorder.hpp"
 namespace merutilm::vkh {
 
 

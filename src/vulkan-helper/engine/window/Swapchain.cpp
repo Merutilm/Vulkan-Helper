@@ -2,10 +2,10 @@
 // Created by Merutilm on 2025-07-09.
 //
 
-#include <vulkan_helper/engine/window/Swapchain.hpp>
+#include <vulkan-helper/engine/window/Swapchain.hpp>
 
-#include <vulkan_helper/base/vkh_base.hpp>
-#include <vulkan_helper/util/BufferImageUtils.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
+#include <vulkan-helper/util/BufferImageUtils.hpp>
 
 namespace merutilm::vkh {
     Swapchain::Swapchain(Core & core, Surface & surface) : CoreHandler(core), surface(surface) {

@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 
-#include <vulkan_helper/util/Debugger.hpp>
+#include <vulkan-helper/util/Debugger.hpp>
 namespace merutilm::vkh {
     VkDebugUtilsMessengerCreateInfoEXT Debugger::populateDebugMessengerCreateInfo() {
         return {

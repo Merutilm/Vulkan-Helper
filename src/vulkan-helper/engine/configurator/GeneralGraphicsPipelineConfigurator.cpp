@@ -2,10 +2,10 @@
 // Created by Merutilm on 2025-07-18.
 //
 
-#include <vulkan_helper/engine/configurator/GeneralGraphicsPipelineConfigurator.hpp>
-#include <vulkan_helper/engine/pipeline/GraphicsPipeline.hpp>
-#include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
-#include <vulkan_helper/engine/repo/Repositories.hpp>
+#include <vulkan-helper/engine/configurator/GeneralGraphicsPipelineConfigurator.hpp>
+#include <vulkan-helper/engine/pipeline/GraphicsPipeline.hpp>
+#include <vulkan-helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
+#include <vulkan-helper/engine/repo/Repositories.hpp>
 
 namespace merutilm::vkh {
 

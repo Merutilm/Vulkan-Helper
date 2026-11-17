@@ -2,7 +2,7 @@
 // Created by Merutilm on 8/29/26.
 //
 
-#include <vulkan_helper/engine/executor/ScopedPipelineBarrierRecorder.hpp>
+#include <vulkan-helper/engine/executor/ScopedPipelineBarrierRecorder.hpp>
 namespace merutilm::vkh {
 
     ScopedPipelineBarrierRecorder::ScopedPipelineBarrierRecorder(const VkCommandBuffer recordingCommandBuffer,

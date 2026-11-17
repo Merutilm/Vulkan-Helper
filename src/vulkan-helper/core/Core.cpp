@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-07-13.
 //
 
-#include <vulkan_helper/core/Core.hpp>
+#include <vulkan-helper/core/Core.hpp>
 
 namespace merutilm::vkh {
 

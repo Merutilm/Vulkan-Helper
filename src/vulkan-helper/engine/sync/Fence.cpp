@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-08-29.
 //
 
-#include <vulkan_helper/engine/sync/Fence.hpp>
+#include <vulkan-helper/engine/sync/Fence.hpp>
 
 
 namespace merutilm::vkh {

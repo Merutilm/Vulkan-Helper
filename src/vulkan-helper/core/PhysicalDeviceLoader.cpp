@@ -2,12 +2,12 @@
 // Created by Merutilm on 2025-07-09.
 //
 
-#include <vulkan_helper/core/PhysicalDeviceLoader.hpp>
+#include <vulkan-helper/core/PhysicalDeviceLoader.hpp>
 
-#include <vulkan_helper/base/vkh_base.hpp>
-#include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
+#include <vulkan-helper/util/PhysicalDeviceUtils.hpp>
 
-#include "vulkan_helper/engine/window/PlatformWindow.hpp"
+#include "vulkan-helper/engine/window/PlatformWindow.hpp"
 
 namespace merutilm::vkh {
 

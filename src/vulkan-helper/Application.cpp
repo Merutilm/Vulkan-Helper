@@ -4,14 +4,14 @@
 
 
 #include <utility>
-#include <vulkan_helper/Application.hpp>
+#include <vulkan-helper/Application.hpp>
 
 #ifdef VKH_USE_IMGUI
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_vulkan.h"
 #endif
-#include "vulkan_helper/engine/internal/RCCImGui.hpp"
+#include "vulkan-helper/engine/internal/RCCImGui.hpp"
 
 
 namespace merutilm::vkh {

@@ -1,10 +1,10 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/engine/context/BufferContext.hpp>
+#include <vulkan-helper/engine/context/BufferContext.hpp>
 
 #include <cstring>
-#include <vulkan_helper/util/BufferImageUtils.hpp>
+#include <vulkan-helper/util/BufferImageUtils.hpp>
 namespace merutilm::vkh {
     BufferContext BufferContext::createContext(Core & core, const BufferInitInfo &bufferInitInfo) {
         BufferContext result = {};

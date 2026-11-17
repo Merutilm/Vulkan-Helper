@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-07-13.
 //
 
-#include <vulkan_helper/engine/pipeline/ShaderModule.hpp>
+#include <vulkan-helper/engine/pipeline/ShaderModule.hpp>
 
 #include <algorithm>
 
@@ -10,9 +10,9 @@
 #include <fstream>
 #include <stdexcept>
 #include <string>
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
 
-#include "vulkan_helper/util/ExecutableUtils.hpp"
+#include "vulkan-helper/util/ExecutableUtils.hpp"
 
 
 namespace merutilm::vkh {

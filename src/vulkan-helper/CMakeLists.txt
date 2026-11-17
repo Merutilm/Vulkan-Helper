@@ -11,7 +11,7 @@ add_subdirectory(core)
 add_subdirectory(engine)
 add_subdirectory(util)
 
-add_library(vulkan_helper STATIC
+add_library(vulkan-helper STATIC
         Application.cpp
         $<TARGET_OBJECTS:core>
         $<TARGET_OBJECTS:util>
@@ -32,16 +32,16 @@ add_library(vulkan_helper STATIC
         $<TARGET_OBJECTS:engine_window>
 )
 
-target_link_directories(vulkan_helper PRIVATE ${CMAKE_SOURCE_DIR}/lib)
+target_link_directories(vulkan-helper PRIVATE ${CMAKE_SOURCE_DIR}/lib)
 
-target_compile_options(vulkan_helper PRIVATE
+target_compile_options(vulkan-helper PRIVATE
         #Debug options
         $<$<CONFIG:Debug>:-O0>
         #Release options
         $<$<CONFIG:Release>:-O3 -funroll-loops -march=native>
 )
 
-target_link_libraries(vulkan_helper PUBLIC
+target_link_libraries(vulkan-helper PUBLIC
         # Dependency
         vkh_dependency
 )

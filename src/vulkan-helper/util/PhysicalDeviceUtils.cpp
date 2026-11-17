@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 
-#include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
+#include <vulkan-helper/util/PhysicalDeviceUtils.hpp>
 
 namespace merutilm::vkh {
     bool PhysicalDeviceUtils::isDeviceSuitable(const VkPhysicalDevice physicalDevice, const std::vector<const char *> &extensions, const VkSurfaceKHR surface) {

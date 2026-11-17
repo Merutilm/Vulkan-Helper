@@ -2,13 +2,13 @@
 // Created by Merutilm on 2025-08-05.
 //
 
-#include <vulkan_helper/engine/configurator/GeneralPostProcessGraphicsPipelineConfigurator.hpp>
+#include <vulkan-helper/engine/configurator/GeneralPostProcessGraphicsPipelineConfigurator.hpp>
 
-#include <vulkan_helper/engine/pipeline/GraphicsPipeline.hpp>
-#include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
-#include <vulkan_helper/engine/wrapped/Vertex.hpp>
+#include <vulkan-helper/engine/pipeline/GraphicsPipeline.hpp>
+#include <vulkan-helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
+#include <vulkan-helper/engine/wrapped/Vertex.hpp>
 
-#include "vulkan_helper/engine/wrapped/GraphicsPipelineConfiguration.hpp"
+#include "vulkan-helper/engine/wrapped/GraphicsPipelineConfiguration.hpp"
 
 namespace merutilm::vkh {
     void GeneralPostProcessGraphicsPipelineConfigurator::cmdRender(const VkCommandBuffer cbh, const uint32_t frameIndex,

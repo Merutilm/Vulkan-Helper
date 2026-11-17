@@ -1,7 +1,7 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/engine/repo/GlobalSamplerRepo.hpp>
+#include <vulkan-helper/engine/repo/GlobalSamplerRepo.hpp>
 
 namespace merutilm::vkh {
     Sampler & GlobalSamplerRepo::pick(const VkSamplerCreateInfo &samplerCreateInfo) {

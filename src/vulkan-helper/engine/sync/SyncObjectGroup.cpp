@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-07-14.
 //
 
-#include <vulkan_helper/engine/sync/SyncObjectGroup.hpp>
+#include <vulkan-helper/engine/sync/SyncObjectGroup.hpp>
 
 namespace merutilm::vkh {
     SyncObjectGroup::SyncObjectGroup(Core & core) : CoreHandler(core) {

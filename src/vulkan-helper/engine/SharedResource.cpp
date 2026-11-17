@@ -2,9 +2,9 @@
 // Created by Merutilm on 2026-05-11.
 //
 
-#include <vulkan_helper/engine/SharedResource.hpp>
+#include <vulkan-helper/engine/SharedResource.hpp>
 
-#include "vulkan_helper/engine/wrapped/Vertex.hpp"
+#include "vulkan-helper/engine/wrapped/Vertex.hpp"
 
 namespace merutilm::vkh {
 

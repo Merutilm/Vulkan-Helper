@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-07-14.
 //
 
-#include <vulkan_helper/engine/graphics/Framebuffer.hpp>
+#include <vulkan-helper/engine/graphics/Framebuffer.hpp>
 
 namespace merutilm::vkh {
     Framebuffer::Framebuffer(Core & core, RenderPass & renderPass,

@@ -2,11 +2,11 @@
 // Created by Merutilm on 2025-07-09.
 //
 
-#include <vulkan_helper/base/config.hpp>
-#include <vulkan_helper/base/exception.hpp>
-#include <vulkan_helper/core/LogicalDevice.hpp>
-#include <vulkan_helper/util/Debugger.hpp>
-#include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
+#include <vulkan-helper/base/config.hpp>
+#include <vulkan-helper/base/exception.hpp>
+#include <vulkan-helper/core/LogicalDevice.hpp>
+#include <vulkan-helper/util/Debugger.hpp>
+#include <vulkan-helper/util/PhysicalDeviceUtils.hpp>
 
 namespace merutilm::vkh {
     LogicalDevice::LogicalDevice(Instance &instance, PhysicalDeviceLoader &physicalDevice) :

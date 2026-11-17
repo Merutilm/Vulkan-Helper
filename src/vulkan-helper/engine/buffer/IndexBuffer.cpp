@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-07-18.
 //
 
-#include <vulkan_helper/engine/buffer/IndexBuffer.hpp>
+#include <vulkan-helper/engine/buffer/IndexBuffer.hpp>
 
 namespace merutilm::vkh {
     IndexBuffer::IndexBuffer(Core & core, HostDataObjectManager &&manager, const BufferLocalization bufferLocalization, const bool multiframeEnabled) : BufferObject(

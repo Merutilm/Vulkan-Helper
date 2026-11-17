@@ -2,9 +2,9 @@
 // Created by Merutilm on 2025-08-28.
 //
 
-#include <vulkan_helper/engine/pipeline/ComputePipeline.hpp>
-#include <vulkan_helper/engine/configurator/ComputePipelineConfigurator.hpp>
-#include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
+#include <vulkan-helper/engine/pipeline/ComputePipeline.hpp>
+#include <vulkan-helper/engine/configurator/ComputePipelineConfigurator.hpp>
+#include <vulkan-helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
 
 namespace merutilm::vkh {
 

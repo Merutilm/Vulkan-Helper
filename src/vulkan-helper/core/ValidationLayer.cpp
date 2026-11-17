@@ -2,11 +2,11 @@
 // Created by Merutilm on 2025-07-08.
 //
 
-#include <vulkan_helper/core/ValidationLayer.hpp>
+#include <vulkan-helper/core/ValidationLayer.hpp>
 
 #include <cstring>
-#include <vulkan_helper/base/vkh_base.hpp>
-#include <vulkan_helper/util/Debugger.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
+#include <vulkan-helper/util/Debugger.hpp>
 
 namespace merutilm::vkh {
     ValidationLayer::ValidationLayer(const VkInstance instance) : instance(instance) {

@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 
-#include <vulkan_helper/util/SwapchainUtils.hpp>
+#include <vulkan-helper/util/SwapchainUtils.hpp>
 
 
 namespace merutilm::vkh {

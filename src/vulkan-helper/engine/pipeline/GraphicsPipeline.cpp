@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-08-27.
 //
 
-#include <vulkan_helper/engine/pipeline/GraphicsPipeline.hpp>
+#include <vulkan-helper/engine/pipeline/GraphicsPipeline.hpp>
 
 namespace merutilm::vkh {
     GraphicsPipeline::GraphicsPipeline(Core &core, PipelineManager &&pipelineManager,

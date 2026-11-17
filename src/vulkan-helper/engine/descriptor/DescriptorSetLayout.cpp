@@ -3,8 +3,8 @@
 //
 
 
-#include <vulkan_helper/engine/descriptor/DescriptorSetLayout.hpp>
-#include <vulkan_helper/base/exception.hpp>
+#include <vulkan-helper/engine/descriptor/DescriptorSetLayout.hpp>
+#include <vulkan-helper/base/exception.hpp>
 
 namespace merutilm::vkh {
     DescriptorSetLayout::DescriptorSetLayout(Core & core, const DescriptorSetLayoutBuilder &layoutBuilder) : CoreHandler(core), layoutBuilder(layoutBuilder) {

@@ -1,7 +1,7 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/engine/context/SharedImageContext.hpp>
+#include <vulkan-helper/engine/context/SharedImageContext.hpp>
 
 namespace merutilm::vkh {
     SharedImageContext::SharedImageContext(Core & core): core(core) {

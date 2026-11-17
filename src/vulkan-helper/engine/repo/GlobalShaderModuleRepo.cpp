@@ -2,8 +2,8 @@
 // Created by Merutilm on 2026-02-03.
 //
 
-#include <vulkan_helper/base/vkh_base.hpp>
-#include <vulkan_helper/engine/repo/GlobalShaderModuleRepo.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
+#include <vulkan-helper/engine/repo/GlobalShaderModuleRepo.hpp>
 
 namespace merutilm::vkh {
     ShaderModule & GlobalShaderModuleRepo::pick(const std::string &filename) {

@@ -1,7 +1,7 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
+#include <vulkan-helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
 
 namespace merutilm::vkh {
     PipelineLayout & GlobalPipelineLayoutRepo::pick(PipelineLayoutManager &&layoutManager) {

@@ -2,13 +2,13 @@
 // Created by Merutilm on 2025-07-15.
 //
 
-#include <vulkan_helper/engine/executor/RenderPassFullscreenRecorder.hpp>
+#include <vulkan-helper/engine/executor/RenderPassFullscreenRecorder.hpp>
 
 
-#include <vulkan_helper/engine/context/RenderContext.hpp>
+#include <vulkan-helper/engine/context/RenderContext.hpp>
 
-#include "vulkan_helper/engine/configurator/GraphicsPipelineConfigurator.hpp"
-#include "vulkan_helper/engine/pipeline/GraphicsPipelineNode.hpp"
+#include "vulkan-helper/engine/configurator/GraphicsPipelineConfigurator.hpp"
+#include "vulkan-helper/engine/pipeline/GraphicsPipelineNode.hpp"
 
 namespace merutilm::vkh {
     RenderPassFullscreenRecorder::RenderPassFullscreenRecorder(WindowContext &wc, RenderContext &rc,

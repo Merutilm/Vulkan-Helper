@@ -2,10 +2,10 @@
 // Created by Merutilm on 2025-09-07.
 //
 
-#include <vulkan_helper/engine/context/WindowContext.hpp>
+#include <vulkan-helper/engine/context/WindowContext.hpp>
 
-#include <vulkan_helper/engine/repo/WindowLocalDescriptorRepo.hpp>
-#include <vulkan_helper/util/PhysicalDeviceUtils.hpp>
+#include <vulkan-helper/engine/repo/WindowLocalDescriptorRepo.hpp>
+#include <vulkan-helper/util/PhysicalDeviceUtils.hpp>
 
 namespace merutilm::vkh {
     WindowContext::WindowContext(Core &core, const uint32_t index, std::unique_ptr<PlatformWindow> &&window) :

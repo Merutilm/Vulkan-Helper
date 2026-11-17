@@ -1,7 +1,7 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include "vulkan_helper/engine/pipeline/Pipeline.hpp"
+#include "vulkan-helper/engine/pipeline/Pipeline.hpp"
 
 namespace merutilm::vkh {
     Pipeline::Pipeline(Core &core, PipelineManager &&pipelineManager) :

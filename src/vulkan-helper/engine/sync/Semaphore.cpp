@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-09-01.
 //
 
-#include <vulkan_helper/engine/sync/Semaphore.hpp>
+#include <vulkan-helper/engine/sync/Semaphore.hpp>
 
 namespace merutilm::vkh {
     Semaphore::Semaphore(Core & core) : CoreHandler(core) {

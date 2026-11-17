@@ -2,13 +2,13 @@
 // Created by Merutilm on 2025-07-10.
 //
 
-#include <vulkan_helper/engine/buffer/BufferObject.hpp>
+#include <vulkan-helper/engine/buffer/BufferObject.hpp>
 
 #include <cstring>
-#include <vulkan_helper/base/logger.hpp>
-#include <vulkan_helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
-#include <vulkan_helper/util/BarrierUtils.hpp>
-#include <vulkan_helper/util/BufferImageUtils.hpp>
+#include <vulkan-helper/base/logger.hpp>
+#include <vulkan-helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
+#include <vulkan-helper/util/BarrierUtils.hpp>
+#include <vulkan-helper/util/BufferImageUtils.hpp>
 
 namespace merutilm::vkh {
 

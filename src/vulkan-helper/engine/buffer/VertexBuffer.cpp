@@ -2,10 +2,10 @@
 // Created by Merutilm on 2025-07-15.
 //
 
-#include <vulkan_helper/engine/buffer/VertexBuffer.hpp>
+#include <vulkan-helper/engine/buffer/VertexBuffer.hpp>
 
-#include <vulkan_helper/engine/manage/HostDataObjectManager.hpp>
-#include <vulkan_helper/engine/wrapped/Vertex.hpp>
+#include <vulkan-helper/engine/manage/HostDataObjectManager.hpp>
+#include <vulkan-helper/engine/wrapped/Vertex.hpp>
 
 namespace merutilm::vkh {
     VertexBuffer::VertexBuffer(Core & core, HostDataObjectManager &&manager, const BufferLocalization bufferLocalization, bool multiframeEnabled) : BufferObject(

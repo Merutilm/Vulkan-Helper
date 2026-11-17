@@ -3,7 +3,7 @@
 //
 
 #ifdef VKH_USE_IMGUI
-#include <vulkan_helper/engine/internal/RCCImGui.hpp>
+#include <vulkan-helper/engine/internal/RCCImGui.hpp>
 
 namespace merutilm::vkh {
 

@@ -2,8 +2,8 @@
 //
 // Created by Merutilm on 2026-02-07.
 
-#include <vulkan_helper/base/logger.hpp>
-#include <vulkan_helper/engine/window/PlatformWindow.hpp>
+#include <vulkan-helper/base/logger.hpp>
+#include <vulkan-helper/engine/window/PlatformWindow.hpp>
 
 #ifdef VKH_USE_IMGUI
 #include "imgui.h"

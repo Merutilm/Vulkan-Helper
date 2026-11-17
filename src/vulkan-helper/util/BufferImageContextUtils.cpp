@@ -2,11 +2,11 @@
 // Created by Merutilm on 2026-02-03.
 //
 
-#include <vulkan_helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
-#include <vulkan_helper/util/BufferImageContextUtils.hpp>
+#include <vulkan-helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
+#include <vulkan-helper/util/BufferImageContextUtils.hpp>
 
 #include <cstring>
-#include <vulkan_helper/util/BarrierUtils.hpp>
+#include <vulkan-helper/util/BarrierUtils.hpp>
 
 namespace merutilm::vkh {
     std::vector<VkImage> BufferImageContextUtils::enumerateImages(const MultiframeImageContext &context) {

@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-08-27.
 //
 
-#include <vulkan_helper/engine/pipeline/ComputePipeline.hpp>
+#include <vulkan-helper/engine/pipeline/ComputePipeline.hpp>
 
 namespace merutilm::vkh {
     ComputePipeline::ComputePipeline(Core &core, PipelineManager &&pipelineManager,

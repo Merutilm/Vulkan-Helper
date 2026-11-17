@@ -2,9 +2,9 @@
 // Created by Merutilm on 2025-07-09.
 //
 
-#include <vulkan_helper/engine/cmd/CommandPool.hpp>
+#include <vulkan-helper/engine/cmd/CommandPool.hpp>
 
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
 
 namespace merutilm::vkh {
     CommandPool::CommandPool(Core & core) : CoreHandler(core) {

@@ -2,9 +2,9 @@
 // Created by Merutilm on 8/31/26.
 //
 
-#include <vulkan_helper/engine/img/StorageImage.hpp>
+#include <vulkan-helper/engine/img/StorageImage.hpp>
 
-#include <vulkan_helper/util/BufferImageContextUtils.hpp>
+#include <vulkan-helper/util/BufferImageContextUtils.hpp>
 
 namespace merutilm::vkh {
     StorageImage::StorageImage(Core & core, const bool multiframeEnabled) : CoreHandler(core), multiframeEnabled(multiframeEnabled) {

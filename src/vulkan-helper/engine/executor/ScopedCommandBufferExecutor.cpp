@@ -2,9 +2,9 @@
 // Created by Merutilm on 2025-08-28.
 //
 
-#include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
+#include <vulkan-helper/engine/executor/ScopedCommandBufferExecutor.hpp>
 
-#include "vulkan_helper/engine/cmd/CommandBuffer.hpp"
+#include "vulkan-helper/engine/cmd/CommandBuffer.hpp"
 
 namespace merutilm::vkh {
 

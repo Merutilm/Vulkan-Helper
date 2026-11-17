@@ -2,9 +2,9 @@
 // Created by Merutilm on 2025-07-09.
 //
 
-#include <vulkan_helper/engine/cmd/CommandBuffer.hpp>
+#include <vulkan-helper/engine/cmd/CommandBuffer.hpp>
 
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
 
 namespace merutilm::vkh {
     CommandBuffer::CommandBuffer(Core & core, CommandPool & commandPool) : CoreHandler(core), commandPool(commandPool) {

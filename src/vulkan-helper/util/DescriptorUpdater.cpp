@@ -2,7 +2,7 @@
 // Created by Merutilm on 2026-02-03.
 //
 
-#include <vulkan_helper/util/DescriptorUpdater.hpp>
+#include <vulkan-helper/util/DescriptorUpdater.hpp>
 
 namespace merutilm::vkh {
     DescriptorUpdateQueue DescriptorUpdater::createQueue() {

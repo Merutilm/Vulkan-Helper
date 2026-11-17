@@ -2,7 +2,7 @@
 // Created by Merutilm on 2025-07-09.
 //
 
-#include <vulkan_helper/engine/descriptor/Descriptor.hpp>
+#include <vulkan-helper/engine/descriptor/Descriptor.hpp>
 
 
 namespace merutilm::vkh {

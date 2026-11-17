@@ -1,9 +1,9 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/engine/graphics/Renderer.hpp>
-#include <vulkan_helper/util/SwapchainUtils.hpp>
-#include <vulkan_helper/engine/executor/ScopedCommandBufferExecutor.hpp>
+#include <vulkan-helper/engine/graphics/Renderer.hpp>
+#include <vulkan-helper/util/SwapchainUtils.hpp>
+#include <vulkan-helper/engine/executor/ScopedCommandBufferExecutor.hpp>
 
 namespace merutilm::vkh {
     Renderer::Renderer(Engine & engine, WindowContext &wc): EngineHandler(engine), wc(wc){

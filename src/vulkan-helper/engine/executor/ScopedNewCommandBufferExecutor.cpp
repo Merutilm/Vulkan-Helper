@@ -2,10 +2,10 @@
 // Created by Merutilm on 2025-07-21.
 //
 
-#include <vulkan_helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
+#include <vulkan-helper/engine/executor/ScopedNewCommandBufferExecutor.hpp>
 
-#include <vulkan_helper/engine/sync/Fence.hpp>
-#include <vulkan_helper/base/vkh_base.hpp>
+#include <vulkan-helper/engine/sync/Fence.hpp>
+#include <vulkan-helper/base/vkh_base.hpp>
 
 namespace merutilm::vkh {
     ScopedNewCommandBufferExecutor::ScopedNewCommandBufferExecutor(Core & core, CommandPool & commandPool,

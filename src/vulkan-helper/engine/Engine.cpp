@@ -2,11 +2,11 @@
 // Created by Merutilm on 2025-07-19.
 //
 
-#include <vulkan_helper/engine/Engine.hpp>
+#include <vulkan-helper/engine/Engine.hpp>
 
-#include <vulkan_helper/engine/repo/GlobalDescriptorSetLayoutRepo.hpp>
-#include <vulkan_helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
-#include <vulkan_helper/engine/repo/GlobalSamplerRepo.hpp>
+#include <vulkan-helper/engine/repo/GlobalDescriptorSetLayoutRepo.hpp>
+#include <vulkan-helper/engine/repo/GlobalPipelineLayoutRepo.hpp>
+#include <vulkan-helper/engine/repo/GlobalSamplerRepo.hpp>
 
 
 namespace merutilm::vkh {

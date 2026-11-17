@@ -1,7 +1,7 @@
 //
 // Created by Merutilm on 2026-02-03.
 //
-#include <vulkan_helper/engine/repo/WindowLocalDescriptorRepo.hpp>
+#include <vulkan-helper/engine/repo/WindowLocalDescriptorRepo.hpp>
 
 namespace merutilm::vkh {
     Descriptor & WindowLocalDescriptorRepo::pick(const DescriptorTemplateInfo &descTemplateInfo, SharedResource &sharedResource,
