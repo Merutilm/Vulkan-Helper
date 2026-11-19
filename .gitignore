@@ -7,6 +7,8 @@ cmake-build-release
 bin
 vkh_demo
 lib
+extern
+.gitmodules
 lib_export
 res
 shaders
